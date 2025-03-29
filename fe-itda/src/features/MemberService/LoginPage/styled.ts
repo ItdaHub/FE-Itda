@@ -63,52 +63,50 @@ export const LoginPageStyled = styled.div`
             cursor: pointer;
           }
         }
-      }
+        .login-id,
+        .login-pw {
+          width: 100%;
+          height: 45px;
+          border-radius: 4px;
+          padding: 14px 14px;
+          font-size: 15px;
+          margin: 3px 0;
+          border: 1px solid rgb(214, 222, 235);
 
-      .login-id,
-      .login-pw {
-        width: 100%;
-        height: 45px;
-        border-radius: 4px;
-        padding: 14px 14px;
-        font-size: 15px;
-        margin: 3px 0;
-        border: 1px solid rgb(214, 222, 235);
-
-        &:focus {
-          outline: none;
+          &:focus {
+            outline: none;
+          }
         }
       }
-    }
 
-    .login-find {
-      margin-top: 20px;
-      margin-bottom: 25px;
-      color: #808991;
+      .login-find {
+        margin-top: 20px;
+        margin-bottom: 25px;
+        color: #808991;
 
-      .login-idFind,
-      .login-pwFind,
-      .login-signUp {
-        font-size: 13px;
-        padding: 0 12px;
+        .login-idFind,
+        .login-pwFind,
+        .login-signUp {
+          font-size: 13px;
+          padding: 0 12px;
+          &:hover {
+            cursor: pointer;
+            color: #c47ad7;
+          }
+        }
+
+        .login-stick {
+          width: 1px;
+          height: 12px;
+          border-left: 1px solid #cccccc;
+        }
+      }
+      .login-logo {
+        width: 40px;
+        margin: 0 15px;
         &:hover {
           cursor: pointer;
-          color: #c47ad7;
         }
-      }
-
-      .login-stick {
-        width: 1px;
-        height: 12px;
-        border-left: 1px solid #cccccc;
-      }
-    }
-
-    .login-logo {
-      width: 35px;
-      margin-right: 18px;
-      &:hover {
-        cursor: pointer;
       }
     }
   }
