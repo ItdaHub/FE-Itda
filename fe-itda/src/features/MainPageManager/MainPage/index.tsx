@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 const MainPage = () => {
-  return;
+  return <>홈</>;
 };
 
 export default MainPage;

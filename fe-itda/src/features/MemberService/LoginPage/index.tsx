@@ -1,17 +1,73 @@
-// 최적화된 이미지
-// import Image from "next/image";
 import clsx from "clsx";
+import axios from "axios";
+
 import { LoginPageStyled } from "./styled";
+import { useState } from "react";
+import { useRouter } from "next/router";
+
 import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
 import google from "@/assets/images/sns_google.svg";
-import { useState } from "react";
 
 const LoginPage = () => {
   // 비밀번호 토글 버튼
   const [toggle, setToggle] = useState(true);
   // 로그인 상태유지
   const [loginStay, setLoginStay] = useState(false);
+  // 아이디
+  const [email, setEmail] = useState("");
+  // 비밀번호
+  const [password, setPassword] = useState("");
+  // 오류메시지지
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const router = useRouter();
+
+  // 로그인 상태유지 토글
+  const handleLoginStayChange = () => {
+    setLoginStay(!loginStay);
+  };
+
+  const handleLoginSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    // 입력 검증(아이디)
+    if (!email) {
+      setErrorMessage("아이디를 입력해주세요");
+      return;
+    }
+
+    // 입력 검증(비밀번호)
+    if (!password) {
+      setErrorMessage("비밀번호를 입력해주세요");
+      return;
+    }
+
+    try {
+      // Axios로 GET 요청
+      const response = await axios.get("/login", {
+        params: {
+          email,
+          password,
+          loginStay,
+        },
+      });
+
+      // 성공적으로 로그인했을 경우
+      if (response.data.success) {
+        setErrorMessage("");
+
+        // 로그인 성공 후 메인홈으로 이동
+        router.push("/main");
+      } else {
+        // 아이디 또는 비밀번호가 틀린 경우
+        setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
+      }
+    } catch (error) {
+      // 요청 오류
+      setErrorMessage(`${error} : 서버 오류가 발생했습니다`);
+    }
+  };
 
   return (
     <LoginPageStyled className={clsx("login-wrap")}>
@@ -26,6 +82,8 @@ const LoginPage = () => {
               name="email"
               placeholder="아이디"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -37,10 +95,13 @@ const LoginPage = () => {
               name="password"
               placeholder="비밀번호"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             {/* 토글 버튼 */}
             <button
+              className="login-toggleBtn"
               onClick={(e) => {
                 e.preventDefault();
                 setToggle(!toggle);
@@ -55,30 +116,43 @@ const LoginPage = () => {
             <input
               type="checkbox"
               checked={loginStay}
-              onChange={() => {
-                setLoginStay(!loginStay);
-              }}
+              onChange={handleLoginStayChange}
             />
-            <span
-              onClick={() => {
-                setLoginStay(!loginStay);
-              }}
-            >
-              로그인 상태유지
-            </span>
+            <span onClick={handleLoginStayChange}>로그인 상태유지</span>
           </div>
 
+          {/* 오류메시지 */}
+          {errorMessage && (
+            <div className="login-errorMessage">{errorMessage}</div>
+          )}
+
           {/* 로그인 버튼 */}
-          <button className="login-btn">로그인</button>
+          <button className="login-btn" onClick={handleLoginSubmit}>
+            로그인
+          </button>
         </form>
 
         {/* Id/pw찾기 및 회원가입 */}
         <div className="login-find">
-          <span className="login-idFind">아이디 찾기</span>
+          <span
+            className="login-idFind"
+            onClick={() => {
+              router.push("/findid");
+            }}
+          >
+            아이디 찾기
+          </span>
           <span className="login-stick"></span>
           <span className="login-pwFind">비밀번호 찾기</span>
           <span className="login-stick"></span>
-          <span className="login-signUp">회원가입</span>
+          <span
+            className="login-signUp"
+            onClick={() => {
+              router.push("/signup");
+            }}
+          >
+            회원가입
+          </span>
         </div>
 
         {/* 소셜로그인 */}

@@ -38,8 +38,15 @@ export const LoginPageStyled = styled.div`
             color: #738096;
             &:hover {
               cursor: pointer;
+              color: #c47ad7;
             }
           }
+        }
+
+        .login-errorMessage {
+          color: rgb(230, 73, 56);
+          font-size: 12px;
+          margin-top: 10px;
         }
 
         .login-btn {
@@ -47,7 +54,7 @@ export const LoginPageStyled = styled.div`
           padding: 10px 34px;
           font-size: 16px;
           border-radius: 4px;
-          margin-top: 12px;
+          margin-top: 2px;
           border: none;
           background-color: #c47ad7;
           color: white;
@@ -86,6 +93,7 @@ export const LoginPageStyled = styled.div`
         padding: 0 12px;
         &:hover {
           cursor: pointer;
+          color: #c47ad7;
         }
       }
 
