@@ -5,7 +5,7 @@ const Main = () => {
   return (
     <>
       <LoginPage />
-      {/* <SignUpPage /> */}
+      <SignUpPage />
     </>
   );
 };
