@@ -4,6 +4,7 @@ import axios from "axios";
 import { LoginPageStyled } from "./styled";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
@@ -88,7 +89,7 @@ const LoginPage = () => {
           </div>
 
           {/* 비밀번호 */}
-          <div>
+          <div className="login-pwBox">
             <input
               className="login-pw"
               type={toggle ? "password" : "text"}
@@ -100,15 +101,23 @@ const LoginPage = () => {
             />
 
             {/* 토글 버튼 */}
-            <button
-              className="login-toggleBtn"
-              onClick={(e) => {
-                e.preventDefault();
-                setToggle(!toggle);
-              }}
-            >
-              토글버튼
-            </button>
+            {toggle ? (
+              <EyeInvisibleOutlined
+                className="login-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            ) : (
+              <EyeOutlined
+                className="login-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            )}
           </div>
 
           {/* 로그인 상태 유지 */}

@@ -11,7 +11,7 @@ import { HeaderStyled } from "./styled";
 const Header = () => {
   const router = useRouter();
 
-  // 제외할 페이지
+  // 헤더 제외할 페이지
   const notPage = ["/findpw", "/login", "/findid", "/signup"];
 
   return (
@@ -23,27 +23,45 @@ const Header = () => {
             : "header"
         }
       >
+        {/* 로고 */}
         <div
+          className="header-logo"
           onClick={() => {
             router.push("/");
           }}
         >
           logo
         </div>
-        <div>
-          <div>
-            <input type="text" placeholder="제목을 입력하세요" />
-            <div>
+
+        {/* 헤더 메뉴 */}
+        <div className="header-menu">
+          {/* 검색 */}
+          <div className="header-searchBox">
+            <div className="header-searchText">
+              <input
+                className="header-Text"
+                type="text"
+                placeholder="제목을 입력하세요"
+              />
+            </div>
+
+            <div className="header-searchImg">
               <Image src={search} alt="search" />
             </div>
           </div>
-          <div>
+
+          {/* 공지사항 */}
+          <div className="header-louder">
             <Image src={louder} alt="louder" />
           </div>
-          <div>
+
+          {/* 알림 */}
+          <div className="header-alram">
             <Image src={alram} alt="alram" />
           </div>
-          <div>
+
+          {/* 로그인 */}
+          <div className="header-login">
             <Image
               src={login}
               alt="login"

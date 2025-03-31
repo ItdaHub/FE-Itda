@@ -3,8 +3,12 @@ import { FindIdPageStyled } from "./styled";
 import { useState } from "react";
 import axios from "axios";
 import { check } from "@/utill/vali";
+import { LeftOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const FindIdPage = () => {
+  const router = useRouter();
+
   // 전화번호
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -13,11 +17,12 @@ const FindIdPage = () => {
 
   // 찾은 아이디
   const [foundId, setFoundId] = useState("");
+  let formattedPhone;
 
   // 전화번호 하이픈 추가 및 숫자 개수 제한
   const handlePhoneNumberChange = (e: any) => {
     // 숫자가 아닌 것들은 ""로 변경(숫자만 추출)
-    let formattedPhone = e.target.value.replace(/[^\d]/g, "");
+    formattedPhone = e.target.value.replace(/[^\d]/g, "");
 
     // 전화번호 길이가 11자리로 제한
     if (formattedPhone.length > 11) {
@@ -89,7 +94,18 @@ const FindIdPage = () => {
   return (
     <FindIdPageStyled className={clsx("findId-wrap")}>
       <div className="findId-box">
-        <h3 className="findId-title">아이디 찾기</h3>
+        <div className="findId-titleBox">
+          <div
+            className="findId-backBtn"
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
+            <LeftOutlined />
+          </div>
+          <h3 className="findId-title">아이디 찾기</h3>
+        </div>
+
         <form className="findId-form">
           <div>
             <input

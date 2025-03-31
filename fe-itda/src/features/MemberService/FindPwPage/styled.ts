@@ -43,7 +43,7 @@ export const FindPwPageStyled = styled.div`
     border-radius: 4px;
     margin-top: 2px;
     border: none;
-    background-color: #c47ad7;
+    background-color: ${({ theme }) => theme.colors.primary};
     color: white;
 
     &:hover {

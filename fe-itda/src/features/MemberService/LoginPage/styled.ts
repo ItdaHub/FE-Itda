@@ -38,7 +38,7 @@ export const LoginPageStyled = styled.div`
             color: #738096;
             &:hover {
               cursor: pointer;
-              color: #c47ad7;
+              color: ${({ theme }) => theme.colors.primary};
             }
           }
         }
@@ -56,7 +56,7 @@ export const LoginPageStyled = styled.div`
           border-radius: 4px;
           margin-top: 2px;
           border: none;
-          background-color: #c47ad7;
+          background-color: ${({ theme }) => theme.colors.primary};
           color: white;
 
           &:hover {
@@ -77,6 +77,17 @@ export const LoginPageStyled = styled.div`
             outline: none;
           }
         }
+
+        .login-pwBox {
+          position: relative;
+        }
+
+        .login-toggleBtn {
+          position: absolute;
+          font-size: 18px;
+          right: 12px;
+          top: 16px;
+        }
       }
 
       .login-find {
@@ -91,7 +102,7 @@ export const LoginPageStyled = styled.div`
           padding: 0 12px;
           &:hover {
             cursor: pointer;
-            color: #c47ad7;
+            color: ${({ theme }) => theme.colors.primary};
           }
         }
 
