@@ -9,7 +9,7 @@ export const CategoryStyled = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1280px;
+      max-width: 1020px;
       margin: 0 auto;
       min-height: 55px;
 
@@ -31,7 +31,7 @@ export const CategoryStyled = styled.div`
         display: flex;
         align-items: center;
         padding: 0 10px;
-        max-width: 1280px;
+        max-width: 1020px;
         margin: 0 auto;
         min-height: 55px;
 

@@ -1,17 +1,33 @@
 import Image from "next/image";
 import { WebNovelStyled } from "./styled";
-import image from "@/assets/images/testImage.png";
-const WebNovel = () => {
+import { HeartOutlined } from "@ant-design/icons";
+
+interface WebNovelProps {
+  type: string;
+  title: string;
+  genre: string;
+  likes: number;
+  imageUrl: string;
+}
+
+const WebNovel = ({ type, title, genre, likes, imageUrl }: WebNovelProps) => {
   return (
-    <WebNovelStyled>
+    <WebNovelStyled className="novel-wrap">
       <div>
-        <div>
-          <Image src={image} alt="작품이미지" />
+        {/* 작품 이미지 */}
+        <div className="novel-image">
+          <Image src={imageUrl} alt={title} width={120} height={160} />
         </div>
-        <div>제목</div>
-        <div>
-          <div>장르</div>
-          <div>찜</div>
+
+        {/* 작품 제목 */}
+        <div className="novel-title">{title}</div>
+
+        {/* 작품 정보 (장르, 찜 개수) */}
+        <div className="novel-info">
+          <div className="novel-genre">{genre}</div>
+          <div className="novel-likes">
+            <HeartOutlined /> {likes}
+          </div>
         </div>
       </div>
     </WebNovelStyled>

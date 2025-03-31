@@ -7,7 +7,7 @@ export const HeaderStyled = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 1280px;
+      max-width: 1020px;
       margin: 0 auto;
       padding: 0 10px;
       min-height: 100px;
@@ -67,7 +67,7 @@ export const HeaderStyled = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      max-width: 1280px;
+      max-width: 1020px;
       margin: 0 auto;
       padding: 0 10px;
       min-height: 50px;
