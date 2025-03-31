@@ -1,9 +1,9 @@
-import LoginPage from "@/features/MemberService/LoginPage";
+import MainPage from "@/features/MainPageManager/MainPage";
 
 const Main = () => {
   return (
     <>
-      <LoginPage />
+      <MainPage />
     </>
   );
 };

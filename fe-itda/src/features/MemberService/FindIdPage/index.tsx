@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { FindIdPageStyled } from "./styled";
 import { useState } from "react";
 import axios from "axios";
+import { check } from "@/utill/vali";
 
 const FindIdPage = () => {
   // 전화번호
@@ -46,7 +47,7 @@ const FindIdPage = () => {
 
   const validatePhoneNumber = (phone: any) => {
     // 전화번호 유효성 검사 (하이픈 포함)
-    const check = /^\d{3}-\d{4}-\d{4}$/;
+
     return check.test(phone);
   };
 

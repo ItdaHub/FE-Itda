@@ -1,7 +1,12 @@
+import { Button } from "antd";
 import clsx from "clsx";
 
 const MainPage = () => {
-  return <>홈</>;
+  return (
+    <>
+      <Button>버튼</Button>
+    </>
+  );
 };
 
 export default MainPage;

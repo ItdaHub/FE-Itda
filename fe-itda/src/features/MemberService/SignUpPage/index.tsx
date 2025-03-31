@@ -16,16 +16,11 @@ const SignUpPage = () => {
 
   // 이메일 중복 검사 함수
   const checkEmail = async (email: string) => {
-    console.log("이메일 중복 확인 요청 값:", email);
-
     // 실제 요청 대신 더미 응답을 사용
     setTimeout(() => {
       if (email === "testuser") {
-        console.log("이미 사용된 이메일입니다.");
       } else if (email === "") {
-        console.log("이메일을 입력해주세요.");
       } else {
-        console.log("사용 가능한 이메일입니다.");
       }
     }, 500); // 0.5초 후에 응답이 온 것처럼 처리
   };
