@@ -143,7 +143,14 @@ const LoginPage = () => {
             아이디 찾기
           </span>
           <span className="login-stick"></span>
-          <span className="login-pwFind">비밀번호 찾기</span>
+          <span
+            className="login-pwFind"
+            onClick={() => {
+              router.push("/findpw");
+            }}
+          >
+            비밀번호 찾기
+          </span>
           <span className="login-stick"></span>
           <span
             className="login-signUp"

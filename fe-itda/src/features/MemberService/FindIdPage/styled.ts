@@ -18,7 +18,7 @@ export const FindIdPageStyled = styled.div`
       align-items: center;
       background-color: white;
       max-width: 360px;
-      height: 370px;
+      height: auto;
       margin: 60px auto;
       border-radius: 4px;
 
