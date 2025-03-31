@@ -2,16 +2,22 @@ import styled from "styled-components";
 
 export const HeaderStyled = styled.div`
   &.header-wrap {
+    border-bottom: 1px solid #adadad;
     .header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      width: 1020px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 0 52px;
-      min-height: 102px;
+      padding: 0 10px;
+      min-height: 100px;
 
-      .header-logo {
-        margin-top: 25px;
+      .header-logoBox {
+        .header-logo {
+          width: 80px;
+          height: 80px;
+        }
+
         &:hover {
           cursor: pointer;
         }
@@ -19,7 +25,6 @@ export const HeaderStyled = styled.div`
 
       .header-menu {
         display: flex;
-        margin-top: 25px;
 
         .header-searchBox {
           position: relative;
@@ -51,7 +56,7 @@ export const HeaderStyled = styled.div`
         .header-louder,
         .header-alram,
         .header-login {
-          margin-left: 8px;
+          margin-left: 15px;
           &:hover {
             cursor: pointer;
           }
@@ -59,7 +64,29 @@ export const HeaderStyled = styled.div`
       }
     }
     .headerOff {
-      display: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 10px;
+      min-height: 50px;
+      border-bottom: 1px solid #adadad;
+
+      .header-logoBox {
+        .header-logo {
+          width: 80px;
+          height: 80px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .header-menu {
+        display: none;
+      }
     }
   }
 `;

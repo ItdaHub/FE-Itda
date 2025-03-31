@@ -30,7 +30,7 @@ export const FindIdPageStyled = styled.div`
       justify-content: center;
       align-items: center;
       background-color: white;
-      max-width: 360px;
+      max-width: 500px;
       height: auto;
       margin: 60px auto;
       border-radius: 4px;

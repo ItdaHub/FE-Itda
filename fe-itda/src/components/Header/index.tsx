@@ -5,6 +5,7 @@ import search from "@/assets/images/search.svg";
 import louder from "@/assets/images/louder.svg";
 import alram from "@/assets/images/alram.svg";
 import login from "@/assets/images/login.svg";
+import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
 import { HeaderStyled } from "./styled";
 
@@ -25,12 +26,12 @@ const Header = () => {
       >
         {/* 로고 */}
         <div
-          className="header-logo"
+          className="header-logoBox"
           onClick={() => {
             router.push("/");
           }}
         >
-          logo
+          <Image className="header-logo" src={logo} alt="logo" />
         </div>
 
         {/* 헤더 메뉴 */}

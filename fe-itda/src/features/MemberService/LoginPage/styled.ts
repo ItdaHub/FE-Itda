@@ -17,7 +17,7 @@ export const LoginPageStyled = styled.div`
       justify-content: center;
       align-items: center;
       background-color: white;
-      max-width: 360px;
+      max-width: 500px;
       height: 370px;
       margin: 60px auto;
       border-radius: 4px;
@@ -112,6 +112,30 @@ export const LoginPageStyled = styled.div`
           border-left: 1px solid #cccccc;
         }
       }
+
+      .login-tit {
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        color: #5c667b;
+        line-height: 24px;
+        margin-bottom: 15px;
+
+        .login-titText {
+          margin: 0 15px;
+        }
+
+        &:before,
+        &:after {
+          width: 55px;
+          height: 1px;
+          background-color: #eaedf4;
+          display: inline-block;
+          vertical-align: super;
+          content: "";
+        }
+      }
+
       .login-logo {
         width: 40px;
         margin: 0 15px;

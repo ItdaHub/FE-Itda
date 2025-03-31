@@ -172,6 +172,10 @@ const LoginPage = () => {
         </div>
 
         {/* 소셜로그인 */}
+        <p className="login-tit">
+          <span className="login-titText">소셜 계정으로 간편 로그인</span>
+        </p>
+
         <div>
           <img className="login-logo" src={naver.src} alt="네이버 로그인" />
           <img className="login-logo" src={kakao.src} alt="카카오 로그인" />

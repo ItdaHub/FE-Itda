@@ -1,10 +1,16 @@
-import { Button } from "antd";
+import Category from "@/components/Category";
+import WebNovelGroup from "@/components/WebNovelGroup";
 import clsx from "clsx";
+import { useState } from "react";
 
 const MainPage = () => {
   return (
     <>
-      <Button>버튼</Button>
+      {/* 카테고리 */}
+      <Category />
+
+      {/* 작품들 */}
+      <WebNovelGroup />
     </>
   );
 };
