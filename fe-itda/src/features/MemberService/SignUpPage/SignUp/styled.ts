@@ -13,7 +13,7 @@ export const SignUpStyled = styled.div`
     justify-content: center;
     align-items: center;
     background-color: white;
-    max-width: 400px;
+    max-width: 500px;
     height: auto;
     margin: 60px auto;
     border-radius: 4px;
@@ -25,6 +25,15 @@ export const SignUpStyled = styled.div`
 
   .input-box {
     position: relative;
+    /* margin-bottom: 10px; */
+
+    p {
+      height: 15px;
+    }
+  }
+
+  .signup-title {
+    padding: 0 5px;
   }
 
   .signup-id,
@@ -47,6 +56,17 @@ export const SignUpStyled = styled.div`
     }
   }
 
+  .signup-pwBox {
+    position: relative;
+  }
+
+  .signup-toggleBtn {
+    position: absolute;
+    font-size: 18px;
+    right: 12px;
+    top: 40px;
+  }
+
   .same-id-check-btn,
   .same-nick-check-btn {
     /* width: 100%;
@@ -54,14 +74,10 @@ export const SignUpStyled = styled.div`
     border-radius: 4px;
     font-size: 15px;
     margin: 3px 0;
-    border: 1px solid rgb(214, 222, 235);
-    border: ${({ theme }) => theme.colors.primary};
     cursor: pointer;
+    border: none;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    position: absolute;
-    bottom: 5px;
+    top: 30px;
     right: 10px;
     padding: 6px;
     width: auto;

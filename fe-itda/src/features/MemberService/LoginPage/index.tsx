@@ -170,7 +170,7 @@ const LoginPage = () => {
           <span
             className="login-signUp"
             onClick={() => {
-              router.push("/signup");
+              router.push("/agree");
             }}
           >
             회원가입
