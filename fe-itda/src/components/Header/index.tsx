@@ -8,7 +8,7 @@ import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
 import { HeaderStyled } from "./styled";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 
@@ -19,7 +19,14 @@ const Header = () => {
   // const user = useSelector((state: RootState) => state.user);
 
   // 헤더 제외할 페이지
-  const notPage = ["/findpw", "/login", "/findid", "/signup"];
+  const notPage = [
+    "/findpw",
+    "/login",
+    "/findid",
+    "/signup",
+    "/agree",
+    "/mypage",
+  ];
 
   return (
     <HeaderStyled className={clsx("header-wrap")}>
