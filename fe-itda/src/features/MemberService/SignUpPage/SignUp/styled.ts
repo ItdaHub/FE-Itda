@@ -23,6 +23,10 @@ export const SignUpStyled = styled.div`
     width: 80%;
   }
 
+  .input-box {
+    position: relative;
+  }
+
   .signup-id,
   .signup-pw,
   .signup-pw-check,
@@ -45,14 +49,23 @@ export const SignUpStyled = styled.div`
 
   .same-id-check-btn,
   .same-nick-check-btn {
-    width: 100%;
-    height: 45px;
+    /* width: 100%;
+    height: 45px; */
     border-radius: 4px;
     font-size: 15px;
     margin: 3px 0;
     border: 1px solid rgb(214, 222, 235);
     border: #c47ad7;
     cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    padding: 6px;
+    width: auto;
+    height: auto;
   }
 
   .error-message {

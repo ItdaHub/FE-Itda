@@ -14,6 +14,8 @@ const FindPwPage = () => {
   const [newPassword, setNewPassword] = useState("");
   // 새 비밀번호 확인
   const [newPasswordCheck, setNewPasswordCheck] = useState("");
+  const [pwErrorMessage, setpwErrorMessage] = useState("");
+  const [pwCheckErrorMessage, setpwCheckErrorMessage] = useState("");
 
   const handleEmailChange = (e: any) => setEmail(e.target.value);
 
@@ -58,6 +60,9 @@ const FindPwPage = () => {
     e.preventDefault();
 
     try {
+      if (newPassword || newPasswordCheck) {
+        setpwErrorMessage("비밀번호를 입력해주세요.");
+      }
       const response = axios.post("/updatePw", {
         data: { email, password: newPassword },
       });
@@ -107,7 +112,7 @@ const FindPwPage = () => {
               value={newPasswordCheck}
               onChange={handleNewPassCheck}
             />
-            {errorMessage && <div>{errorMessage}</div>}
+            {pwErrorMessage && <div>{pwErrorMessage}</div>}
             <button className="changePw-btn">비밀번호 변경</button>
           </div>
         </form>

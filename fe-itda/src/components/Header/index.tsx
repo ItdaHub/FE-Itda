@@ -12,7 +12,14 @@ const Header = () => {
   const router = useRouter();
 
   // 제외할 페이지
-  const notPage = ["/findpw", "/login", "/findid", "/signup"];
+  const notPage = [
+    "/findpw",
+    "/login",
+    "/findid",
+    "/signup",
+    "/agree",
+    "/mypage",
+  ];
 
   return (
     <HeaderStyled className={clsx("header-wrap")}>

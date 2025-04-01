@@ -1,7 +1,7 @@
-import SignUpPage from "@/features/MemberService/SignUpPage";
+import SignUp from "@/features/MemberService/SignUpPage/SignUp";
 
 const signup = () => {
-  return <SignUpPage />;
+  return <SignUp />;
 };
 
 export default signup;
