@@ -38,7 +38,7 @@ export const LoginPageStyled = styled.div`
             color: #738096;
             &:hover {
               cursor: pointer;
-              color: ${({ theme }) => theme.colors.primary};
+              color: var(--primary-color);
             }
           }
         }

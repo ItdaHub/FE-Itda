@@ -28,13 +28,7 @@ const Category = ({
     key: item.value,
     label: item.label,
     children: (
-      <div
-        className="category-item"
-        onClick={() => {
-          setGenre("all");
-          setType(item.value);
-        }}
-      >
+      <div className="category-item">
         {item.value === "home" ? <HomeCategory /> : ""}
       </div>
     ),
@@ -47,19 +41,14 @@ const Category = ({
           key: item.value,
           label: item.label,
           children: (
-            <div
-              className="category-item"
-              onClick={() => {
-                setGenre(item.value);
-                setActiveGenre(item.value);
-              }}
-            >
+            <div className="category-item">
               <WebNovelGroup title="" type={type} genre={genre} />
             </div>
           ),
         }))
       : [];
 
+  // 활성화되는거 표시
   useEffect(() => {
     if (type !== "home" && categories[1]?.length > 0) {
       // 첫 번째 항목 자동으로 활성화
@@ -70,16 +59,13 @@ const Category = ({
   // 타입
   const onCategoryChange = (key: string) => {
     setType(key);
-    // console.log("선택된 type: ", type);
-    // console.log("선택된 genre: ", genre);
+    setGenre("all");
   };
 
   // 장르
   const onGenreChange = (key: string) => {
     setGenre(key);
     setActiveGenre(key);
-    // console.log("선택된 type: ", type);
-    // console.log("선택된 genre: ", genre);
   };
 
   return (

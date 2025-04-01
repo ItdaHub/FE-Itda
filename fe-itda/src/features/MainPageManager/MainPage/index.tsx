@@ -41,16 +41,6 @@ const MainPage = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (type === "home") {
-      // 홈일 때는 항상 "전체"로 초기화
-      setGenre("all");
-    } else {
-      // 기존 genre 유지
-      setGenre((prev) => prev || "all");
-    }
-  }, [type]);
-
   return (
     <MainPageStyled className={clsx("main-wrap")}>
       {/* 카테고리 */}

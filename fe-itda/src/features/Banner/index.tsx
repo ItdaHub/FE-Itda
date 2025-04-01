@@ -15,6 +15,8 @@ import axios from "axios";
 
 const Banner = () => {
   // 백엔드에 전체 책(랜덤 돌려서 4개만 보여주기?)
+  // 해당 작품 ID도 받아서 클릭하면 해당 작품의 상세페이지로 이동!!
+  // 근데 이미지가 긴거였으면 좋겠는데..?(gpt한테 크기 맞춰서 2개 만들어달라해야하나?)
   const getBanner = async () => {
     try {
       const response = await axios.get("/api/banner");

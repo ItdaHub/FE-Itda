@@ -5,13 +5,34 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import test from "@/assets/images/testImage.png";
+import one from "@/assets/images/one.png";
+import two from "@/assets/images/two.png";
+import three from "@/assets/images/three.png";
+import four from "@/assets/images/four.png";
+import five from "@/assets/images/five.png";
+import six from "@/assets/images/six.png";
+import seven from "@/assets/images/seven.png";
+import eight from "@/assets/images/eight.png";
 
+// 연령 카테고리
 const ageGroups = [
   { label: "10대", value: "teen" },
   { label: "20대", value: "twenties" },
   { label: "30대", value: "thirties" },
   { label: "40대", value: "forties" },
 ];
+
+// 랭킹 카테고리
+const rankImg = {
+  one,
+  two,
+  three,
+  four,
+  five,
+  six,
+  seven,
+  eight,
+};
 
 const WebNovelGroup = ({
   title,
@@ -39,6 +60,48 @@ const WebNovelGroup = ({
         // setNovels(response.data);
 
         setNovels([
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
           {
             title: "오늘도 힘내고 싶다",
             genre: "로맨스",
@@ -84,13 +147,30 @@ const WebNovelGroup = ({
       {/* 작품 그룹 */}
       <div className="group-row">
         {novels.map((novel, i) => (
-          <div key={i} className="group-each">
+          <div
+            key={i}
+            className={`group-each ${
+              type === "home" && genre === "rank" ? "group-rank-on" : ""
+            }`}
+          >
+            {/* 웹소설 통합 랭킹 숫자표시 */}
+            <div
+              className={
+                type === "home" && genre === "rank"
+                  ? "group-agerank-on"
+                  : "group-agerank-off"
+              }
+            >
+              <img src={Object.values(rankImg)[i].src} alt={`Rank ${i + 1}`} />
+            </div>
+
             <WebNovel
               title={novel.title}
               genre={novel.genre}
               likes={novel.likes}
               imageUrl={novel.imageUrl}
               type={type}
+              index={i}
             />
           </div>
         ))}

@@ -22,6 +22,17 @@ export const WebNovelGroupStyled = styled.div`
       }
     }
 
+    .group-ageTabs {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .group-ageTabs .active {
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
     .group-ageTab::before {
       margin: 3px 14px 0;
       width: 1px;
@@ -33,8 +44,27 @@ export const WebNovelGroupStyled = styled.div`
     .group-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
       .group-each {
         margin-right: 5px;
+
+        .group-rank {
+          display: block;
+          width: 34px;
+          font-size: 20px;
+          line-height: 20px;
+          color: #000;
+          margin-bottom: 3px;
+        }
+        .group-agerank-off {
+          display: none;
+        }
+      }
+    }
+    .group-rank-on {
+      display: flex;
+      img {
+        height: 110px;
       }
     }
   }

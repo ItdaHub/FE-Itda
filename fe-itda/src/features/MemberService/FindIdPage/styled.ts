@@ -65,7 +65,7 @@ export const FindIdPageStyled = styled.div`
           border-radius: 4px;
           margin-top: 2px;
           border: none;
-          background-color: ${({ theme }) => theme.colors.primary};
+          background-color: var(--primary-color);
           color: white;
 
           &:hover {
