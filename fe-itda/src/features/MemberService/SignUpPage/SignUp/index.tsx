@@ -3,10 +3,16 @@ import { SignUpStyled } from "./styled";
 import { useMemo, useState } from "react";
 import axios from "axios";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+// 비밀번호, 비밀번호 확인 유효성 검사
+import { validationPass, validationPassCheck } from "@/utill/vali";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+
   // 비밀번호 토글 버튼
-  const [toggle, setToggle] = useState(true);
+  const [toggle1, setToggle1] = useState(true);
+  const [toggle2, setToggle2] = useState(true);
 
   // 중복 검사 상태를 관리할 state
   const [isEmail, setIsEmail] = useState<boolean>(false);
@@ -111,28 +117,28 @@ const SignUp = () => {
   };
 
   // 비밀번호 유효성 검사
-  const validationPass = (password: string) => {
-    if (!password) {
-      setPassError("비밀번호를 입력해주세요");
-    } else if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$/.test(
-        password
-      )
-    ) {
-      setPassError(
-        "비밀번호는 8~16자, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
-      );
-    } else setPassError("");
-  };
+  // const validationPass = (password: string) => {
+  //   if (!password) {
+  //     setPassError("비밀번호를 입력해주세요");
+  //   } else if (
+  //     !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$/.test(
+  //       password
+  //     )
+  //   ) {
+  //     setPassError(
+  //       "비밀번호는 8~16자, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
+  //     );
+  //   } else setPassError("");
+  // };
 
   // 비밀번호 확인 유효성 검사
-  const validationPassCheck = (passwordCheck: string) => {
-    if (!passwordCheck) {
-      setPassCheckError("비밀번호를 확인해주세요.");
-    } else if (password !== passwordCheck) {
-      setPassCheckError("비밀번호가 일치하지 않습니다.");
-    } else setPassCheckError("");
-  };
+  // const validationPassCheck = (passwordCheck: string) => {
+  //   if (!passwordCheck) {
+  //     setPassCheckError("비밀번호를 확인해주세요.");
+  //   } else if (password !== passwordCheck) {
+  //     setPassCheckError("비밀번호가 일치하지 않습니다.");
+  //   } else setPassCheckError("");
+  // };
 
   // 닉네임 유효성 검사
   const validationNickName = (nickName: string) => {
@@ -274,22 +280,22 @@ const SignUp = () => {
             <div className="signup-title">비밀번호</div>
             <input
               className="signup-pw"
-              type={toggle ? "password" : "text"}
+              type={toggle1 ? "password" : "text"}
               placeholder="비밀번호"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                validationPass(e.target.value);
+                validationPass(e.target.value, setPassError);
               }}
             />
 
             {/* 토글 버튼 */}
-            {toggle ? (
+            {toggle1 ? (
               <EyeInvisibleOutlined
                 className="signup-toggleBtn"
                 onClick={(e) => {
                   e.preventDefault();
-                  setToggle(!toggle);
+                  setToggle1(!toggle1);
                 }}
               />
             ) : (
@@ -297,7 +303,7 @@ const SignUp = () => {
                 className="signup-toggleBtn"
                 onClick={(e) => {
                   e.preventDefault();
-                  setToggle(!toggle);
+                  setToggle1(!toggle1);
                 }}
               />
             )}
@@ -310,21 +316,25 @@ const SignUp = () => {
             <div className="signup-title">비밀번호 확인</div>
             <input
               className="signup-pw-check"
-              type={toggle ? "password" : "text"}
+              type={toggle2 ? "password" : "text"}
               placeholder="비밀번호 확인"
               value={passwordCheck}
               onChange={(e) => {
                 setPasswordCheck(e.target.value);
-                validationPassCheck(e.target.value);
+                validationPassCheck(
+                  e.target.value,
+                  password,
+                  setPassCheckError
+                );
               }}
             />
             {/* 토글 버튼 */}
-            {toggle ? (
+            {toggle2 ? (
               <EyeInvisibleOutlined
                 className="signup-toggleBtn"
                 onClick={(e) => {
                   e.preventDefault();
-                  setToggle(!toggle);
+                  setToggle2(!toggle2);
                 }}
               />
             ) : (
@@ -332,7 +342,7 @@ const SignUp = () => {
                 className="signup-toggleBtn"
                 onClick={(e) => {
                   e.preventDefault();
-                  setToggle(!toggle);
+                  setToggle2(!toggle2);
                 }}
               />
             )}

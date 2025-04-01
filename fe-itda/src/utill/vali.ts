@@ -34,3 +34,34 @@ export const handlePhoneNumberChange = (
   setPhoneNumber(formattedPhone);
   setErrorMessage(""); // 전화번호 입력 시 에러 메시지 초기화
 };
+
+// 비밀번호 유효성 검사
+export const validationPass = (
+  password: string,
+  setPassError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  if (!password) {
+    setPassError("비밀번호를 입력해주세요");
+  } else if (
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$/.test(
+      password
+    )
+  ) {
+    setPassError(
+      "비밀번호는 8~16자, 대·소문자, 숫자, 특수문자를 포함해야 합니다."
+    );
+  } else setPassError("");
+};
+
+// 비밀번호 확인 유효성 검사
+export const validationPassCheck = (
+  password: string,
+  passwordCheck: string,
+  setPassCheckError: React.Dispatch<React.SetStateAction<string>>
+) => {
+  if (!passwordCheck) {
+    setPassCheckError("비밀번호를 확인해주세요.");
+  } else if (password !== passwordCheck) {
+    setPassCheckError("비밀번호가 일치하지 않습니다.");
+  } else setPassCheckError("");
+};
