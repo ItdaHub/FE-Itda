@@ -1,15 +1,12 @@
 import clsx from "clsx";
 import { SignUpStyled } from "./styled";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import axios from "axios";
-import Agree from "../Agree";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const SignUp = () => {
-  const [ShowSignUp, setShowSignUp] = useState(false);
-
-  const handleAgreeClick = () => {
-    setShowSignUp(true); // agree-ok 버튼 클릭 시 SignUp 폼 표시
-  };
+  // 비밀번호 토글 버튼
+  const [toggle, setToggle] = useState(true);
 
   // 중복 검사 상태를 관리할 state
   const [isEmail, setIsEmail] = useState<boolean>(false);
@@ -17,6 +14,8 @@ const SignUp = () => {
 
   // 중복확인 에러 메시지 상태 관리
   const [errorMessage, setErrorMessage] = useState("");
+  const [emailSameError, setEmailSameError] = useState("");
+  const [nickNameSameError, setnickNameSameError] = useState("");
 
   // 각 필드의 입력 값
   const [email, setEmail] = useState("");
@@ -40,59 +39,67 @@ const SignUp = () => {
   const [disabled, setDisabled] = useState(false);
 
   // 이메일 중복 검사 함수
-  const checkEmail = async (email: string) => {
-    // 실제 요청 대신 더미 응답을 사용
-    setTimeout(() => {
-      if (email === "testuser") {
-      } else if (email === "") {
-      } else {
-      }
-    }, 500); // 0.5초 후에 응답이 온 것처럼 처리
-  };
-  //   try {
-  //     console.log("전송할 이메일:", email); // 요청 전에 콘솔 출력
+  const checkEmail = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
 
-  //     const response = await axios.post("/api/check-email");
-  //     if (response.data.isDuplicate) {
-  //       setIsEmail(true);
-  //       setErrorMessage("이미 사용된 이메일입니다.");
-  //     } else {
-  //       setIsEmail(false);
-  //       setErrorMessage("");
-  //     }
-  //   } catch (error) {
-  //     console.error("이메일 중복 확인 오류", error);
-  //     setErrorMessage("이메일 중복 확인 오류 발생");
-  //   }
-  // };
+    if (!email) {
+      setEmailError("아이디를 입력해주세요.");
+      return;
+    }
+    try {
+      console.log("전송할 이메일:", email); // 요청 전에 콘솔 출력
+
+      // 입력한 아이디와 일치하는 데이터가 있는지 확인 요청
+      const response = await axios.post("/api/emailCheck", { email });
+
+      console.log("서버 응답:", response.data); // 응답 로그 확인
+      if (response.data.message) {
+        setIsEmail(true);
+        setErrorMessage("이미 사용된 이메일입니다.");
+      } else {
+        setIsEmail(false);
+        setErrorMessage("");
+      }
+    } catch (error) {
+      console.error("이메일 중복 확인 오류", error);
+      setErrorMessage("이메일 중복 확인 오류 발생");
+    }
+  };
 
   // 닉네임 중복 검사 함수
-  const checkNickName = async (nickName: string) => {
-    console.log("닉네임 중복 확인 요청 값:", nickName);
+  const checkNickName = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    //   // 실제 요청 대신 더미 응답을 사용
+    //   setTimeout(() => {
+    //     if (nickName === "testuser") {
+    //       console.log("이미 사용된 닉네임입니다.");
+    //     } else {
+    //       console.log("사용 가능한 닉네임입니다.");
+    //     }
+    //   }, 500); // 0.5초 후에 응답이 온 것처럼 처리
+    // };
+    if (!nickName) {
+      setNickNameError("닉네임을 입력해주세요.");
+      return;
+    }
 
-    // 실제 요청 대신 더미 응답을 사용
-    setTimeout(() => {
-      if (nickName === "testuser") {
-        console.log("이미 사용된 닉네임입니다.");
+    try {
+      console.log("닉네임 중복 확인 요청 값:", nickName);
+      const response = await axios.post("/api/nicknameCheck", { nickName });
+      if (response.data.message) {
+        setIsNickName(true);
+        setnickNameSameError("이미 사용된 닉네임입니다.");
       } else {
-        console.log("사용 가능한 닉네임입니다.");
+        setIsNickName(false);
+        setnickNameSameError("");
       }
-    }, 500); // 0.5초 후에 응답이 온 것처럼 처리
+    } catch (error) {
+      console.error("닉네임 중복 확인 오류", error);
+      setnickNameSameError("닉네임 중복 확인 오류 발생");
+    } finally {
+      setDisabled(false); // 요청 완료 후 버튼 활성화
+    }
   };
-  //   try {
-  //     const response = await axios.post("/api/check-nickname");
-  //     if (response.data.isDuplicate) {
-  //       setIsNickName(true);
-  //       setErrorMessage("이미 사용된 닉네임입니다.");
-  //     } else {
-  //       setIsNickName(false);
-  //       setErrorMessage("");
-  //     }
-  //   } catch (error) {
-  //     console.error("닉네임 중복 확인 오류", error);
-  //     setErrorMessage("닉네임 중복 확인 오류 발생");
-  //   }
-  // };
 
   // 이메일 유효성 검사
   const validationEmail = (email: string) => {
@@ -134,7 +141,7 @@ const SignUp = () => {
     } else if (nickName.length < 2) {
       setNickNameError("닉네임은 최소 2자 이상이어야 합니다.");
     } else if (nickName.length > 8) {
-      setNickNameError("닉네임은 최대 8자 이상이어야 합니다.");
+      setNickNameError("닉네임은 최대 8자 까지 가능합니다.");
     } else setNickNameError("");
   };
 
@@ -161,15 +168,79 @@ const SignUp = () => {
 
   // 휴대폰 유효성 검사
   const validationPhoneNumber = (phoneNumber: string) => {
+    const phoneRegex = /^01[0-9]-\d{4}-\d{4}$/; // 010-1234-5678 형식
     if (!phoneNumber) {
       setPhoneNumberError("휴대폰번호를 입력해주세요.");
+    } else if (!phoneRegex.test(phoneNumber)) {
+      setPhoneNumberError(
+        "올바른 휴대폰번호를 입력해주세요. (예: 010-1234-5678)"
+      );
+    } else {
+      setPhoneNumberError("");
     }
   };
 
-  // 폼 제출 이벤트 핸들러
-  const onSubmit = () => {
-    console.log("send");
+  // 회원가입 버튼 클릭 시 데이터베이스에 등록 요청
+  const onSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault(); // 폼 기본 동작 방지
+
+    try {
+      const response = await axios.post("/api/signup", {
+        email,
+        password,
+        nickName,
+        name,
+        birthYear,
+        phoneNumber,
+      });
+
+      console.log("회원가입 성공:", response.data);
+      alert("회원가입이 완료되었습니다.");
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입 중 오류가 발생했습니다.");
+    } finally {
+      setDisabled(false); // 요청 완료 후 버튼 활성화
+    }
   };
+
+  const isValid = useMemo(() => {
+    return (
+      email &&
+      password &&
+      passwordCheck &&
+      nickName &&
+      name &&
+      birthYear &&
+      phoneNumber &&
+      !emailError &&
+      !passError &&
+      !passCheckError &&
+      !nickNameError &&
+      !nameError &&
+      !birthYearError &&
+      !phoneNumberError &&
+      !isEmail &&
+      !isNickName
+    );
+  }, [
+    email,
+    password,
+    passwordCheck,
+    nickName,
+    name,
+    birthYear,
+    phoneNumber,
+    emailError,
+    passError,
+    passCheckError,
+    nickNameError,
+    nameError,
+    birthYearError,
+    phoneNumberError,
+    isEmail,
+    isNickName,
+  ]);
 
   return (
     <SignUpStyled className={clsx("signup-page")}>
@@ -178,7 +249,7 @@ const SignUp = () => {
         <form className="signup-form" onSubmit={onSubmit}>
           {/* 아이디 */}
           <div className="input-box">
-            <div>아이디</div>
+            <div className="signup-title">아이디</div>
             <input
               className="signup-id"
               type="text"
@@ -193,17 +264,17 @@ const SignUp = () => {
             <p className="error-message">{emailError}</p>
 
             {isEmail && <p>{errorMessage}</p>}
-            <button className="same-id-check-btn" onClick={(e) => {}}>
+            <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인
             </button>
           </div>
 
           {/* 비밀번호 */}
-          <div>
-            <div>비밀번호</div>
+          <div className="input-box signup-pwBox">
+            <div className="signup-title">비밀번호</div>
             <input
               className="signup-pw"
-              type="password"
+              type={toggle ? "password" : "text"}
               placeholder="비밀번호"
               value={password}
               onChange={(e) => {
@@ -211,15 +282,35 @@ const SignUp = () => {
                 validationPass(e.target.value);
               }}
             />
+
+            {/* 토글 버튼 */}
+            {toggle ? (
+              <EyeInvisibleOutlined
+                className="signup-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            ) : (
+              <EyeOutlined
+                className="signup-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            )}
+
             <p className="error-message">{passError}</p>
           </div>
 
           {/* 비밀번호 확인 */}
-          <div>
-            <div>비밀번호 확인</div>
+          <div className="input-box signup-pwBox">
+            <div className="signup-title">비밀번호 확인</div>
             <input
               className="signup-pw-check"
-              type="password"
+              type={toggle ? "password" : "text"}
               placeholder="비밀번호 확인"
               value={passwordCheck}
               onChange={(e) => {
@@ -227,13 +318,31 @@ const SignUp = () => {
                 validationPassCheck(e.target.value);
               }}
             />
+            {/* 토글 버튼 */}
+            {toggle ? (
+              <EyeInvisibleOutlined
+                className="signup-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            ) : (
+              <EyeOutlined
+                className="signup-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            )}
 
             <p className="error-message">{passCheckError}</p>
           </div>
 
           {/* 닉네임 */}
           <div className="input-box">
-            <div>닉네임</div>
+            <div className="signup-title">닉네임</div>
             <input
               className="signup-nick"
               type="text"
@@ -243,25 +352,20 @@ const SignUp = () => {
                 setNickName(e.target.value);
                 validationNickName(e.target.value);
               }}
+              maxLength={8}
             />
 
             <p className="error-message">{nickNameError}</p>
 
-            {isNickName && <p>{errorMessage}</p>}
-            <button
-              className="same-nick-check-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                checkNickName("nickName");
-              }}
-            >
+            {isNickName && <p>{nickNameSameError}</p>}
+            <button className="same-nick-check-btn" onClick={checkNickName}>
               중복확인
             </button>
           </div>
 
           {/* 이름 */}
-          <div>
-            <div>이름</div>
+          <div className="input-box">
+            <div className="signup-title">이름</div>
             <input
               className="signup-name"
               type="text"
@@ -278,8 +382,8 @@ const SignUp = () => {
           </div>
 
           {/* 출생년도 */}
-          <div>
-            <div>출생년도</div>
+          <div className="input-box">
+            <div className="signup-title">출생년도</div>
             <input
               className="signup-year"
               type="number"
@@ -295,8 +399,8 @@ const SignUp = () => {
           </div>
 
           {/* 휴대폰번호 */}
-          <div>
-            <div>휴대폰번호</div>
+          <div className="input-box">
+            <div className="signup-title">휴대폰번호</div>
             <input
               className="signup-phone"
               type="tel"
@@ -316,8 +420,8 @@ const SignUp = () => {
             <button
               className="signup-btn"
               type="submit"
-              // disabled={!isValid}
-              disabled={disabled}
+              disabled={!isValid}
+              // disabled={disabled}
             >
               회원가입
             </button>
