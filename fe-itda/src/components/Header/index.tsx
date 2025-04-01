@@ -48,7 +48,7 @@ const Header = () => {
         <div
           className="header-logoBox"
           onClick={() => {
-            router.push("/");
+            router.push("/main");
           }}
         >
           <Image className="header-logo" src={logo} alt="logo" />

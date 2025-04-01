@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { store } from "../../store/store";
 import { Provider } from "react-redux";
+import Footer from "@/components/Footer";
 
 // 대표색
 // const theme = {
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {/* <ThemeProvider theme={theme}> */}
       <Header />
       <Component {...pageProps} />
+      <Footer />
       {/* </ThemeProvider> */}
     </Provider>
   );

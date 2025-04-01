@@ -171,6 +171,7 @@ const WebNovelGroup = ({
               imageUrl={novel.imageUrl}
               type={type}
               index={i}
+              division={genre}
             />
           </div>
         ))}

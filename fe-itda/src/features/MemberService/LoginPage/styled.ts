@@ -56,7 +56,7 @@ export const LoginPageStyled = styled.div`
           border-radius: 4px;
           margin-top: 2px;
           border: none;
-          background-color: ${({ theme }) => theme.colors.primary};
+          background-color: var(--primary-color);
           color: white;
 
           &:hover {
@@ -102,7 +102,7 @@ export const LoginPageStyled = styled.div`
           padding: 0 12px;
           &:hover {
             cursor: pointer;
-            color: ${({ theme }) => theme.colors.primary};
+            color: var(--primary-color);
           }
         }
 

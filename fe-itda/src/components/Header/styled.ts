@@ -78,7 +78,6 @@ export const HeaderStyled = styled.div`
           width: 80px;
           height: 80px;
         }
-
         &:hover {
           cursor: pointer;
         }
