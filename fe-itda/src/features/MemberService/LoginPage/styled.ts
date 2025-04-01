@@ -17,7 +17,7 @@ export const LoginPageStyled = styled.div`
       justify-content: center;
       align-items: center;
       background-color: white;
-      max-width: 360px;
+      max-width: 500px;
       height: 370px;
       margin: 60px auto;
       border-radius: 4px;
@@ -38,7 +38,7 @@ export const LoginPageStyled = styled.div`
             color: #738096;
             &:hover {
               cursor: pointer;
-              color: #c47ad7;
+              color: ${({ theme }) => theme.colors.primary};
             }
           }
         }
@@ -56,7 +56,7 @@ export const LoginPageStyled = styled.div`
           border-radius: 4px;
           margin-top: 2px;
           border: none;
-          background-color: #c47ad7;
+          background-color: ${({ theme }) => theme.colors.primary};
           color: white;
 
           &:hover {
@@ -77,6 +77,17 @@ export const LoginPageStyled = styled.div`
             outline: none;
           }
         }
+
+        .login-pwBox {
+          position: relative;
+        }
+
+        .login-toggleBtn {
+          position: absolute;
+          font-size: 18px;
+          right: 12px;
+          top: 16px;
+        }
       }
 
       .login-find {
@@ -91,7 +102,7 @@ export const LoginPageStyled = styled.div`
           padding: 0 12px;
           &:hover {
             cursor: pointer;
-            color: #c47ad7;
+            color: ${({ theme }) => theme.colors.primary};
           }
         }
 
@@ -101,6 +112,30 @@ export const LoginPageStyled = styled.div`
           border-left: 1px solid #cccccc;
         }
       }
+
+      .login-tit {
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        color: #5c667b;
+        line-height: 24px;
+        margin-bottom: 15px;
+
+        .login-titText {
+          margin: 0 15px;
+        }
+
+        &:before,
+        &:after {
+          width: 55px;
+          height: 1px;
+          background-color: #eaedf4;
+          display: inline-block;
+          vertical-align: super;
+          content: "";
+        }
+      }
+
       .login-logo {
         width: 40px;
         margin: 0 15px;

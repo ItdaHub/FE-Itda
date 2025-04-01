@@ -4,12 +4,19 @@ import axios from "axios";
 import { LoginPageStyled } from "./styled";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
 import google from "@/assets/images/sns_google.svg";
 
+import { snsLogin } from "@/features/auth/snsLogin";
+import { useDispatch } from "react-redux";
+// import { login } from "@/features/auth/authSlice"; // Redux 액션
+
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   // 비밀번호 토글 버튼
   const [toggle, setToggle] = useState(true);
   // 로그인 상태유지
@@ -88,7 +95,7 @@ const LoginPage = () => {
           </div>
 
           {/* 비밀번호 */}
-          <div>
+          <div className="login-pwBox">
             <input
               className="login-pw"
               type={toggle ? "password" : "text"}
@@ -100,15 +107,23 @@ const LoginPage = () => {
             />
 
             {/* 토글 버튼 */}
-            <button
-              className="login-toggleBtn"
-              onClick={(e) => {
-                e.preventDefault();
-                setToggle(!toggle);
-              }}
-            >
-              토글버튼
-            </button>
+            {toggle ? (
+              <EyeInvisibleOutlined
+                className="login-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            ) : (
+              <EyeOutlined
+                className="login-toggleBtn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggle(!toggle);
+                }}
+              />
+            )}
           </div>
 
           {/* 로그인 상태 유지 */}
@@ -163,10 +178,29 @@ const LoginPage = () => {
         </div>
 
         {/* 소셜로그인 */}
+        <p className="login-tit">
+          <span className="login-titText">소셜 계정으로 간편 로그인</span>
+        </p>
+
         <div>
-          <img className="login-logo" src={naver.src} alt="네이버 로그인" />
-          <img className="login-logo" src={kakao.src} alt="카카오 로그인" />
-          <img className="login-logo" src={google.src} alt="구글 로그인" />
+          <img
+            onClick={() => snsLogin("naver")}
+            className="login-logo"
+            src={naver.src}
+            alt="네이버 로그인"
+          />
+          <img
+            onClick={() => snsLogin("kakao")}
+            className="login-logo"
+            src={kakao.src}
+            alt="카카오 로그인"
+          />
+          <img
+            onClick={() => snsLogin("google")}
+            className="login-logo"
+            src={google.src}
+            alt="구글 로그인"
+          />
         </div>
       </div>
     </LoginPageStyled>

@@ -6,8 +6,21 @@ export const FindIdPageStyled = styled.div`
     padding: 0;
     width: 100%;
 
-    .findId-title {
+    .findId-titleBox {
+      width: 80%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 10px;
+      .findId-backBtn {
+        position: absolute;
+        font-size: 20px;
+        left: 5px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
 
     .findId-box {
@@ -17,7 +30,7 @@ export const FindIdPageStyled = styled.div`
       justify-content: center;
       align-items: center;
       background-color: white;
-      max-width: 360px;
+      max-width: 500px;
       height: auto;
       margin: 60px auto;
       border-radius: 4px;
@@ -52,7 +65,7 @@ export const FindIdPageStyled = styled.div`
           border-radius: 4px;
           margin-top: 2px;
           border: none;
-          background-color: #c47ad7;
+          background-color: ${({ theme }) => theme.colors.primary};
           color: white;
 
           &:hover {
