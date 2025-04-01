@@ -3,14 +3,14 @@ import { WebNovelStyled } from "./styled";
 import { HeartOutlined } from "@ant-design/icons";
 
 interface WebNovelProps {
-  type: string;
   title: string;
   genre: string;
   likes: number;
   imageUrl: string;
+  type?: string;
 }
 
-const WebNovel = ({ type, title, genre, likes, imageUrl }: WebNovelProps) => {
+const WebNovel = ({ title, genre, likes, imageUrl, type }: WebNovelProps) => {
   return (
     <WebNovelStyled className="novel-wrap">
       <div>

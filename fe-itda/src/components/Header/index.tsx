@@ -8,9 +8,15 @@ import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
 import { HeaderStyled } from "./styled";
+import { useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const Header = () => {
   const router = useRouter();
+
+  // const { data: session } = useSession();
+  // const user = useSelector((state: RootState) => state.user);
 
   // 헤더 제외할 페이지
   const notPage = ["/findpw", "/login", "/findid", "/signup"];
@@ -24,6 +30,13 @@ const Header = () => {
             : "header"
         }
       >
+        {/* {session ? (
+          <div>
+            <img src={user.image} alt="User Profile" />
+            <span>{user.name}</span>
+          </div>
+        ) : (
+          <> */}
         {/* 로고 */}
         <div
           className="header-logoBox"
@@ -33,7 +46,6 @@ const Header = () => {
         >
           <Image className="header-logo" src={logo} alt="logo" />
         </div>
-
         {/* 헤더 메뉴 */}
         <div className="header-menu">
           {/* 검색 */}
@@ -72,6 +84,8 @@ const Header = () => {
             />
           </div>
         </div>
+        {/* </> */}
+        {/* ) */}
       </div>
     </HeaderStyled>
   );

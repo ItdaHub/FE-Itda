@@ -23,6 +23,6 @@
     "**/*.tsx",
     "next.config.js",
     "next.config.js"
-  ],
+, "src/features/BookAnimation"  ],
   "exclude": ["node_modules"]
 }

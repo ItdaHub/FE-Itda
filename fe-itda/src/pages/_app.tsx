@@ -2,7 +2,8 @@ import Header from "@/components/Header";
 import "@/styles/globals.css";
 import { ThemeProvider } from "styled-components";
 import type { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
+import { store } from "../../store/store";
+import { Provider } from "react-redux";
 
 // 대표색
 const theme = {
@@ -14,11 +15,11 @@ const theme = {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    // <SessionProvider session={pageProps.session}>
-    <ThemeProvider theme={theme}>
-      <Header />
-      <Component {...pageProps} />
-    </ThemeProvider>
-    // </SessionProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </Provider>
   );
 }

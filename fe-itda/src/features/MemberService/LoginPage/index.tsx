@@ -10,7 +10,13 @@ import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
 import google from "@/assets/images/sns_google.svg";
 
+import { snsLogin } from "@/features/auth/snsLogin";
+import { useDispatch } from "react-redux";
+// import { login } from "@/features/auth/authSlice"; // Redux 액션
+
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   // 비밀번호 토글 버튼
   const [toggle, setToggle] = useState(true);
   // 로그인 상태유지
@@ -177,9 +183,24 @@ const LoginPage = () => {
         </p>
 
         <div>
-          <img className="login-logo" src={naver.src} alt="네이버 로그인" />
-          <img className="login-logo" src={kakao.src} alt="카카오 로그인" />
-          <img className="login-logo" src={google.src} alt="구글 로그인" />
+          <img
+            onClick={() => snsLogin("naver")}
+            className="login-logo"
+            src={naver.src}
+            alt="네이버 로그인"
+          />
+          <img
+            onClick={() => snsLogin("kakao")}
+            className="login-logo"
+            src={kakao.src}
+            alt="카카오 로그인"
+          />
+          <img
+            onClick={() => snsLogin("google")}
+            className="login-logo"
+            src={google.src}
+            alt="구글 로그인"
+          />
         </div>
       </div>
     </LoginPageStyled>
