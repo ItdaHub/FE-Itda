@@ -17,11 +17,13 @@ const SignUp = () => {
   // 중복 검사 상태를 관리할 state
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isNickName, setIsNickName] = useState<boolean>(false);
+  const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
 
   // 중복확인 에러 메시지 상태 관리
   const [errorMessage, setErrorMessage] = useState("");
   const [emailSameError, setEmailSameError] = useState("");
   const [nickNameSameError, setnickNameSameError] = useState("");
+  const [phoneNumberSameError, setPhoneNumberSameError] = useState("");
 
   // 각 필드의 입력 값
   const [email, setEmail] = useState("");
@@ -116,30 +118,6 @@ const SignUp = () => {
     } else setEmailError("");
   };
 
-  // 비밀번호 유효성 검사
-  // const validationPass = (password: string) => {
-  //   if (!password) {
-  //     setPassError("비밀번호를 입력해주세요");
-  //   } else if (
-  //     !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,16}$/.test(
-  //       password
-  //     )
-  //   ) {
-  //     setPassError(
-  //       "비밀번호는 8~16자, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
-  //     );
-  //   } else setPassError("");
-  // };
-
-  // 비밀번호 확인 유효성 검사
-  // const validationPassCheck = (passwordCheck: string) => {
-  //   if (!passwordCheck) {
-  //     setPassCheckError("비밀번호를 확인해주세요.");
-  //   } else if (password !== passwordCheck) {
-  //     setPassCheckError("비밀번호가 일치하지 않습니다.");
-  //   } else setPassCheckError("");
-  // };
-
   // 닉네임 유효성 검사
   const validationNickName = (nickName: string) => {
     if (!nickName) {
@@ -185,6 +163,34 @@ const SignUp = () => {
       setPhoneNumberError("");
     }
   };
+  // // 전화번호 중복 검사 함수
+  // const checkPhoneNumber = async (e: { preventDefault: () => void }) => {
+  //   e.preventDefault();
+
+  //   if (!phoneNumber) {
+  //     setPhoneNumberSameError("전화번호를 입력해주세요.");
+  //     return;
+  //   }
+
+  //   try {
+  //     console.log("전화번호중복 확인 요청 값:", phoneNumber);
+  //     const response = await axios.post("/api/phoneNumberCheck", {
+  //       phoneNumber,
+  //     });
+  //     if (response.data.message) {
+  //       setIsPhoneNumber(true);
+  //       setPhoneNumberSameError("이미 사용중인 번호입니다.");
+  //     } else {
+  //       setIsPhoneNumber(false);
+  //       setPhoneNumberSameError("");
+  //     }
+  //   } catch (error) {
+  //     console.error("휴대폰 중복 확인 오류", error);
+  //     setPhoneNumberSameError("휴대폰 중복 확인 오류 발생");
+  //   } finally {
+  //     setDisabled(false); // 요청 완료 후 버튼 활성화
+  //   }
+  // };
 
   // 회원가입 버튼 클릭 시 데이터베이스에 등록 요청
   const onSubmit = async (e: { preventDefault: () => void }) => {
@@ -227,7 +233,8 @@ const SignUp = () => {
       !birthYearError &&
       !phoneNumberError &&
       !isEmail &&
-      !isNickName
+      !isNickName &&
+      isPhoneNumber
     );
   }, [
     email,
@@ -246,6 +253,7 @@ const SignUp = () => {
     phoneNumberError,
     isEmail,
     isNickName,
+    isPhoneNumber,
   ]);
 
   return (
@@ -403,6 +411,7 @@ const SignUp = () => {
                 setBirthYear(e.target.value);
                 validationBirthYear(e.target.value);
               }}
+              maxLength={4}
             />
 
             <p className="error-message">{birthYearError}</p>
@@ -420,9 +429,15 @@ const SignUp = () => {
                 setPhoneNumber(e.target.value);
                 validationPhoneNumber(e.target.value);
               }}
+              maxLength={13}
             />
 
             <p className="error-message">{phoneNumberError}</p>
+
+            {/* {isPhoneNumber && <p>{phoneNumberSameError}</p>}
+            <button className="same-nick-check-btn" onClick={checkPhoneNumber}>
+              중복확인
+            </button> */}
           </div>
 
           {/* 회원가입 버튼 */}
