@@ -52,8 +52,19 @@ export const SignUpStyled = styled.div`
     border: 1px solid rgb(214, 222, 235);
 
     &:focus {
-      outline-color: ${({ theme }) => theme.colors.primary};
+      outline-color: var(--primary-color);
     }
+  }
+
+  .signup-pwBox {
+    position: relative;
+  }
+
+  .signup-toggleBtn {
+    position: absolute;
+    font-size: 18px;
+    right: 12px;
+    top: 40px;
   }
 
   .signup-pwBox {
@@ -96,7 +107,7 @@ export const SignUpStyled = styled.div`
     border-radius: 4px;
     margin-top: 2px;
     border: none;
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: var(--primary-color);
     color: white;
 
     &:hover {

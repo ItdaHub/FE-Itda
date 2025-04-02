@@ -71,14 +71,12 @@ export const HeaderStyled = styled.div`
       margin: 0 auto;
       padding: 0 10px;
       min-height: 50px;
-      border-bottom: 1px solid #adadad;
 
       .header-logoBox {
         .header-logo {
           width: 80px;
           height: 80px;
         }
-
         &:hover {
           cursor: pointer;
         }

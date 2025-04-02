@@ -66,7 +66,7 @@ export const CategoryStyled = styled.div`
 
     .write-btn:hover {
       cursor: pointer;
-      color: ${({ theme }) => theme.colors.primary};
+      color: var(--primary-color);
     }
 
     .category-off {

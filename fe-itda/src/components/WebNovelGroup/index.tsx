@@ -6,6 +6,7 @@ import axios from "axios";
 
 import test from "@/assets/images/testImage.png";
 
+// 연령 카테고리
 const ageGroups = [
   { label: "10대", value: "teen" },
   { label: "20대", value: "twenties" },
@@ -40,7 +41,57 @@ const WebNovelGroup = ({
 
         setNovels([
           {
+            id: 1,
             title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 2,
+            title: "하핫",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 3,
+            title: "오늘도",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 4,
+            title: "야야",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 5,
+            title: "잘돼라",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 6,
+            title: "헤헤",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 7,
+            title: "오늘도 힘내고 싶다",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 8,
+            title: "싶다",
             genre: "로맨스",
             likes: 3,
             imageUrl: test,
@@ -84,13 +135,18 @@ const WebNovelGroup = ({
       {/* 작품 그룹 */}
       <div className="group-row">
         {novels.map((novel, i) => (
-          <div key={i} className="group-each">
+          <div
+            key={i}
+            className={`group-each ${type === "home" ? "group-rank-on" : ""}`}
+          >
             <WebNovel
               title={novel.title}
               genre={novel.genre}
               likes={novel.likes}
               imageUrl={novel.imageUrl}
               type={type}
+              index={i}
+              id={novel.id}
             />
           </div>
         ))}

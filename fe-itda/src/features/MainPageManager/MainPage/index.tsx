@@ -28,10 +28,9 @@ const MainPage = () => {
           [
             { label: "전체", value: "all" },
             { label: "로맨스", value: "romance" },
-            { label: "로판", value: "ropan" },
             { label: "판타지", value: "fantasy" },
-            { label: "현판", value: "hyenpan" },
             { label: "무협", value: "muhyeop" },
+            { label: "스릴러", value: "thriller" },
           ],
         ]);
       } catch (e) {
@@ -40,16 +39,6 @@ const MainPage = () => {
     };
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    if (type === "home") {
-      // 홈일 때는 항상 "전체"로 초기화
-      setGenre("all");
-    } else {
-      // 기존 genre 유지
-      setGenre((prev) => prev || "all");
-    }
-  }, [type]);
 
   return (
     <MainPageStyled className={clsx("main-wrap")}>
