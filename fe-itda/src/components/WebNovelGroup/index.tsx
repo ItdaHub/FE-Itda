@@ -41,49 +41,57 @@ const WebNovelGroup = ({
 
         setNovels([
           {
+            id: 1,
             title: "오늘도 힘내고 싶다",
             genre: "로맨스",
             likes: 3,
             imageUrl: test,
           },
           {
+            id: 2,
+            title: "하핫",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 3,
+            title: "오늘도",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 4,
+            title: "야야",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 5,
+            title: "잘돼라",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 6,
+            title: "헤헤",
+            genre: "로맨스",
+            likes: 3,
+            imageUrl: test,
+          },
+          {
+            id: 7,
             title: "오늘도 힘내고 싶다",
             genre: "로맨스",
             likes: 3,
             imageUrl: test,
           },
           {
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            title: "오늘도 힘내고 싶다",
+            id: 8,
+            title: "싶다",
             genre: "로맨스",
             likes: 3,
             imageUrl: test,
@@ -138,6 +146,7 @@ const WebNovelGroup = ({
               imageUrl={novel.imageUrl}
               type={type}
               index={i}
+              id={novel.id}
             />
           </div>
         ))}

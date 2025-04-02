@@ -5,6 +5,10 @@ export const WebNovelStyled = styled.div`
     /* 홈 */
     .novel-home {
       /* display: flex; */
+      width: fit-content;
+      &:hover {
+        cursor: pointer;
+      }
 
       .group-rank {
         width: 20px !important;
@@ -22,6 +26,10 @@ export const WebNovelStyled = styled.div`
     /* 이어쓰기+출품작 */
     .novel-relay {
       display: flex;
+      width: fit-content;
+      &:hover {
+        cursor: pointer;
+      }
 
       .novel-image {
         margin-right: 10px;

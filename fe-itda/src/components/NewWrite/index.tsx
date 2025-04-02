@@ -42,24 +42,6 @@ const NewWrite = () => {
     getGenre();
   }, []);
 
-  // 제목 중복확인 axios
-  const checkTitle = async () => {
-    if (title.length < 1) {
-      message.warning("제목을 1자 이상 입력해주세요.");
-      return;
-    }
-    try {
-      const response = await axios.get(`/duple/title?title=${title}`);
-      if (response.data.exists) {
-        message.error("중복된 제목입니다.");
-      } else {
-        message.success("사용 가능한 제목입니다.");
-      }
-    } catch (e) {
-      console.log("제목 중복확인 실패: ", e);
-    }
-  };
-
   // 선택된 카테고리
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
@@ -128,7 +110,6 @@ const NewWrite = () => {
               value={title}
               onChange={handleTitleChange}
             />
-            <Button onClick={checkTitle}>중복확인</Button>
           </div>
 
           {/* 내용 */}

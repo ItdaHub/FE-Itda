@@ -76,6 +76,22 @@ const LoginPage = () => {
     }
   };
 
+  // 콜백 url
+  // const REDIRECT_URL = "http://localhost:5001/auth/naver";
+
+  const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+  const NAVER_CALLBACK_URL = encodeURIComponent(
+    process.env.NEXT_PUBLIC_NAVER_CALLBACK_URL || ""
+  );
+  const STATE = "random_state_string"; // CSRF 방지를 위한 값
+
+  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_CALLBACK_URL}&state=${STATE}`;
+
+  // 네이버 소셜 로그인
+  const naverLogin = () => {
+    window.location.href = NAVER_AUTH_URL;
+  };
+
   return (
     <LoginPageStyled className={clsx("login-wrap")}>
       <div className="login-box">
@@ -184,19 +200,20 @@ const LoginPage = () => {
 
         <div>
           <img
-            onClick={() => snsLogin("naver")}
+            // onClick={() => snsLogin("naver")}
+            onClick={() => naverLogin()}
             className="login-logo"
             src={naver.src}
             alt="네이버 로그인"
           />
           <img
-            onClick={() => snsLogin("kakao")}
+            // onClick={() => snsLogin("kakao")}
             className="login-logo"
             src={kakao.src}
             alt="카카오 로그인"
           />
           <img
-            onClick={() => snsLogin("google")}
+            // onClick={() => snsLogin("google")}
             className="login-logo"
             src={google.src}
             alt="구글 로그인"

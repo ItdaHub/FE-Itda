@@ -23,8 +23,6 @@ export const NewWriteStyled = styled.div`
           margin: 0px 3px 0 30px;
         }
         .newWrite-title {
-          display: flex;
-          margin-right: 30px;
           max-width: 430px;
 
           Input {
@@ -36,7 +34,7 @@ export const NewWriteStyled = styled.div`
         }
         .newWrite-content {
           margin: 10px 3px 0 30px;
-          max-width: 400px;
+          max-width: 430px;
         }
       }
     }

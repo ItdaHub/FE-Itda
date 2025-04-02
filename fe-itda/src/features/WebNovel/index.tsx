@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { WebNovelStyled } from "./styled";
 import { HeartOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 interface WebNovelProps {
   title: string;
@@ -9,6 +10,7 @@ interface WebNovelProps {
   imageUrl: string;
   type?: string;
   index?: any;
+  id: number;
 }
 
 const WebNovel = ({
@@ -18,10 +20,18 @@ const WebNovel = ({
   imageUrl,
   type,
   index,
+  id,
 }: WebNovelProps) => {
+  const router = useRouter();
+
   return (
     <WebNovelStyled className="novel-wrap">
-      <div className={type === "home" ? "novel-home" : "novel-relay"}>
+      <div
+        onClick={() => {
+          router.push(`/noveldetail/novelcheck/${id}`);
+        }}
+        className={type === "home" ? "novel-home" : "novel-relay"}
+      >
         {/* 작품 이미지 */}
         <div className="novel-image">
           <Image src={imageUrl} alt={title} width={120} height={160} />
