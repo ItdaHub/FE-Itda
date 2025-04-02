@@ -21,6 +21,7 @@ const Footer = () => {
     "/signup",
     "/agree",
     "/mypage",
+    "/newwrite",
   ];
 
   return (

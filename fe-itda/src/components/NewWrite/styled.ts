@@ -7,13 +7,13 @@ export const NewWriteStyled = styled.div`
     padding: 0 10px;
 
     .newWrite-box {
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid #adadad;
       height: 500px;
       margin-top: 10px;
       .newWrite-left {
         max-width: 500px;
         height: 100%;
-        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-right: 1px solid #adadad;
 
         .newWrite-category-box {
           padding-top: 30px;

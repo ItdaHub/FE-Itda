@@ -28,10 +28,9 @@ const MainPage = () => {
           [
             { label: "전체", value: "all" },
             { label: "로맨스", value: "romance" },
-            { label: "로판", value: "ropan" },
             { label: "판타지", value: "fantasy" },
-            { label: "현판", value: "hyenpan" },
             { label: "무협", value: "muhyeop" },
+            { label: "스릴러", value: "thriller" },
           ],
         ]);
       } catch (e) {

@@ -52,7 +52,7 @@ const LoginPage = () => {
 
     try {
       // Axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
-      const response = await axios.get("/api/login", {
+      const response = await axios.get("/auth/login", {
         params: {
           email,
           password,

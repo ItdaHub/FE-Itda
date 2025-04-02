@@ -72,7 +72,7 @@ const FindIdPage = () => {
 
     try {
       // Axios로 GET 요청(아이디 찾기)
-      const response = await axios.get("/api/findid", {
+      const response = await axios.get("/auth/findid", {
         params: {
           phoneNumber,
         },
