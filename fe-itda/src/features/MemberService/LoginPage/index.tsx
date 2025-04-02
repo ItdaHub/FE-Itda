@@ -76,25 +76,27 @@ const LoginPage = () => {
     }
   };
 
-  // 콜백 url
-  // const REDIRECT_URL = "http://localhost:5001/auth/naver";
+  // const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+  // const NAVER_CALLBACK_URL = encodeURIComponent(
+  //   process.env.NEXT_PUBLIC_NAVER_CALLBACK_URL || ""
+  // );
+  // const STATE = "random_state_string"; // CSRF 방지를 위한 값
 
-  const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-  const NAVER_CALLBACK_URL = encodeURIComponent(
-    process.env.NEXT_PUBLIC_NAVER_CALLBACK_URL || ""
-  );
-  const STATE = "random_state_string"; // CSRF 방지를 위한 값
-
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_CALLBACK_URL}&state=${STATE}`;
+  // const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_CALLBACK_URL}&state=${STATE}`;
 
   // 네이버 소셜 로그인
   const naverLogin = () => {
-    window.location.href = NAVER_AUTH_URL;
+    window.location.href = "http://localhost:5001/auth/naver";
   };
 
   // 카카오 소셜 로그인
   const kakalogin = () => {
     window.location.href = "http://localhost:5001/auth/kakao";
+  };
+
+  // 구글 소셜 로그인
+  const googlelogin = () => {
+    window.location.href = "http://localhost:5001/auth/google";
   };
 
   return (
@@ -220,6 +222,7 @@ const LoginPage = () => {
           />
           <img
             // onClick={() => snsLogin("google")}
+            onClick={() => googlelogin()}
             className="login-logo"
             src={google.src}
             alt="구글 로그인"

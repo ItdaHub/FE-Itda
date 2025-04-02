@@ -38,7 +38,7 @@ const WebNovel = ({
         </div>
 
         <div className="novel-infoBox">
-          {/* 연령별 숫자표시 */}
+          {/* 연령별 숫자표시->랭킹숫자 */}
           <div className={type === "home" ? "group-on" : "group-agerank-off"}>
             <em className="group-rank">{index + 1}</em>
           </div>
