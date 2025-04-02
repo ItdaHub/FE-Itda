@@ -9,7 +9,6 @@ interface WebNovelProps {
   imageUrl: string;
   type?: string;
   index?: any;
-  division?: any;
 }
 
 const WebNovel = ({
@@ -19,7 +18,6 @@ const WebNovel = ({
   imageUrl,
   type,
   index,
-  division,
 }: WebNovelProps) => {
   return (
     <WebNovelStyled className="novel-wrap">
@@ -31,13 +29,7 @@ const WebNovel = ({
 
         <div className="novel-infoBox">
           {/* 연령별 숫자표시 */}
-          <div
-            className={
-              type === "home" && division !== "rank"
-                ? "group-on"
-                : "group-agerank-off"
-            }
-          >
+          <div className={type === "home" ? "group-on" : "group-agerank-off"}>
             <em className="group-rank">{index + 1}</em>
           </div>
 

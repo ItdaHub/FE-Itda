@@ -15,8 +15,12 @@ export const NewWriteStyled = styled.div`
         height: 100%;
         border-right: 1px solid rgba(0, 0, 0, 0.1);
 
+        .newWrite-category-box {
+          padding-top: 30px;
+        }
+
         .newWrite-category {
-          margin: 30px 3px 0 30px;
+          margin: 0px 3px 0 30px;
         }
         .newWrite-title {
           display: flex;

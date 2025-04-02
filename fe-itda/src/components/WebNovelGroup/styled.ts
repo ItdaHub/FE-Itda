@@ -56,15 +56,6 @@ export const WebNovelGroupStyled = styled.div`
           color: #000;
           margin-bottom: 3px;
         }
-        .group-agerank-off {
-          display: none;
-        }
-      }
-    }
-    .group-rank-on {
-      display: flex;
-      img {
-        height: 110px;
       }
     }
   }

@@ -109,13 +109,15 @@ const NewWrite = () => {
       <div className="newWrite-box">
         <div className="newWrite-left">
           {/* 카테고리 */}
-          <div className="newWrite-category">
-            <Select
-              defaultValue="장르"
-              style={{ width: 120 }}
-              onChange={handleCategoryChange}
-              options={categories}
-            />
+          <div className="newWrite-category-box">
+            <div className="newWrite-category">
+              <Select
+                defaultValue="장르"
+                style={{ width: 120 }}
+                onChange={handleCategoryChange}
+                options={categories}
+              />
+            </div>
           </div>
 
           {/* 제목 */}
