@@ -10,7 +10,6 @@ import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
 import google from "@/assets/images/sns_google.svg";
 
-import { snsLogin } from "@/features/auth/snsLogin";
 import { useDispatch } from "react-redux";
 // import { login } from "@/features/auth/authSlice"; // Redux 액션
 

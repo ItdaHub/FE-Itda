@@ -22,7 +22,9 @@
     "**/*.ts",
     "**/*.tsx",
     "next.config.js",
-    "next.config.js"
-, "src/features/BookAnimation"  ],
+    "next.config.js",
+    "src/features/BookAnimation",
+    "src/pages/app/page.js"
+  ],
   "exclude": ["node_modules"]
 }
