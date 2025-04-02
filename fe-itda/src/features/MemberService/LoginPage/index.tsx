@@ -92,6 +92,11 @@ const LoginPage = () => {
     window.location.href = NAVER_AUTH_URL;
   };
 
+  // 카카오 소셜 로그인
+  const kakalogin = () => {
+    window.location.href = "http://localhost:5001/auth/kakao";
+  };
+
   return (
     <LoginPageStyled className={clsx("login-wrap")}>
       <div className="login-box">
@@ -208,6 +213,7 @@ const LoginPage = () => {
           />
           <img
             // onClick={() => snsLogin("kakao")}
+            onClick={() => kakalogin()}
             className="login-logo"
             src={kakao.src}
             alt="카카오 로그인"
