@@ -6,6 +6,7 @@ import test from "@/assets/images/testImage.png";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import clsx from "clsx";
 import { useRouter } from "next/router";
+import KakaoShare from "@/components/KaKaoShare";
 
 interface NovelInfoType {
   img: string;
@@ -52,13 +53,13 @@ const NovelInfo = ({ data }: { data?: number }) => {
   const toggleLike = async () => {
     try {
       // 찜 axios post요청
-      // if (liked) {
-      //   await axios.post(`/api/unlike`, { novelId: data });
-      // setLikeCount((prev) => Math.max(prev - 1, 0));
-      // } else {
-      //   await axios.post(`/api/like`, { novelId: data });
-      //   setLikeCount((prev) => prev + 1);
-      // }
+      if (liked) {
+        //   await axios.post(`/api/unlike`, { novelId: data });
+        setLikeCount((prev) => Math.max(prev - 1, 0));
+      } else {
+        //   await axios.post(`/api/like`, { novelId: data });
+        setLikeCount((prev) => prev + 1);
+      }
       setLiked(!liked);
     } catch (error) {
       console.error("Error updating like status", error);
@@ -87,13 +88,18 @@ const NovelInfo = ({ data }: { data?: number }) => {
             함께하기
           </button>
         </div>
-        <div className="novelinfo-like-box" onClick={toggleLike}>
-          {liked ? (
-            <HeartFilled style={{ fontSize: "30px", color: "red" }} />
-          ) : (
-            <HeartOutlined style={{ fontSize: "30px" }} />
-          )}
-          <p>{novel.likeNum}</p>
+        <div className="novelinfo-like-wrap">
+          <div className="novelinfo-like-box" onClick={toggleLike}>
+            {liked ? (
+              <HeartFilled style={{ fontSize: "30px", color: "red" }} />
+            ) : (
+              <HeartOutlined style={{ fontSize: "30px" }} />
+            )}
+            <p>{likeCount}</p>
+          </div>
+          <div>
+            <KakaoShare />
+          </div>
         </div>
       </div>
     </NovelInfoStyled>

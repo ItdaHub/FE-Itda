@@ -48,10 +48,14 @@ export const NovelInfoStyled = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-right: 20px;
         &:hover {
           cursor: pointer;
         }
       }
+    }
+    .novelinfo-like-wrap {
+      display: flex;
     }
   }
 `;

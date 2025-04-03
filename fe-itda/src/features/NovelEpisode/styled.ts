@@ -1,36 +1,33 @@
 import styled from "styled-components";
 
 export const NovelEpisodeStyled = styled.div`
-  &.episode-wrap {
+  &.novelEpisode-wrap {
     width: 100%;
     max-width: 1020px;
     margin: 0 auto;
     padding: 30px 10px 0 10px;
 
-    .episode-info-box {
+    .novelEpisode-info-box {
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .episode-title {
+      .novelEpisode-title {
         font-size: 17px;
         line-height: 20px;
         font-weight: bolder;
-        .episode-num {
+        .novelEpisode-num {
           margin-left: 4px;
           letter-spacing: -0.3px;
           color: #999;
         }
       }
 
-      .episode-sort {
+      .novelEpisode-sort {
         display: flex;
         margin-top: 8px;
 
-        li {
-          list-style: none;
-        }
-
-        .episode-one::before {
+        .novelEpisode-one::before {
           display: inline-block;
           margin: 3px 14px 0;
           width: 1px;
@@ -39,8 +36,8 @@ export const NovelEpisodeStyled = styled.div`
           content: "";
         }
 
-        .episode-btn,
-        .episode-btn-one {
+        .novelEpisode-btn,
+        .novelEpisode-btn-one {
           cursor: pointer;
           border: none;
           background: transparent;
@@ -51,6 +48,19 @@ export const NovelEpisodeStyled = styled.div`
           color: #c47ad7;
         }
       }
+    }
+    .novelEpisode-list {
+      padding-left: 20px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(245, 245, 245);
+      }
+    }
+    li {
+      list-style: none;
     }
   }
 `;

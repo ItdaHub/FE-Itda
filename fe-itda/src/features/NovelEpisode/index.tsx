@@ -3,6 +3,7 @@ import { NovelEpisodeStyled } from "./styled";
 import Episode from "../Episode";
 import { useEffect, useState } from "react";
 import api from "@/utill/api";
+import { useRouter } from "next/router";
 
 type EpisodeType = {
   id: number;
@@ -14,30 +15,32 @@ const NovelEpisode = ({ data }: { data?: number }) => {
   const [activeCate, setActiveCate] = useState<boolean>(true);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
 
+  const router = useRouter();
+
   // 회차 표시는 프론트에서 처리
   const episodes = [
     {
-      id: 1,
+      id: 0,
       commentNum: 20,
       createDate: "2025.02.03",
     },
     {
-      id: 2,
+      id: 1,
       commentNum: 10,
       createDate: "2025.02.05",
     },
     {
-      id: 3,
+      id: 2,
       commentNum: 15,
       createDate: "2025.02.06",
     },
     {
-      id: 4,
+      id: 3,
       commentNum: 8,
       createDate: "2025.02.06",
     },
     {
-      id: 5,
+      id: 4,
       commentNum: 2,
       createDate: "2025.02.08",
     },
@@ -68,28 +71,30 @@ const NovelEpisode = ({ data }: { data?: number }) => {
   };
 
   return (
-    <NovelEpisodeStyled className={clsx("episode-wrap")}>
-      <div className="episode-info-box">
-        <div className="episode-title">
-          작품 회차 <span className="episode-num">({episode.length})</span>
+    <NovelEpisodeStyled className={clsx("novelEpisode-wrap")}>
+      <div className="novelEpisode-info-box">
+        <div className="novelEpisode-title">
+          작품 회차 <span className="novelEpisode-num">({episode.length})</span>
         </div>
-        <ul className="episode-sort">
+        <ul className="novelEpisode-sort">
           <li>
             <button
               onClick={() => {
                 handleSort(!activeCate);
               }}
-              className={`episode-btn ${activeCate === true ? "active" : ""}`}
+              className={`novelEpisode-btn ${
+                activeCate === true ? "active" : ""
+              }`}
             >
               최신순
             </button>
           </li>
-          <li className="episode-one">
+          <li className="novelEpisode-one">
             <button
               onClick={() => {
                 handleSort(!activeCate);
               }}
-              className={`episode-btn-one ${
+              className={`novelEpisode-btn-one ${
                 activeCate === true ? "" : "active"
               }`}
             >
@@ -98,14 +103,26 @@ const NovelEpisode = ({ data }: { data?: number }) => {
           </li>
         </ul>
       </div>
-      {episode.map((item: any, i: number) => (
-        <div key={i}>
-          <Episode
-            item={item}
-            index={activeCate === true ? i + 1 : episode.length - i}
-          />
-        </div>
-      ))}
+      <ul>
+        {episode.map((item: any, i: number) => (
+          <li
+            onClick={() => {
+              router.push(
+                `/chapter/${
+                  activeCate === true ? item.id : episode.length - (item.id + 1)
+                }`
+              );
+            }}
+            className="novelEpisode-list"
+            key={i}
+          >
+            <Episode
+              item={item}
+              index={activeCate === true ? i + 1 : episode.length - i}
+            />
+          </li>
+        ))}
+      </ul>
     </NovelEpisodeStyled>
   );
 };

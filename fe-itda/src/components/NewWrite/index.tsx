@@ -5,6 +5,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextArea from "antd/es/input/TextArea";
+import { InfoCircleFilled } from "@ant-design/icons";
+
+const people = [
+  { label: "5명", value: "five" },
+  { label: "7명", value: "seven" },
+  { label: "9명", value: "nine" },
+];
 
 const NewWrite = ({
   type,
@@ -20,6 +27,7 @@ const NewWrite = ({
 
   // 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedpeople, setSelectedPeople] = useState<string>("");
 
   // 작성한 제목
   const [title, setTitle] = useState<string>("");
@@ -57,6 +65,10 @@ const NewWrite = ({
     setSelectedCategory(value);
   };
 
+  const handlePeopleChange = (value: string) => {
+    setSelectedPeople(value);
+  };
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
@@ -89,6 +101,11 @@ const NewWrite = ({
       return;
     }
 
+    if (type === "new" && !selectedpeople) {
+      message.warning("인원수를 선택해주세요.");
+      return;
+    }
+
     if (type === "new" && title.length < 1) {
       message.warning("제목을 1자 이상 입력해주세요.");
       return;
@@ -103,6 +120,7 @@ const NewWrite = ({
       // 새로쓰기랑 이어쓰기 같은 axios보내도 되나??(이어쓰기는 카테고리랑 title이 빈값)
       await axios.post("/new/write", {
         category: selectedCategory,
+        peopleNum: selectedpeople,
         title,
         content,
       });
@@ -173,6 +191,16 @@ const NewWrite = ({
                   />
                 </div>
 
+                {/* 명수 제한 카테고리 */}
+                <div className="newWrite-category">
+                  <Select
+                    defaultValue="인원수"
+                    style={{ width: 120 }}
+                    onChange={handlePeopleChange}
+                    options={people}
+                  />
+                </div>
+
                 {/* 제목 */}
                 <div className="newWrite-title">
                   <Input
@@ -202,6 +230,22 @@ const NewWrite = ({
                 defaultValue={content}
                 style={{ height: 120, resize: "none" }}
               />
+
+              <div className="newWrite-info-box">
+                <div className="newWrite-info">
+                  <div className="newWrite-info-icon">
+                    <InfoCircleFilled
+                      style={{ fontSize: "12px", color: "#acacac" }}
+                    />
+                  </div>
+                  <div>
+                    <div className="newWrite-info-one">수정, 삭제 불가!</div>
+                    <div className="newWrite-info-two">
+                      한번의 기회만 주어집니다.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

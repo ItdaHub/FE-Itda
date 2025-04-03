@@ -33,7 +33,7 @@ export const NewWriteStyled = styled.div`
         }
 
         .newWrite-category {
-          margin: 0px 3px 0 30px;
+          margin: 0px 3px 3px 30px;
         }
         .newWrite-title {
           max-width: 430px;
@@ -68,6 +68,22 @@ export const NewWriteStyled = styled.div`
       margin: 0px 3px 5px 30px;
       font-size: 15px;
       color: #999;
+    }
+    .newWrite-info-box {
+      color: rgb(134, 134, 134);
+      font-size: 12px;
+    }
+    .newWrite-info {
+      display: flex;
+      align-items: start;
+      margin-top: 10px;
+      .newWrite-info-one,
+      .newWrite-info-two {
+        margin-left: 5px;
+      }
+      .newWrite-info-icon {
+        margin-top: 2px;
+      }
     }
   }
 `;
