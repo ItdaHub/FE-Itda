@@ -47,6 +47,9 @@ export const WebNovelGroupStyled = styled.div`
       gap: 10px;
       .group-each {
         margin-right: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .group-rank {
           display: block;
