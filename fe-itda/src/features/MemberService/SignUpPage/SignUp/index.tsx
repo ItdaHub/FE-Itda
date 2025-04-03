@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { SignUpStyled } from "./styled";
 import { useMemo, useState } from "react";
-import axios from "axios";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 // 비밀번호, 비밀번호 확인 유효성 검사
 import { validationPass, validationPassCheck } from "@/utill/vali";
+import api from "@/utill/api";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const SignUp = () => {
       console.log("전송할 이메일:", email); // 요청 전에 콘솔 출력
 
       // 입력한 아이디와 일치하는 데이터가 있는지 확인 요청
-      const response = await axios.post("/api/emailCheck", { email });
+      const response = await api.post("/auth/emailCheck", { email });
 
       console.log("서버 응답:", response.data); // 응답 로그 확인
       if (response.data.message) {
@@ -93,7 +93,7 @@ const SignUp = () => {
 
     try {
       console.log("닉네임 중복 확인 요청 값:", nickName);
-      const response = await axios.post("/api/nicknameCheck", { nickName });
+      const response = await api.post("/auth/nicknameCheck", { nickName });
       if (response.data.message) {
         setIsNickName(true);
         setnickNameSameError("이미 사용된 닉네임입니다.");
@@ -174,7 +174,7 @@ const SignUp = () => {
 
   //   try {
   //     console.log("전화번호중복 확인 요청 값:", phoneNumber);
-  //     const response = await axios.post("/api/phoneNumberCheck", {
+  //     const response = await api.post("/auth/phoneNumberCheck", {
   //       phoneNumber,
   //     });
   //     if (response.data.message) {
@@ -197,7 +197,7 @@ const SignUp = () => {
     e.preventDefault(); // 폼 기본 동작 방지
 
     try {
-      const response = await axios.post("/api/signup", {
+      const response = await api.post("/auth/signup", {
         email,
         password,
         nickName,

@@ -89,7 +89,10 @@ const Category = ({
             />
 
             {/* 새로쓰기 버튼 */}
-            <div className="write-btn" onClick={() => router.push("/newwrite")}>
+            <div
+              className="write-btn"
+              onClick={() => router.push("/newwrite?type=new")}
+            >
               새로쓰기
             </div>
           </div>

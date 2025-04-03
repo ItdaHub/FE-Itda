@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import axios from "axios";
-
+import api from "@/utill/api";
 import { LoginPageStyled } from "./styled";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -9,13 +8,14 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import naver from "@/assets/images/sns_naver.svg";
 import kakao from "@/assets/images/sns_kakao.svg";
 import google from "@/assets/images/sns_google.svg";
-
-import { snsLogin } from "@/features/auth/snsLogin";
+import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-// import { login } from "@/features/auth/authSlice"; // Redux 액션
+import { setUser } from "@/features/auth/authSlice";
+import { AppDispatch } from "../../../../store/store";
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   // 비밀번호 토글 버튼
   const [toggle, setToggle] = useState(true);
@@ -27,8 +27,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   // 오류메시지지
   const [errorMessage, setErrorMessage] = useState("");
-
-  const router = useRouter();
 
   // 로그인 상태유지 토글
   const handleLoginStayChange = () => {
@@ -51,8 +49,8 @@ const LoginPage = () => {
     }
 
     try {
-      // Axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
-      const response = await axios.get("/auth/login", {
+      // axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
+      const response = await api.get("/auth/login", {
         params: {
           email,
           password,
@@ -76,25 +74,34 @@ const LoginPage = () => {
     }
   };
 
-  // 콜백 url
-  // const REDIRECT_URL = "http://localhost:5001/auth/naver";
-
-  const NAVER_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-  const NAVER_CALLBACK_URL = encodeURIComponent(
-    process.env.NEXT_PUBLIC_NAVER_CALLBACK_URL || ""
-  );
-  const STATE = "random_state_string"; // CSRF 방지를 위한 값
-
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_CALLBACK_URL}&state=${STATE}`;
-
   // 네이버 소셜 로그인
   const naverLogin = () => {
-    window.location.href = NAVER_AUTH_URL;
+    window.location.href = "/auth/naver";
   };
 
   // 카카오 소셜 로그인
-  const kakalogin = () => {
-    window.location.href = "http://localhost:5001/auth/kakao";
+  const kakalogin = async () => {
+    try {
+      const response = await api.get("/auth/kakao");
+
+      if (response.data.token) {
+        // 1. 토큰을 쿠키에 저장 (만료 7일)
+        Cookies.set("access_token", response.data.token, { expires: 7 });
+
+        // 2. Redux에 사용자 정보 저장
+        dispatch(setUser(response.data.user));
+
+        // 3. 메인 페이지로 이동
+        router.push("/main");
+      }
+    } catch (error) {
+      console.error("카카오 로그인 실패:", error);
+    }
+  };
+
+  // 구글 소셜 로그인
+  const googlelogin = () => {
+    window.location.href = "/auth/google";
   };
 
   return (
@@ -205,21 +212,19 @@ const LoginPage = () => {
 
         <div>
           <img
-            // onClick={() => snsLogin("naver")}
             onClick={() => naverLogin()}
             className="login-logo"
             src={naver.src}
             alt="네이버 로그인"
           />
           <img
-            // onClick={() => snsLogin("kakao")}
             onClick={() => kakalogin()}
             className="login-logo"
             src={kakao.src}
             alt="카카오 로그인"
           />
           <img
-            // onClick={() => snsLogin("google")}
+            onClick={() => googlelogin()}
             className="login-logo"
             src={google.src}
             alt="구글 로그인"

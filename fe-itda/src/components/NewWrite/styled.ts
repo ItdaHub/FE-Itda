@@ -7,13 +7,26 @@ export const NewWriteStyled = styled.div`
     padding: 0 10px;
 
     .newWrite-box {
+      display: flex;
       border: 1px solid #adadad;
       height: 500px;
       margin-top: 10px;
+
+      .newWrite-AI-Off {
+        display: none;
+      }
       .newWrite-left {
-        max-width: 500px;
-        height: 100%;
+        width: 50%;
         border-right: 1px solid #adadad;
+        .newWrite-content {
+          margin: 10px 3px 0 30px;
+          max-width: 430px;
+        }
+      }
+      .newWrite-right {
+        max-width: 500px;
+        width: 50%;
+        height: 100%;
 
         .newWrite-category-box {
           padding-top: 30px;
@@ -37,10 +50,24 @@ export const NewWriteStyled = styled.div`
           max-width: 430px;
         }
       }
+
+      .newWrite-rightborder {
+        border-right: 1px solid #adadad;
+      }
     }
     .newWrite-btn {
       float: right;
       margin-top: 5px;
+    }
+    .newWrite-relay-genre {
+      margin: 0px 3px 5px 30px;
+      font-size: 13px;
+      color: #999;
+    }
+    .newWrite-relay-title {
+      margin: 0px 3px 5px 30px;
+      font-size: 15px;
+      color: #999;
     }
   }
 `;

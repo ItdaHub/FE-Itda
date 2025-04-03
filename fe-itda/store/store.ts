@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userSlice";
+import authReducer from "@/features/auth/authSlice";
 
 export const store = configureStore({
   reducer: {
-    user: userReducer, // userSlice를 reducer로 추가
+    auth: authReducer,
   },
 });
 

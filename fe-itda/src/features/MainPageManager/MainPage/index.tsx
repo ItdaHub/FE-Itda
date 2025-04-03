@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MainPageStyled } from "./styled";
 import Category from "@/features/Category";
 import clsx from "clsx";
+import PaymentCheckoutPage from "@/features/PaymentCheckoutPage";
 
 const MainPage = () => {
   // 카테고리 [[],[]]형태
@@ -42,6 +43,7 @@ const MainPage = () => {
 
   return (
     <MainPageStyled className={clsx("main-wrap")}>
+      <PaymentCheckoutPage />
       {/* 카테고리 */}
       <Category
         type={type}
