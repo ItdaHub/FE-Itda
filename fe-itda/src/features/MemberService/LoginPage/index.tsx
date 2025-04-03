@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import axios from "axios";
+import api from "@/utill/api";
 import { LoginPageStyled } from "./styled";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -49,8 +49,8 @@ const LoginPage = () => {
     }
 
     try {
-      // Axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
-      const response = await axios.get("/auth/login", {
+      // axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
+      const response = await api.get("/auth/login", {
         params: {
           email,
           password,
@@ -76,13 +76,13 @@ const LoginPage = () => {
 
   // 네이버 소셜 로그인
   const naverLogin = () => {
-    window.location.href = "http://localhost:5001/auth/naver";
+    window.location.href = "/auth/naver";
   };
 
   // 카카오 소셜 로그인
   const kakalogin = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/auth/kakao");
+      const response = await api.get("/auth/kakao");
 
       if (response.data.token) {
         // 1. 토큰을 쿠키에 저장 (만료 7일)
@@ -101,7 +101,7 @@ const LoginPage = () => {
 
   // 구글 소셜 로그인
   const googlelogin = () => {
-    window.location.href = "http://localhost:5001/auth/google";
+    window.location.href = "/auth/google";
   };
 
   return (
