@@ -26,6 +26,8 @@ const NewWrite = ({
 
   // 작성한 내용
   const [content, setContent] = useState<string>("");
+  const [aiquestion, setAIquestion] = useState<string>("");
+  const [aianswer, setAIanswer] = useState<string>("");
 
   const router = useRouter();
 
@@ -62,6 +64,23 @@ const NewWrite = ({
   // 내용 입력
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+  };
+
+  // 내가 물어본 내용
+  const handleAIquestionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setAIquestion(e.target.value);
+  };
+
+  // ai의 답변
+  const handleAIanswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAIanswer(e.target.value);
+  };
+
+  // ai답변 사용하기
+  const useAIanswer = () => {
+    setContent(aianswer);
   };
 
   const handleSubmit = async () => {
@@ -107,7 +126,40 @@ const NewWrite = ({
       )}
 
       <div className="newWrite-box">
-        <div className="newWrite-left">
+        <div className={type === "new" ? "newWrite-left" : "newWrite-AI-Off"}>
+          <div className="newWrite-content">
+            나
+            <TextArea
+              showCount
+              minLength={10}
+              maxLength={300}
+              value={aiquestion}
+              onChange={handleAIquestionChange}
+              placeholder="AI에게 첫내용을 추천해받아보세요(10~300자)"
+              style={{ height: 60, resize: "none" }}
+            />
+            <Button>물어보기</Button>
+          </div>
+          <div className="newWrite-content">
+            AI
+            <TextArea
+              showCount
+              minLength={10}
+              maxLength={300}
+              value={aianswer}
+              onChange={handleAIanswerChange}
+              placeholder="AI답변이 입력됩니다"
+              style={{ height: 120, resize: "none" }}
+            />
+            <Button onClick={useAIanswer}>사용하기</Button>
+          </div>
+        </div>
+
+        <div
+          className={`newWrite-right ${
+            type === "new" ? "" : "newWrite-rightborder"
+          }`}
+        >
           <div className="newWrite-category-box">
             {type === "new" ? (
               <>
@@ -147,6 +199,7 @@ const NewWrite = ({
                 value={content}
                 onChange={handleContentChange}
                 placeholder="내용을 입력해주세요(10~300자)"
+                defaultValue={content}
                 style={{ height: 120, resize: "none" }}
               />
             </div>
