@@ -1,6 +1,7 @@
 import { NovelEpisodeStyled } from "./styled";
 
 const NovelEpisode = ({ data }: { data?: number }) => {
+  // 회차 표시는 프론트에서 처리
   const episode = {
     id: 1,
     commentNum: 20,

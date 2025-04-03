@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const NovelInfoStyled = styled.div`
   &.novelinfo-wrap {
+    border-bottom: 1px solid #ebebeb;
     width: 100%;
     max-width: 1020px;
     display: flex;
-    padding: 50px 10px 0 10px;
+    padding: 50px 10px 50px 10px;
     margin: 0 auto;
 
     .novelinfo-img {
