@@ -27,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       {/* <ThemeProvider theme={theme}> */}
+      {/* 로그인 유지 체크 */}
       <AuthHandler />
       <Header />
       <Component {...pageProps} />

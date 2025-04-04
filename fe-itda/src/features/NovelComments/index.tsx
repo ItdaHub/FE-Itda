@@ -104,12 +104,12 @@ const NovelComments = ({ data }: { data?: number }) => {
       {/* 댓글 목록 */}
       <ul>
         {reviews.map((item, i) => (
-          <>
-            <li key={i}>
+          <div key={i}>
+            <li>
               <Comment item={item} />
             </li>
             <div className={i + 1 !== review.length ? "stick" : ""}></div>
-          </>
+          </div>
         ))}
       </ul>
     </NovelCommentStyled>
