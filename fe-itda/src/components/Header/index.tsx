@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import search from "@/assets/images/search.svg";
 import louder from "@/assets/images/louder.svg";
-import alram from "@/assets/images/alram.svg";
+import alert from "@/assets/images/alram.svg";
 import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
@@ -72,12 +72,24 @@ const Header = () => {
 
           {/* 공지사항 */}
           <div className="header-louder">
-            <Image src={louder} alt="louder" />
+            <Image
+              src={louder}
+              alt="louder"
+              onClick={() => {
+                router.push("/notice");
+              }}
+            />
           </div>
 
           {/* 알림 */}
           <div className="header-alram">
-            <Image src={alram} alt="alram" />
+            <Image
+              src={alert}
+              alt="alert"
+              onClick={() => {
+                router.push("/alert");
+              }}
+            />
           </div>
 
           {/* 로그인 */}
