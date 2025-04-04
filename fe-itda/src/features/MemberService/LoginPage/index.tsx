@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
 import { AppDispatch } from "../../../../store/store";
+import axios from "axios";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -76,13 +77,13 @@ const LoginPage = () => {
 
   // 네이버 소셜 로그인
   const naverLogin = () => {
-    window.location.href = "/auth/naver";
+    window.location.href = "http://localhost:5001/auth/naver";
   };
 
   // 카카오 소셜 로그인
   const kakalogin = async () => {
     try {
-      const response = await api.get("/auth/kakao");
+      const response = await axios.get("http://localhost:5001/auth/kakao");
 
       if (response.data.token) {
         // 1. 토큰을 쿠키에 저장 (만료 7일)

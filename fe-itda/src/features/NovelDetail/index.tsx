@@ -1,6 +1,7 @@
 import { NovelDetailStyled } from "./styled";
 import NovelInfo from "../NovelInfo";
 import NovelEpisode from "../NovelEpisode";
+import NovelComments from "../NovelComments";
 
 // data->작품의 Id
 const NovelDetail = ({ data }: { data?: number }) => {
@@ -8,6 +9,7 @@ const NovelDetail = ({ data }: { data?: number }) => {
     <NovelDetailStyled>
       <NovelInfo data={data} />
       <NovelEpisode data={data} />
+      <NovelComments data={data} />
     </NovelDetailStyled>
   );
 };

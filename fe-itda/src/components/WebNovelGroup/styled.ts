@@ -34,6 +34,7 @@ export const WebNovelGroupStyled = styled.div`
     }
 
     .group-ageTab::before {
+      display: inline-block;
       margin: 3px 14px 0;
       width: 1px;
       height: 12px;
