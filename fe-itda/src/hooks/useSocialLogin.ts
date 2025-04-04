@@ -25,7 +25,6 @@ export const useSocialLogin = (provider: "google" | "naver" | "kakao") => {
             },
           });
 
-          console.log(response.data.user);
           // 3. Redux에 저장
           dispatch(setUser(response.data.user));
 

@@ -191,8 +191,8 @@ const Header = () => {
             <ProfilePopover
               content={content}
               trigger="click"
-              visible={visible}
-              onVisibleChange={setVisible}
+              // visible={visible}
+              // onVisibleChange={setVisible}
               placement="bottomRight" // 클릭한 곳의 아래 오른쪽에 배치
             >
               <div className="header-profile" style={{ cursor: "pointer" }}>
