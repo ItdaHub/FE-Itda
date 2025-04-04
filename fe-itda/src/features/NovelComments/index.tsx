@@ -30,6 +30,7 @@ const NovelComments = ({ data }: { data?: number }) => {
   const review = [
     {
       id: 1,
+      writerId: 1,
       writer: "김강",
       date: "2025.03.25",
       comment: "재밌다",
@@ -39,6 +40,7 @@ const NovelComments = ({ data }: { data?: number }) => {
     {
       id: 2,
       parentId: 1,
+      writerId: 2,
       writer: "라라",
       date: "2025.03.25",
       comment: "다음편 궁금하네",
@@ -47,6 +49,7 @@ const NovelComments = ({ data }: { data?: number }) => {
     },
     {
       id: 3,
+      writerId: 1,
       writer: "마우스",
       date: "2025.03.27",
       comment: "오 뭐야",

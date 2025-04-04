@@ -2,7 +2,7 @@ import { LikeFilled, LikeOutlined, MoreOutlined } from "@ant-design/icons";
 import { CommentStyled } from "./styled";
 import { useState } from "react";
 import axios from "axios";
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, MenuProps, message } from "antd";
 import Swal from "sweetalert2";
 
 const Comment = ({ item }: { item?: any }) => {
@@ -41,6 +41,7 @@ const Comment = ({ item }: { item?: any }) => {
     }
   };
 
+  // 삭제하기 요청
   const deleteComment = async () => {
     Swal.fire({
       icon: "question",
@@ -63,10 +64,44 @@ const Comment = ({ item }: { item?: any }) => {
     });
   };
 
-  const items: MenuProps["items"] = [
+  // 신고하기 요청
+  const decareComment = async () => {
+    Swal.fire({
+      icon: "question",
+      title: "신고하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니오",
+      confirmButtonColor: "#429f50",
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // axios 댓글 신고 요청(해당 댓글의 id)
+          await axios.delete(`/delete/declare/${item.id}`);
+          message.success("신고되었습니다.");
+        } catch (e) {
+          console.error("댓글 신고 실패: ", e);
+          Swal.fire("댓글 신고에 실패했습니다.");
+        }
+      }
+    });
+  };
+
+  // 로그인한 사용자
+  const userId = 1;
+
+  const itemDelete: MenuProps["items"] = [
     {
       label: <div onClick={deleteComment}>삭제</div>,
       key: "0",
+    },
+  ];
+
+  const itemDeclare: MenuProps["items"] = [
+    {
+      label: <div onClick={deleteComment}>신고</div>,
+      key: "1",
     },
   ];
 
@@ -75,7 +110,12 @@ const Comment = ({ item }: { item?: any }) => {
       <div>
         <div className="comment-more">
           <div className="comment-writer">{item.writer}</div>
-          <Dropdown menu={{ items }} trigger={["click"]}>
+          <Dropdown
+            menu={{
+              items: userId === item.writerId ? itemDelete : itemDeclare,
+            }}
+            trigger={["click"]}
+          >
             <a onClick={(e) => e.preventDefault()}>
               <div className="more">
                 <MoreOutlined />
