@@ -75,34 +75,33 @@ const LoginPage = () => {
     }
   };
 
-  // 네이버 소셜 로그인
-  const naverLogin = () => {
-    window.location.href = "http://localhost:5001/auth/naver";
-  };
-
-  // 카카오 소셜 로그인
-  const kakalogin = async () => {
+  const handleSocialLogin = async (platform: "kakao" | "naver" | "google") => {
     try {
-      const response = await axios.get("http://localhost:5001/auth/kakao");
-
+      const response = await api.get(`/auth/callback/${platform}`);
       if (response.data.token) {
         // 1. 토큰을 쿠키에 저장 (만료 7일)
         Cookies.set("access_token", response.data.token, { expires: 7 });
-
         // 2. Redux에 사용자 정보 저장
         dispatch(setUser(response.data.user));
-
         // 3. 메인 페이지로 이동
         router.push("/main");
       }
     } catch (error) {
-      console.error("카카오 로그인 실패:", error);
+      console.error(`${platform} 로그인 실패:`, error);
     }
   };
 
-  // 구글 소셜 로그인
-  const googlelogin = () => {
-    window.location.href = "/auth/google";
+  const naverLogin = async () => {
+    window.location.href = "http://localhost:5001/auth/naver";
+    await handleSocialLogin("naver");
+  };
+  const kakalogin = async () => {
+    window.location.href = "http://localhost:5001/auth/kakao";
+    await handleSocialLogin("kakao");
+  };
+  const googlelogin = async () => {
+    window.location.href = "http://localhost:5001/auth/google";
+    await handleSocialLogin("google");
   };
 
   return (

@@ -80,25 +80,25 @@ const NovelEpisode = ({ data }: { data?: number }) => {
           <li>
             <button
               onClick={() => {
-                handleSort(!activeCate);
+                handleSort(true);
               }}
               className={`novelEpisode-btn ${
                 activeCate === true ? "active" : ""
               }`}
             >
-              최신순
+              1화부터
             </button>
           </li>
           <li className="novelEpisode-one">
             <button
               onClick={() => {
-                handleSort(!activeCate);
+                handleSort(false);
               }}
               className={`novelEpisode-btn-one ${
                 activeCate === true ? "" : "active"
               }`}
             >
-              1화부터
+              최신순
             </button>
           </li>
         </ul>
