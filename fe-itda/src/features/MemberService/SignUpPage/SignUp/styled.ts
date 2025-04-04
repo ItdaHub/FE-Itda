@@ -29,6 +29,7 @@ export const SignUpStyled = styled.div`
 
     p {
       height: 15px;
+      line-height: 1;
     }
   }
 
@@ -97,6 +98,12 @@ export const SignUpStyled = styled.div`
 
   .error-message {
     font-size: 14px;
+    color: red;
+  }
+  .green-text {
+    color: green;
+  }
+  .red-text {
     color: red;
   }
 
