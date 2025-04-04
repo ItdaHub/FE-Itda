@@ -12,7 +12,7 @@ type EpisodeType = {
 };
 
 const NovelEpisode = ({ data }: { data?: number }) => {
-  const [activeCate, setActiveCate] = useState<boolean>(true);
+  const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
 
   const router = useRouter();
@@ -85,18 +85,6 @@ const NovelEpisode = ({ data }: { data?: number }) => {
           <li>
             <button
               onClick={() => {
-                handleSort(true);
-              }}
-              className={`novelEpisode-btn ${
-                activeCate === true ? "active" : ""
-              }`}
-            >
-              1화부터
-            </button>
-          </li>
-          <li className="novelEpisode-one">
-            <button
-              onClick={() => {
                 handleSort(false);
               }}
               className={`novelEpisode-btn-one ${
@@ -104,6 +92,18 @@ const NovelEpisode = ({ data }: { data?: number }) => {
               }`}
             >
               최신순
+            </button>
+          </li>
+          <li className="novelEpisode-one">
+            <button
+              onClick={() => {
+                handleSort(true);
+              }}
+              className={`novelEpisode-btn ${
+                activeCate === true ? "active" : ""
+              }`}
+            >
+              1화부터
             </button>
           </li>
         </ul>
