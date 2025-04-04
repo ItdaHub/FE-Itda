@@ -23,7 +23,7 @@ const content = (
   </div>
 );
 
-const NovelComments = ({ data }: { data?: number }) => {
+const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
   // 댓글 목록 저장
   const [reviews, setReviews] = useState<ReviewType[]>([]);
 
@@ -80,7 +80,7 @@ const NovelComments = ({ data }: { data?: number }) => {
       {/* 댓글 개수 */}
       <div className="novelComment-review">
         <div className="novelComment-review-title">
-          작품리뷰 {review.length}
+          {type === "chapter" ? "댓글" : "작품리뷰"} {review.length}
         </div>
         <Popover
           placement="bottom"
