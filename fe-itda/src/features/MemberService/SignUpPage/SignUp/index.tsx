@@ -20,10 +20,10 @@ const SignUp = () => {
   const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
 
   // 중복확인 에러 메시지 상태 관리
-  const [errorMessage, setErrorMessage] = useState("");
-  const [emailSameError, setEmailSameError] = useState("");
-  const [nickNameSameError, setnickNameSameError] = useState("");
-  const [phoneNumberSameError, setPhoneNumberSameError] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
+  // const [emailSameError, setEmailSameError] = useState("");
+  // const [nickNameSameError, setnickNameSameError] = useState("");
+  // const [phoneNumberSameError, setPhoneNumberSameError] = useState("");
 
   // 각 필드의 입력 값
   const [email, setEmail] = useState("");
@@ -51,26 +51,25 @@ const SignUp = () => {
     e.preventDefault();
 
     if (!email) {
-      setEmailError("아이디를 입력해주세요.");
+      setEmailError("이메일를 입력해주세요.");
       return;
     }
     try {
-      console.log("전송할 이메일:", email); // 요청 전에 콘솔 출력
-
       // 입력한 아이디와 일치하는 데이터가 있는지 확인 요청
       const response = await api.post("/auth/emailCheck", { email });
 
-      console.log("서버 응답:", response.data); // 응답 로그 확인
-      if (response.data.message) {
+      if (!response.data.message) {
         setIsEmail(true);
-        setErrorMessage("이미 사용된 이메일입니다.");
+        setEmailError("이미 사용된 이메일입니다.");
       } else {
         setIsEmail(false);
-        setErrorMessage("");
+        setEmailError(response.data.message);
       }
     } catch (error) {
       console.error("이메일 중복 확인 오류", error);
-      setErrorMessage("이메일 중복 확인 오류 발생");
+      setEmailError("이메일 중복 확인 오류 발생");
+    } finally {
+      setDisabled(false); // 요청 완료 후 버튼 활성화
     }
   };
 
@@ -91,19 +90,24 @@ const SignUp = () => {
       return;
     }
 
+    if (nickName.length < 2) {
+      setNickNameError("닉네임은 2자 이상이어야 합니다.");
+      return;
+    }
+
     try {
-      console.log("닉네임 중복 확인 요청 값:", nickName);
       const response = await api.post("/auth/nicknameCheck", { nickName });
-      if (response.data.message) {
+
+      if (!response.data.message) {
         setIsNickName(true);
-        setnickNameSameError("이미 사용된 닉네임입니다.");
+        setNickNameError("이미 사용된 닉네임입니다.");
       } else {
         setIsNickName(false);
-        setnickNameSameError("");
+        setNickNameError(response.data.message);
       }
     } catch (error) {
       console.error("닉네임 중복 확인 오류", error);
-      setnickNameSameError("닉네임 중복 확인 오류 발생");
+      setNickNameError("닉네임 중복 확인 오류 발생");
     } finally {
       setDisabled(false); // 요청 완료 후 버튼 활성화
     }
@@ -275,9 +279,19 @@ const SignUp = () => {
               }}
             />
 
-            <p className="error-message">{emailError}</p>
+            {/* <p className="error-message">{emailError}</p> */}
+            <p
+              className={`error-message ${
+                emailError === "사용 가능한 이메일입니다."
+                  ? "green-text"
+                  : emailError
+                  ? "red-text"
+                  : ""
+              }`}
+            >
+              {emailError}
+            </p>
 
-            {isEmail && <p>{errorMessage}</p>}
             <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인
             </button>
@@ -373,9 +387,19 @@ const SignUp = () => {
               maxLength={8}
             />
 
-            <p className="error-message">{nickNameError}</p>
+            {/* <p className="error-message">{nickNameError}</p> */}
+            <p
+              className={`error-message ${
+                nickNameError === "사용 가능한 닉네임입니다."
+                  ? "green-text"
+                  : nickNameError
+                  ? "red-text"
+                  : ""
+              }`}
+            >
+              {nickNameError}
+            </p>
 
-            {isNickName && <p>{nickNameSameError}</p>}
             <button className="same-nick-check-btn" onClick={checkNickName}>
               중복확인
             </button>
