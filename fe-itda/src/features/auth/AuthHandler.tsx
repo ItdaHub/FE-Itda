@@ -13,12 +13,13 @@ const AuthHandler = () => {
       const token = Cookies.get("access_token");
 
       if (token && !user) {
-        // ✅ Redux에 유저 정보가 없을 때만 요청
+        // Redux에 유저 정보가 없을 때만 요청
         try {
-          const response = await api.get("/auth/me", {
+          const response = await api.get("/auth/login", {
             headers: { Authorization: `Bearer ${token}` },
           });
-          dispatch(setUser(response.data.user)); // ✅ Redux에 저장
+          console.log(response.data);
+          dispatch(setUser(response.data.user)); // Redux에 저장
         } catch (error) {
           console.error("유저 정보 가져오기 실패:", error);
         }
@@ -26,7 +27,7 @@ const AuthHandler = () => {
     };
 
     fetchUser();
-  }, [dispatch, user]); // ✅ user가 없을 때만 실행
+  }, [dispatch, user]); // user가 없을 때만 실행
 
   return null;
 };

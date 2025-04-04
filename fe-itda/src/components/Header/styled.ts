@@ -55,11 +55,17 @@ export const HeaderStyled = styled.div`
 
         .header-louder,
         .header-alram,
-        .header-login {
+        .header-login,
+        .header-profile {
+          display: flex;
+          align-items: center;
           margin-left: 15px;
           &:hover {
             cursor: pointer;
           }
+        }
+        .header-arrow {
+          margin-left: 8px;
         }
       }
     }

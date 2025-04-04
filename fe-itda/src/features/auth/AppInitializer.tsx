@@ -13,9 +13,10 @@ const AppInitializer = () => {
 
       if (token) {
         try {
-          const response = await axios.get("http://localhost:5001/auth/me", {
+          const response = await axios.get("http://localhost:5001/auth/login", {
             headers: { Authorization: `Bearer ${token}` },
           });
+          console.log(response.data.user);
           dispatch(setUser(response.data.user)); // Redux에 유저 정보 저장
         } catch (error) {
           console.error("유저 정보 가져오기 실패:", error);

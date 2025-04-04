@@ -26,7 +26,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   // 비밀번호
   const [password, setPassword] = useState("");
-  // 오류메시지지
+  // 오류메시지
   const [errorMessage, setErrorMessage] = useState("");
 
   // 로그인 상태유지 토글
@@ -75,33 +75,14 @@ const LoginPage = () => {
     }
   };
 
-  const handleSocialLogin = async (platform: "kakao" | "naver" | "google") => {
-    try {
-      const response = await api.get(`/auth/callback/${platform}`);
-      if (response.data.token) {
-        // 1. 토큰을 쿠키에 저장 (만료 7일)
-        Cookies.set("access_token", response.data.token, { expires: 7 });
-        // 2. Redux에 사용자 정보 저장
-        dispatch(setUser(response.data.user));
-        // 3. 메인 페이지로 이동
-        router.push("/main");
-      }
-    } catch (error) {
-      console.error(`${platform} 로그인 실패:`, error);
-    }
-  };
-
   const naverLogin = async () => {
     window.location.href = "http://localhost:5001/auth/naver";
-    await handleSocialLogin("naver");
   };
   const kakalogin = async () => {
     window.location.href = "http://localhost:5001/auth/kakao";
-    await handleSocialLogin("kakao");
   };
   const googlelogin = async () => {
     window.location.href = "http://localhost:5001/auth/google";
-    await handleSocialLogin("google");
   };
 
   return (
