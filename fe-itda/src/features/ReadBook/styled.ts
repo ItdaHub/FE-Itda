@@ -50,16 +50,25 @@ export const ReadBookStyled = styled.div`
 
       button {
         padding: 8px 16px;
-        background-color: #ffeedb;
         border: none;
         border-radius: 6px;
         cursor: pointer;
         transition: background-color 0.2s;
-
-        &:hover {
-          background-color: #ffd9b3;
-        }
       }
+    }
+    .readbook-page.full {
+      width: 100%;
+      padding: 32px 24px;
+      font-size: 16px;
+      line-height: 1.7;
+      white-space: pre-line;
+      min-height: 500px;
+      box-sizing: border-box;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: var(--primary-color);
     }
 
     @media (max-width: 768px) {

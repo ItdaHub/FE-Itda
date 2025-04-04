@@ -73,7 +73,7 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
     };
 
     fetchReviews();
-  }, []);
+  }, [data]);
 
   return (
     <NovelCommentStyled className={clsx("novelComment-wrap")}>
