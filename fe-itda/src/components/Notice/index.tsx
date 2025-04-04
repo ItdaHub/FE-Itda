@@ -1,7 +1,8 @@
 import React from "react";
 import { Collapse } from "antd";
-
 const { Panel } = Collapse; // Panel을 Collapse에서 가져옴
+import { NoticeStyled } from "./styled";
+import clsx from "clsx";
 
 interface Props {
   title: string;
@@ -10,29 +11,57 @@ interface Props {
     title: string;
     content: string;
     priorityLabel?: string;
+    date: string;
   }[];
   onChange?: (keys: string | string[]) => void; // onChange를 props로 받음
 }
 
 const DropdownList = ({ title, items, onChange }: Props) => {
   return (
-    <div className="drop-box">
-      <h2 className="drop-title">{title}</h2>
-      <Collapse expandIconPosition="end" onChange={onChange}>
-        {items.map((item) => (
-          <Panel
-            key={item.key}
-            header={
-              item.priorityLabel
-                ? `[${item.priorityLabel}] ${item.title}`
-                : item.title
-            }
-          >
-            <p>{item.content}</p>
-          </Panel>
-        ))}
-      </Collapse>
-    </div>
+    <NoticeStyled className={clsx("notice-wrap")}>
+      <div className="notice-box">
+        <h2 className="notice-title">{title}</h2>
+        <Collapse expandIconPosition="end" onChange={onChange}>
+          {items.map((item, index) => (
+            <Panel
+              key={item.key}
+              header={
+                // item.priorityLabel
+                //   ? `[${item.priorityLabel}] ${item.title}`
+                //   : item.title
+                item.priorityLabel ? (
+                  //❗priorityLabel이 있을 때
+                  <div className="dropdown-header">
+                    <div className="dropdown-header-title">
+                      <span className={`label ${item.priorityLabel}`}>
+                        [{item.priorityLabel}]
+                      </span>
+                      <span>{item.title}</span>
+                    </div>
+                    <div>
+                      <span>{item.date}</span>
+                    </div>
+                  </div>
+                ) : (
+                  // ❗priorityLabel이 없을 때 (넘버링 스타일)
+                  <div className="dropdown-header">
+                    <div className="dropdown-header-title">
+                      <span className="label no-priority">{index + 1}</span>
+                      <span>{item.title}</span>
+                    </div>
+                    <div>
+                      <span>{item.date}</span>
+                    </div>
+                  </div>
+                )
+              }
+            >
+              <p>{item.content}</p>
+            </Panel>
+          ))}
+        </Collapse>
+      </div>
+    </NoticeStyled>
   );
 };
 

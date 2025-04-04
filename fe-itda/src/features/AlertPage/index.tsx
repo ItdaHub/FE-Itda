@@ -6,16 +6,19 @@ const alertItems = [
     key: "1",
     title: "This is panel header 1",
     content: "오늘 하루는 어떠신가요?",
+    date: "2025.03.22",
   },
   {
     key: "2",
     title: "This is panel header 2",
     content: "블랙리스트가 되셨습니다.",
+    date: "2025.03.22",
   },
   {
     key: "3",
     title: "This is panel header 3",
     content: "집에 가고 싶나요?",
+    date: "2025.03.22",
   },
 ];
 
