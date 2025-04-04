@@ -2,9 +2,9 @@ import WebNovel from "@/features/WebNovel";
 import { WebNovelGroupStyled } from "./styled";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import test from "@/assets/images/testImage.png";
+import api from "@/utill/api";
 
 // 연령 카테고리
 const ageGroups = [
@@ -32,8 +32,8 @@ const WebNovelGroup = ({
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        console.log(type, genre);
-        // const response = await axios.get("/api/novels", {
+        // console.log(type, genre);
+        // const response = await api.get("/novels", {
         //   // 타입과 장르에 맞는 작품
         //   params: { type, genre },
         // });

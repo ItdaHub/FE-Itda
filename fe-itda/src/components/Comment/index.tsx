@@ -1,11 +1,14 @@
 import { LikeFilled, LikeOutlined, MoreOutlined } from "@ant-design/icons";
 import { CommentStyled } from "./styled";
 import { useState } from "react";
-import axios from "axios";
 import { Dropdown, MenuProps, message } from "antd";
 import Swal from "sweetalert2";
+import api from "@/utill/api";
+import { useAppSelector } from "../../../store/hooks";
 
 const Comment = ({ item }: { item?: any }) => {
+  // 유저 정보 가져오기
+  const user = useAppSelector((state) => state.auth.user);
   const [isLiked, setIsLiked] = useState(item.isliked);
   const [likeCount, setLikeCount] = useState(item.likeNum);
 
@@ -20,17 +23,11 @@ const Comment = ({ item }: { item?: any }) => {
     try {
       if (isLiked) {
         // 좋아요 취소 요청
-        // await axios.post("/api/unlike", {
-        //   commentId: item.id,
-        //   userId: userId,
-        // });
+        // await api.delete(`/likes/comment/${user.id}/${item.id}`);
         setLikeCount((prev: number) => prev - 1);
       } else {
         // 좋아요 추가 요청
-        // await axios.post("/api/like", {
-        //   commentId: item.id,
-        //   userId: userId,
-        // });
+        // await api.post(`/likes/comment/${user.id}/${item.id}`);
         setLikeCount((prev: number) => prev + 1);
       }
 
@@ -55,7 +52,7 @@ const Comment = ({ item }: { item?: any }) => {
       if (result.isConfirmed) {
         try {
           // axios 댓글 삭제 요청
-          await axios.delete(`/delete/comment/${item.id}`);
+          await api.delete(`/comments/${item.id}`);
         } catch (e) {
           console.error("댓글 삭제 실패: ", e);
           Swal.fire("댓글 삭제에 실패했습니다.");
@@ -78,7 +75,7 @@ const Comment = ({ item }: { item?: any }) => {
       if (result.isConfirmed) {
         try {
           // axios 댓글 신고 요청(해당 댓글의 id)
-          await axios.delete(`/delete/declare/${item.id}`);
+          await api.post(`/comments/declare/${item.id}`);
           message.success("신고되었습니다.");
         } catch (e) {
           console.error("댓글 신고 실패: ", e);

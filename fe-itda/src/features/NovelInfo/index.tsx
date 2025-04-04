@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { NovelInfoStyled } from "./styled";
-import axios from "axios";
-
 import test from "@/assets/images/testImage.png";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
+import api from "@/utill/api";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 interface NovelInfoType {
   img: string;
@@ -19,6 +19,9 @@ interface NovelInfoType {
 
 const NovelInfo = ({ data }: { data?: number }) => {
   const router = useRouter();
+
+  // 로그인된 유저 가져오기
+  const user = useAppSelector((state) => state.auth.user);
 
   const [novel, setNovel] = useState<Partial<NovelInfoType>>({});
   const [liked, setLiked] = useState(false);
@@ -36,7 +39,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
   useEffect(() => {
     const getNovelDetail = async () => {
       try {
-        // const res = await axios.get(`/novel/detail/${data}`);
+        // const res = await api.get(`/novels/${data}`);
         // console.log("소설 정보:", res.data);
         // setNovel(res.data);
         setNovel(novelInfo);
@@ -54,10 +57,10 @@ const NovelInfo = ({ data }: { data?: number }) => {
     try {
       // 찜 axios post요청
       if (liked) {
-        //   await axios.post(`/api/unlike`, { novelId: data });
+        // await api.post(`/likes/novel/${user?.id}/${data}`);
         setLikeCount((prev) => Math.max(prev - 1, 0));
       } else {
-        //   await axios.post(`/api/like`, { novelId: data });
+        // await api.delete(`/likes/novel/${user?.id}/${data}`);
         setLikeCount((prev) => prev + 1);
       }
       setLiked(!liked);

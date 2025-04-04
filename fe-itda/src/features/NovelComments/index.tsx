@@ -4,8 +4,8 @@ import { InfoCircleFilled, SendOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Popover } from "antd";
 import WriteComment from "../WriteComment";
-import axios from "axios";
 import Comment from "@/components/Comment";
+import api from "@/utill/api";
 
 interface ReviewType {
   writer: string;
@@ -64,7 +64,7 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
       if (!data) return;
 
       try {
-        // const response = await axios.get(`/api/comments/${data}`);
+        // const response = await api.get(`/comments/${data}`);
         // setReviews(response.data);
         setReviews(review);
       } catch (error) {

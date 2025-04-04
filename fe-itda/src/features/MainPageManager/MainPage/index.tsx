@@ -3,6 +3,7 @@ import { MainPageStyled } from "./styled";
 import Category from "@/features/Category";
 import clsx from "clsx";
 import PaymentCheckoutPage from "@/features/PaymentCheckoutPage";
+import api from "@/utill/api";
 
 const MainPage = () => {
   // 카테고리 [[],[]]형태
@@ -18,7 +19,8 @@ const MainPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // const response = await axios.get("/api/categories");
+        // axios get요청 - 카테고리 불러오기
+        // const response = await api.get("/categories");
         // setCategories(response.data);
         setCategories([
           [

@@ -12,7 +12,6 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
 import { AppDispatch } from "../../../../store/store";
-import axios from "axios";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,13 +49,11 @@ const LoginPage = () => {
     }
 
     try {
-      // axios로 GET 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
-      const response = await api.get("/auth/login", {
-        params: {
-          email,
-          password,
-          loginStay,
-        },
+      // axios로 post 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
+      const response = await api.post("/auth/local", {
+        email,
+        password,
+        loginStay,
       });
 
       // 성공적으로 로그인했을 경우

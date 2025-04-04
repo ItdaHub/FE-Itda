@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { NewWriteStyled } from "./styled";
 import { Button, Input, message, Select } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextArea from "antd/es/input/TextArea";
 import { InfoCircleFilled } from "@ant-design/icons";
+import api from "@/utill/api";
 
 const people = [
   { label: "5명", value: "five" },
@@ -42,7 +42,7 @@ const NewWrite = ({
   // 장르 카테고리 불러오기 axios
   const getGenre = async () => {
     try {
-      // const response = await axios.get("/api/categories");
+      // const response = await api.get("/category");
       // setCategories(response.data);
       setCategories([
         { label: "로맨스", value: "romance" },
@@ -118,7 +118,7 @@ const NewWrite = ({
 
     try {
       // 새로쓰기랑 이어쓰기 같은 axios보내도 되나??(이어쓰기는 카테고리랑 title이 빈값)
-      await axios.post("/new/write", {
+      await api.post("/novels", {
         category: selectedCategory,
         peopleNum: selectedpeople,
         title,

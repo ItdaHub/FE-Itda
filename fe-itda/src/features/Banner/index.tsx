@@ -11,7 +11,7 @@ import banner1 from "@/assets/images/banner.png";
 import banner2 from "@/assets/images/banner2.png";
 import banner3 from "@/assets/images/banner3.png";
 import banner4 from "@/assets/images/banner4.png";
-import axios from "axios";
+import api from "@/utill/api";
 
 const Banner = () => {
   // 백엔드에 전체 책(랜덤 돌려서 4개만 보여주기?)
@@ -19,7 +19,7 @@ const Banner = () => {
   // 근데 이미지가 긴거였으면 좋겠는데..?(gpt한테 크기 맞춰서 2개 만들어달라해야하나?)
   const getBanner = async () => {
     try {
-      const response = await axios.get("/api/banner");
+      const response = await api.get("/banner");
       console.log(response.data);
     } catch (e) {
       console.error("배너 요청 실패: ", e);

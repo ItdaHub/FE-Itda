@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { FindIdPageStyled } from "./styled";
 import { useState } from "react";
-import axios from "axios";
 import { check } from "@/utill/vali";
 import { LeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import api from "@/utill/api";
 
 const FindIdPage = () => {
   const router = useRouter();
@@ -72,7 +72,7 @@ const FindIdPage = () => {
 
     try {
       // Axios로 GET 요청(아이디 찾기)
-      const response = await axios.get("/auth/findid", {
+      const response = await api.get("/auth/findid", {
         params: {
           phoneNumber,
         },

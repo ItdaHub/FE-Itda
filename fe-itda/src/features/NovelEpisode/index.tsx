@@ -21,26 +21,31 @@ const NovelEpisode = ({ data }: { data?: number }) => {
   const episodes = [
     {
       id: 0,
+      chapter_number: 1,
       commentNum: 20,
       createDate: "2025.02.03",
     },
     {
       id: 1,
+      chapter_number: 2,
       commentNum: 10,
       createDate: "2025.02.05",
     },
     {
       id: 2,
+      chapter_number: 3,
       commentNum: 15,
       createDate: "2025.02.06",
     },
     {
       id: 3,
+      chapter_number: 4,
       commentNum: 8,
       createDate: "2025.02.06",
     },
     {
       id: 4,
+      chapter_number: 5,
       commentNum: 2,
       createDate: "2025.02.08",
     },
@@ -51,7 +56,7 @@ const NovelEpisode = ({ data }: { data?: number }) => {
     const getEpisode = async () => {
       try {
         // axios요청->각 회차별 정보 가져오기(여기서 url파라미터로 보내는건 작품의 id)
-        // const res = await api.get(`/episode/${data}`);
+        // const res = await api.get(`/chapters/${data}`);
         // setEpisode(res.data);
         setEpisode(episodes);
       } catch (e) {
