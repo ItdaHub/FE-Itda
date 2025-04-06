@@ -255,10 +255,17 @@ const SignUp = () => {
                 setEmail(e.target.value);
                 validationEmail(e.target.value);
               }}
+              maxLength={20}
             />
-
-            <p className={`error-message red-text`}>{emailError}</p>
-            <p className={`error-message green-text`}>{emailSuccess}</p>
+            {/* <p className={`error-message red-text`}>{emailError}</p>
+            <p className={`error-message green-text`}>{emailSuccess}</p> */}
+            <p
+              className={`error-message ${
+                emailError ? "red-text" : "green-text"
+              }`}
+            >
+              {emailError || emailSuccess}
+            </p>
 
             <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인
@@ -355,8 +362,16 @@ const SignUp = () => {
               maxLength={8}
             />
 
-            <p className={`error-message red-text`}>{nickNameError}</p>
-            <p className={`error-message green-text`}>{nickNameSuccess}</p>
+            {/* <p className={`error-message red-text`}>{nickNameError}</p>
+            <p className={`error-message green-text`}>{nickNameSuccess}</p> */}
+
+            <p
+              className={`error-message ${
+                nickNameError ? "red-text" : "green-text"
+              }`}
+            >
+              {nickNameError || nickNameSuccess}
+            </p>
 
             <button className="same-nick-check-btn" onClick={checkNickName}>
               중복확인
