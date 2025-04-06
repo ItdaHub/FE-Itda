@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { WebNovelStyled } from "./styled";
 import { HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ interface WebNovelProps {
   title: string;
   genre: string;
   likes: number;
-  imageUrl: string;
+  imageUrl: string | StaticImageData;
   type?: string;
   index?: any;
   id: number;

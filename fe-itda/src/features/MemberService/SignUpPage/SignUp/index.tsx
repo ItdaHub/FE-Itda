@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 // 비밀번호, 비밀번호 확인 유효성 검사
 import { validationPass, validationPassCheck } from "@/utill/vali";
 import api from "@/utill/api";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // 비밀번호 토글 버튼
   const [toggle1, setToggle1] = useState(true);
@@ -173,7 +175,7 @@ const SignUp = () => {
         password,
         nickname: nickName,
         name,
-        birthYear,
+        age: birthYear,
         phone: phoneNumber,
         type: "LOCAL",
       });
@@ -183,12 +185,13 @@ const SignUp = () => {
         password,
         nickname: nickName,
         name,
-        birthYear,
+        age: birthYear,
         phone: phoneNumber,
         type: type.toLowerCase(),
       });
 
       alert("회원가입이 완료되었습니다.");
+      router.push("/login"); // 회원가입 후 로그인으로 이동
     } catch (err: any) {
       console.log(err.response?.data);
       alert("회원가입 중 오류가 발생했습니다.");

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import search from "@/assets/images/search.svg";
 import louder from "@/assets/images/louder.svg";
-import alert from "@/assets/images/alram.svg";
+import alram from "@/assets/images/alram.svg";
 import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
@@ -166,11 +166,11 @@ const Header = () => {
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    router.push(
-                      `/search?keyword=${encodeURIComponent(keyword)}`
-                    );
-
-                    console.log(keyword);
+                    keyword.trim() === ""
+                      ? alert("검색어를 입력해주세요")
+                      : router.push(
+                          `/search?keyword=${encodeURIComponent(keyword)}`
+                        );
                   }
                 }}
               />
@@ -179,11 +179,11 @@ const Header = () => {
             <div
               className="header-searchImg"
               onClick={() => {
-                if (keyword === "") {
-                  alert("검색어를 입력해주세요");
-                  return;
-                }
-                router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
+                keyword.trim() === ""
+                  ? alert("검색어를 입력해주세요")
+                  : router.push(
+                      `/search?keyword=${encodeURIComponent(keyword)}`
+                    );
               }}
             >
               <Image src={search} alt="search" />
@@ -204,8 +204,8 @@ const Header = () => {
           {/* 알림 */}
           <div className="header-alram">
             <Image
-              src={alert}
-              alt="alert"
+              src={alram}
+              alt="alram"
               onClick={() => {
                 router.push("/alert");
               }}
