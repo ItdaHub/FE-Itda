@@ -2,16 +2,61 @@ import api from "@/utill/api";
 import { useEffect, useState } from "react";
 import { SearchStyled } from "./styled";
 import clsx from "clsx";
+import test from "@/assets/images/testImage.png";
+import { StaticImageData } from "next/image";
+import WebNovel from "../WebNovel";
 
 interface SearchItem {
-  id: string;
+  id: number;
   title: string;
+  genre: string;
+  likes: number;
+  imageUrl: string | StaticImageData;
 }
 
 const dummyData: SearchItem[] = [
-  { id: "1", title: "첫 번째 더미 소설" },
-  { id: "2", title: "두 번째 소설 제목" },
-  { id: "3", title: "제목에 포함된 예시" },
+  {
+    id: 1,
+    title: "오늘도 힘내고 싶다",
+    genre: "로맨스",
+    likes: 3,
+    imageUrl: test,
+  },
+  {
+    id: 2,
+    title: "하핫",
+    genre: "로맨스",
+    likes: 3,
+    imageUrl: test,
+  },
+  {
+    id: 3,
+    title: "야야",
+    genre: "로맨스",
+    likes: 3,
+    imageUrl: test,
+  },
+  {
+    id: 4,
+    title: "오늘도 힘내고 싶다",
+    genre: "로맨스",
+    likes: 4,
+    imageUrl: test,
+  },
+  {
+    id: 5,
+    title: "하핫",
+    genre: "로맨스",
+    likes: 5,
+    imageUrl: test,
+  },
+  {
+    id: 6,
+    title: "야야",
+    genre: "로맨스",
+    likes: 6,
+    imageUrl: test,
+  },
 ];
 
 const SearchResult = ({ keyword }: { keyword: string }) => {
@@ -42,14 +87,22 @@ const SearchResult = ({ keyword }: { keyword: string }) => {
 
   return (
     <SearchStyled className={clsx("search-wrap")}>
-      <div>
-        <h2>“{keyword}” 검색 결과</h2>
+      <h2>“{keyword}” 검색 결과</h2>
+      <div className="group-row">
         {results.length === 0 ? (
           <p>검색 결과가 없습니다.</p>
         ) : (
-          results.map((item) => (
-            <div key={item.id}>
-              <h3>{item.title}</h3>
+          results.map((novel, i) => (
+            <div key={novel.id} className="group-each">
+              <WebNovel
+                title={novel.title}
+                genre={novel.genre}
+                likes={novel.likes}
+                imageUrl={novel.imageUrl}
+                // type="search"
+                index={i}
+                id={novel.id}
+              />
             </div>
           ))
         )}
