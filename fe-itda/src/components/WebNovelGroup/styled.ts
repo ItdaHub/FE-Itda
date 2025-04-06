@@ -62,5 +62,10 @@ export const WebNovelGroupStyled = styled.div`
         }
       }
     }
+    .myfavorite-title {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: 600;
+    }
   }
 `;

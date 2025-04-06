@@ -7,9 +7,10 @@ import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import nickarrow from "@/assets/images/nick_arrow.svg";
 import popcorn from "@/assets/images/popcorn_icon.png";
-import comment_icon from "@/assets/images/comment_icon.svg";
-import mywrite from "@/assets/images/mywrite_icon.svg";
-import { HeartOutlined } from "@ant-design/icons";
+import comment_icon from "@/assets/images/comment_icon.png";
+import mywrite from "@/assets/images/mywrite_icon.png";
+import heart_icon from "@/assets/images/heart_icon.png";
+import darknode from "@/assets/images/darkmode.svg";
 import { useRouter } from "next/router";
 import {
   ChargeButton,
@@ -19,12 +20,13 @@ import {
   Menus,
   NickBox,
   TopBox,
+  WrapContent,
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import Cookies from "js-cookie";
 import { logout } from "@/features/auth/authSlice";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Popover, Switch } from "antd";
+import { Avatar, ConfigProvider, Popover, Switch } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
@@ -87,11 +89,17 @@ const Header = () => {
 
   // 모달 내용
   const content = (
-    <div>
+    <WrapContent>
       {/* 내정보 */}
-      <NickBox>
-        연이님{/* <span>{user?.nickname || "사용자"}님</span> */}
-        <img src={nickarrow.src} alt="화살표" />
+      <NickBox
+        onClick={() => {
+          router.push("/mypage");
+        }}
+      >
+        <div className="nickbox">
+          연이님{/* <span>{user?.nickname || "사용자"}님</span> */}
+          <img src={nickarrow.src} alt="화살표" />
+        </div>
       </NickBox>
 
       {/* 충전 */}
@@ -102,25 +110,67 @@ const Header = () => {
 
       {/* 메뉴들 */}
       <Menus>
-        <div className="header-">
-          <img src={comment_icon.src} alt="댓글" />
-          <img src={popcorn.src} alt="팝콘" />
+        <div className="menu-left">
+          {/* 내가 작성한 댓글 모음 */}
+          <div className="menu-icon">
+            <img className="comment-icon" src={comment_icon.src} alt="댓글" />
+            <div>댓글 내역</div>
+          </div>
+
+          {/* 내가 사용한 캐시 모음 */}
+          <div className="menu-icon">
+            <img className="popcorn-icon" src={popcorn.src} alt="팝콘" />
+            <div>팝콘 내역</div>
+          </div>
         </div>
-        <div>
-          <img src={mywrite.src} alt="내글" />
-          <HeartOutlined />
+        <div className="menu-right">
+          {/* 내가 작성한 글 모음 */}
+          <div
+            className="menu-icon"
+            onClick={() => {
+              router.push("/mywrite");
+              setVisible(false);
+            }}
+          >
+            <img className="mywrite" src={mywrite.src} alt="내글" />
+            <div>내 글</div>
+          </div>
+
+          {/* 내가 찜한 작품 모음 */}
+          <div
+            className="menu-icon"
+            onClick={() => {
+              router.push("/myfavorite");
+              setVisible(false);
+            }}
+          >
+            <img className="heart" src={heart_icon.src} alt="찜" />
+            <div>찜</div>
+          </div>
         </div>
       </Menus>
 
       {/* 다크모드 토글 */}
       <DarkModeBox>
-        <span>🌙 다크모드</span>
-        <CustomSwitch checked={mode === "dark"} onChange={toggleDarkMode} />
+        <span>
+          <img src={darknode.src} alt="다크모드" /> 다크모드
+        </span>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#c47ad7",
+            },
+          }}
+        >
+          <CustomSwitch checked={mode === "dark"} onChange={toggleDarkMode} />
+        </ConfigProvider>
       </DarkModeBox>
 
       {/* 로그아웃 */}
-      <LogoutText onClick={handleLogout}>로그아웃</LogoutText>
-    </div>
+      <LogoutText onClick={handleLogout}>
+        <span>로그아웃</span>
+      </LogoutText>
+    </WrapContent>
   );
 
   const isHidden = notPage.includes(router.pathname);
@@ -203,9 +253,11 @@ const Header = () => {
           {/* $$이거 !빼야함!!!!!!!!!!!!!!!!!!!! */}
           {!user ? (
             <Popover
-              content={content}
               trigger="click"
-              placement="bottomRight" // 클릭한 곳의 아래 오른쪽에 배치
+              content={content}
+              open={visible}
+              onOpenChange={setVisible}
+              placement="bottomRight"
             >
               <div className="header-profile" style={{ cursor: "pointer" }}>
                 <Avatar size="small" icon={<UserOutlined />} />
