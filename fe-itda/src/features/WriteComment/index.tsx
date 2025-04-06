@@ -4,7 +4,13 @@ import { SendOutlined } from "@ant-design/icons";
 import api from "@/utill/api";
 import { useAppSelector } from "../../../store/hooks";
 
-const WriteComment = ({ novelId }: { novelId: number }) => {
+const WriteComment = ({
+  novelId,
+  chapterId,
+}: {
+  novelId?: number;
+  chapterId?: number;
+}) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
 
@@ -27,6 +33,7 @@ const WriteComment = ({ novelId }: { novelId: number }) => {
       //   user.id, // 유저 ID
       //   comment, // 댓글 내용
       //   novelId, // 작품 ID
+      //   chapterId,//챕터 ID
       // });
       // console.log("댓글 작성 성공:", response.data);
       // setComment(""); // 댓글 초기화

@@ -7,8 +7,8 @@ import { ChapterStyled } from "./styled";
 const Chapter = ({ chapterId }: { chapterId: number }) => {
   return (
     <ChapterStyled>
-      <ReadBook chapterId={chapterId} />
-      <WriterProfile />
+      <ReadBook chapterId={chapterId} isFromPaidClick={true} />
+      <WriterProfile chapterId={chapterId} />
       <NovelComments data={chapterId} type="chapter" />
     </ChapterStyled>
   );

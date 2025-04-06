@@ -1,61 +1,114 @@
+import { useEffect, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import clsx from "clsx";
 import { ReadBookStyled } from "./styled";
-import { useState } from "react";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import api from "@/utill/api";
 
-type ReadBookProps = {
-  chapterId: number;
+type Content = {
+  text: string;
+  index: number;
 };
 
-const ReadBook = ({ chapterId }: { chapterId: number }) => {
-  const contentList = [
-    "어느 날 갑자기, 세계가 멸망했다...",
-    "주인공은 눈을 떴다. 낯선 곳이었다.",
-    "여... 여긴 어디지..?",
-    "그는 결심했다. 반드시 살아남겠다고.",
-    "그날, 나는 그를 처음 만났다. 낯선 분위기의 그 사람은 모든 것이 미스터리로 가득했다.",
-    "하지만 이상하게도, 나는 그에게 이끌렸다. 설명할 수 없는 끌림이었다.",
-    "“당신은 누구죠?” 내가 물었다. 그는 한참을 침묵하다 대답했다.",
-    "“곧 알게 될 거예요. 모든 게.” 그의 말은 묘한 울림이 있었다.",
-    "그날 이후, 내 일상은 조금씩 변해가기 시작했다.",
-    "매일 같은 풍경 속에서 낯선 무언가가 보이기 시작했다.",
-    "마치, 누군가가 지켜보고 있는 것처럼 느껴졌다.",
-    "그리고, 나는 그를 다시 마주쳤다. 이번에는... 달랐다.",
-    `그날, 나는 그를 처음 만났다. 낯선 분위기의 그 사람은 모든 것이 미스터리로 가득했다. 하지만 이상하게도, 나는 그에게 이끌렸다. 설명할 수 없는 끌림이었다. “당신은 누구죠?” 내가 물었다. 그는 한참을 침묵하다 대답했다. “곧 알게 될 거예요. 모든 게.” 그의 말은 묘한 울림이 있었다. 그날 이후, 내 일상은 조금씩 변해가기 시작했다. 매일 같은 풍경 속에서 낯선 무언가가 보이기 시작했다. 마치, 누군가가 지켜보고 있는 것처럼 느껴졌다. 그리고, 나는 그를 다시 마주쳤다. 이번에는... 달랐다.`,
-    `하루하루가 낯설게 흘러갔다. 나는 변해가는 세상을 바라보며 내가 선택한 길에 대해 생각했다. 하지만 돌아갈 수는 없었다. 이미 너무 멀리 와버렸기 때문이다. 그와 함께한 시간들은 진실과 거짓 사이에서 갈팡질팡하게 만들었다. 어느 날, 그는 내게 말했다. “모든 게 끝나면, 우린 자유로워질 수 있을까요?” 나도 몰랐다. 하지만 희망만은 잃지 않기로 했다.`,
-  ];
+const testData: Content[] = [
+  { index: 0, text: "어느 날 갑자기, 세계가 멸망했다..." },
+  { index: 1, text: "주인공은 눈을 떴다. 낯선 곳이었다." },
+  { index: 2, text: "여... 여긴 어디지..?" },
+  { index: 3, text: "그는 결심했다. 반드시 살아남겠다고." },
+  { index: 4, text: "그날, 나는 그를 처음 만났다." },
+  { index: 5, text: "나도 확인해보고 싶어" },
+  { index: 6, text: "좋아 그렇게 해" },
+];
 
+const ReadBook = ({
+  chapterId,
+  isFromPaidClick = false,
+}: {
+  chapterId: number;
+  isFromPaidClick?: boolean;
+}) => {
+  const [contentList, setContentList] = useState<Content[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const swiperRef = useRef<SwiperCore>();
+  const ignoreNextSlide = useRef(false);
 
-  const charsPerPage = 600;
+  const isPaidContent = (index: number) => index >= 4;
 
-  const currentText = contentList[currentIndex] || "";
-  const leftText = currentText.slice(0, charsPerPage);
-  const rightText = currentText.slice(charsPerPage);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 해당 챕터의 내용 불러오기
+        // const response = await api.get(`/chapters/content/${chapterId}`);
+        // console.log(response.data);
 
-  const goToNext = () => {
-    if (currentIndex + 1 < contentList.length)
-      setCurrentIndex(currentIndex + 1);
-  };
+        // setContentList(response.data);
+        setContentList(testData);
 
-  const goToPrev = () => {
-    if (currentIndex - 1 >= 0) setCurrentIndex(currentIndex - 1);
+        // const matchedIndex = data.findIndex((item) => item.index === chapterId);
+        const matchedIndex = testData.findIndex(
+          (item) => item.index === chapterId
+        );
+        const displayIndex =
+          isFromPaidClick && isPaidContent(matchedIndex) ? 0 : matchedIndex;
+
+        setCurrentIndex(displayIndex);
+
+        if (swiperRef.current) {
+          ignoreNextSlide.current = true;
+          swiperRef.current.slideTo(displayIndex);
+        }
+
+        // if (isFromPaidClick && isPaidContent(matchedIndex)) {
+        //   alert("유료 화입니다. 결제 후 열람 가능합니다.");
+        // }
+      } catch (error) {
+        console.error("콘텐츠 불러오기 실패:", error);
+      }
+    };
+
+    fetchData();
+  }, [chapterId, isFromPaidClick]);
+
+  const handleSlideChange = (swiper: SwiperCore) => {
+    if (ignoreNextSlide.current) {
+      ignoreNextSlide.current = false;
+      return;
+    }
+
+    const nextIndex = swiper.activeIndex;
+    // if (isPaidContent(nextIndex)) {
+    //   alert("유료 화입니다. 결제 후 열람 가능합니다.");
+    //   setTimeout(() => swiper.slideTo(currentIndex), 0);
+    // } else {
+    //   setCurrentIndex(nextIndex);
+    // }
   };
 
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
-      <div className="readbook-book">
-        <div className="readbook-page left">{leftText}</div>
-        <div className="readbook-page right">{rightText}</div>
-      </div>
-      <div className="readbook-controls">
-        <button onClick={goToPrev}>
-          <LeftOutlined />
-        </button>
-        <button onClick={goToNext}>
-          <RightOutlined />
-        </button>
-      </div>
+      <Swiper
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSlideChange={handleSlideChange}
+        modules={[Navigation]}
+        navigation
+        allowTouchMove={true}
+        initialSlide={currentIndex}
+      >
+        {contentList.map((content, idx) => (
+          <SwiperSlide key={idx}>
+            {!isPaidContent(idx) ? (
+              <div className="readbook-book">
+                <div className="readbook-page full">{content.text}</div>
+              </div>
+            ) : (
+              <div className="readbook-book" />
+            )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </ReadBookStyled>
   );
 };
