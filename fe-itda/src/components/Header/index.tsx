@@ -1,5 +1,4 @@
 import clsx from "clsx";
-
 import Image from "next/image";
 import search from "@/assets/images/search.svg";
 import louder from "@/assets/images/louder.svg";
@@ -8,51 +7,31 @@ import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import { useRouter } from "next/router";
 import { HeaderStyled } from "./styled";
-import { useAppSelector, useAppDispatch } from "../../../store/hooks";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import Cookies from "js-cookie";
 import { logout } from "@/features/auth/authSlice";
-import {
-  BellOutlined,
-  CreditCardOutlined,
-  DownOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Dropdown, Avatar, Menu, Switch, Popover } from "antd";
-import ProfileSelectModal from "@/features/UserProfilesModal";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Popover, Switch } from "antd";
 import { useState } from "react";
-
-import styled from "styled-components";
-
-const ProfilePopover = styled(Popover)`
-  .ant-popover-inner {
-    width: 250px; /* 너비 조정 */
-    padding: 15px;
-    border-radius: 10px;
-  }
-`;
-
-const MenuItem = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #f5f5f5;
-  }
-  svg {
-    margin-right: 10px;
-  }
-`;
+import CustomSwitch from "@/components/common/CustomSwitch";
+import { toggleTheme } from "@/features/theme/themeSlice";
 
 const Header = () => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
 
+  // 다크모드 상태 가져오기
+  const mode = useAppSelector((state) => state.theme.mode);
+
   // 로그인된 유저 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
+  const toggleDarkMode = () => {
+    dispatch(toggleTheme());
+  };
+
+  console.log("afdssssssssssssssss", user);
   // 로그아웃
   const handleLogout = () => {
     Cookies.remove("access_token"); // 토큰 제거
@@ -71,10 +50,9 @@ const Header = () => {
     "/mypage",
   ];
 
-  // 팝오버 내용
+  // 모달 내용
   const content = (
     <div>
-      {/* 닉네임 & 충전 버튼 */}
       <div
         style={{
           display: "flex",
@@ -84,7 +62,7 @@ const Header = () => {
           borderRadius: "6px",
         }}
       >
-        <span>{user?.nickname || "사용자"}</span>
+        {/* <span>{user?.nickname || "사용자"}</span> */}
         <button
           style={{
             background: "#FFC107",
@@ -98,17 +76,6 @@ const Header = () => {
         </button>
       </div>
 
-      {/* 메뉴 리스트 */}
-      <MenuItem onClick={() => router.push("/alert")}>
-        <BellOutlined /> 알림
-      </MenuItem>
-      <MenuItem onClick={() => router.push("/pass-vip")}>
-        <CreditCardOutlined /> 캐시 PASS VIP
-      </MenuItem>
-      <MenuItem onClick={() => router.push("/settings")}>
-        <SettingOutlined /> 설정
-      </MenuItem>
-
       {/* 다크모드 토글 */}
       <div
         style={{
@@ -120,16 +87,16 @@ const Header = () => {
         }}
       >
         <span>🌙 다크모드</span>
-        <Switch />
+        <CustomSwitch checked={mode === "dark"} onChange={toggleDarkMode} />
       </div>
 
       {/* 로그아웃 */}
-      <MenuItem
+      <div
         onClick={handleLogout}
         style={{ color: "red", borderTop: "1px solid #ddd", marginTop: "5px" }}
       >
         로그아웃
-      </MenuItem>
+      </div>
     </div>
   );
 
@@ -188,17 +155,15 @@ const Header = () => {
 
           {/* 로그인 or 프로필 */}
           {user ? (
-            <ProfilePopover
+            <Popover
               content={content}
               trigger="click"
-              // visible={visible}
-              // onVisibleChange={setVisible}
               placement="bottomRight" // 클릭한 곳의 아래 오른쪽에 배치
             >
               <div className="header-profile" style={{ cursor: "pointer" }}>
                 <Avatar size="small" icon={<UserOutlined />} />
               </div>
-            </ProfilePopover>
+            </Popover>
           ) : (
             <div className="header-login" onClick={() => router.push("/login")}>
               <Image src={login} alt="login" />

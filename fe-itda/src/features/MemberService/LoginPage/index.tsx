@@ -11,7 +11,7 @@ import google from "@/assets/images/sns_google.svg";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/auth/authSlice";
-import { AppDispatch } from "../../../../store/store";
+import { AppDispatch } from "../../../store/store";
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
