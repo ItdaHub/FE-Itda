@@ -87,10 +87,10 @@ const SearchResult = ({ keyword }: { keyword: string }) => {
 
   return (
     <SearchStyled className={clsx("search-wrap")}>
-      <h2>“{keyword}” 검색 결과</h2>
+      {keyword && <h2>“{keyword}” 검색 결과</h2>}
       <div className="group-row">
         {results.length === 0 ? (
-          <p>검색 결과가 없습니다.</p>
+          <div className="no-result">검색 결과가 없습니다.</div>
         ) : (
           results.map((novel, i) => (
             <div key={novel.id} className="group-each">
