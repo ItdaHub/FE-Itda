@@ -38,7 +38,7 @@ const DropdownList = ({ title, items, onChange }: Props) => {
                       </span>
                       <span>{item.title}</span>
                     </div>
-                    <div>
+                    <div className="dropdown-header-date">
                       <span>{item.date}</span>
                     </div>
                   </div>
@@ -49,7 +49,7 @@ const DropdownList = ({ title, items, onChange }: Props) => {
                       <span className="label no-priority">{index + 1}</span>
                       <span>{item.title}</span>
                     </div>
-                    <div>
+                    <div className="dropdown-header-date">
                       <span>{item.date}</span>
                     </div>
                   </div>

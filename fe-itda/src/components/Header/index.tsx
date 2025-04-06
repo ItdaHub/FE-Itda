@@ -17,6 +17,9 @@ import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
 
 const Header = () => {
+  // 검색 키워드 값 관리
+  const [keyword, setKeyword] = useState("");
+
   const [visible, setVisible] = useState(false);
   const router = useRouter();
 
@@ -123,10 +126,33 @@ const Header = () => {
                 className="header-Text"
                 type="text"
                 placeholder="제목을 입력하세요"
+                value={keyword}
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                  // router.push("/search");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    router.push(
+                      `/search?keyword=${encodeURIComponent(keyword)}`
+                    );
+
+                    console.log(keyword);
+                  }
+                }}
               />
             </div>
 
-            <div className="header-searchImg">
+            <div
+              className="header-searchImg"
+              onClick={() => {
+                if (keyword === "") {
+                  alert("검색어를 입력해주세요");
+                  return;
+                }
+                router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
+              }}
+            >
               <Image src={search} alt="search" />
             </div>
           </div>

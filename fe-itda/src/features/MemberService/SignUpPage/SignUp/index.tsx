@@ -17,13 +17,6 @@ const SignUp = () => {
   // 중복 검사 상태를 관리할 state
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isNickName, setIsNickName] = useState<boolean>(false);
-  const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
-
-  // 중복확인 에러 메시지 상태 관리
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [emailSameError, setEmailSameError] = useState("");
-  // const [nickNameSameError, setnickNameSameError] = useState("");
-  // const [phoneNumberSameError, setPhoneNumberSameError] = useState("");
 
   // 각 필드의 입력 값
   const [email, setEmail] = useState("");
@@ -46,80 +39,77 @@ const SignUp = () => {
   // 비활성화 / 활성화 상태 관리
   const [disabled, setDisabled] = useState(false);
 
+  // 중복 검사 상태 메세지
+  const [emailSuccess, setEmailSuccess] = useState("");
+  const [nickNameSuccess, setNickNameSuccess] = useState("");
+
+  // 회원가입 타입
+  const [type, setType] = useState<"LOCAL" | "KAKAO" | "NAVER" | "GOOGLE">(
+    "LOCAL"
+  );
+
   // 이메일 중복 검사 함수
-  const checkEmail = async (e: { preventDefault: () => void }) => {
+  const checkEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    if (!email) {
-      setEmailError("이메일를 입력해주세요.");
-      return;
-    }
+    validationEmail(email);
+    if (emailError || !email) return;
+    setDisabled(true);
     try {
-      // 입력한 아이디와 일치하는 데이터가 있는지 확인 요청
-      const response = await api.post("/auth/emailCheck", { email });
-
-      if (!response.data.message) {
+      const res = await api.post("/auth/emailCheck", { email });
+      const msg = res.data.message;
+      if (msg) {
         setIsEmail(true);
-        setEmailError("이미 사용된 이메일입니다.");
+        setEmailError("");
+        setEmailSuccess("사용 가능한 이메일입니다.");
       } else {
         setIsEmail(false);
-        setEmailError(response.data.message);
+        setEmailError("이미 사용된 이메일입니다.");
+        setEmailSuccess("");
       }
-    } catch (error) {
-      console.error("이메일 중복 확인 오류", error);
+    } catch (err) {
       setEmailError("이메일 중복 확인 오류 발생");
+      setEmailSuccess("");
     } finally {
-      setDisabled(false); // 요청 완료 후 버튼 활성화
+      setDisabled(false);
     }
   };
 
   // 닉네임 중복 검사 함수
-  const checkNickName = async (e: { preventDefault: () => void }) => {
+  const checkNickName = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    //   // 실제 요청 대신 더미 응답을 사용
-    //   setTimeout(() => {
-    //     if (nickName === "testuser") {
-    //       console.log("이미 사용된 닉네임입니다.");
-    //     } else {
-    //       console.log("사용 가능한 닉네임입니다.");
-    //     }
-    //   }, 500); // 0.5초 후에 응답이 온 것처럼 처리
-    // };
-    if (!nickName) {
-      setNickNameError("닉네임을 입력해주세요.");
-      return;
-    }
-
-    if (nickName.length < 2) {
-      setNickNameError("닉네임은 2자 이상이어야 합니다.");
-      return;
-    }
-
+    validationNickName(nickName);
+    if (nickNameError || !nickName) return;
+    setDisabled(true);
     try {
-      const response = await api.post("/auth/nicknameCheck", { nickName });
-
-      if (!response.data.message) {
+      const res = await api.post("/auth/nicknameCheck", { nickName });
+      const msg = res.data.message;
+      if (msg) {
         setIsNickName(true);
-        setNickNameError("이미 사용된 닉네임입니다.");
+        setNickNameError("");
+        setNickNameSuccess("사용 가능한 닉네임입니다.");
       } else {
         setIsNickName(false);
-        setNickNameError(response.data.message);
+        setNickNameError("이미 사용된 닉네임입니다.");
+        setNickNameSuccess("");
       }
-    } catch (error) {
-      console.error("닉네임 중복 확인 오류", error);
+    } catch (err) {
       setNickNameError("닉네임 중복 확인 오류 발생");
+      setNickNameSuccess("");
     } finally {
-      setDisabled(false); // 요청 완료 후 버튼 활성화
+      setDisabled(false);
     }
   };
 
   // 이메일 유효성 검사
   const validationEmail = (email: string) => {
-    if (!email) {
-      setEmailError("이메일을 입력해주세요");
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("유효한 이메일이 아닙니다.");
-    } else setEmailError("");
+    const valid = /\S+@\S+\.\S+/.test(email);
+    setEmailError(
+      !email
+        ? "이메일을 입력해주세요"
+        : !valid
+        ? "유효한 이메일이 아닙니다."
+        : ""
+    );
   };
 
   // 닉네임 유효성 검사
@@ -135,19 +125,17 @@ const SignUp = () => {
 
   // 이름 유효성 검사
   const validationName = (name: string) => {
-    if (!name) {
-      setNameError("이름을 입력해주세요.");
-    } else setNameError("");
+    setNameError(!name ? "이름을 입력해주세요." : "");
   };
 
   // 생일 유효성 검사
   const validationBirthYear = (birthYear: string) => {
+    const year = parseInt(birthYear);
     if (!birthYear) {
       setBirthYearError("출생년도를 입력해주세요.");
-    } else if (
-      parseInt(birthYear) < 1900 ||
-      parseInt(birthYear) > new Date().getFullYear()
-    ) {
+    } else if (!/^\d{4}$/.test(birthYear)) {
+      setBirthYearError("출생년도는 4자리 숫자여야 합니다.");
+    } else if (year < 1900 || year > new Date().getFullYear()) {
       setBirthYearError("유효한 연도가 아닙니다.");
     } else {
       setBirthYearError("");
@@ -156,64 +144,53 @@ const SignUp = () => {
 
   // 휴대폰 유효성 검사
   const validationPhoneNumber = (phoneNumber: string) => {
-    const phoneRegex = /^01[0-9]-\d{4}-\d{4}$/; // 010-1234-5678 형식
-    if (!phoneNumber) {
-      setPhoneNumberError("휴대폰번호를 입력해주세요.");
-    } else if (!phoneRegex.test(phoneNumber)) {
+    const phoneRegex = /^01[0-9]-\d{4}-\d{4}$/;
+    if (!phoneNumber) setPhoneNumberError("휴대폰번호를 입력해주세요.");
+    else if (!phoneRegex.test(phoneNumber))
       setPhoneNumberError(
         "올바른 휴대폰번호를 입력해주세요. (예: 010-1234-5678)"
       );
-    } else {
-      setPhoneNumberError("");
-    }
+    else setPhoneNumberError("");
   };
-  // // 전화번호 중복 검사 함수
-  // const checkPhoneNumber = async (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-
-  //   if (!phoneNumber) {
-  //     setPhoneNumberSameError("전화번호를 입력해주세요.");
-  //     return;
-  //   }
-
-  //   try {
-  //     console.log("전화번호중복 확인 요청 값:", phoneNumber);
-  //     const response = await api.post("/auth/phoneNumberCheck", {
-  //       phoneNumber,
-  //     });
-  //     if (response.data.message) {
-  //       setIsPhoneNumber(true);
-  //       setPhoneNumberSameError("이미 사용중인 번호입니다.");
-  //     } else {
-  //       setIsPhoneNumber(false);
-  //       setPhoneNumberSameError("");
-  //     }
-  //   } catch (error) {
-  //     console.error("휴대폰 중복 확인 오류", error);
-  //     setPhoneNumberSameError("휴대폰 중복 확인 오류 발생");
-  //   } finally {
-  //     setDisabled(false); // 요청 완료 후 버튼 활성화
-  //   }
-  // };
+  const formatPhoneNumber = (value: string) => {
+    const onlyNums = value.replace(/[^\d]/g, "");
+    if (onlyNums.length <= 3) return onlyNums;
+    if (onlyNums.length <= 7)
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;
+    return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(
+      7,
+      11
+    )}`;
+  };
 
   // 회원가입 버튼 클릭 시 데이터베이스에 등록 요청
-  const onSubmit = async (e: { preventDefault: () => void }) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // 폼 기본 동작 방지
-
+    setDisabled(true);
     try {
-      const response = await api.post("/auth/signup", {
+      console.log({
         email,
         password,
-        nickName,
+        nickname: nickName,
         name,
         birthYear,
-        phoneNumber,
+        phone: phoneNumber,
+        type: "LOCAL",
       });
 
-      console.log("회원가입 성공:", response.data);
+      const res = await api.post("/auth/register", {
+        email,
+        password,
+        nickname: nickName,
+        name,
+        birthYear,
+        phone: phoneNumber,
+        type: type.toLowerCase(),
+      });
+
       alert("회원가입이 완료되었습니다.");
-    } catch (error) {
-      console.error("회원가입 실패:", error);
+    } catch (err: any) {
+      console.log(err.response?.data);
       alert("회원가입 중 오류가 발생했습니다.");
     } finally {
       setDisabled(false); // 요청 완료 후 버튼 활성화
@@ -236,9 +213,8 @@ const SignUp = () => {
       !nameError &&
       !birthYearError &&
       !phoneNumberError &&
-      !isEmail &&
-      !isNickName &&
-      isPhoneNumber
+      isEmail &&
+      isNickName
     );
   }, [
     email,
@@ -257,7 +233,6 @@ const SignUp = () => {
     phoneNumberError,
     isEmail,
     isNickName,
-    isPhoneNumber,
   ]);
 
   return (
@@ -279,18 +254,8 @@ const SignUp = () => {
               }}
             />
 
-            {/* <p className="error-message">{emailError}</p> */}
-            <p
-              className={`error-message ${
-                emailError === "사용 가능한 이메일입니다."
-                  ? "green-text"
-                  : emailError
-                  ? "red-text"
-                  : ""
-              }`}
-            >
-              {emailError}
-            </p>
+            <p className={`error-message red-text`}>{emailError}</p>
+            <p className={`error-message green-text`}>{emailSuccess}</p>
 
             <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인
@@ -387,18 +352,8 @@ const SignUp = () => {
               maxLength={8}
             />
 
-            {/* <p className="error-message">{nickNameError}</p> */}
-            <p
-              className={`error-message ${
-                nickNameError === "사용 가능한 닉네임입니다."
-                  ? "green-text"
-                  : nickNameError
-                  ? "red-text"
-                  : ""
-              }`}
-            >
-              {nickNameError}
-            </p>
+            <p className={`error-message red-text`}>{nickNameError}</p>
+            <p className={`error-message green-text`}>{nickNameSuccess}</p>
 
             <button className="same-nick-check-btn" onClick={checkNickName}>
               중복확인
@@ -428,12 +383,15 @@ const SignUp = () => {
             <div className="signup-title">출생년도</div>
             <input
               className="signup-year"
-              type="number"
+              type="text"
               placeholder="출생년도"
               value={birthYear}
               onChange={(e) => {
-                setBirthYear(e.target.value);
-                validationBirthYear(e.target.value);
+                const onlyNums = e.target.value
+                  .replace(/[^\d]/g, "")
+                  .slice(0, 4);
+                setBirthYear(onlyNums);
+                validationBirthYear(onlyNums);
               }}
               maxLength={4}
             />
@@ -450,18 +408,14 @@ const SignUp = () => {
               placeholder="휴대폰번호"
               value={phoneNumber}
               onChange={(e) => {
-                setPhoneNumber(e.target.value);
-                validationPhoneNumber(e.target.value);
+                const formatted = formatPhoneNumber(e.target.value);
+                setPhoneNumber(formatted);
+                validationPhoneNumber(formatted);
               }}
               maxLength={13}
             />
 
             <p className="error-message">{phoneNumberError}</p>
-
-            {/* {isPhoneNumber && <p>{phoneNumberSameError}</p>}
-            <button className="same-nick-check-btn" onClick={checkPhoneNumber}>
-              중복확인
-            </button> */}
           </div>
 
           {/* 회원가입 버튼 */}
@@ -469,8 +423,7 @@ const SignUp = () => {
             <button
               className="signup-btn"
               type="submit"
-              disabled={!isValid}
-              // disabled={disabled}
+              disabled={!isValid || disabled}
             >
               회원가입
             </button>
