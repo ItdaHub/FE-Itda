@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Dropdown, MenuProps, message } from "antd";
 import Swal from "sweetalert2";
 import api from "@/utill/api";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 
 const Comment = ({ item }: { item?: any }) => {
   // 유저 정보 가져오기

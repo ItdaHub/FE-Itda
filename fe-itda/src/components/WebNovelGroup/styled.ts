@@ -30,7 +30,7 @@ export const WebNovelGroupStyled = styled.div`
 
     .group-ageTabs .active {
       font-weight: 700;
-      color: var(--primary-color);
+      color: ${({ theme }) => theme.colors.primary};
     }
 
     .group-ageTab::before {

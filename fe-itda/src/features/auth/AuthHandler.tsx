@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUser } from "@/features/auth/authSlice";
 import api from "@/utill/api";
 

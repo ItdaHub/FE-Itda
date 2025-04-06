@@ -68,7 +68,7 @@ export const ReadBookStyled = styled.div`
 
     .swiper-button-prev,
     .swiper-button-next {
-      color: var(--primary-color);
+      color: ${({ theme }) => theme.colors.primary};
     }
 
     @media (max-width: 768px) {

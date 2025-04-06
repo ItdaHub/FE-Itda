@@ -53,7 +53,7 @@ export const SignUpStyled = styled.div`
     border: 1px solid rgb(214, 222, 235);
 
     &:focus {
-      outline-color: var(--primary-color);
+      outline-color: ${({ theme }) => theme.colors.primary};
     }
   }
 
@@ -114,7 +114,7 @@ export const SignUpStyled = styled.div`
     border-radius: 4px;
     margin-top: 2px;
     border: none;
-    background-color: var(--primary-color);
+    background-color: ${({ theme }) => theme.colors.primary};
     color: white;
 
     &:hover {

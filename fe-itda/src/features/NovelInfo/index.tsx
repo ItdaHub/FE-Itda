@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 interface NovelInfoType {
   img: string;

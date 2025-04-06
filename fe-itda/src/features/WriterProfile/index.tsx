@@ -17,7 +17,7 @@ const WriterProfile = ({ chapterId }: { chapterId: any }) => {
       }
     };
     getWriter();
-  }, chapterId);
+  }, [chapterId]);
 
   return (
     <WriterProfileStyled className={clsx("profile-wrap")}>

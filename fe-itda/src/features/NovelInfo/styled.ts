@@ -30,7 +30,7 @@ export const NovelInfoStyled = styled.div`
           text-align: center;
           font-size: 16px;
           color: #fff;
-          background-color: var(--primary-color);
+          background-color: ${({ theme }) => theme.colors.primary};
           border-radius: 4px;
           border: none;
           &:hover {
