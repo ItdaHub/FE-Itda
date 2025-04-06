@@ -69,6 +69,15 @@ export const HeaderStyled = styled.div`
         }
       }
     }
+
+    .header-charge {
+      display: flex;
+      justify-self: space-between;
+      padding: 8px 10px;
+      background-color: #f5f5f5;
+      border-radius: 6px;
+    }
+
     .headerOff {
       display: flex;
       align-items: center;
@@ -94,3 +103,50 @@ export const HeaderStyled = styled.div`
     }
   }
 `;
+
+export const NickBox = styled.div`
+  display: flex;
+  border-radius: 1.125rem;
+  max-width: 13.25rem;
+  padding: 5px 2px;
+  border-color: rgb(0, 0, 0, 0.1);
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-style: solid;
+  margin-bottom: 1rem;
+`;
+
+export const TopBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+`;
+
+export const ChargeButton = styled.button`
+  background: #ffc107;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+export const DarkModeBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+`;
+
+export const LogoutText = styled.div`
+  color: red;
+  border-top: 1px solid #ddd;
+  margin-top: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+`;
+
+export const Menus = styled.div``;

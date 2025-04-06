@@ -5,20 +5,37 @@ import louder from "@/assets/images/louder.svg";
 import alert from "@/assets/images/alram.svg";
 import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
+import nickarrow from "@/assets/images/nick_arrow.svg";
+import popcorn from "@/assets/images/popcorn_icon.png";
+import comment_icon from "@/assets/images/comment_icon.svg";
+import mywrite from "@/assets/images/mywrite_icon.svg";
+import { HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { HeaderStyled } from "./styled";
+import {
+  ChargeButton,
+  DarkModeBox,
+  HeaderStyled,
+  LogoutText,
+  Menus,
+  NickBox,
+  TopBox,
+} from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import Cookies from "js-cookie";
 import { logout } from "@/features/auth/authSlice";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Popover, Switch } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
+import api from "@/utill/api";
 
 const Header = () => {
   // 검색 키워드 값 관리
   const [keyword, setKeyword] = useState("");
+
+  // 현재 가지고 있는 팝콘
+  const [nowPrice, setNowPrice] = useState(0);
 
   const [visible, setVisible] = useState(false);
   const router = useRouter();
@@ -53,53 +70,56 @@ const Header = () => {
     "/mypage",
   ];
 
+  // useEffect(() => {
+  //   const getCharge = async () => {
+  //     try {
+  //       const res = await api.get(`/charge/${user?.id}`);
+  //       setNowPrice(res.data.nowPrice);
+  //     } catch (error) {
+  //       console.error("충전 금액 불러오기 실패:", error);
+  //     }
+  //   };
+
+  //   if (user?.id) {
+  //     getCharge();
+  //   }
+  // }, [user?.id]);
+
   // 모달 내용
   const content = (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "8px 10px",
-          background: "#f5f5f5",
-          borderRadius: "6px",
-        }}
-      >
-        {/* <span>{user?.nickname || "사용자"}</span> */}
-        <button
-          style={{
-            background: "#FFC107",
-            border: "none",
-            padding: "4px 8px",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          충전
-        </button>
-      </div>
+      {/* 내정보 */}
+      <NickBox>
+        연이님{/* <span>{user?.nickname || "사용자"}님</span> */}
+        <img src={nickarrow.src} alt="화살표" />
+      </NickBox>
+
+      {/* 충전 */}
+      <TopBox>
+        {nowPrice}
+        <ChargeButton>충전</ChargeButton>
+      </TopBox>
+
+      {/* 메뉴들 */}
+      <Menus>
+        <div className="header-">
+          <img src={comment_icon.src} alt="댓글" />
+          <img src={popcorn.src} alt="팝콘" />
+        </div>
+        <div>
+          <img src={mywrite.src} alt="내글" />
+          <HeartOutlined />
+        </div>
+      </Menus>
 
       {/* 다크모드 토글 */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "8px 10px",
-          borderTop: "1px solid #ddd",
-        }}
-      >
+      <DarkModeBox>
         <span>🌙 다크모드</span>
         <CustomSwitch checked={mode === "dark"} onChange={toggleDarkMode} />
-      </div>
+      </DarkModeBox>
 
       {/* 로그아웃 */}
-      <div
-        onClick={handleLogout}
-        style={{ color: "red", borderTop: "1px solid #ddd", marginTop: "5px" }}
-      >
-        로그아웃
-      </div>
+      <LogoutText onClick={handleLogout}>로그아웃</LogoutText>
     </div>
   );
 
@@ -180,7 +200,8 @@ const Header = () => {
           </div>
 
           {/* 로그인 or 프로필 */}
-          {user ? (
+          {/* $$이거 !빼야함!!!!!!!!!!!!!!!!!!!! */}
+          {!user ? (
             <Popover
               content={content}
               trigger="click"
