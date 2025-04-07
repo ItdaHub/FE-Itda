@@ -37,6 +37,7 @@ const FindPwPage = () => {
   const handleEmailChange = (e: any) => {
     const emailValue = e.target.value;
     setEmail(emailValue); // 이메일 상태 업데이트
+    console.log(emailValue, "email value");
 
     // 이메일 유효성 검사
     if (!emailValue) {
@@ -69,19 +70,19 @@ const FindPwPage = () => {
     }
 
     try {
-      const response = await api.post("/auth/findpw", { data: { email } });
-      console.log("address correct?");
-      if (response.data && response.data.data) {
-        console.log(response.data.data, "data???");
-        setFindIt(response.data.data); // 일치하는 아이디가 있다면 저장
-        console.log(setFindIt, "들어갔니?");
-        setErrorMessage(response.data.message);
+      const response = await api.post("/auth/findpw", { email });
+
+      const foundEmail = response.data.data;
+
+      if (foundEmail && foundEmail === email) {
+        // 정확히 입력한 이메일과 DB 이메일이 같을 때
+        setFindIt(foundEmail);
+        setErrorMessage("");
       } else {
-        // 사용자가 없을 경우
-        setFindIt(""); // findIt 초기화
-        setErrorMessage(response.data.message);
+        setFindIt(""); // 입력값과 일치하지 않으면 비밀번호 입력칸 안 나옴
+        setErrorMessage("일치하는 계정이 없습니다.");
       }
-      setEmail(""); // 이메일 초기화
+      // setEmail(""); // 이메일 초기화
     } catch (error) {
       setErrorMessage("서버 오류가 발생했습니다");
     }
@@ -96,8 +97,9 @@ const FindPwPage = () => {
       return;
     }
     try {
-      const response = await api.post("/updatePw", {
-        data: { email, password }, // 새 비밀번호 업데이트
+      const response = await api.post("/auth/updatePw", {
+        email,
+        password, // 새 비밀번호 업데이트
       });
 
       if (response.data.message) {
