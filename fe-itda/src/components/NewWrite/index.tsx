@@ -8,26 +8,28 @@ import { InfoCircleFilled } from "@ant-design/icons";
 import api from "@/utill/api";
 
 const people = [
-  { label: "5명", value: "five" },
-  { label: "7명", value: "seven" },
-  { label: "9명", value: "nine" },
+  { label: "5명", value: 5 },
+  { label: "7명", value: 7 },
+  { label: "9명", value: 9 },
 ];
 
 const NewWrite = ({
   type,
   titles,
   genres,
+  novelId,
 }: {
-  type: any;
-  titles?: any;
-  genres?: any;
+  type: "new" | "relay";
+  titles?: string;
+  genres?: string;
+  novelId?: number;
 }) => {
   // 불러온 카테고리
   const [categories, setCategories] = useState<object[]>([]);
 
   // 선택된 카테고리
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedpeople, setSelectedPeople] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedPeople, setSelectedPeople] = useState<number | null>(null);
 
   // 작성한 제목
   const [title, setTitle] = useState<string>("");
@@ -42,30 +44,28 @@ const NewWrite = ({
   // 장르 카테고리 불러오기 axios
   const getGenre = async () => {
     try {
-      // const response = await api.get("/category");
-      // setCategories(response.data);
-      setCategories([
-        { label: "로맨스", value: "romance" },
-        { label: "로판", value: "ropan" },
-        { label: "판타지", value: "fantasy" },
-        { label: "현판", value: "hyenpan" },
-        { label: "무협", value: "muhyeop" },
-      ]);
+      const response = await api.get("/categories");
+      const formattedGenres = response.data.map(
+        (genre: { id: number; name: string }) => ({
+          label: genre.name,
+          value: genre.id,
+        })
+      );
+      setCategories(formattedGenres);
     } catch (e) {
       console.error("카테고리 불러오기 실패: ", e);
     }
   };
-
   useEffect(() => {
     getGenre();
   }, []);
 
   // 선택된 카테고리
-  const handleCategoryChange = (value: string) => {
+  const handleCategoryChange = (value: number) => {
     setSelectedCategory(value);
   };
 
-  const handlePeopleChange = (value: string) => {
+  const handlePeopleChange = (value: number) => {
     setSelectedPeople(value);
   };
 
@@ -96,12 +96,12 @@ const NewWrite = ({
   };
 
   const handleSubmit = async () => {
-    if (type === "new" && !selectedCategory) {
+    if (type === "new" && selectedCategory === null) {
       message.warning("카테고리를 선택해주세요.");
       return;
     }
 
-    if (type === "new" && !selectedpeople) {
+    if (type === "new" && !selectedPeople) {
       message.warning("인원수를 선택해주세요.");
       return;
     }
@@ -117,13 +117,21 @@ const NewWrite = ({
     }
 
     try {
-      // 새로쓰기랑 이어쓰기 같은 axios보내도 되나??(이어쓰기는 카테고리랑 title이 빈값)
-      await api.post("/novels", {
-        category: selectedCategory,
-        peopleNum: selectedpeople,
-        title,
-        content,
-      });
+      // 첫 소설 쓰기
+      if (type === "new") {
+        await api.post("/novels", {
+          categoryId: selectedCategory,
+          peopleNum: selectedPeople,
+          title,
+          content,
+        });
+        // 이어 쓰기
+      } else if (type === "relay" && novelId) {
+        await api.post(`/novels/${novelId}/chapters`, {
+          content,
+        });
+      }
+
       message.success("등록되었습니다.", 1, () => {
         router.push("/main");
       });
@@ -184,20 +192,22 @@ const NewWrite = ({
                 {/* 카테고리 */}
                 <div className="newWrite-category">
                   <Select
-                    defaultValue="장르"
+                    value={selectedCategory}
                     style={{ width: 120 }}
                     onChange={handleCategoryChange}
                     options={categories}
+                    placeholder="장르"
                   />
                 </div>
 
                 {/* 명수 제한 카테고리 */}
                 <div className="newWrite-category">
                   <Select
-                    defaultValue="인원수"
+                    value={selectedPeople || undefined}
                     style={{ width: 120 }}
                     onChange={handlePeopleChange}
                     options={people}
+                    placeholder="인원수"
                   />
                 </div>
 
