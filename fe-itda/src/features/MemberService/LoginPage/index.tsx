@@ -54,7 +54,7 @@ const LoginPage = () => {
         password,
       });
       if (response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("accessToken", response.data.accessToken);
         setErrorMessage("");
         router.push("/main");
       } else {

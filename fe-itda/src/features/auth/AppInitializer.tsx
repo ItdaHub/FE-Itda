@@ -9,7 +9,7 @@ const AppInitializer = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = Cookies.get("access_token"); // 쿠키에서 토큰 가져옴
+      const token = Cookies.get("accessToken"); // 쿠키에서 토큰 가져옴
 
       if (token) {
         try {

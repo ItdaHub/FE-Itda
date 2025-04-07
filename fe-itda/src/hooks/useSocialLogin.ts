@@ -13,7 +13,7 @@ export const useSocialLogin = (provider: "google" | "naver" | "kakao") => {
       if (token) {
         try {
           // 1. 토큰을 쿠키에 저장
-          Cookies.set("access_token", token, { expires: 7 });
+          Cookies.set("accessToken", token, { expires: 7 });
           // 2. 유저 정보 가져오기
           const response = await api.get("/auth/login", {
             headers: {
