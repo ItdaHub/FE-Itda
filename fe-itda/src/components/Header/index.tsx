@@ -24,13 +24,13 @@ import {
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import Cookies from "js-cookie";
-import { logout } from "@/features/auth/authSlice";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, ConfigProvider, Popover, Switch } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
 import api from "@/utill/api";
+import { logoutUser } from "@/features/auth/logout";
 
 const Header = () => {
   // 검색 키워드 값 관리
@@ -56,10 +56,9 @@ const Header = () => {
   console.log("afdssssssssssssssss", user);
   // 로그아웃
   const handleLogout = () => {
-    Cookies.remove("accessToken"); // 토큰 제거
-    dispatch(logout()); // Redux 상태 초기화
-    router.push("/main");
-    setVisible(false);
+    dispatch(logoutUser()); // 서버 요청 + 상태 초기화
+    router.push("/main"); // 메인페이지로 이동
+    setVisible(false); // 팝오버 닫기
   };
 
   // 헤더 제외할 페이지

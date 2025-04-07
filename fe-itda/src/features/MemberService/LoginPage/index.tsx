@@ -36,33 +36,32 @@ const LoginPage = () => {
   const handleLoginSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    // 입력 검증(아이디)
     if (!email) {
       setErrorMessage("아이디를 입력해주세요");
       return;
     }
-
-    // 입력 검증(비밀번호)
     if (!password) {
       setErrorMessage("비밀번호를 입력해주세요");
       return;
     }
 
     try {
-      const response = await api.post("/auth/local", {
-        email,
-        password,
-      });
-      if (response.data.accessToken) {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        setErrorMessage("");
-        router.push("/main");
-      } else {
-        setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
-      }
+      // 1. 로그인 요청
+      await api.post("/auth/local", { email, password });
+
+      // 2. 쿠키에 토큰 저장되었으므로, 유저 정보 가져오기
+      const userResponse = await api.get("/auth/login");
+      console.log("userResponse 전체:", userResponse);
+
+      // ✅ 콘솔로 유저 정보 확인
+      console.log("로그인한 유저 정보:", userResponse.data.user);
+
+      dispatch(setUser(userResponse.data.user));
+      setErrorMessage("");
+      router.push("/main");
     } catch (error) {
       console.error("로그인 오류:", error);
-      setErrorMessage("로그인 중 오류가 발생했습니다.");
+      setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
     }
   };
 
