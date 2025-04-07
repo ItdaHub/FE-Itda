@@ -33,6 +33,7 @@ const Comment = ({ item }: { item?: any }) => {
   // 신고 모달 띄우기
   const OpenModal = () => {
     setDeclareModalOpen(true);
+    setReportReason(""); // 모달 닫기 시 신고 사유 초기화
   };
 
   // 신고 제출 핸들러

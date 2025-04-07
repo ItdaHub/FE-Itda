@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 // 비밀번호, 비밀번호 확인 유효성 검사
 import { validationPass, validationPassCheck } from "@/utill/vali";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import api from "@/utill/api";
 
 const FindPwPage = () => {
   const dispatch = useDispatch();
@@ -68,13 +69,17 @@ const FindPwPage = () => {
     }
 
     try {
-      const response = await axios.post("/findpw", { data: { email } });
-
-      if (response.data.data) {
+      const response = await api.post("/auth/findpw", { data: { email } });
+      console.log("address correct?");
+      if (response.data && response.data.data) {
+        console.log(response.data.data, "data???");
         setFindIt(response.data.data); // 일치하는 아이디가 있다면 저장
-        setErrorMessage("");
+        console.log(setFindIt, "들어갔니?");
+        setErrorMessage(response.data.message);
       } else {
-        setErrorMessage("해당 아이디와 일치하는 유저가 없습니다.");
+        // 사용자가 없을 경우
+        setFindIt(""); // findIt 초기화
+        setErrorMessage(response.data.message);
       }
       setEmail(""); // 이메일 초기화
     } catch (error) {
@@ -91,7 +96,7 @@ const FindPwPage = () => {
       return;
     }
     try {
-      const response = await axios.post("/updatePw", {
+      const response = await api.post("/updatePw", {
         data: { email, password }, // 새 비밀번호 업데이트
       });
 

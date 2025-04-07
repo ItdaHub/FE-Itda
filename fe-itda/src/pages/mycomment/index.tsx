@@ -1,7 +1,7 @@
 import MyComment from "@/features/MyComment";
 
 const mycomment = () => {
-  return;
+  return <MyComment />;
 };
 
 export default mycomment;

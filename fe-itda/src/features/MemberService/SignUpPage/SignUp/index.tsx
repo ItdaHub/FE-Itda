@@ -55,10 +55,15 @@ const SignUp = () => {
     e.preventDefault();
     validationEmail(email);
     if (emailError || !email) return;
+    console.log(emailError, "너때문일까?");
     setDisabled(true);
     try {
+      console.log("dddddd");
       const res = await api.post("/auth/emailCheck", { email });
       const msg = res.data.message;
+      console.log(msg, "ddd");
+      console.log(res, "11111");
+      console.log("-------");
       if (msg) {
         setIsEmail(true);
         setEmailError("");
