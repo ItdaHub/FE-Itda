@@ -18,7 +18,7 @@ const AuthHandler = () => {
           const response = await api.get("/auth/login", {
             headers: { Authorization: `Bearer ${token}` },
           });
-          console.log(response.data);
+          console.log("찍혀라", response.data);
           dispatch(setUser(response.data.user)); // Redux에 저장
         } catch (error) {
           console.error("유저 정보 가져오기 실패:", error);

@@ -49,36 +49,30 @@ const LoginPage = () => {
     }
 
     try {
-      // axios로 post 요청(입력한 아이디, 비밀번호와 일치하는지 확인)
       const response = await api.post("/auth/local", {
         email,
         password,
-        loginStay,
       });
-
-      // 성공적으로 로그인했을 경우
-      if (response.data.success) {
+      if (response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
         setErrorMessage("");
-
-        // 로그인 성공 후 메인홈으로 이동
         router.push("/main");
       } else {
-        // 아이디 또는 비밀번호가 틀린 경우
         setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
       }
     } catch (error) {
-      // 요청 오류
-      setErrorMessage(`${error} : 서버 오류가 발생했습니다`);
+      console.error("로그인 오류:", error);
+      setErrorMessage("로그인 중 오류가 발생했습니다.");
     }
   };
 
   const naverLogin = async () => {
     window.location.href = "http://localhost:5001/auth/naver";
   };
-  const kakalogin = async () => {
+  const kakaoLogin = async () => {
     window.location.href = "http://localhost:5001/auth/kakao";
   };
-  const googlelogin = async () => {
+  const googleLogin = async () => {
     window.location.href = "http://localhost:5001/auth/google";
   };
 
@@ -196,13 +190,13 @@ const LoginPage = () => {
             alt="네이버 로그인"
           />
           <img
-            onClick={() => kakalogin()}
+            onClick={() => kakaoLogin()}
             className="login-logo"
             src={kakao.src}
             alt="카카오 로그인"
           />
           <img
-            onClick={() => googlelogin()}
+            onClick={() => googleLogin()}
             className="login-logo"
             src={google.src}
             alt="구글 로그인"
