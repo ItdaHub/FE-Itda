@@ -1,13 +1,14 @@
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { PaymentCheckStyled } from "./styled";
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 const customerKey = "mg62XE7cK4Q4Vj58xNINq"; // 실제 프로젝트에선 user.id나 uuid 등 유니크한 값으로 설정
-const PaymentCheckoutPage = () => {
+const PaymentCheckoutPage = ({ price }: { price: number }) => {
   const [payment, setPayment] = useState<any>(null);
   const [amount] = useState({
     currency: "KRW",
-    value: 1000, // 실제 결제 금액
+    value: price, // 실제 결제 금액
   });
   useEffect(() => {
     const fetchPayment = async () => {
@@ -29,7 +30,7 @@ const PaymentCheckoutPage = () => {
     try {
       await axios.post("/payments", {
         userId: customerKey,
-        orderId: orderId,
+        orderId,
         amount: amount.value,
       });
     } catch (err) {
@@ -61,9 +62,11 @@ const PaymentCheckoutPage = () => {
     }
   };
   return (
-    <button className="button" onClick={requestPayment}>
-      결제하기
-    </button>
+    <PaymentCheckStyled>
+      <button className="pay-button" onClick={requestPayment}>
+        {price}원
+      </button>
+    </PaymentCheckStyled>
   );
 };
 export default PaymentCheckoutPage;
