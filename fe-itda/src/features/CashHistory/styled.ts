@@ -51,5 +51,10 @@ export const CashHistoryStyled = styled.div`
         color: ${({ theme }) => theme.colors.primary};
       }
     }
+
+    .active {
+      background-color: ${({ theme }) => theme.colors.primary} !important;
+      color: white;
+    }
   }
 `;

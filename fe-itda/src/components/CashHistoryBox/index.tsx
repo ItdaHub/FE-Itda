@@ -1,18 +1,34 @@
 import clsx from "clsx";
 import { CashHistoryBoxStyled } from "./stylde";
 
-type Props = {
-  title: string;
+type HistoryItem = {
+  title?: string;
   amount: number;
   date: string;
 };
 
-const CashHistoryBox = ({ title, amount, date }: Props) => {
+const CashHistoryBox = ({
+  list,
+  type,
+}: {
+  list: HistoryItem[];
+  type: string;
+}) => {
   return (
     <CashHistoryBoxStyled className={clsx("history-wrap")}>
-      <div className="history-popcorn">{amount} 팝콘</div>
-      <div className="history-title">{title}</div>
-      <div className="history-date">{date}</div>
+      {list.map((item, i) => (
+        <div key={i} className="history-row">
+          <div className="history-popcorn">{item.amount} 팝콘</div>
+          <div
+            className={`history-title ${
+              type === "charge" ? "history-off" : ""
+            }`}
+          >
+            {item.title}
+          </div>
+          <div className="history-date">{item.date}</div>
+        </div>
+      ))}
     </CashHistoryBoxStyled>
   );
 };

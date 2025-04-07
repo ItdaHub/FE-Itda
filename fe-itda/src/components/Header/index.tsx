@@ -56,7 +56,7 @@ const Header = () => {
   console.log("afdssssssssssssssss", user);
   // 로그아웃
   const handleLogout = () => {
-    Cookies.remove("access_token"); // 토큰 제거
+    Cookies.remove("accessToken"); // 토큰 제거
     dispatch(logout()); // Redux 상태 초기화
     router.push("/main");
     setVisible(false);
