@@ -33,70 +33,89 @@ const WebNovelGroup = ({
     const fetchNovels = async () => {
       try {
         // console.log(type, genre);
-        // const response = await api.get("/novels", {
-        //   // 타입과 장르에 맞는 작품
-        //   params: { type, genre },
-        // });
+        // let response;
+
+        // if (type === "mywrite") {
+        //   response = await api.get("/novels/mywrite");
+        // } else {
+        //   response = await api.get("/novels", {
+        //     params: { type, genre },
+        //   });
+        // }
         // setNovels(response.data);
 
-        setNovels([
-          {
-            id: 1,
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 2,
-            title: "하핫",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 3,
-            title: "오늘도",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 4,
-            title: "야야",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 5,
-            title: "잘돼라",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 6,
-            title: "헤헤",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 7,
-            title: "오늘도 힘내고 싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-          {
-            id: 8,
-            title: "싶다",
-            genre: "로맨스",
-            likes: 3,
-            imageUrl: test,
-          },
-        ]);
+        if (type !== "mywrite") {
+          setNovels([
+            {
+              id: 1,
+              title: "오늘도 힘내고 싶다",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 2,
+              title: "하핫",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 3,
+              title: "오늘도",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 4,
+              title: "야야",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 5,
+              title: "잘돼라",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 6,
+              title: "헤헤",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 7,
+              title: "오늘도 힘내고 싶다",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+            {
+              id: 8,
+              title: "싶다",
+              genre: "로맨스",
+              likes: 3,
+              imageUrl: test,
+            },
+          ]);
+        } else {
+          setNovels([
+            {
+              id: 1,
+              title: "내 작품 제목",
+              genre: "로맨스",
+              likes: 10,
+              views: 120,
+              createdAt: "2024-12-30",
+              imageUrl: test,
+            },
+          ]);
+        }
       } catch (e) {
         console.error("웹소설 불러오기 실패:", e);
       }
@@ -107,7 +126,13 @@ const WebNovelGroup = ({
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
       <div className="group-titlebox">
-        <div className="group-title">
+        <div
+          className={
+            type === "myfavorite" || type === "mywrite"
+              ? "myfavorite-title"
+              : "group-title"
+          }
+        >
           {/* 그룹의 이름 */}
           {title}
         </div>
@@ -147,6 +172,8 @@ const WebNovelGroup = ({
               type={type}
               index={i}
               id={novel.id}
+              views={novel.views}
+              createdAt={novel.createdAt}
             />
           </div>
         ))}

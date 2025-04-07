@@ -1,4 +1,3 @@
-// CustomSwitch.tsx
 import { Switch } from "antd";
 
 interface Props {

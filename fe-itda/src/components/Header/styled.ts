@@ -101,21 +101,32 @@ export const HeaderStyled = styled.div`
         display: none;
       }
     }
+
+    .ant-popover-inner {
+      width: 250px !important;
+    }
   }
 `;
 
+export const WrapContent = styled.div`
+  width: 250px;
+`;
+
 export const NickBox = styled.div`
+  width: 100%;
   display: flex;
-  border-radius: 1.125rem;
-  max-width: 13.25rem;
-  padding: 5px 2px;
-  border-color: rgb(0, 0, 0, 0.1);
-  border-width: 1px;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  border-style: solid;
-  margin-bottom: 1rem;
+  .nickbox {
+    border-radius: 1.125rem;
+    max-width: 13.25rem;
+    padding: 5px 10px;
+    border-color: rgb(0, 0, 0, 0.1);
+    border-width: 1px;
+    cursor: pointer;
+    border-style: solid;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const TopBox = styled.div`
@@ -127,7 +138,8 @@ export const TopBox = styled.div`
 `;
 
 export const ChargeButton = styled.button`
-  background: #ffc107;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
   border: none;
   padding: 4px 8px;
   border-radius: 4px;
@@ -139,14 +151,67 @@ export const DarkModeBox = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.05);
+  border-top: 1px solid rgb(0, 0, 0, 0.05);
+  height: 3.5rem;
+  img {
+    margin-right: 3px;
+  }
+  span {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+  }
 `;
 
 export const LogoutText = styled.div`
-  color: red;
-  border-top: 1px solid #ddd;
+  text-align: center;
   margin-top: 5px;
-  padding: 8px 10px;
+  padding: 10px 10px;
   cursor: pointer;
+  span {
+    box-sizing: border-box;
+    color: #656565;
+  }
 `;
 
-export const Menus = styled.div``;
+export const Menus = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 15px 0;
+  gap: 10px;
+  .menu-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .comment-icon {
+      width: 50px;
+    }
+    .popcorn-icon {
+      width: 50px;
+    }
+  }
+  .menu-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    .mywrite {
+      width: 50px;
+    }
+    .heart {
+      width: 50px;
+    }
+  }
+`;
