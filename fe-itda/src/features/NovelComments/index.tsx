@@ -56,6 +56,24 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
       likeNum: 10,
       isliked: false,
     },
+    {
+      id: 4,
+      writerId: 2,
+      writer: "하하",
+      date: "2025.03.31",
+      comment: "시작부터 기대되넹~",
+      likeNum: 1,
+      isliked: false,
+    },
+    {
+      id: 5,
+      writerId: 20,
+      writer: "하하",
+      date: "2025.03.31",
+      comment: "멍청이!",
+      likeNum: 1,
+      isliked: false,
+    },
   ];
 
   // 해당 작품 댓글 목록 가져오는 axios요청
