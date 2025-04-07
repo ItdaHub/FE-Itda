@@ -135,91 +135,93 @@ const FindPwPage = () => {
             <div className="findpw-errorMessage">{errorMessage}</div>
           )}
           {/* 새 비밀번호 입력 */}
-          {/* {findIt && ( */}
-          <div className="new-password-box">
-            <h3 className="findpw-title">새 비밀번호</h3>
-            <div className="findpw-newpass-box">
-              <input
-                className="new-pass"
-                type={toggle1 ? "password" : "text"}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  validationPass(e.target.value, setPassError);
-                }}
-              />
+          {findIt && (
+            <div className="new-password-box">
+              <h3 className="findpw-title">새 비밀번호</h3>
+              <div className="findpw-newpass-box">
+                <input
+                  className="new-pass"
+                  type={toggle1 ? "password" : "text"}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    validationPass(e.target.value, setPassError);
+                  }}
+                />
 
-              {/* 토글 버튼 */}
-              {toggle1 ? (
-                <EyeInvisibleOutlined
-                  className="findpw-toggleBtn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setToggle1(!toggle1);
+                {/* 토글 버튼 */}
+                {toggle1 ? (
+                  <EyeInvisibleOutlined
+                    className="findpw-toggleBtn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToggle1(!toggle1);
+                    }}
+                  />
+                ) : (
+                  <EyeOutlined
+                    className="findpw-toggleBtn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToggle1(!toggle1);
+                    }}
+                  />
+                )}
+
+                {passError && (
+                  <p className="findpw-errorMessage">{passError}</p>
+                )}
+              </div>
+
+              <h3 className="findpw-title">새 비밀번호 확인</h3>
+              <div className="findpw-newpass-box">
+                <input
+                  className="new-passCheck"
+                  type={toggle2 ? "password" : "text"}
+                  value={passwordCheck}
+                  onChange={(e) => {
+                    setPasswordCheck(e.target.value);
+                    validationPassCheck(
+                      e.target.value,
+                      password,
+                      setPassCheckError
+                    );
                   }}
                 />
-              ) : (
-                <EyeOutlined
-                  className="findpw-toggleBtn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setToggle1(!toggle1);
-                  }}
-                />
+
+                {/* 토글 버튼 */}
+                {toggle2 ? (
+                  <EyeInvisibleOutlined
+                    className="findpw-toggleBtn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToggle2(!toggle2);
+                    }}
+                  />
+                ) : (
+                  <EyeOutlined
+                    className="findpw-toggleBtn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setToggle2(!toggle2);
+                    }}
+                  />
+                )}
+
+                {passCheckError && (
+                  <p className="findpw-errorMessage">{passCheckError}</p>
+                )}
+              </div>
+
+              {/* 비밀번호 변경 버튼 */}
+              <button className="changePw-btn" onClick={handleChangePw}>
+                비밀번호 변경
+              </button>
+              {changePwError && (
+                <p className="findpw-errorMessage">{changePwError}</p>
               )}
-
-              {passError && <p className="findpw-errorMessage">{passError}</p>}
             </div>
-
-            <h3 className="findpw-title">새 비밀번호 확인</h3>
-            <div className="findpw-newpass-box">
-              <input
-                className="new-passCheck"
-                type={toggle2 ? "password" : "text"}
-                value={passwordCheck}
-                onChange={(e) => {
-                  setPasswordCheck(e.target.value);
-                  validationPassCheck(
-                    e.target.value,
-                    password,
-                    setPassCheckError
-                  );
-                }}
-              />
-
-              {/* 토글 버튼 */}
-              {toggle2 ? (
-                <EyeInvisibleOutlined
-                  className="findpw-toggleBtn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setToggle2(!toggle2);
-                  }}
-                />
-              ) : (
-                <EyeOutlined
-                  className="findpw-toggleBtn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setToggle2(!toggle2);
-                  }}
-                />
-              )}
-
-              {passCheckError && (
-                <p className="findpw-errorMessage">{passCheckError}</p>
-              )}
-            </div>
-
-            {/* 비밀번호 변경 버튼 */}
-            <button className="changePw-btn" onClick={handleChangePw}>
-              비밀번호 변경
-            </button>
-            {changePwError && (
-              <p className="findpw-errorMessage">{changePwError}</p>
-            )}
-          </div>
-          {/* )} */}
+          )}
         </form>
       </div>
     </FindPwPageStyled>

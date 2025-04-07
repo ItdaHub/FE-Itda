@@ -175,7 +175,7 @@ const SignUp = () => {
         password,
         nickname: nickName,
         name,
-        age: birthYear,
+        birthYear,
         phone: phoneNumber,
         type: "LOCAL",
       });
@@ -185,7 +185,7 @@ const SignUp = () => {
         password,
         nickname: nickName,
         name,
-        age: birthYear,
+        birthYear,
         phone: phoneNumber,
         type: type.toLowerCase(),
       });
@@ -257,15 +257,15 @@ const SignUp = () => {
               }}
               maxLength={20}
             />
-            {/* <p className={`error-message red-text`}>{emailError}</p>
-            <p className={`error-message green-text`}>{emailSuccess}</p> */}
-            <p
+            <p className={`error-message red-text`}>{emailError}</p>
+            <p className={`error-message green-text`}>{emailSuccess}</p>
+            {/* <p
               className={`error-message ${
                 emailError ? "red-text" : "green-text"
               }`}
             >
               {emailError || emailSuccess}
-            </p>
+            </p> */}
 
             <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인
