@@ -75,10 +75,10 @@ const Header = () => {
   // useEffect(() => {
   //   const getCharge = async () => {
   //     try {
-  //       const res = await api.get(`/charge/${user?.id}`);
+  //       const res = await api.get(`/popcorn/${user?.id}`);
   //       setNowPrice(res.data.nowPrice);
   //     } catch (error) {
-  //       console.error("충전 금액 불러오기 실패:", error);
+  //       console.error("팝콘개수 불러오기 실패:", error);
   //     }
   //   };
 
@@ -118,7 +118,13 @@ const Header = () => {
           </div>
 
           {/* 내가 사용한 캐시 모음 */}
-          <div className="menu-icon">
+          <div
+            className="menu-icon"
+            onClick={() => {
+              router.push("/cashhistory");
+              setVisible(false);
+            }}
+          >
             <img className="popcorn-icon" src={popcorn.src} alt="팝콘" />
             <div>팝콘 내역</div>
           </div>
@@ -250,8 +256,7 @@ const Header = () => {
           </div>
 
           {/* 로그인 or 프로필 */}
-          {/* $$이거 !빼야함!!!!!!!!!!!!!!!!!!!! */}
-          {!user ? (
+          {user ? (
             <Popover
               trigger="click"
               content={content}
