@@ -2,10 +2,8 @@ import WebNovel from "@/features/WebNovel";
 import { WebNovelGroupStyled } from "./styled";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-
 import test from "@/assets/images/testImage.png";
 import api from "@/utill/api";
-
 // 연령 카테고리
 const ageGroups = [
   { label: "10대", value: "teen" },
@@ -13,7 +11,6 @@ const ageGroups = [
   { label: "30대", value: "thirties" },
   { label: "40대", value: "forties" },
 ];
-
 const WebNovelGroup = ({
   title,
   type,
@@ -27,102 +24,25 @@ const WebNovelGroup = ({
 }) => {
   // 작품 데이터
   const [novels, setNovels] = useState<any[]>([]);
-
   // 작품 데이터 가져오기(type과 genre가 변경될시)
   useEffect(() => {
     const fetchNovels = async () => {
       try {
-        // console.log(type, genre);
-        // let response;
-
-        // if (type === "mywrite") {
-        //   response = await api.get("/novels/mywrite");
-        // } else {
-        //   response = await api.get("/novels", {
-        //     params: { type, genre },
-        //   });
-        // }
-        // setNovels(response.data);
-
-        if (type !== "mywrite") {
-          setNovels([
-            {
-              id: 1,
-              title: "오늘도 힘내고 싶다",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 2,
-              title: "하핫",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 3,
-              title: "오늘도",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 4,
-              title: "야야",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 5,
-              title: "잘돼라",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 6,
-              title: "헤헤",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 7,
-              title: "오늘도 힘내고 싶다",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-            {
-              id: 8,
-              title: "싶다",
-              genre: "로맨스",
-              likes: 3,
-              imageUrl: test,
-            },
-          ]);
+        let response;
+        if (type === "mywrite") {
+          response = await api.get("/novels/my");
         } else {
-          setNovels([
-            {
-              id: 1,
-              title: "내 작품 제목",
-              genre: "로맨스",
-              likes: 10,
-              views: 120,
-              createdAt: "2024-12-30",
-              imageUrl: test,
-            },
-          ]);
+          response = await api.get("/novels", {
+            params: { type, genre },
+          });
         }
+        setNovels(response.data);
       } catch (e) {
         console.error("웹소설 불러오기 실패:", e);
       }
     };
     fetchNovels();
   }, [type, genre]);
-
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
       <div className="group-titlebox">
@@ -136,7 +56,6 @@ const WebNovelGroup = ({
           {/* 그룹의 이름 */}
           {title}
         </div>
-
         <div className="group-agecategory">
           {/* 연령별 */}
           {ageSelect && (
@@ -156,7 +75,6 @@ const WebNovelGroup = ({
           )}
         </div>
       </div>
-
       {/* 작품 그룹 */}
       <div className="group-row">
         {novels.map((novel, i) => (
@@ -181,5 +99,4 @@ const WebNovelGroup = ({
     </WebNovelGroupStyled>
   );
 };
-
 export default WebNovelGroup;

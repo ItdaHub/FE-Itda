@@ -18,22 +18,20 @@ const MainPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // axios get요청 - 카테고리 불러오기
-        // const response = await api.get("/categories");
-        // setCategories(response.data);
+        const response = await api.get("/categories");
+
+        const genreList = response.data.map((genre: any) => ({
+          label: genre.name,
+          value: genre.value,
+        }));
+
         setCategories([
           [
             { label: "홈", value: "home" },
             { label: "이어쓰기", value: "relay" },
             { label: "출품작", value: "exhibit" },
           ],
-          [
-            { label: "전체", value: "all" },
-            { label: "로맨스", value: "romance" },
-            { label: "판타지", value: "fantasy" },
-            { label: "무협", value: "muhyeop" },
-            { label: "스릴러", value: "thriller" },
-          ],
+          [{ label: "전체", value: "all" }, ...genreList],
         ]);
       } catch (e) {
         console.error("카테고리 불러오기 실패: ", e);

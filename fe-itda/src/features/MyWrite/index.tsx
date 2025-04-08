@@ -95,3 +95,16 @@
 // };
 
 // export default MyWrite;
+
+import { MyWriteStyled } from "./styled";
+import WebNovelGroup from "@/components/WebNovelGroup";
+
+const MyWrite = () => {
+  return (
+    <MyWriteStyled>
+      <WebNovelGroup title="내가 쓴 작품" type="mywrite" />
+    </MyWriteStyled>
+  );
+};
+
+export default MyWrite;
