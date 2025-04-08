@@ -42,6 +42,7 @@ const WriteReply = ({
     <WriteReplyStyled className={clsx("reply-wrap")}>
       <Input
         variant="underlined"
+        placeholder="답글을 작성해주세요"
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
