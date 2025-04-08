@@ -76,7 +76,7 @@ const Category = ({
   // 새로쓰기 버튼 클릭
   const handleWriteClick = () => {
     if (!isLoggedIn) {
-      message.warning("로그인이 필요합니다!");
+      router.push("/login");
       return;
     }
     router.push("/newwrite?type=new");

@@ -3,7 +3,6 @@
  */
 
 import { Modal } from "antd";
-import axios from "axios";
 import api from "@/utill/api";
 
 // 전화번호 확인용

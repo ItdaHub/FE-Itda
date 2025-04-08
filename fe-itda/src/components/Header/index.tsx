@@ -92,10 +92,11 @@ const Header = () => {
       <NickBox
         onClick={() => {
           router.push("/mypage");
+          setVisible(false);
         }}
       >
         <div className="nickbox">
-          연이님{/* <span>{user?.nickname || "사용자"}님</span> */}
+          <span>{user?.nickname || "사용자"}님</span>
           <img src={nickarrow.src} alt="화살표" />
         </div>
       </NickBox>
