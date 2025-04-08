@@ -25,5 +25,19 @@ export const NovelCommentStyled = styled.div`
     .stick {
       border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
     }
+    .novelComment-reply {
+      color: ${({ theme }) => theme.colors.primary};
+      padding: 5px;
+      margin-bottom: 10px;
+      width: fit-content;
+      &:hover {
+        background-color: rgb(234, 225, 237);
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
   }
 `;

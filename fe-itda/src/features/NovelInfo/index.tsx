@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 
 interface NovelInfoType {
   img: string;
@@ -19,53 +19,63 @@ interface NovelInfoType {
 
 const NovelInfo = ({ data }: { data?: number }) => {
   const router = useRouter();
-
-  // 로그인된 유저 가져오기
   const user = useAppSelector((state) => state.auth.user);
 
-  const [novel, setNovel] = useState<Partial<NovelInfoType>>({});
+  const [novel, setNovel] = useState({
+    img: test.src,
+    title: "",
+    genre: "",
+    author: "",
+    isLiked: false,
+  });
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
-  const novelInfo: NovelInfoType = {
-    img: test.src,
-    title: "그 새의 날개는 어디에",
-    genre: "로맨스",
-    author: "톰곰이, 아이, 라라, 미",
-    isLiked: true,
-    likeNum: 25,
-  };
-
   useEffect(() => {
+    if (!data || user === undefined) return;
+
     const getNovelDetail = async () => {
       try {
-        // const res = await api.get(`/novels/${data}`);
-        // console.log("소설 정보:", res.data);
-        // setNovel(res.data);
-        setNovel(novelInfo);
-        setLiked(novelInfo.isLiked);
-        setLikeCount(novelInfo.likeNum);
+        const res = await api.get(`/novels/${data}`, {
+          params: { userId: user?.id },
+        });
+        const novelData = res.data;
+
+        setNovel({
+          img: novelData.image || test.src,
+          title: novelData.title || "제목 없음",
+          genre: novelData.genre || "장르 없음",
+          author: novelData.author || "작가 미상",
+          isLiked: novelData.isLiked ?? false,
+        });
+
+        setLiked(novelData.isLiked ?? false);
+        setLikeCount(
+          typeof novelData.likeCount === "number" ? novelData.likeCount : 0
+        );
       } catch (e) {
         console.error("소설 가져오기 실패: ", e);
       }
     };
 
     getNovelDetail();
-  }, [data]);
+  }, [data, user]);
 
   const toggleLike = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
-      // 찜 axios post요청
-      if (liked) {
-        // await api.post(`/likes/novel/${user?.id}/${data}`);
-        setLikeCount((prev) => Math.max(prev - 1, 0));
-      } else {
-        // await api.delete(`/likes/novel/${user?.id}/${data}`);
-        setLikeCount((prev) => prev + 1);
-      }
-      setLiked(!liked);
+      const res = await api.patch(`/likes/novel/${data}/toggle`);
+      const isNowLiked = res.data.liked;
+
+      setLiked(isNowLiked);
+      setLikeCount((prev) => (isNowLiked ? prev + 1 : Math.max(prev - 1, 0)));
     } catch (error) {
-      console.error("Error updating like status", error);
+      console.error("좋아요 상태 변경 실패", error);
+      alert("좋아요 처리 중 문제가 발생했어요. 다시 시도해주세요.");
     }
   };
 

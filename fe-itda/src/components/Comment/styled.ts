@@ -4,6 +4,10 @@ export const CommentStyled = styled.div`
   &.comment-wrap {
     padding: 18px 0;
 
+    .reply-box {
+      padding-left: 50px;
+    }
+
     .comment-more {
       display: flex;
       justify-content: space-between;
@@ -32,6 +36,10 @@ export const CommentStyled = styled.div`
       white-space: pre-wrap;
       word-break: break-word;
     }
+    .comment-likebox {
+      display: flex;
+      justify-content: space-between;
+    }
     .comment-like {
       display: flex;
       justify-content: flex-end;
@@ -42,6 +50,18 @@ export const CommentStyled = styled.div`
         margin-right: 6px;
         padding: 5px 7px;
         cursor: pointer;
+      }
+    }
+    .comment-reply-btn {
+      span {
+        font-size: 12px;
+        color: #8c8c8c;
+        padding: 5px 8px;
+        &:hover {
+          cursor: pointer;
+          border-radius: 30px;
+          background-color: rgb(229, 229, 229);
+        }
       }
     }
   }

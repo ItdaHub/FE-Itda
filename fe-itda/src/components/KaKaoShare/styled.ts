@@ -5,6 +5,9 @@ export const KaKaoShareStyled = styled.div`
     .kakaoshare-box {
       cursor: pointer;
     }
+    .kakaoshare-btn {
+      display: flex;
+    }
     .kakaoshare-text {
       font-size: 13px;
       font-weight: 600;

@@ -1,13 +1,22 @@
 import clsx from "clsx";
 import { NovelCommentStyled } from "./styled";
-import { InfoCircleFilled, SendOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  InfoCircleFilled,
+  SendOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Popover } from "antd";
 import WriteComment from "../WriteComment";
 import Comment from "@/components/Comment";
 import api from "@/utill/api";
+import { Collapse } from "antd";
+import WriteReply from "@/components/WriteReply";
 
 interface ReviewType {
+  id: number;
+  parentId?: any;
   writer: string;
   date: string;
   comment: string;
@@ -26,12 +35,15 @@ const content = (
 const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
   // 댓글 목록 저장
   const [reviews, setReviews] = useState<ReviewType[]>([]);
+  const [repliesVisible, setRepliesVisible] = useState<Record<number, boolean>>(
+    {}
+  );
 
   const review = [
     {
       id: 1,
       writerId: 1,
-      writer: "김강",
+      writer: "마우스",
       date: "2025.03.25",
       comment: "재밌다",
       likeNum: 5,
@@ -75,6 +87,13 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
       isliked: false,
     },
   ];
+
+  const toggleReplies = (parentId: number) => {
+    setRepliesVisible((prev) => ({
+      ...prev,
+      [parentId]: !prev[parentId],
+    }));
+  };
 
   // 해당 작품 댓글 목록 가져오는 axios요청
   useEffect(() => {
@@ -121,14 +140,59 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
 
       {/* 댓글 목록 */}
       <ul>
-        {reviews.map((item, i) => (
-          <div key={i}>
-            <li>
-              <Comment item={item} />
-            </li>
-            <div className={i + 1 !== review.length ? "stick" : ""}></div>
-          </div>
-        ))}
+        {reviews
+          .filter((item) => !item.parentId)
+          .map((parent, i) => {
+            const replies = reviews.filter(
+              (reply) => reply.parentId === parent.id
+            );
+            const isVisible = repliesVisible[parent.id];
+            return (
+              <div key={parent.id}>
+                <li>
+                  <Comment item={parent} type="parent" />
+
+                  {/* 대댓글 보기 토글 */}
+                  {replies.length > 0 && (
+                    <div
+                      className="novelComment-reply"
+                      onClick={() => toggleReplies(parent.id)}
+                    >
+                      {isVisible ? (
+                        <>
+                          <UpOutlined />
+                          <span>답글 숨기기</span>
+                        </>
+                      ) : (
+                        <>
+                          <DownOutlined />
+                          <span>댓글 {replies.length}개</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+
+                  {/* 대댓글 리스트 */}
+                  {isVisible && (
+                    <ul className="replies">
+                      {replies.map((reply) => (
+                        <li key={reply.id}>
+                          <Comment item={reply} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+                <div
+                  className={
+                    i + 1 !== reviews.filter((item) => !item.parentId).length
+                      ? "stick"
+                      : ""
+                  }
+                ></div>
+              </div>
+            );
+          })}
       </ul>
     </NovelCommentStyled>
   );

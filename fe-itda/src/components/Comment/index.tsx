@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
 import Modal from "antd/es/modal/Modal";
+import WriteReply from "../WriteReply";
 
 // API 응답 타입 정의
 interface ReportResponse {
@@ -13,11 +14,12 @@ interface ReportResponse {
     success: boolean;
   };
 }
-const Comment = ({ item }: { item?: any }) => {
+const Comment = ({ item, type }: { item?: any; type?: string }) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const [isLiked, setIsLiked] = useState(item.isliked);
   const [likeCount, setLikeCount] = useState(item.likeNum);
+  const [isVisible, setIsVisible] = useState(false);
 
   // const comments = item.filter(
   //   (comment: { parentId: null }) => comment.parentId === null
@@ -164,9 +166,6 @@ const Comment = ({ item }: { item?: any }) => {
   //   });
   // };
 
-  // 로그인한 사용자
-  const userId = 1;
-
   const itemDelete: MenuProps["items"] = [
     {
       label: <div onClick={deleteComment}>삭제</div>,
@@ -183,12 +182,12 @@ const Comment = ({ item }: { item?: any }) => {
 
   return (
     <CommentStyled className="comment-wrap">
-      <div>
+      <div className={type === "parent" ? "" : "reply-box"}>
         <div className="comment-more">
           <div className="comment-writer">{item.writer}</div>
           <Dropdown
             menu={{
-              items: userId === item.writerId ? itemDelete : itemDeclare,
+              items: user?.id === item.writerId ? itemDelete : itemDeclare,
             }}
             trigger={["click"]}
           >
@@ -201,16 +200,43 @@ const Comment = ({ item }: { item?: any }) => {
         </div>
         <div className="comment-date">{item.date}</div>
         <div className="comment-comment">{item.comment}</div>
-        <div className="comment-like">
-          <button onClick={handleLikeClick}>
-            {isLiked ? (
-              <LikeFilled style={{ color: "#c47ad7" }} />
+        <div className="comment-likebox">
+          <div>
+            {type === "parent" ? (
+              <div
+                onClick={() => {
+                  setIsVisible(!isVisible);
+                }}
+                className="comment-reply-btn"
+              >
+                <span>답글</span>
+              </div>
             ) : (
-              <LikeOutlined />
+              <></>
             )}
-            <span> {likeCount}</span>
-          </button>
+          </div>
+          <div className="comment-like">
+            <button onClick={handleLikeClick}>
+              {isLiked ? (
+                <LikeFilled style={{ color: "#c47ad7" }} />
+              ) : (
+                <LikeOutlined />
+              )}
+              <span> {likeCount}</span>
+            </button>
+          </div>
         </div>
+        {isVisible ? (
+          <>
+            <WriteReply
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              parentId={item.id}
+            />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
 
       {/* 신고 모달 */}
