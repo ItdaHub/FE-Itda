@@ -38,6 +38,15 @@ export const MyPageStyled = styled.div`
       cursor: pointer;
     }
 
+    .red-text {
+      color: red;
+      font-size: 14px;
+    }
+    .green-text {
+      color: green;
+      font-size: 14px;
+    }
+
     .userEdit {
       width: 100%;
       height: 45px;

@@ -37,6 +37,9 @@ const Mypage = () => {
         setProfileImagePreview(user.profile_img);
       }
     }
+    if (!user) {
+      router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
+    }
   }, [user]);
 
   const [email, setEmail] = useState("");
@@ -60,6 +63,13 @@ const Mypage = () => {
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
     null
   ); // 미리보기 이미지 URL
+
+  // 중복 검사 상태를 관리할 state
+  const [isNickName, setIsNickName] = useState<boolean>(false);
+  // 닉네임의 유효성 검사 상태
+  const [nickNameError, setNickNameError] = useState("");
+  // 닉네임 중복 검사 상태 메세지
+  const [nickNameSuccess, setNickNameSuccess] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -137,32 +147,42 @@ const Mypage = () => {
   //     alert("비밀번호 변경 중 오류가 발생했습니다.");
   //   }
   // };
-  // 비밀번호 변경 버튼 클릭
+
+  // 비밀번호 변경 버튼 클릭 (axios 요청 => util/vali에서 처리)
   const handleChangePw = (e: React.MouseEvent) => {
     e.preventDefault();
     changePassword(email, password, passwordCheck, setChangePwError);
   };
 
-  // 닉네임 중복검사 (axios 요청)
-  const handleCheckNickName = async (e: React.MouseEvent) => {
-    e.preventDefault;
+  const handleCheckNickName = async (e: any) => {
+    e.preventDefault();
 
+    // 유효성 검사
     if (!nickName.trim()) {
-      alert("닉네임을 입력해주세요.");
+      setNickNameError("닉네임을 입력해주세요.");
       return;
     }
 
-    try {
-      const res = await api.post("/auth/nicknameCheck", { nickName });
+    const isValid = nickName.length >= 2 && nickName.length <= 8;
+    if (!isValid) {
+      setNickNameError("닉네임은 2~8자 사이여야 합니다.");
+      return;
+    }
 
-      if (res.data.success) {
-        alert("이미 사용 중인 닉네임입니다.");
-      } else {
-        alert("사용 가능한 닉네임입니다.");
-      }
-    } catch (error) {
-      console.error("닉네임 중복 검사 오류:", error);
-      alert("닉네임 중복 검사 중 오류가 발생했습니다.");
+    // 닉네임 중복 axios 요청 (현재 사용중인 닉네임 예외처리)
+    try {
+      const res = await api.post("/auth/nicknameCheck/edit", { nickName });
+
+      setIsNickName(true);
+      setNickNameError("");
+      setNickNameSuccess(res.data.message);
+    } catch (err: any) {
+      const message =
+        err.response?.data?.message ||
+        "닉네임 중복 확인 중 오류가 발생했습니다.";
+      setIsNickName(false);
+      setNickNameError(message);
+      setNickNameSuccess("");
     }
   };
 
@@ -174,8 +194,8 @@ const Mypage = () => {
     // FormData 생성
     const formData = new FormData();
     formData.append("nickname", nickName);
-    formData.append("name", name);
-    formData.append("phoneNumber", phoneNumber);
+    // formData.append("name", name);
+    // formData.append("phoneNumber", phoneNumber);
 
     // 이미지가 선택된 경우에만 추가
     if (image) {
@@ -183,7 +203,7 @@ const Mypage = () => {
     }
 
     try {
-      const response = await api.put("/api/user/profile", {
+      const response = await api.put("/auth/edit", {
         // data: { updateUserData },
         formData,
         headers: { "Content-Type": "multipart/form-data" },
@@ -303,7 +323,6 @@ const Mypage = () => {
             <div className="userEdit-email">
               <input className="userEdit" type="text" value={email} readOnly />
             </div>
-
             <div>
               비밀번호
               <div className="change-pass">
@@ -325,7 +344,6 @@ const Mypage = () => {
                 </button>
               </div>
             </div>
-
             {/* 비밀번호 변경 모달 */}
             <Modal
               className="password-modal"
@@ -372,7 +390,6 @@ const Mypage = () => {
                 )}
               </div>
             </Modal>
-
             <div>닉네임</div>
             <div className="userEdit-nickname">
               <input
@@ -381,11 +398,18 @@ const Mypage = () => {
                 value={nickName}
                 onChange={(e) => setNickName(e.target.value)}
               />
+              {/* </div> */}
               <button className="double-check" onClick={handleCheckNickName}>
                 중복검사
               </button>
-              {/* {isNickName && <p>{nickNameSameError}</p>} */}
             </div>
+            <p
+              className={`error-message ${
+                nickNameError ? "red-text" : "green-text"
+              }`}
+            >
+              {nickNameError || nickNameSuccess}
+            </p>
 
             <div>이름</div>
             <div className="userEdit-name">
@@ -396,9 +420,9 @@ const Mypage = () => {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
+                readOnly
               />
             </div>
-
             <div>출생년도</div>
             <div className="userEdit-birth">
               <input
@@ -408,7 +432,6 @@ const Mypage = () => {
                 readOnly
               />
             </div>
-
             <div>전화번호</div>
             <div className="userEdit-phone">
               <input
@@ -416,6 +439,7 @@ const Mypage = () => {
                 type="phoneNumber"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                readOnly
               />
             </div>
           </div>
