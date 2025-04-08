@@ -54,28 +54,29 @@ const SignUp = () => {
   // 이메일 중복 검사 함수
   const checkEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    validationEmail(email);
-    if (emailError || !email) return;
-    console.log(emailError, "너때문일까?");
+    const isValid = validationEmail(email);
+    if (!isValid) return;
     setDisabled(true);
     try {
-      console.log("dddddd");
       const res = await api.post("/auth/emailCheck", { email });
-      const msg = res.data.message;
-      console.log(msg, "ddd");
-      console.log(res, "11111");
-      console.log("-------");
-      if (msg) {
+      if (res.data.success) {
         setIsEmail(true);
         setEmailError("");
-        setEmailSuccess("사용 가능한 이메일입니다.");
+        setEmailSuccess(res.data.message);
       } else {
         setIsEmail(false);
-        setEmailError("이미 사용된 이메일입니다.");
+        setEmailError(res.data.message || "이미 사용된 이메일입니다.");
         setEmailSuccess("");
       }
-    } catch (err) {
-      setEmailError("이메일 중복 확인 오류 발생");
+    } catch (err: any) {
+      console.error(
+        "이메일 중복 확인 에러:",
+        err.response?.data || err.message
+      );
+      const message =
+        err.response?.data?.message ||
+        "이메일 중복 확인 중 오류가 발생했습니다.";
+      setEmailError(message);
       setEmailSuccess("");
     } finally {
       setDisabled(false);
@@ -86,22 +87,32 @@ const SignUp = () => {
   const checkNickName = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     validationNickName(nickName);
-    if (nickNameError || !nickName) return;
+    const isValid = nickName.length >= 2 && nickName.length <= 8;
+    if (!isValid) {
+      setNickNameError("닉네임은 2~8자 사이여야 합니다.");
+      return;
+    }
     setDisabled(true);
     try {
       const res = await api.post("/auth/nicknameCheck", { nickName });
-      const msg = res.data.message;
-      if (msg) {
+      if (res.data.success) {
         setIsNickName(true);
         setNickNameError("");
-        setNickNameSuccess("사용 가능한 닉네임입니다.");
+        setNickNameSuccess(res.data.message);
       } else {
         setIsNickName(false);
-        setNickNameError("이미 사용된 닉네임입니다.");
+        setNickNameError(res.data.message || "이미 사용된 닉네임입니다.");
         setNickNameSuccess("");
       }
-    } catch (err) {
-      setNickNameError("닉네임 중복 확인 오류 발생");
+    } catch (err: any) {
+      console.error(
+        "닉네임 중복 확인 에러:",
+        err.response?.data || err.message
+      );
+      const message =
+        err.response?.data?.message ||
+        "닉네임 중복 확인 중 오류가 발생했습니다.";
+      setNickNameError(message);
       setNickNameSuccess("");
     } finally {
       setDisabled(false);
@@ -109,15 +120,18 @@ const SignUp = () => {
   };
 
   // 이메일 유효성 검사
-  const validationEmail = (email: string) => {
+  const validationEmail = (email: string): boolean => {
     const valid = /\S+@\S+\.\S+/.test(email);
-    setEmailError(
-      !email
-        ? "이메일을 입력해주세요"
-        : !valid
-        ? "유효한 이메일이 아닙니다."
-        : ""
-    );
+    if (!email) {
+      setEmailError("이메일을 입력해주세요");
+      return false;
+    }
+    if (!valid) {
+      setEmailError("유효한 이메일이 아닙니다.");
+      return false;
+    }
+    setEmailError("");
+    return true;
   };
 
   // 닉네임 유효성 검사
@@ -268,15 +282,15 @@ const SignUp = () => {
               }}
               maxLength={20}
             />
-            <p className={`error-message red-text`}>{emailError}</p>
-            <p className={`error-message green-text`}>{emailSuccess}</p>
-            {/* <p
+            {/* <p className={`error-message red-text`}>{emailError}</p>
+            <p className={`error-message green-text`}>{emailSuccess}</p> */}
+            <p
               className={`error-message ${
                 emailError ? "red-text" : "green-text"
               }`}
             >
               {emailError || emailSuccess}
-            </p> */}
+            </p>
 
             <button className="same-id-check-btn" onClick={checkEmail}>
               중복확인

@@ -2,6 +2,10 @@
  * 발리체크용
  */
 
+import { Modal } from "antd";
+import axios from "axios";
+import api from "@/utill/api";
+
 // 전화번호 확인용
 export const check = /^\d{3}-\d{4}-\d{4}$/;
 
@@ -64,4 +68,50 @@ export const validationPassCheck = (
   } else if (password !== passwordCheck) {
     setPassCheckError("비밀번호가 일치하지 않습니다.");
   } else setPassCheckError("");
+};
+
+/**
+ * 비밀번호 변경 요청 함수
+ * @param email 사용자 이메일
+ * @param password 새 비밀번호
+ * @param passwordCheck 새 비밀번호 확인
+ * @param setError 에러 메시지 설정 함수
+ * @param onSuccess 성공 시 실행할 콜백 (예: 로그인 페이지 이동)
+ */
+export const changePassword = async (
+  email: string,
+  password: string,
+  passwordCheck: string,
+  setChangePwError: (msg: string) => void,
+  onSuccess?: () => void
+) => {
+  if (!password || !passwordCheck) {
+    setChangePwError("비밀번호를 입력해주세요.");
+    return;
+  } else if (password !== passwordCheck) {
+    setChangePwError("비밀번호가 일치하지 않습니다.");
+    return;
+  } else {
+    setChangePwError("");
+  }
+
+  try {
+    const response = await api.post("/auth/updatePw", {
+      email,
+      password,
+    });
+
+    if (response.data.message) {
+      Modal.success({
+        title: "비밀번호 변경 완료",
+        content: "새 비밀번호가 저장되었습니다. 다시 로그인해 주세요.",
+        onOk: onSuccess ?? (() => (window.location.href = "/login")),
+      });
+    } else {
+      setChangePwError("비밀번호 변경에 실패했습니다.");
+    }
+  } catch (err) {
+    console.error(err);
+    setChangePwError("서버 오류가 발생했습니다.");
+  }
 };

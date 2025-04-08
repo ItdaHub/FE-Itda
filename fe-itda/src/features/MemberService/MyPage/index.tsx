@@ -9,19 +9,27 @@ import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
-import router from "next/router";
+import { useRouter } from "next/router";
 import clsx from "clsx";
+import {
+  changePassword,
+  validationPass,
+  validationPassCheck,
+} from "@/utill/vali"; // 비밀번호 변경 요청
+import api from "@/utill/api";
+import Swal from "sweetalert2";
 
 const Mypage = () => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
       console.log("현재 유저 정보 확인 👉", user);
       setEmail(user.email);
-      setNickname(user.nickname);
+      setNickName(user.nickname);
       setName(user.name);
       setBirth(user.birthYear);
       setPhoneNumber(user.phone);
@@ -32,7 +40,7 @@ const Mypage = () => {
   }, [user]);
 
   const [email, setEmail] = useState("");
-  const [nickname, setNickname] = useState<string>("");
+  const [nickName, setNickName] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [birth, setBirth] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -40,6 +48,12 @@ const Mypage = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 모달 열기 / 닫기
   const [password, setPassword] = useState(""); // 새 비밀번호
   const [passwordCheck, setPasswordCheck] = useState(""); // 새 비밀번호 확인
+  // 새 비밀번호 에러 메세지
+  const [passError, setPassError] = useState("");
+  // 새 비밀번호 확인 에러 메세지
+  const [passCheckError, setPassCheckError] = useState("");
+  // 비밀번호 변경 axios 요청 에러 메세지
+  const [changePwError, setChangePwError] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false); // 프로필 모달 열기/닫기
   const [image, setImage] = useState<File | null>(null); // 선택된 이미지 파일 (실제 파일 객체)
@@ -104,39 +118,44 @@ const Mypage = () => {
     setIsPasswordModalOpen(false);
   };
 
-  const handleChangePw = async () => {
-    if (!password || !passwordCheck) {
-      alert("비밀번호를 입력해주세요");
-    }
+  // const handleChangePw = async () => {
+  //   if (!password || !passwordCheck) {
+  //     alert("비밀번호를 입력해주세요");
+  //   }
 
-    try {
-      const response = await axios.post(`/api/user/password`, {
-        data: { password },
-      });
-      if (response.data.message) {
-        alert("비밀번호가 변경되었습니다.");
-      } else {
-        alert(response.data.message || "비밀번호 변경에 실패했습니다.");
-      }
-    } catch (error) {
-      console.error("비밀번호 변경 오류:", error);
-      alert("비밀번호 변경 중 오류가 발생했습니다.");
-    }
+  //   try {
+  //     const response = await axios.post(`/api/user/password`, {
+  //       data: { password },
+  //     });
+  //     if (response.data.message) {
+  //       alert("비밀번호가 변경되었습니다.");
+  //     } else {
+  //       alert(response.data.message || "비밀번호 변경에 실패했습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("비밀번호 변경 오류:", error);
+  //     alert("비밀번호 변경 중 오류가 발생했습니다.");
+  //   }
+  // };
+  // 비밀번호 변경 버튼 클릭
+  const handleChangePw = (e: React.MouseEvent) => {
+    e.preventDefault();
+    changePassword(email, password, passwordCheck, setChangePwError);
   };
 
   // 닉네임 중복검사 (axios 요청)
-  const handleCheckNickName = async () => {
-    if (!nickname.trim()) {
+  const handleCheckNickName = async (e: React.MouseEvent) => {
+    e.preventDefault;
+
+    if (!nickName.trim()) {
       alert("닉네임을 입력해주세요.");
       return;
     }
 
     try {
-      const response = await axios.get(`/api/user/check-nickname`, {
-        params: { nickname },
-      });
+      const res = await api.post("/auth/nicknameCheck", { nickName });
 
-      if (response.data.exists) {
+      if (res.data.success) {
         alert("이미 사용 중인 닉네임입니다.");
       } else {
         alert("사용 가능한 닉네임입니다.");
@@ -154,7 +173,7 @@ const Mypage = () => {
 
     // FormData 생성
     const formData = new FormData();
-    formData.append("nickname", nickname);
+    formData.append("nickname", nickName);
     formData.append("name", name);
     formData.append("phoneNumber", phoneNumber);
 
@@ -164,7 +183,7 @@ const Mypage = () => {
     }
 
     try {
-      const response = await axios.put("/api/user/profile", {
+      const response = await api.put("/api/user/profile", {
         // data: { updateUserData },
         formData,
         headers: { "Content-Type": "multipart/form-data" },
@@ -186,9 +205,39 @@ const Mypage = () => {
   };
 
   // 회원 탈퇴 처리
-  const handleDelete = async () => {
-    // 회원 탈퇴 로직 (API 호출로 계정 삭제)
-    console.log("회원 탈퇴");
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: "정말 탈퇴하시겠습니까?",
+      text: "탈퇴 후 서비스 이용을 하실 수 없습니다.",
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니오",
+      confirmButtonColor: "#429f50",
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // 회원 탈퇴 로직 (API 호출로 계정 삭제)
+        try {
+          const response = await api.delete(`/auth/deleteId/${email}`);
+
+          if (response.status === 200) {
+            Swal.fire({
+              title: "탈퇴가 완료되었습니다.",
+              icon: "success",
+              confirmButtonText: "확인",
+            });
+            router.push("/main");
+          } else {
+            alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+          }
+        } catch (error) {
+          console.error("회원 탈퇴 중 오류 발생:", error);
+          alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      }
+    });
   };
 
   return (
@@ -291,17 +340,36 @@ const Mypage = () => {
                   className="userEdit"
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="새 비밀번호"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    validationPass(e.target.value, setPassError);
+                  }}
                 />
+                {passError && (
+                  <p className="findpw-errorMessage">{passError}</p>
+                )}
                 <input
                   className="userEdit"
                   type="password"
                   value={passwordCheck}
-                  onChange={(e) => setPasswordCheck(e.target.value)}
                   placeholder="새 비밀번호 확인"
+                  onChange={(e) => {
+                    setPasswordCheck(e.target.value);
+                    validationPassCheck(
+                      e.target.value,
+                      password,
+                      setPassCheckError
+                    );
+                  }}
                 />
+                {passCheckError && (
+                  <p className="findpw-errorMessage">{passCheckError}</p>
+                )}
                 <button onClick={handleChangePw}>비밀번호 변경</button>
+                {changePwError && (
+                  <p className="findpw-errorMessage">{changePwError}</p>
+                )}
               </div>
             </Modal>
 
@@ -310,8 +378,8 @@ const Mypage = () => {
               <input
                 className="userEdit"
                 type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                value={nickName}
+                onChange={(e) => setNickName(e.target.value)}
               />
               <button className="double-check" onClick={handleCheckNickName}>
                 중복검사
