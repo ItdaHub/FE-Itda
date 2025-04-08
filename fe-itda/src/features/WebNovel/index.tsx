@@ -2,13 +2,23 @@ import { WebNovelStyled } from "./styled";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
+interface GenreType {
+  id: number;
+  name: string;
+  value: string;
+}
+
+interface ImageType {
+  src: string;
+}
+
 interface WebNovelProps {
   title: string;
-  genre: string;
+  genre: string | GenreType;
   likes: number;
-  imageUrl: any;
+  imageUrl: string | ImageType;
   type?: string;
-  index?: any;
+  index?: number;
   id: number;
   views?: number;
   createdAt?: string;
@@ -20,12 +30,24 @@ const WebNovel = ({
   likes,
   imageUrl,
   type,
-  index,
+  index = 0,
   id,
   views,
   createdAt,
 }: WebNovelProps) => {
   const router = useRouter();
+
+  // 장르 이름 추출
+  const genreName =
+    genre && typeof genre === "object" && "name" in genre ? genre.name : genre;
+
+  // 이미지 경로 처리
+  const imageSrc =
+    imageUrl && typeof imageUrl === "object" && "src" in imageUrl
+      ? imageUrl.src
+      : typeof imageUrl === "string"
+      ? imageUrl
+      : "/testlmage.png";
 
   return (
     <WebNovelStyled className="novel-wrap">
@@ -43,19 +65,14 @@ const WebNovel = ({
               : ""
           }`}
         >
-          <img src={imageUrl.src} alt={title} />
+          <img src={imageSrc} alt={title} />
           {(type === "myfavorite" || type === "mywrite") && (
             <div className="myfavorite-overlay">
               <div className="overlay-content">
                 <div className="overlay-title">{title}</div>
-                <div className="overlay-genre">{genre}</div>
-                {type === "mywrite" ? (
-                  <>
-                    <div>{createdAt}</div>
-                  </>
-                ) : (
-                  <></>
-                )}
+                <div className="overlay-genre">{genreName}</div>
+
+                {type === "mywrite" && <div>{String(createdAt)}</div>}
 
                 <div
                   className={`overlay-likes ${
@@ -63,12 +80,10 @@ const WebNovel = ({
                   }`}
                 >
                   <HeartOutlined /> {likes}
-                  {type === "mywrite" ? (
+                  {type === "mywrite" && (
                     <>
                       <EyeOutlined /> {views}
                     </>
-                  ) : (
-                    <></>
                   )}
                 </div>
               </div>
@@ -83,18 +98,16 @@ const WebNovel = ({
               : "novel-infoBox"
           }
         >
-          {/* 연령별 숫자표시->랭킹숫자 */}
+          {/* 랭킹 숫자 */}
           <div className={type === "home" ? "group-on" : "group-agerank-off"}>
             <em className="group-rank">{index + 1}</em>
           </div>
 
           <div className="novel-title-box">
-            {/* 작품 제목 */}
             <div className="novel-title">{title}</div>
 
-            {/* 작품 정보 (장르, 찜 개수) */}
             <div className="novel-info">
-              <div className="novel-genre">{genre}</div>
+              <div className="novel-genre">{genreName}</div>
               <div className="novel-likes">
                 <HeartOutlined /> {likes}
               </div>

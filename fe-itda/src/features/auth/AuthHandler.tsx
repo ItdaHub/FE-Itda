@@ -11,7 +11,7 @@ const AuthHandler = () => {
       if (!user) {
         try {
           const response = await api.get("/auth/login");
-          console.log(":흰색_확인_표시: 로그인된 유저 정보:", response.data);
+          console.log("로그인된 유저 정보:", response.data);
           dispatch(setUser(response.data.user));
         } catch (error: any) {
           if (error.response?.status === 401) {
