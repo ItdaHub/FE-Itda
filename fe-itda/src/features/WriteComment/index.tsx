@@ -29,15 +29,15 @@ const WriteComment = ({
     if (writeNum < 1) return;
 
     try {
-      // const response = await api.post("/comments", {
-      //   user.id, // 유저 ID
-      //   comment, // 댓글 내용
-      //   novelId, // 작품 ID
-      //   chapterId,//챕터 ID
-      // });
-      // console.log("댓글 작성 성공:", response.data);
-      // setComment(""); // 댓글 초기화
-      // setWriteNum(0);
+      const response = await api.post("/comments", {
+        userId: user?.id, // 유저 ID
+        comment, // 댓글 내용
+        novelId, // 작품 ID
+        chapterId, //챕터 ID
+      });
+      console.log("댓글 작성 성공:", response.data);
+      setComment(""); // 댓글 초기화
+      setWriteNum(0);
     } catch (e) {
       console.error("댓글 작성 실패:", e);
     }

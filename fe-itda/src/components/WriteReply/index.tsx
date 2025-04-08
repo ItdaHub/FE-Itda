@@ -22,7 +22,7 @@ const WriteReply = ({
   const postReply = async () => {
     // axios post요청 - 대댓글 작성하기
     try {
-      const response = await api.post("/comments/reply", {
+      const response = await api.post("/comments", {
         parentId, // 부모댓글 아이디
         content, // 내용
         userId: user?.id, // 로그인한 유저 아이디
@@ -55,7 +55,7 @@ const WriteReply = ({
           취소
         </div>
         <button
-          className="reply-reply"
+          className={`reply-reply ${!content.trim() ? "" : "reply-pointer"}`}
           onClick={postReply}
           disabled={!content.trim()}
         >
