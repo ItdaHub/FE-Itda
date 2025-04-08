@@ -5,7 +5,11 @@ import axios from "axios";
 import { Modal } from "antd";
 import { useDispatch } from "react-redux";
 // 비밀번호, 비밀번호 확인 유효성 검사
-import { validationPass, validationPassCheck } from "@/utill/vali";
+import {
+  changePassword,
+  validationPass,
+  validationPassCheck,
+} from "@/utill/vali";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import api from "@/utill/api";
 
@@ -89,33 +93,34 @@ const FindPwPage = () => {
   };
 
   // 비밀번호 변경 버튼 클릭
-  const handleChangePw = async (e: any) => {
+  const handleChangePw = (e: React.MouseEvent) => {
     e.preventDefault();
+    changePassword(email, password, passwordCheck, setChangePwError);
 
-    if (!password || !passwordCheck) {
-      setChangePwError("비밀번호를 입력해주세요.");
-      return;
-    }
-    try {
-      const response = await api.post("/auth/updatePw", {
-        email,
-        password, // 새 비밀번호 업데이트
-      });
+    // if (!password || !passwordCheck) {
+    //   setChangePwError("비밀번호를 입력해주세요.");
+    //   return;
+    // }
+    // try {
+    //   const response = await api.post("/auth/updatePw", {
+    //     email,
+    //     password, // 새 비밀번호 업데이트
+    //   });
 
-      if (response.data.message) {
-        Modal.success({
-          title: "비밀번호 변경 완료",
-          content: "새 비밀번호가 저장되었습니다. 다시 로그인해 주세요.",
-          onOk() {
-            window.location.href = "/login"; // 로그인 페이지로 이동
-          },
-        });
-      } else {
-        setChangePwError("비밀번호 변경에 실패했습니다.");
-      }
-    } catch (error) {
-      setChangePwError("서버 오류가 발생했습니다.");
-    }
+    //   if (response.data.message) {
+    //     Modal.success({
+    //       title: "비밀번호 변경 완료",
+    //       content: "새 비밀번호가 저장되었습니다. 다시 로그인해 주세요.",
+    //       onOk() {
+    //         window.location.href = "/login"; // 로그인 페이지로 이동
+    //       },
+    //     });
+    //   } else {
+    //     setChangePwError("비밀번호 변경에 실패했습니다.");
+    //   }
+    // } catch (error) {
+    //   setChangePwError("서버 오류가 발생했습니다.");
+    // }
   };
 
   return (
