@@ -53,7 +53,6 @@ const Header = () => {
     dispatch(toggleTheme());
   };
 
-  console.log("afdssssssssssssssss", user);
   // 로그아웃
   const handleLogout = () => {
     dispatch(logoutUser()); // 서버 요청 + 상태 초기화

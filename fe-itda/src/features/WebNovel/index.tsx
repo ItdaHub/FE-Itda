@@ -1,6 +1,7 @@
 import { WebNovelStyled } from "./styled";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import testImage from "@/assets/images/testImage.png";
 
 interface GenreType {
   id: number;
@@ -47,7 +48,7 @@ const WebNovel = ({
       ? imageUrl.src
       : typeof imageUrl === "string"
       ? imageUrl
-      : "/testlmage.png";
+      : testImage.src;
 
   return (
     <WebNovelStyled className="novel-wrap">
