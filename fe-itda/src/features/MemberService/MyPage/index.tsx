@@ -7,8 +7,30 @@ import Image from "next/image";
 import { MyPageStyled } from "./styled";
 import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { logoutUser } from "@/features/auth/logout";
+import router from "next/router";
+import clsx from "clsx";
 
 const Mypage = () => {
+  // 유저 정보 가져오기
+  const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user) {
+      console.log("현재 유저 정보 확인 👉", user);
+      setEmail(user.email);
+      setNickname(user.nickname);
+      setName(user.name);
+      setBirth(user.birthYear);
+      setPhoneNumber(user.phone);
+      if (user.profile_img) {
+        setProfileImagePreview(user.profile_img);
+      }
+    }
+  }, [user]);
+
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -82,7 +104,7 @@ const Mypage = () => {
     setIsPasswordModalOpen(false);
   };
 
-  const handleChangePassword = async () => {
+  const handleChangePw = async () => {
     if (!password || !passwordCheck) {
       alert("비밀번호를 입력해주세요");
     }
@@ -158,6 +180,8 @@ const Mypage = () => {
   // 로그아웃 처리
   const handleLogout = async () => {
     // 로그아웃 로직 (쿠키 삭제)
+    dispatch(logoutUser()); // 서버 요청 + 상태 초기화
+    router.push("/main"); // 메인페이지로 이동
     console.log("로그아웃");
   };
 
@@ -168,7 +192,7 @@ const Mypage = () => {
   };
 
   return (
-    <MyPageStyled className="my-page">
+    <MyPageStyled className={clsx("my-page")}>
       <div className="mypage-box">
         <h3>내 정보 수정</h3>
         <form className="user-edit">
@@ -198,25 +222,30 @@ const Mypage = () => {
           {/* 프로필 이미지 변경 모달 */}
           <Modal
             className="profile-modal"
-            title="프로필 이미지 변경"
+            // title="프로필 이미지 변경"
             open={isModalOpen}
             onCancel={handleModalClose}
             footer={null}
+            centered
           >
-            <div className="profile-modal-btn">
-              <button onClick={handleImageSelectFromAlbum}>
-                앨범에서 이미지 선택
-              </button>
-              {/* 파일 input (숨겨진 상태) */}
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-                style={{ display: "none" }} // 기본적으로 숨기기
-                onChange={handleImageChange} // 파일 선택 시 핸들러 호출
-              />
-              <button onClick={handleSetDefaultImage}>기본 이미지 설정</button>
-              <button onClick={handleModalClose}>취소</button>
+            <div className="profile-modal">
+              <div className="profile-modal-btn">
+                <button onClick={handleImageSelectFromAlbum}>
+                  앨범에서 이미지 선택
+                </button>
+                {/* 파일 input (숨겨진 상태) */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  style={{ display: "none" }} // 기본적으로 숨기기
+                  onChange={handleImageChange} // 파일 선택 시 핸들러 호출
+                />
+                <button onClick={handleSetDefaultImage}>
+                  기본 이미지 설정
+                </button>
+                <button onClick={handleModalClose}>취소</button>
+              </div>
             </div>
           </Modal>
 
@@ -255,6 +284,7 @@ const Mypage = () => {
               open={isPasswordModalOpen}
               onCancel={handlePwClose}
               footer={null}
+              centered
             >
               <div className="password-modal-container">
                 <input
@@ -271,7 +301,7 @@ const Mypage = () => {
                   onChange={(e) => setPasswordCheck(e.target.value)}
                   placeholder="새 비밀번호 확인"
                 />
-                <button onClick={handleChangePassword}>비밀번호 변경</button>
+                <button onClick={handleChangePw}>비밀번호 변경</button>
               </div>
             </Modal>
 

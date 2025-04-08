@@ -51,25 +51,31 @@ export const MyPageStyled = styled.div`
         outline-color: #c47ad7;
       }
     }
+  }
+  .profile-modal {
+    /* display: flex;
+      justify-content: center; */
+    width: 100%;
+  }
 
-    .ant-modal-body {
-      display: flex;
-      justify-content: center;
-    }
+  .profile-modal-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+  }
 
-    .profile-modal-btn {
-      display: flex;
-      flex-direction: column;
-    }
-    .change-pass,
-    .userEdit-nickname {
-      display: flex;
-      gap: 5px;
-    }
-    .change-btn,
-    .double-check {
-      margin: 3px 0;
-      width: 18%;
-    }
+  .profile-modal-btn button {
+    padding: 20px;
+  }
+
+  .change-pass,
+  .userEdit-nickname {
+    display: flex;
+    gap: 5px;
+  }
+  .change-btn,
+  .double-check {
+    margin: 3px 0;
+    width: 18%;
   }
 `;
