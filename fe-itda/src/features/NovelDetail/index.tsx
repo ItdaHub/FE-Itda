@@ -9,7 +9,7 @@ const NovelDetail = ({ data }: { data?: number }) => {
     <NovelDetailStyled>
       <NovelInfo data={data} />
       <NovelEpisode data={data} />
-      <NovelComments data={data} />
+      <NovelComments novelId={data} />
     </NovelDetailStyled>
   );
 };

@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 
 const chapter = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, novelId } = router.query;
 
-  return <Chapter chapterId={Number(id)} />;
+  return <Chapter chapterId={Number(id)} novelId={Number(novelId)} />;
 };
 
 export default chapter;

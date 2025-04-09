@@ -112,11 +112,9 @@ const NovelEpisode = ({ data }: { data?: number }) => {
         {episode.map((item: any, i: number) => (
           <li
             onClick={() => {
-              router.push(
-                `/chapter/${
-                  activeCate === true ? item.id : episode.length - (item.id + 1)
-                }`
-              );
+              const chapterId =
+                activeCate === true ? item.id : episode.length - (item.id + 1);
+              router.push(`/chapter/${chapterId}?novelId=${data}`);
             }}
             className="novelEpisode-list"
             key={i}

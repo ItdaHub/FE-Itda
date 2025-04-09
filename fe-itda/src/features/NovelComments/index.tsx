@@ -32,7 +32,15 @@ const content = (
   </div>
 );
 
-const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
+const NovelComments = ({
+  chapterId,
+  novelId,
+  type,
+}: {
+  chapterId?: number;
+  novelId?: number;
+  type?: string;
+}) => {
   // 댓글 목록 저장
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [repliesVisible, setRepliesVisible] = useState<Record<number, boolean>>(
@@ -98,11 +106,17 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
   // 해당 작품 댓글 목록 가져오는 axios요청
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!data) return;
-
       try {
-        // const response = await api.get(`/comments/${data}`);
+        // 챕터면 해당 챕터의 id도 같이 보내줌
+        // const response = await api.get(`/comments`, {
+        //   params: {
+        //     novelId,
+        //     chapterId: type === "chapter" ? chapterId : undefined,
+        //   },
+        // });
         // setReviews(response.data);
+
+        // 테스트용
         setReviews(review);
       } catch (error) {
         console.error("댓글 불러오기 실패:", error);
@@ -110,7 +124,7 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
     };
 
     fetchReviews();
-  }, [data]);
+  }, [novelId, chapterId]);
 
   return (
     <NovelCommentStyled className={clsx("novelComment-wrap")}>
@@ -136,7 +150,7 @@ const NovelComments = ({ data, type }: { data?: number; type?: string }) => {
       </div>
 
       {/* 댓글 작성 */}
-      <WriteComment novelId={Number(data)} />
+      <WriteComment novelId={Number(chapterId)} />
 
       {/* 댓글 목록 */}
       <ul>

@@ -24,43 +24,59 @@ const testData: Content[] = [
 ];
 
 const ReadBook = ({
+  novelId,
   chapterId,
   isFromPaidClick = false,
 }: {
+  novelId: number;
   chapterId: number;
   isFromPaidClick?: boolean;
 }) => {
-  const [contentList, setContentList] = useState<Content[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const swiperRef = useRef<SwiperCore>();
-  const ignoreNextSlide = useRef(false);
+  console.log(chapterId);
+  const [contentList, setContentList] = useState<Content[]>([]); // 챕터 콘텐츠 리스트
+  const [currentIndex, setCurrentIndex] = useState(0); // 현재 페이지 인덱스
+  const swiperRef = useRef<SwiperCore>(); // Swiper 인스턴스 참조
+  const ignoreNextSlide = useRef(false); // 자동 슬라이드 이동 무시 여부
 
+  // 유료 콘텐츠인지 판단하는 함수 (index가 4 이상이면 유료)
   const isPaidContent = (index: number) => index >= 4;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 해당 챕터의 내용 불러오기
-        // const response = await api.get(`/chapters/content/${chapterId}`);
+        // 소설 ID와 챕터 ID를 기반으로 내용 불러오기
+        // const response = await api.get(`/chapters/content`, {
+        //   params: {
+        //     novelId,
+        //     chapterId,
+        //   },
+        // });
         // console.log(response.data);
 
         // setContentList(response.data);
+
+        //테스트 데이터 사용
         setContentList(testData);
 
+        // 챕터 ID와 일치하는 콘텐츠 인덱스를 찾음
         // const matchedIndex = data.findIndex((item) => item.index === chapterId);
         const matchedIndex = testData.findIndex(
           (item) => item.index === chapterId
         );
+
+        // 유료 클릭이고 해당 콘텐츠가 유료일 경우 처음부터 보여주기
         const displayIndex =
           isFromPaidClick && isPaidContent(matchedIndex) ? 0 : matchedIndex;
 
         setCurrentIndex(displayIndex);
 
+        // Swiper를 해당 인덱스로 이동 (처음 진입 시 슬라이드 이동 방지)
         if (swiperRef.current) {
           ignoreNextSlide.current = true;
           swiperRef.current.slideTo(displayIndex);
         }
 
+        // 유료 콘텐츠 접근 시 경고 메시지 출력 가능
         // if (isFromPaidClick && isPaidContent(matchedIndex)) {
         //   alert("유료 화입니다. 결제 후 열람 가능합니다.");
         // }
@@ -70,9 +86,11 @@ const ReadBook = ({
     };
 
     fetchData();
-  }, [chapterId, isFromPaidClick]);
+  }, [novelId, chapterId, isFromPaidClick]);
 
+  // 슬라이드 변경 시 호출되는 함수
   const handleSlideChange = (swiper: SwiperCore) => {
+    // 자동 슬라이드 이동 무시 플래그 체크
     if (ignoreNextSlide.current) {
       ignoreNextSlide.current = false;
       return;
