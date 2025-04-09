@@ -32,13 +32,14 @@ const NovelInfo = ({ data }: { data?: number }) => {
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    if (!data || user === undefined) return;
+    if (!data) return;
 
     const getNovelDetail = async () => {
       try {
         const res = await api.get(`/novels/${data}`, {
-          params: { userId: user?.id },
+          params: user ? { userId: user.id } : {},
         });
+
         const novelData = res.data;
 
         setNovel({

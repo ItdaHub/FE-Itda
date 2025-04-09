@@ -19,48 +19,61 @@ const NewWrite = ({
   genres,
   novelId,
 }: {
-  type: "new" | "relay";
+  type: "first" | "relay";
   titles?: string;
   genres?: string;
   novelId?: number;
 }) => {
-  // 불러온 카테고리
   const [categories, setCategories] = useState<object[]>([]);
-
-  // 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedPeople, setSelectedPeople] = useState<number | null>(null);
-
-  // 작성한 제목
   const [title, setTitle] = useState<string>("");
-
-  // 작성한 내용
   const [content, setContent] = useState<string>("");
   const [aiquestion, setAIquestion] = useState<string>("");
   const [aianswer, setAIanswer] = useState<string>("");
 
   const router = useRouter();
 
-  // 장르 카테고리 불러오기 axios
-  const getGenre = async () => {
-    try {
-      const response = await api.get("/categories");
-      const formattedGenres = response.data.map(
-        (genre: { id: number; name: string }) => ({
-          label: genre.name,
-          value: genre.id,
-        })
-      );
-      setCategories(formattedGenres);
-    } catch (e) {
-      console.error("카테고리 불러오기 실패: ", e);
-    }
-  };
+  // 카테고리 불러오기
   useEffect(() => {
+    const getGenre = async () => {
+      try {
+        const response = await api.get("/categories");
+        const formattedGenres = response.data.map(
+          (genre: { id: number; name: string }) => ({
+            label: genre.name,
+            value: genre.id,
+          })
+        );
+        setCategories(formattedGenres);
+      } catch (e) {
+        console.error("카테고리 불러오기 실패: ", e);
+      }
+    };
+
     getGenre();
   }, []);
 
-  // 선택된 카테고리
+  // 이어쓰기용 원본 소설 정보 불러오기
+  useEffect(() => {
+    const fetchOriginalNovel = async () => {
+      if (type === "relay" && novelId) {
+        try {
+          const res = await api.get(`/novels/${novelId}`);
+          const original = res.data;
+
+          setContent(""); // 내용은 비워두고
+          setTitle(original.title); // 제목 설정
+          setSelectedCategory(original.categoryId); // 장르 ID
+        } catch (e) {
+          console.error("이어쓰기 원본 소설 불러오기 실패", e);
+        }
+      }
+    };
+
+    fetchOriginalNovel();
+  }, [type, novelId]);
+
   const handleCategoryChange = (value: number) => {
     setSelectedCategory(value);
   };
@@ -73,40 +86,53 @@ const NewWrite = ({
     setTitle(e.target.value);
   };
 
-  // 내용 입력
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
-  // 내가 물어본 내용
   const handleAIquestionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setAIquestion(e.target.value);
   };
 
-  // ai의 답변
   const handleAIanswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAIanswer(e.target.value);
   };
 
-  // ai답변 사용하기
   const useAIanswer = () => {
     setContent(aianswer);
   };
 
+  const handleAskAI = async () => {
+    if (!aiquestion.trim()) {
+      message.warning("AI에게 보낼 내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const response = await api.post("/ai", {
+        prompt: aiquestion,
+      });
+      setAIanswer(response.data.answer || "AI의 응답이 없습니다.");
+    } catch (error) {
+      console.error("AI 요청 실패:", error);
+      message.error("AI 응답을 받는 데 실패했습니다.");
+    }
+  };
+
   const handleSubmit = async () => {
-    if (type === "new" && selectedCategory === null) {
+    if (type === "first" && selectedCategory === null) {
       message.warning("카테고리를 선택해주세요.");
       return;
     }
 
-    if (type === "new" && !selectedPeople) {
+    if (type === "first" && !selectedPeople) {
       message.warning("인원수를 선택해주세요.");
       return;
     }
 
-    if (type === "new" && title.length < 1) {
+    if (type === "first" && title.length < 1) {
       message.warning("제목을 1자 이상 입력해주세요.");
       return;
     }
@@ -117,15 +143,14 @@ const NewWrite = ({
     }
 
     try {
-      // 첫 소설 쓰기
-      if (type === "new") {
+      if (type === "first") {
         await api.post("/novels", {
           categoryId: selectedCategory,
           peopleNum: selectedPeople,
           title,
           content,
+          type: "first",
         });
-        // 이어 쓰기
       } else if (type === "relay" && novelId) {
         await api.post(`/novels/${novelId}/chapters`, {
           content,
@@ -143,16 +168,10 @@ const NewWrite = ({
 
   return (
     <NewWriteStyled className={clsx("newWrite-wrap")}>
-      {type === "new" ? (
-        <>
-          <h2>새로쓰기</h2>
-        </>
-      ) : (
-        <h2>이어쓰기</h2>
-      )}
+      {type === "first" ? <h2>새로쓰기</h2> : <h2>이어쓰기</h2>}
 
       <div className="newWrite-box">
-        <div className={type === "new" ? "newWrite-left" : "newWrite-AI-Off"}>
+        <div className={type === "first" ? "newWrite-left" : "newWrite-AI-Off"}>
           <div className="newWrite-content">
             나
             <TextArea
@@ -161,10 +180,10 @@ const NewWrite = ({
               maxLength={300}
               value={aiquestion}
               onChange={handleAIquestionChange}
-              placeholder="AI에게 첫내용을 추천해받아보세요(10~300자)"
+              placeholder="AI에게 첫내용을 추천받아보세요(10~300자)"
               style={{ height: 60, resize: "none" }}
             />
-            <Button>물어보기</Button>
+            <Button onClick={handleAskAI}>물어보기</Button>
           </div>
           <div className="newWrite-content">
             AI
@@ -183,13 +202,12 @@ const NewWrite = ({
 
         <div
           className={`newWrite-right ${
-            type === "new" ? "" : "newWrite-rightborder"
+            type === "first" ? "" : "newWrite-rightborder"
           }`}
         >
           <div className="newWrite-category-box">
-            {type === "new" ? (
+            {type === "first" ? (
               <>
-                {/* 카테고리 */}
                 <div className="newWrite-category">
                   <Select
                     value={selectedCategory}
@@ -200,7 +218,6 @@ const NewWrite = ({
                   />
                 </div>
 
-                {/* 명수 제한 카테고리 */}
                 <div className="newWrite-category">
                   <Select
                     value={selectedPeople || undefined}
@@ -211,7 +228,6 @@ const NewWrite = ({
                   />
                 </div>
 
-                {/* 제목 */}
                 <div className="newWrite-title">
                   <Input
                     maxLength={10}
@@ -228,7 +244,6 @@ const NewWrite = ({
               </>
             )}
 
-            {/* 내용 */}
             <div className="newWrite-content">
               <TextArea
                 showCount
@@ -261,7 +276,6 @@ const NewWrite = ({
         </div>
       </div>
 
-      {/* 등록버튼 */}
       <Button className="newWrite-btn" onClick={handleSubmit}>
         등록
       </Button>

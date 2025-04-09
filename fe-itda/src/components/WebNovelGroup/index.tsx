@@ -2,15 +2,16 @@ import WebNovel from "@/features/WebNovel";
 import { WebNovelGroupStyled } from "./styled";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import test from "@/assets/images/testImage.png";
 import api from "@/utill/api";
+
 // 연령 카테고리
 const ageGroups = [
-  { label: "10대", value: "teen" },
-  { label: "20대", value: "twenties" },
-  { label: "30대", value: "thirties" },
-  { label: "40대", value: "forties" },
+  { label: "10대", value: "teen", number: 10 },
+  { label: "20대", value: "twenties", number: 20 },
+  { label: "30대", value: "thirties", number: 30 },
+  { label: "40대", value: "forties", number: 40 },
 ];
+
 const WebNovelGroup = ({
   title,
   type,
@@ -22,27 +23,52 @@ const WebNovelGroup = ({
   genre?: string;
   ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
 }) => {
-  // 작품 데이터
   const [novels, setNovels] = useState<any[]>([]);
-  // 작품 데이터 가져오기(type과 genre가 변경될시)
+
   useEffect(() => {
     const fetchNovels = async () => {
       try {
         let response;
+
         if (type === "mywrite") {
           response = await api.get("/novels/my");
+        } else if (type === "home" || genre === "rank") {
+          response = await api.get("/novels"); // 기본 목록 불러오기
         } else {
-          response = await api.get("/novels", {
-            params: { type, genre },
-          });
+          const params: any = {};
+
+          if (type) params.type = type;
+
+          // genre는 연령값이 아닌 경우만 추가
+          const ageValues = ageGroups.map((age) => age.value);
+          // genre는 연령값이 아닌 경우만 추가하고, 'all'은 제외
+          if (genre && genre !== "all" && !ageValues.includes(genre)) {
+            params.genre = genre;
+            console.log("보낼 params:", params);
+          }
+
+          // 선택된 연령 값을 숫자로 변환해서 전달
+          if (ageSelect?.selectedAge) {
+            const ageNum = ageGroups.find(
+              (age) => age.value === ageSelect.selectedAge
+            )?.number;
+            if (ageNum) {
+              params.age = ageNum;
+            }
+          }
+
+          response = await api.get("/novels/filter", { params });
         }
+
         setNovels(response.data);
       } catch (e) {
         console.error("웹소설 불러오기 실패:", e);
       }
     };
+
     fetchNovels();
-  }, [type, genre]);
+  }, [type, genre, ageSelect?.selectedAge]);
+
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
       <div className="group-titlebox">
@@ -53,11 +79,9 @@ const WebNovelGroup = ({
               : "group-title"
           }
         >
-          {/* 그룹의 이름 */}
           {title}
         </div>
         <div className="group-agecategory">
-          {/* 연령별 */}
           {ageSelect && (
             <div className="group-ageTabs">
               {ageGroups.map((age) => (
@@ -75,7 +99,7 @@ const WebNovelGroup = ({
           )}
         </div>
       </div>
-      {/* 작품 그룹 */}
+
       <div className="group-row">
         {novels.map((novel, i) => (
           <div
@@ -99,4 +123,5 @@ const WebNovelGroup = ({
     </WebNovelGroupStyled>
   );
 };
+
 export default WebNovelGroup;
