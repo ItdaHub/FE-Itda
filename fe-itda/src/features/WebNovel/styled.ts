@@ -53,7 +53,6 @@ export const WebNovelStyled = styled.div`
     .novel-title {
       font-size: 16px;
       line-height: 20px;
-      color: #000;
     }
     .novel-info {
       font-size: 13px;

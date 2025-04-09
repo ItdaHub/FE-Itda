@@ -5,6 +5,7 @@ export const WriteReplyStyled = styled.div`
     .reply-btn {
       display: flex;
       justify-content: flex-end;
+      align-items: center;
       margin-top: 10px;
       .reply-cancel {
         cursor: pointer;
@@ -12,7 +13,9 @@ export const WriteReplyStyled = styled.div`
       }
       .reply-reply {
         border: none;
-        background-color: transparent;
+        border-radius: 5px;
+        padding: 2px 3px;
+        background-color: ${({ theme }) => theme.colors.button};
       }
       .reply-pointer {
         cursor: pointer;

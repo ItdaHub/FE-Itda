@@ -11,7 +11,7 @@ export const ReadBookStyled = styled.div`
       display: flex;
       min-height: 500px;
       position: relative;
-      background: #fffdf9;
+      background-color: ${({ theme }) => theme.colors.background};
       border: 1px solid rgba(0, 0, 0, 0.1);
     }
 

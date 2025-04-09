@@ -57,7 +57,6 @@ export const WebNovelGroupStyled = styled.div`
           width: 34px;
           font-size: 20px;
           line-height: 20px;
-          color: #000;
           margin-bottom: 3px;
         }
       }

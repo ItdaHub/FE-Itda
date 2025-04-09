@@ -4,7 +4,7 @@ export const NovelCommentStyled = styled.div`
   &.novelComment-wrap {
     padding: 30px;
     border: 1px solid #e0e0e0;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.colors.background};
     width: 100%;
     max-width: 1020px;
     margin: 42px auto 10px auto;
@@ -23,7 +23,7 @@ export const NovelCommentStyled = styled.div`
       }
     }
     .stick {
-      border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 0.5px solid ${({ theme }) => theme.colors.solid};
     }
     .novelComment-reply {
       color: ${({ theme }) => theme.colors.primary};

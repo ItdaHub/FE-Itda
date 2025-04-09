@@ -103,7 +103,7 @@ const Header = () => {
 
       {/* 충전 */}
       <TopBox>
-        {nowPrice}
+        <span>{nowPrice}</span>
         <ChargeButton>충전</ChargeButton>
       </TopBox>
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const WriteCommentStyled = styled.div`
   &.writeComment-wrap {
     .writeComment-mycomment {
-      background-color: #fff;
+      background-color: ${({ theme }) => theme.colors.background};
       border: 1px solid #e0e0e0;
       border-radius: 4px;
       .writeComment-nick {
@@ -27,6 +27,7 @@ export const WriteCommentStyled = styled.div`
           color: #111111;
           border: none;
           outline: none;
+          background-color: ${({ theme }) => theme.colors.background};
         }
       }
       .writeComment-number {

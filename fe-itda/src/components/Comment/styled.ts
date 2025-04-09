@@ -46,7 +46,7 @@ export const CommentStyled = styled.div`
       button {
         border: 0.5px solid #c9c9c9;
         border-radius: 2px;
-        background-color: transparent;
+        background-color: ${({ theme }) => theme.colors.button};
         margin-right: 6px;
         padding: 5px 7px;
         cursor: pointer;

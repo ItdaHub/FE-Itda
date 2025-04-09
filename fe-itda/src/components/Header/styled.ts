@@ -34,7 +34,7 @@ export const HeaderStyled = styled.div`
             width: 217px;
             height: 33px;
             padding: 0 8px 0 11px;
-            border: 1px solid #adadad;
+            border: 1px solid ${({ theme }) => theme.colors.border};
             border-radius: 20px;
 
             .header-Text {
@@ -69,13 +69,8 @@ export const HeaderStyled = styled.div`
         }
       }
     }
-
-    .header-charge {
-      display: flex;
-      justify-self: space-between;
-      padding: 8px 10px;
-      background-color: #f5f5f5;
-      border-radius: 6px;
+    .header-nowprice {
+      color: black;
     }
 
     .headerOff {
@@ -121,7 +116,7 @@ export const NickBox = styled.div`
     border-radius: 1.125rem;
     max-width: 13.25rem;
     padding: 5px 10px;
-    border-color: rgb(0, 0, 0, 0.1);
+    border-color: ${({ theme }) => theme.colors.border};
     border-width: 1px;
     cursor: pointer;
     border-style: solid;
@@ -133,7 +128,7 @@ export const TopBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 10px;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
   border-radius: 6px;
 `;
 
@@ -151,8 +146,8 @@ export const DarkModeBox = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  border-bottom: 1px solid rgb(0, 0, 0, 0.05);
-  border-top: 1px solid rgb(0, 0, 0, 0.05);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
   height: 3.5rem;
   img {
     margin-right: 3px;
