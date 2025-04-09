@@ -85,5 +85,15 @@ export const NewWriteStyled = styled.div`
         margin-top: 2px;
       }
     }
+
+    Input,
+    .ant-select-selection-item,
+    .ant-select-selection-placeholder,
+    TextArea {
+      color: ${({ theme }) => theme.colors.placeholder};
+      &::placeholder {
+        color: ${({ theme }) => theme.colors.placeholder};
+      }
+    }
   }
 `;

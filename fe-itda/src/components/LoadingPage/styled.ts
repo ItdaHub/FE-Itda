@@ -7,7 +7,7 @@ export const LoadingPageStyled = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 93vh;
+    height: 100vh;
     text-align: center;
     background-color: #fdfbf9;
 
