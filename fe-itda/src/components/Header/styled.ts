@@ -115,46 +115,14 @@ export const HeaderStyled = styled.div`
     .ant-popover-inner {
       width: 250px !important;
     }
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 `;
 
 export const WrapContent = styled.div`
   width: 250px;
-`;
-
-export const NickBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .nickbox {
-    border-radius: 1.125rem;
-    max-width: 13.25rem;
-    padding: 5px 10px;
-    border-color: ${({ theme }) => theme.colors.border};
-    border-width: 1px;
-    cursor: pointer;
-    border-style: solid;
-    margin-bottom: 1rem;
-  }
-`;
-
-export const TopBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 10px;
-  background-color: #f5f5f5;
-  border-radius: 6px;
-  color: black;
-`;
-
-export const ChargeButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
 `;
 
 export const DarkModeBox = styled.div`

@@ -5,7 +5,6 @@ import louder from "@/assets/images/louder.svg";
 import alram from "@/assets/images/alram.svg";
 import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
-import nickarrow from "@/assets/images/nick_arrow.svg";
 import popcorn from "@/assets/images/popcorn_icon.png";
 import comment_icon from "@/assets/images/comment_icon.png";
 import mywrite from "@/assets/images/mywrite_icon.png";
@@ -13,31 +12,26 @@ import heart_icon from "@/assets/images/heart_icon.png";
 import darknode from "@/assets/images/darkmode.svg";
 import { useRouter } from "next/router";
 import {
-  ChargeButton,
   DarkModeBox,
   HeaderStyled,
   LogoutText,
   Menus,
-  NickBox,
-  TopBox,
   WrapContent,
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import Cookies from "js-cookie";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, ConfigProvider, Popover, Switch } from "antd";
+import { Avatar, ConfigProvider, Popover } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
 import api from "@/utill/api";
 import { logoutUser } from "@/features/auth/logout";
+import NowPrice from "../NowPrice";
+import MyProfile from "../MyProfile";
 
 const Header = () => {
   // 검색 키워드 값 관리
   const [keyword, setKeyword] = useState("");
-
-  // 현재 가지고 있는 팝콘
-  const [nowPrice, setNowPrice] = useState(0);
 
   const [visible, setVisible] = useState(false);
   const router = useRouter();
@@ -48,6 +42,20 @@ const Header = () => {
   // 로그인된 유저 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
+
+  // 768이하일때 모달창 닫기
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisible(false);
+      }
+    };
+
+    handleResize(); // 초기 실행
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const toggleDarkMode = () => {
     dispatch(toggleTheme());
@@ -70,42 +78,14 @@ const Header = () => {
     "/mypage",
   ];
 
-  // useEffect(() => {
-  //   const getCharge = async () => {
-  //     try {
-  //       const res = await api.get(`/popcorn/${user?.id}`);
-  //       setNowPrice(res.data.nowPrice);
-  //     } catch (error) {
-  //       console.error("팝콘개수 불러오기 실패:", error);
-  //     }
-  //   };
-
-  //   if (user?.id) {
-  //     getCharge();
-  //   }
-  // }, [user?.id]);
-
   // 모달 내용
   const content = (
     <WrapContent>
       {/* 내정보 */}
-      <NickBox
-        onClick={() => {
-          router.push("/mypage");
-          setVisible(false);
-        }}
-      >
-        <div className="nickbox">
-          <span>{user?.nickname || "사용자"}님</span>
-          <img src={nickarrow.src} alt="화살표" />
-        </div>
-      </NickBox>
+      <MyProfile userNickName={user?.nickname} setVisible={setVisible} />
 
       {/* 충전 */}
-      <TopBox>
-        <span className="nowprice">{nowPrice}</span>
-        <ChargeButton>충전</ChargeButton>
-      </TopBox>
+      <NowPrice userId={user?.id} />
 
       {/* 메뉴들 */}
       <Menus>

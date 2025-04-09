@@ -8,6 +8,7 @@ import CashHistoryBox from "@/components/CashHistoryBox";
 import { useRouter } from "next/router";
 import CashCharge from "../CashCharge";
 import { Modal } from "antd";
+import PopcornModal from "@/components/PopcornModal";
 
 type HistoryItem = {
   title?: string;
@@ -124,16 +125,8 @@ const CashHistory = () => {
         <CashHistoryBox list={historyList} type={type} />
       </div>
 
-      {/* 결제할 팝콘 모달창 */}
-      <Modal
-        title="팝콘 패키지"
-        centered
-        open={modalOpen}
-        footer={null}
-        onCancel={() => setModalOpen(false)}
-      >
-        <CashCharge />
-      </Modal>
+      {/* 팝콘 모달창 */}
+      <PopcornModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </CashHistoryStyled>
   );
 };

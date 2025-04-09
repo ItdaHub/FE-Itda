@@ -58,10 +58,18 @@ export const CategoryStyled = styled.div`
       position: relative;
     }
 
-    .write-btn {
+    .write-btn,
+    .mobile-btn {
       position: absolute;
       top: 15px;
       right: 0px;
+      .search-icon {
+        margin-right: 15px;
+        font-size: 20px;
+      }
+      .icon {
+        font-size: 20px;
+      }
     }
 
     .write-btn:hover {
@@ -72,9 +80,46 @@ export const CategoryStyled = styled.div`
     .category-off {
       display: none;
     }
-    @media (max-width: 768px) {
-      .write-btn {
-        display: none;
+    .search-input-wrapper {
+      padding: 8px;
+      background-color: #f9f9f9;
+
+      .search-input {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+    }
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 999;
+
+      .sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 100%;
+        background: #fff;
+        padding: 20px;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+
+        .sidebar-back {
+          padding: 15px 0;
+        }
+
+        p {
+          margin-bottom: 16px;
+          font-size: 16px;
+          cursor: pointer;
+        }
       }
     }
   }
