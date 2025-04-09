@@ -33,9 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ConfigProvider>
         <AntdApp>
           {loading ? (
-            <div style={{ padding: "2rem", textAlign: "center" }}>
-              <LoadingPage />
-            </div>
+            <LoadingPage />
           ) : (
             <Layout>
               <Component {...pageProps} />

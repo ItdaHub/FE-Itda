@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const LoadingPageStyled = styled.div`
   &.loading-wrap {
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

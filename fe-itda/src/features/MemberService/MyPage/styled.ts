@@ -12,7 +12,7 @@ export const MyPageStyled = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: white;
+      background-color: ${({ theme }) => theme.colors.background};
       max-width: 500px;
       margin: 60px auto;
       border-radius: 4px;

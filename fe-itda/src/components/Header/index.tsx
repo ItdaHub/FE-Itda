@@ -103,7 +103,7 @@ const Header = () => {
 
       {/* 충전 */}
       <TopBox>
-        <span>{nowPrice}</span>
+        <span className="nowprice">{nowPrice}</span>
         <ChargeButton>충전</ChargeButton>
       </TopBox>
 
@@ -158,7 +158,7 @@ const Header = () => {
       {/* 다크모드 토글 */}
       <DarkModeBox>
         <span>
-          <img src={darknode.src} alt="다크모드" /> 다크모드
+          <img className="darkimg" src={darknode.src} alt="다크모드" /> 다크모드
         </span>
         <ConfigProvider
           theme={{

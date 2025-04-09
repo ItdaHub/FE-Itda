@@ -24,7 +24,7 @@ export const WriteCommentStyled = styled.div`
         line-height: 1.3125rem;
         color: #111111;
         .writeComment-write {
-          color: #111111;
+          color: ${({ theme }) => theme.colors.text};
           border: none;
           outline: none;
           background-color: ${({ theme }) => theme.colors.background};

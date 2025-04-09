@@ -16,8 +16,8 @@ export const CashHistoryStyled = styled.div`
     .cash-use-box {
       display: flex;
       justify-content: space-between;
-      .cash-use,
-      .cash-popcorn {
+      .cash-use {
+        color: ${({ theme }) => theme.colors.text};
         border-radius: 1rem;
         background-color: transparent;
         border: 1px solid rgba(0, 0, 0, 0.1);
@@ -27,9 +27,16 @@ export const CashHistoryStyled = styled.div`
       }
 
       .cash-popcorn {
+        background-color: #f7f7f7;
+        color: black;
         display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 5px 8px;
+        margin-right: 10px;
+        cursor: pointer;
       }
     }
 
@@ -50,11 +57,14 @@ export const CashHistoryStyled = styled.div`
         line-height: 20px;
         color: ${({ theme }) => theme.colors.primary};
       }
+      .cash-popcorn-unit {
+        color: black;
+      }
     }
 
     .active {
       background-color: ${({ theme }) => theme.colors.primary} !important;
-      color: white;
+      color: ${({ theme }) => theme.colors.background} !important;
     }
   }
 `;

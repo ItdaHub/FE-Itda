@@ -39,6 +39,7 @@ export const HeaderStyled = styled.div`
 
             .header-Text {
               background-color: transparent;
+              color: ${({ theme }) => theme.colors.text};
               border: none;
               outline: none;
             }
@@ -50,6 +51,10 @@ export const HeaderStyled = styled.div`
             &:hover {
               cursor: pointer;
             }
+            img {
+              background-color: white;
+              border-radius: 50px;
+            }
           }
         }
 
@@ -60,8 +65,18 @@ export const HeaderStyled = styled.div`
           display: flex;
           align-items: center;
           margin-left: 15px;
+
           &:hover {
             cursor: pointer;
+          }
+          img {
+            background-color: white;
+            border-radius: 5px;
+          }
+          .ant-avatar {
+            background-color: ${({ theme }) => theme.colors.profile};
+
+            color: ${({ theme }) => theme.colors.background};
           }
         }
         .header-arrow {
@@ -130,6 +145,7 @@ export const TopBox = styled.div`
   padding: 8px 10px;
   background-color: #f5f5f5;
   border-radius: 6px;
+  color: black;
 `;
 
 export const ChargeButton = styled.button`
@@ -156,6 +172,10 @@ export const DarkModeBox = styled.div`
     display: flex;
     align-items: center;
     margin-right: 15px;
+  }
+  .darkimg {
+    background-color: white;
+    border-radius: 3px;
   }
 `;
 
@@ -191,9 +211,13 @@ export const Menus = styled.div`
     gap: 10px;
     .comment-icon {
       width: 50px;
+      background-color: white;
+      border-radius: 3px;
     }
     .popcorn-icon {
       width: 50px;
+      background-color: white;
+      border-radius: 3px;
     }
   }
   .menu-right {
@@ -204,9 +228,13 @@ export const Menus = styled.div`
     gap: 10px;
     .mywrite {
       width: 50px;
+      background-color: white;
+      border-radius: 3px;
     }
     .heart {
       width: 50px;
+      background-color: white;
+      border-radius: 3px;
     }
   }
 `;

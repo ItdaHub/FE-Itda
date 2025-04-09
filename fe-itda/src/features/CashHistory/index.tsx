@@ -114,7 +114,8 @@ const CashHistory = () => {
       {/* 현재 가지고 있는 팝콘 개수 */}
       <div className="cash-popcorn-box">
         <div>
-          <span className="cash-popcorn-num">{nowCash} </span>팝콘
+          <span className="cash-popcorn-num">{nowCash} </span>
+          <span className="cash-popcorn-unit">팝콘</span>
         </div>
       </div>
 

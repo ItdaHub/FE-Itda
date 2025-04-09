@@ -6,6 +6,14 @@ export const BannerStyled = styled.div`
     margin: 0 auto;
     margin-top: 40px;
 
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+    .swiper-pagination-bullet-active {
+      background-color: ${({ theme }) => theme.colors.primary};
+    }
+
     .banner-img {
       width: 100%;
     }

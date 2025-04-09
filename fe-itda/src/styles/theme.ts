@@ -6,6 +6,9 @@ export const lightTheme = {
     border: "rgba(0, 0, 0, 0.05)",
     solid: "rgba(0, 0, 0, 0.1)",
     button: "transparent",
+    profile: "rgba(0, 0, 0, 0.25)",
+    placeholder: "rgba(0, 0, 0, 0.54)",
+    hover: "rgb(245, 245, 245)",
   },
 };
 
@@ -17,5 +20,8 @@ export const darkTheme = {
     border: "rgba(255, 255, 255, 0.2)",
     solid: "rgba(255, 255, 255, 0.2)",
     button: "#ffffff",
+    profile: "#ffffff",
+    placeholder: "#eee",
+    hover: "rgb(136, 136, 136)",
   },
 };

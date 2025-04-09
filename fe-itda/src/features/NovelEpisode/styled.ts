@@ -56,7 +56,7 @@ export const NovelEpisodeStyled = styled.div`
       align-items: center;
       &:hover {
         cursor: pointer;
-        background-color: rgb(245, 245, 245);
+        background-color: ${({ theme }) => theme.colors.hover};
       }
     }
     li {

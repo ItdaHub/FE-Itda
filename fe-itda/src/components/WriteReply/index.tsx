@@ -41,6 +41,7 @@ const WriteReply = ({
   return (
     <WriteReplyStyled className={clsx("reply-wrap")}>
       <Input
+        className="reply-place"
         variant="underlined"
         placeholder="답글을 작성해주세요"
         value={content}
