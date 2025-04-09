@@ -25,7 +25,7 @@ export const NovelInfoStyled = styled.div`
         justify-content: space-between;
 
         .novelinfo-btn {
-          width: 240px;
+          max-width: 240px;
           line-height: 50px;
           text-align: center;
           font-size: 16px;

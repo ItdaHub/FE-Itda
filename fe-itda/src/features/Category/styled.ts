@@ -72,5 +72,10 @@ export const CategoryStyled = styled.div`
     .category-off {
       display: none;
     }
+    @media (max-width: 768px) {
+      .write-btn {
+        display: none;
+      }
+    }
   }
 `;

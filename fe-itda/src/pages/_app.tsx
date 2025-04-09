@@ -9,6 +9,7 @@ import { App as AntdApp, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LoadingPage from "@/components/LoadingPage";
+import MobileNav from "@/components/MoblieNavi";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ) : (
             <Layout>
               <Component {...pageProps} />
+              <MobileNav />
             </Layout>
           )}
         </AntdApp>

@@ -19,7 +19,7 @@ export const NewWriteStyled = styled.div`
         width: 50%;
         border-right: 1px solid #adadad;
         .newWrite-content {
-          margin: 10px 3px 0 30px;
+          margin: 10px 30px 0 30px;
           max-width: 430px;
         }
       }
@@ -37,16 +37,14 @@ export const NewWriteStyled = styled.div`
         }
         .newWrite-title {
           max-width: 430px;
+          margin: 10px 30px 0 30px;
 
-          Input {
-            margin: 10px 3px 0 30px;
-          }
           Button {
             margin-top: 10px;
           }
         }
         .newWrite-content {
-          margin: 10px 3px 0 30px;
+          margin: 10px 30px 0 30px;
           max-width: 430px;
         }
       }

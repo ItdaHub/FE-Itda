@@ -82,5 +82,8 @@ export const FooterStyled = styled.div`
     a:hover {
       color: #787878;
     }
+    @media (max-width: 769px) {
+      padding-bottom: 70px;
+    }
   }
 `;
