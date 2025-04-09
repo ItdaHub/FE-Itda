@@ -7,16 +7,38 @@ import Document, {
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 // 화살표 함수로 작성된 MyDocument
-const MyDocument = ({ styles }: any) => (
-  <Html lang="en">
-    <Head />
-    <body>
-      <Main />
-      <NextScript />
-      {styles} {/* 스타일을 추가합니다 */}
-    </body>
-  </Html>
-);
+const MyDocument = ({ styles }: any) => {
+  const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+  return (
+    <Html lang="en">
+      <Head>
+        {GA_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_ID}');
+                `,
+              }}
+            />
+          </>
+        )}
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+        {styles} {/* 스타일을 추가합니다 */}
+      </body>
+    </Html>
+  );
+};
 // getInitialProps를 통해 서버사이드에서 스타일을 처리
 MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const sheet = new ServerStyleSheet();

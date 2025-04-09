@@ -20,46 +20,8 @@ export const FooterStyled = styled.div`
       border: none;
     }
 
-    .footer-topleft {
-      display: flex;
-      .footer-notice {
-        font-weight: bold;
-        font-size: 13px;
-        line-height: 16px;
-        color: #787878;
-        width: 100%;
-        width: 185px;
-
-        .footer-advice {
-          display: flex;
-          align-items: center;
-          img {
-            margin-right: 6px;
-            width: 24px;
-          }
-        }
-
-        .footer-no {
-          margin-top: 20px;
-          display: flex;
-          align-items: center;
-          img {
-            margin-right: 6px;
-            width: 24px;
-          }
-        }
-      }
-      .footer-service,
-      .footer-etc,
-      .footer-company {
-        width: 100%;
-        width: 185px;
-      }
-    }
-
     .footer-company-info {
-      margin-top: 60px;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
     .footer-company-name {
       color: #787878;
@@ -81,6 +43,12 @@ export const FooterStyled = styled.div`
         width: 1px;
         height: 9px;
         margin: 2px 6px;
+      }
+      .footer-name {
+        margin-right: 10px;
+      }
+      .footer-person {
+        margin-right: 5px;
       }
     }
 
@@ -111,16 +79,8 @@ export const FooterStyled = styled.div`
       display: none;
     }
 
-    .footer-sns {
-      display: flex;
-      img {
-        margin: 0 3px;
-        width: 50px;
-        height: 50px;
-        &:hover {
-          cursor: pointer;
-        }
-      }
+    a:hover {
+      color: #787878;
     }
   }
 `;
