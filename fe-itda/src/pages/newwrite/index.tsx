@@ -11,7 +11,7 @@ const NewWritePage = () => {
   return (
     <div>
       <NewWrite
-        type={type === "relay" ? "relay" : "first"}
+        type={type === "relay" ? "relay" : "new"}
         titles={typeof title === "string" ? title : ""}
         genres={typeof genre === "string" ? genre : ""}
       />

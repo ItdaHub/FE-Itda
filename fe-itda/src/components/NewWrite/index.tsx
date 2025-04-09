@@ -19,7 +19,7 @@ const NewWrite = ({
   genres,
   novelId,
 }: {
-  type: "first" | "relay";
+  type: "new" | "relay";
   titles?: string;
   genres?: string;
   novelId?: number;
@@ -122,17 +122,17 @@ const NewWrite = ({
   };
 
   const handleSubmit = async () => {
-    if (type === "first" && selectedCategory === null) {
+    if (type === "new" && selectedCategory === null) {
       message.warning("카테고리를 선택해주세요.");
       return;
     }
 
-    if (type === "first" && !selectedPeople) {
+    if (type === "new" && !selectedPeople) {
       message.warning("인원수를 선택해주세요.");
       return;
     }
 
-    if (type === "first" && title.length < 1) {
+    if (type === "new" && title.length < 1) {
       message.warning("제목을 1자 이상 입력해주세요.");
       return;
     }
@@ -143,13 +143,13 @@ const NewWrite = ({
     }
 
     try {
-      if (type === "first") {
+      if (type === "new") {
         await api.post("/novels", {
           categoryId: selectedCategory,
           peopleNum: selectedPeople,
           title,
           content,
-          type: "first",
+          type: "new",
         });
       } else if (type === "relay" && novelId) {
         await api.post(`/novels/${novelId}/chapters`, {
@@ -168,10 +168,10 @@ const NewWrite = ({
 
   return (
     <NewWriteStyled className={clsx("newWrite-wrap")}>
-      {type === "first" ? <h2>새로쓰기</h2> : <h2>이어쓰기</h2>}
+      {type === "new" ? <h2>새로쓰기</h2> : <h2>이어쓰기</h2>}
 
       <div className="newWrite-box">
-        <div className={type === "first" ? "newWrite-left" : "newWrite-AI-Off"}>
+        <div className={type === "new" ? "newWrite-left" : "newWrite-AI-Off"}>
           <div className="newWrite-content">
             나
             <TextArea
@@ -202,11 +202,11 @@ const NewWrite = ({
 
         <div
           className={`newWrite-right ${
-            type === "first" ? "" : "newWrite-rightborder"
+            type === "new" ? "" : "newWrite-rightborder"
           }`}
         >
           <div className="newWrite-category-box">
-            {type === "first" ? (
+            {type === "new" ? (
               <>
                 <div className="newWrite-category">
                   <Select

@@ -37,7 +37,7 @@ const WebNovel = ({
   createdAt,
 }: WebNovelProps) => {
   const router = useRouter();
-
+  console.log("날짜나와라", createdAt);
   // 장르 이름 추출
   const genreName =
     genre && typeof genre === "object" && "name" in genre ? genre.name : genre;

@@ -115,7 +115,7 @@ const WebNovelGroup = ({
               index={i}
               id={novel.id}
               views={novel.views}
-              createdAt={novel.createdAt}
+              createdAt={novel.created_at}
             />
           </div>
         ))}

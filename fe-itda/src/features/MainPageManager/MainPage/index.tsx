@@ -28,7 +28,7 @@ const MainPage = () => {
         setCategories([
           [
             { label: "홈", value: "home" },
-            { label: "이어쓰기", value: "first" },
+            { label: "이어쓰기", value: "new" },
             { label: "출품작", value: "exhibit" },
           ],
           [{ label: "전체", value: "all" }, ...genreList],
