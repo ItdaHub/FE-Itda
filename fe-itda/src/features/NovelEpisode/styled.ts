@@ -6,6 +6,10 @@ export const NovelEpisodeStyled = styled.div`
     max-width: 1020px;
     margin: 0 auto;
     padding: 30px 10px 0 10px;
+    .novelEpisode-btn,
+    .novelEpisode-btn-one {
+      color: ${({ theme }) => theme.colors.text};
+    }
 
     .novelEpisode-info-box {
       margin-bottom: 10px;

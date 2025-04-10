@@ -14,12 +14,14 @@ export const MyPageStyled = styled.div`
       align-items: center;
       background-color: ${({ theme }) => theme.colors.background};
       max-width: 500px;
-      margin: 60px auto;
+      padding-top: 60px;
+      margin: 0 auto;
       border-radius: 4px;
     }
     .user-edit {
       width: 100%;
       padding: 30px;
+      background-color: ${({ theme }) => theme.colors.background};
     }
     .userEdit-image {
       display: flex;

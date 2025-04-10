@@ -36,6 +36,7 @@ export const HeaderStyled = styled.div`
             padding: 0 8px 0 11px;
             border: 1px solid ${({ theme }) => theme.colors.border};
             border-radius: 20px;
+            background-color: white;
 
             .header-Text {
               background-color: transparent;
@@ -51,10 +52,6 @@ export const HeaderStyled = styled.div`
             &:hover {
               cursor: pointer;
             }
-            img {
-              background-color: white;
-              border-radius: 50px;
-            }
           }
         }
 
@@ -65,6 +62,7 @@ export const HeaderStyled = styled.div`
           display: flex;
           align-items: center;
           margin-left: 15px;
+          font-size: 22px;
 
           &:hover {
             cursor: pointer;
@@ -142,8 +140,8 @@ export const DarkModeBox = styled.div`
     margin-right: 15px;
   }
   .darkimg {
-    background-color: white;
-    border-radius: 3px;
+    font-size: 20px;
+    margin-right: 3px;
   }
 `;
 

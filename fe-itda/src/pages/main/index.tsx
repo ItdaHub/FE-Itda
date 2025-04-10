@@ -1,5 +1,5 @@
+import CreateIcon from "@mui/icons-material/Create";
 import MainPage from "@/features/MainPageManager/MainPage";
-import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -24,7 +24,19 @@ const Main = () => {
       <MainPage />
       {isMobile ? (
         <FloatButton
-          icon={<PlusOutlined />}
+          icon={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              <CreateIcon style={{ fontSize: 20 }} />
+            </div>
+          }
           type="primary"
           style={{ right: 20, bottom: 80 }}
           onClick={() => router.push(`/newwrite?type="new"`)}

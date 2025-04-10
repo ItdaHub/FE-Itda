@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import search from "@/assets/images/search.svg";
-import louder from "@/assets/images/louder.svg";
-import alram from "@/assets/images/alram.svg";
+import ContrastIcon from "@mui/icons-material/Contrast";
 import login from "@/assets/images/login.svg";
 import logo from "@/assets/images/logo.png";
 import popcorn from "@/assets/images/popcorn_icon.png";
@@ -19,7 +18,11 @@ import {
   WrapContent,
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { UserOutlined } from "@ant-design/icons";
+import {
+  BellOutlined,
+  NotificationOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Avatar, ConfigProvider, Popover } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
@@ -138,7 +141,8 @@ const Header = () => {
       {/* 다크모드 토글 */}
       <DarkModeBox>
         <span>
-          <img className="darkimg" src={darknode.src} alt="다크모드" /> 다크모드
+          <ContrastIcon className="darkimg" />
+          다크모드
         </span>
         <ConfigProvider
           theme={{
@@ -214,9 +218,7 @@ const Header = () => {
 
           {/* 공지사항 */}
           <div className="header-louder">
-            <Image
-              src={louder}
-              alt="louder"
+            <NotificationOutlined
               onClick={() => {
                 router.push("/notice");
               }}
@@ -225,9 +227,7 @@ const Header = () => {
 
           {/* 알림 */}
           <div className="header-alram">
-            <Image
-              src={alram}
-              alt="alram"
+            <BellOutlined
               onClick={() => {
                 router.push("/alert");
               }}
