@@ -95,7 +95,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
             className="novelinfo-btn"
             onClick={() => {
               router.push(
-                `/newwrite?type=relay&title=${novel.title}&genre=${novel.genre}`
+                `/newwrite?type=relay&title=${novel.title}&genre=${novel.genre}&novelId=${data}`
               );
             }}
           >

@@ -152,7 +152,7 @@ const NewWrite = ({
           type: "new",
         });
       } else if (type === "relay" && novelId) {
-        await api.post(`/novels/${novelId}/chapters`, {
+        await api.post(`/chapters/write/${novelId}`, {
           content,
         });
       }
