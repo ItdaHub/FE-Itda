@@ -62,9 +62,9 @@ const NewWrite = ({
           const res = await api.get(`/novels/${novelId}`);
           const original = res.data;
 
-          setContent(""); // 내용은 비워두고
-          setTitle(original.title); // 제목 설정
-          setSelectedCategory(original.categoryId); // 장르 ID
+          setContent("");
+          setTitle(original.title);
+          setSelectedCategory(original.categoryId);
         } catch (e) {
           console.error("이어쓰기 원본 소설 불러오기 실패", e);
         }
@@ -160,9 +160,14 @@ const NewWrite = ({
       message.success("등록되었습니다.", 1, () => {
         router.push("/main");
       });
-    } catch (e) {
+    } catch (e: any) {
       console.error("등록 실패: ", e);
-      message.error("등록에 실패했습니다.");
+
+      if (e.response?.status === 403) {
+        message.warning("이미 이어쓰기에 참여하셨습니다!");
+      } else {
+        message.error("등록에 실패했습니다.");
+      }
     }
   };
 
