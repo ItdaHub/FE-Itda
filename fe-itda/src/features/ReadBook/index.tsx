@@ -7,21 +7,19 @@ import "swiper/css/navigation";
 import clsx from "clsx";
 import { ReadBookStyled } from "./styled";
 import api from "@/utill/api";
+import WriterProfile from "@/features/WriterProfile";
 
 type Content = {
   text: string;
   index: number;
+  isPaid?: boolean;
 };
 
-const testData: Content[] = [
-  { index: 0, text: "어느 날 갑자기, 세계가 멸망했다..." },
-  { index: 1, text: "주인공은 눈을 떴다. 낯선 곳이었다." },
-  { index: 2, text: "여... 여긴 어디지..?" },
-  { index: 3, text: "그는 결심했다. 반드시 살아남겠다고." },
-  { index: 4, text: "그날, 나는 그를 처음 만났다." },
-  { index: 5, text: "나도 확인해보고 싶어" },
-  { index: 6, text: "좋아 그렇게 해" },
-];
+type ChapterResponse = {
+  slides: Content[];
+  authorNickname: string;
+  writerId: number;
+};
 
 const ReadBook = ({
   novelId,
@@ -32,54 +30,48 @@ const ReadBook = ({
   chapterId: number;
   isFromPaidClick?: boolean;
 }) => {
-  console.log(chapterId);
-  const [contentList, setContentList] = useState<Content[]>([]); // 챕터 콘텐츠 리스트
-  const [currentIndex, setCurrentIndex] = useState(0); // 현재 페이지 인덱스
-  const swiperRef = useRef<SwiperCore>(); // Swiper 인스턴스 참조
-  const ignoreNextSlide = useRef(false); // 자동 슬라이드 이동 무시 여부
+  const [contentList, setContentList] = useState<Content[]>([]);
+  const [authorNickname, setAuthorNickname] = useState("");
+  const [writerId, setWriterId] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 유료 콘텐츠인지 판단하는 함수 (index가 4 이상이면 유료)
-  const isPaidContent = (index: number) => index >= 4;
+  const swiperRef = useRef<SwiperCore>();
+  const ignoreNextSlide = useRef(false);
+
+  const isPaidContent = (index: number) => {
+    const content = contentList[index];
+    return content?.isPaid;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 소설 ID와 챕터 ID를 기반으로 내용 불러오기
-        // const response = await api.get(`/chapters/content`, {
-        //   params: {
-        //     novelId,
-        //     chapterId,
-        //   },
-        // });
-        // console.log(response.data);
-
-        // setContentList(response.data);
-
-        //테스트 데이터 사용
-        setContentList(testData);
-
-        // 챕터 ID와 일치하는 콘텐츠 인덱스를 찾음
-        // const matchedIndex = data.findIndex((item) => item.index === chapterId);
-        const matchedIndex = testData.findIndex(
-          (item) => item.index === chapterId
+        const response = await api.get<ChapterResponse>(
+          `/chapters/content/${novelId}/${chapterId}`
         );
 
-        // 유료 클릭이고 해당 콘텐츠가 유료일 경우 처음부터 보여주기
+        const { slides, authorNickname, writerId } = response.data;
+
+        setContentList(slides);
+        setAuthorNickname(authorNickname);
+        setWriterId(writerId);
+
+        const matchedIndex = slides.findIndex(
+          (item) => item.index === chapterId
+        );
         const displayIndex =
           isFromPaidClick && isPaidContent(matchedIndex) ? 0 : matchedIndex;
 
         setCurrentIndex(displayIndex);
 
-        // Swiper를 해당 인덱스로 이동 (처음 진입 시 슬라이드 이동 방지)
         if (swiperRef.current) {
           ignoreNextSlide.current = true;
           swiperRef.current.slideTo(displayIndex);
         }
 
-        // 유료 콘텐츠 접근 시 경고 메시지 출력 가능
-        // if (isFromPaidClick && isPaidContent(matchedIndex)) {
-        //   alert("유료 화입니다. 결제 후 열람 가능합니다.");
-        // }
+        if (isFromPaidClick && isPaidContent(matchedIndex)) {
+          alert("유료 화입니다. 결제 후 열람 가능합니다.");
+        }
       } catch (error) {
         console.error("콘텐츠 불러오기 실패:", error);
       }
@@ -88,25 +80,28 @@ const ReadBook = ({
     fetchData();
   }, [novelId, chapterId, isFromPaidClick]);
 
-  // 슬라이드 변경 시 호출되는 함수
   const handleSlideChange = (swiper: SwiperCore) => {
-    // 자동 슬라이드 이동 무시 플래그 체크
     if (ignoreNextSlide.current) {
       ignoreNextSlide.current = false;
       return;
     }
 
     const nextIndex = swiper.activeIndex;
-    // if (isPaidContent(nextIndex)) {
-    //   alert("유료 화입니다. 결제 후 열람 가능합니다.");
-    //   setTimeout(() => swiper.slideTo(currentIndex), 0);
-    // } else {
-    //   setCurrentIndex(nextIndex);
-    // }
+
+    if (isPaidContent(nextIndex)) {
+      alert("유료 화입니다. 결제 후 열람 가능합니다.");
+      swiper.slideTo(currentIndex);
+    } else {
+      setCurrentIndex(nextIndex);
+    }
   };
 
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
+      {writerId !== null && (
+        <WriterProfile nickname={authorNickname} writerId={writerId} />
+      )}
+
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={handleSlideChange}
@@ -122,7 +117,9 @@ const ReadBook = ({
                 <div className="readbook-page full">{content.text}</div>
               </div>
             ) : (
-              <div className="readbook-book" />
+              <div className="readbook-book locked">
+                <div className="readbook-page full">🔒 유료 콘텐츠입니다.</div>
+              </div>
             )}
           </SwiperSlide>
         ))}

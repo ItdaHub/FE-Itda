@@ -80,6 +80,32 @@ const NovelInfo = ({ data }: { data?: number }) => {
     }
   };
 
+  const handleParticipateClick = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const res = await api.get(`/chapters/participation/${data}`, {
+        params: { userId: user.id }, // ✅ userId를 쿼리로 전달
+      });
+      const alreadyParticipated = res.data.hasParticipated; // ✅ 응답에서 이 값을 확인해야 해
+
+      if (alreadyParticipated) {
+        alert("이미 이어쓰기한 소설입니다.");
+        return;
+      }
+
+      router.push(
+        `/newwrite?type=relay&title=${novel.title}&genre=${novel.genre}&novelId=${data}`
+      );
+    } catch (e) {
+      console.error("참여 여부 확인 실패: ", e);
+      alert("참여 여부 확인 중 문제가 발생했어요.");
+    }
+  };
+
   return (
     <NovelInfoStyled className={clsx("novelinfo-wrap")}>
       <img className="novelinfo-img" src={novel.img} alt={novel.title} />
@@ -91,14 +117,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
             <p className="novelinfo-text">{novel.author}</p>
           </div>
 
-          <button
-            className="novelinfo-btn"
-            onClick={() => {
-              router.push(
-                `/newwrite?type=relay&title=${novel.title}&genre=${novel.genre}&novelId=${data}`
-              );
-            }}
-          >
+          <button className="novelinfo-btn" onClick={handleParticipateClick}>
             함께하기
           </button>
         </div>

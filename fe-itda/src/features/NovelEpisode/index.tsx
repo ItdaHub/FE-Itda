@@ -17,61 +17,26 @@ const NovelEpisode = ({ data }: { data?: number }) => {
 
   const router = useRouter();
 
-  // 회차 표시는 프론트에서 처리
-  const episodes = [
-    {
-      id: 0,
-      chapter_number: 1,
-      commentNum: 20,
-      createDate: "2025.02.03",
-    },
-    {
-      id: 1,
-      chapter_number: 2,
-      commentNum: 10,
-      createDate: "2025.02.05",
-    },
-    {
-      id: 2,
-      chapter_number: 3,
-      commentNum: 15,
-      createDate: "2025.02.06",
-    },
-    {
-      id: 3,
-      chapter_number: 4,
-      commentNum: 8,
-      createDate: "2025.02.06",
-    },
-    {
-      id: 4,
-      chapter_number: 5,
-      commentNum: 2,
-      createDate: "2025.02.08",
-    },
-  ];
-
   useEffect(() => {
-    if (!data) return; // data가 없으면 요청x
+    if (!data) return;
+
     const getEpisode = async () => {
       try {
-        // axios요청->각 회차별 정보 가져오기(여기서 url파라미터로 보내는건 작품의 id)
-        // const res = await api.get(`/chapters/${data}`);
-        // setEpisode(res.data);
-        setEpisode(episodes);
+        const res = await api.get(`/chapters/${data}`);
+        setEpisode(res.data);
       } catch (e) {
         console.error("에피소드 가져오기 실패: ", e);
       }
     };
+
     getEpisode();
   }, [data]);
 
-  // 정렬
   const handleSort = (isLatest: boolean) => {
-    const sortedEpisodes = [...episode].sort((a, b) =>
-      isLatest ? b.id - a.id : a.id - b.id
+    const sorted = [...episode].sort((a, b) =>
+      isLatest ? a.id - b.id : b.id - a.id
     );
-    setEpisode(sortedEpisodes);
+    setEpisode(sorted);
     setActiveCate(isLatest);
   };
 
@@ -84,44 +49,33 @@ const NovelEpisode = ({ data }: { data?: number }) => {
         <ul className="novelEpisode-sort">
           <li>
             <button
-              onClick={() => {
-                handleSort(false);
-              }}
-              className={`novelEpisode-btn-one ${
-                activeCate === true ? "" : "active"
-              }`}
+              onClick={() => handleSort(false)}
+              className={`novelEpisode-btn-one ${!activeCate ? "active" : ""}`}
             >
               최신순
             </button>
           </li>
           <li className="novelEpisode-one">
             <button
-              onClick={() => {
-                handleSort(true);
-              }}
-              className={`novelEpisode-btn ${
-                activeCate === true ? "active" : ""
-              }`}
+              onClick={() => handleSort(true)}
+              className={`novelEpisode-btn ${activeCate ? "active" : ""}`}
             >
               1화부터
             </button>
           </li>
         </ul>
       </div>
+
       <ul>
-        {episode.map((item: any, i: number) => (
+        {episode.map((item, i) => (
           <li
-            onClick={() => {
-              const chapterId =
-                activeCate === true ? item.id : episode.length - (item.id + 1);
-              router.push(`/chapter/${chapterId}?novelId=${data}`);
-            }}
+            onClick={() => router.push(`/chapter/${item.id}?novelId=${data}`)}
             className="novelEpisode-list"
-            key={i}
+            key={item.id}
           >
             <Episode
               item={item}
-              index={activeCate === true ? i + 1 : episode.length - i}
+              index={activeCate ? i + 1 : episode.length - i}
             />
           </li>
         ))}
