@@ -4,6 +4,8 @@ import { UserOutlined } from "@ant-design/icons";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import api from "@/utill/api";
+import MoreDropDown from "@/components/MoreDropDown";
+import { useAppSelector } from "@/store/hooks";
 
 const WriterProfile = ({
   novelId,
@@ -13,6 +15,10 @@ const WriterProfile = ({
   chapterId: number;
 }) => {
   const [nickname, setNickname] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+
+  // 유저 정보 가져오기
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     const getWriter = async () => {
@@ -37,8 +43,21 @@ const WriterProfile = ({
 
   return (
     <WriterProfileStyled className={clsx("profile-wrap")}>
-      <Avatar size="large" icon={<UserOutlined />} />
-      <div className="profile-nickname">{nickname || "작가 닉네임"}</div>
+      <div className="profile-box">
+        <div className="profile-profile">
+          <Avatar size="large" icon={<UserOutlined />} />
+          <div className="profile-nickname">{nickname || "작가 닉네임"}</div>
+        </div>
+        <div>
+          <MoreDropDown
+            type="writer"
+            item={nickname}
+            user={user}
+            setIsVisible={setIsVisible}
+            isVisible={isVisible}
+          />
+        </div>
+      </div>
     </WriterProfileStyled>
   );
 };

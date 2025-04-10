@@ -3,6 +3,7 @@ import { WebNovelGroupStyled } from "./styled";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import api from "@/utill/api";
+import { Empty } from "antd";
 
 // 연령 카테고리
 const ageGroups = [
@@ -71,55 +72,63 @@ const WebNovelGroup = ({
 
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
-      <div className="group-titlebox">
-        <div
-          className={
-            type === "myfavorite" || type === "mywrite"
-              ? "myfavorite-title"
-              : "group-title"
-          }
-        >
-          {title}
-        </div>
-        <div className="group-agecategory">
-          {ageSelect && (
-            <div className="group-ageTabs">
-              {ageGroups.map((age) => (
-                <span
-                  key={age.value}
-                  className={clsx("group-ageTab", {
-                    active: ageSelect.selectedAge === age.value,
-                  })}
-                  onClick={() => ageSelect.setSelectedAge(age.value)}
-                >
-                  {age.label}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="group-row">
-        {novels.map((novel, i) => (
+      <>
+        <div className="group-titlebox">
           <div
-            key={i}
-            className={`group-each ${type === "home" ? "group-rank-on" : ""}`}
+            className={
+              type === "myfavorite" || type === "mywrite"
+                ? "myfavorite-title"
+                : "group-title"
+            }
           >
-            <WebNovel
-              title={novel.title}
-              genre={novel.genre}
-              likes={novel.likes}
-              imageUrl={novel.imageUrl}
-              type={type}
-              index={i}
-              id={novel.id}
-              views={novel.views}
-              createdAt={novel.created_at}
-            />
+            {title}
           </div>
-        ))}
-      </div>
+
+          <div className="group-agecategory">
+            {ageSelect && (
+              <div className="group-ageTabs">
+                {ageGroups.map((age) => (
+                  <span
+                    key={age.value}
+                    className={clsx("group-ageTab", {
+                      active: ageSelect.selectedAge === age.value,
+                    })}
+                    onClick={() => ageSelect.setSelectedAge(age.value)}
+                  >
+                    {age.label}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        {novels.length !== 0 ? (
+          <div className="group-row">
+            {novels.map((novel, i) => (
+              <div
+                key={i}
+                className={`group-each ${
+                  type === "home" ? "group-rank-on" : ""
+                }`}
+              >
+                <WebNovel
+                  title={novel.title}
+                  genre={novel.genre}
+                  likes={novel.likes}
+                  imageUrl={novel.imageUrl}
+                  type={type}
+                  index={i}
+                  id={novel.id}
+                  views={novel.views}
+                  createdAt={novel.created_at}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        )}
+      </>
     </WebNovelGroupStyled>
   );
 };

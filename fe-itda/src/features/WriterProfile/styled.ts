@@ -9,6 +9,15 @@ export const WriterProfileStyled = styled.div`
     padding: 30px;
     display: flex;
     align-items: center;
+    .profile-box {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .profile-profile {
+        display: flex;
+        align-items: center;
+      }
+    }
     .profile-nickname {
       margin-left: 15px;
       font-size: 17px;

@@ -11,6 +11,9 @@ export const CategoryStyled = styled.div`
       align-items: center;
       max-width: 1020px;
       margin: 0 auto;
+      .ant-tabs {
+        width: 100%;
+      }
 
       .category-row {
         display: flex;
