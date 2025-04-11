@@ -52,6 +52,8 @@ const ReadBook = ({
 
         const { slides, authorNickname, writerId } = response.data;
 
+        console.log("!!!!!!!!!!!", response.data);
+
         setContentList(slides);
         setAuthorNickname(authorNickname);
         setWriterId(writerId);

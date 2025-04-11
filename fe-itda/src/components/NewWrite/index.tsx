@@ -62,6 +62,8 @@ const NewWrite = ({
           const res = await api.get(`/novels/${novelId}`);
           const original = res.data;
 
+          console.log("aaaaaaaaaaaa", original);
+
           setContent("");
           setTitle(original.title);
           setSelectedCategory(original.categoryId);
