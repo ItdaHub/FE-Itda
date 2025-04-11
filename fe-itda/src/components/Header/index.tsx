@@ -83,7 +83,7 @@ const Header = () => {
 
   // 모달 내용
   const content = (
-    <WrapContent>
+    <WrapContent className={clsx("content-wrap")}>
       {/* 내정보 */}
       <MyProfile userNickName={user?.nickname} setVisible={setVisible} />
 

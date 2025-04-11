@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const WriteReplyStyled = styled.div`
   &.reply-wrap {
     .reply-place {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #ccc !important;
       &::placeholder {
         color: ${({ theme }) => theme.colors.placeholder};
       }
     }
+
     .reply-btn {
       display: flex;
       justify-content: flex-end;
