@@ -105,6 +105,7 @@ export const CategoryStyled = styled.div`
       z-index: 999;
 
       .sidebar {
+        color: black;
         position: absolute;
         top: 0;
         right: 0;

@@ -17,6 +17,7 @@ import MobileNav from "@/components/MoblieNavi";
 
 import { setTheme } from "@/features/theme/themeSlice";
 import { useDispatch } from "react-redux";
+import BackButton from "@/components/BackButton";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -77,6 +78,8 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
             <LoadingPage />
           ) : (
             <Layout>
+              {router.pathname === "/main" ? <></> : <BackButton />}
+
               <Component {...pageProps} />
               <MobileNav />
             </Layout>
