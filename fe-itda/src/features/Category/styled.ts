@@ -85,7 +85,10 @@ export const CategoryStyled = styled.div`
     }
     .search-input-wrapper {
       padding: 8px;
-      background-color: #f9f9f9;
+      position: absolute;
+      right: 22px;
+      top: 30px;
+      width: 300px;
 
       .search-input {
         width: 100%;
@@ -93,6 +96,7 @@ export const CategoryStyled = styled.div`
         font-size: 16px;
         border: 1px solid #ccc;
         border-radius: 8px;
+        outline: none;
       }
     }
     .sidebar-overlay {
