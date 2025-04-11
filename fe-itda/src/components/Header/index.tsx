@@ -94,7 +94,13 @@ const Header = () => {
       <Menus>
         <div className="menu-left">
           {/* 내가 작성한 댓글 모음 */}
-          <div className="menu-icon">
+          <div
+            className="menu-icon"
+            onClick={() => {
+              router.push("/mycomment");
+              setVisible(false);
+            }}
+          >
             <img className="comment-icon" src={comment_icon.src} alt="댓글" />
             <div>댓글 내역</div>
           </div>

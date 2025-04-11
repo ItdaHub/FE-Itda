@@ -2,6 +2,7 @@ import { WebNovelStyled } from "./styled";
 import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import testImage from "@/assets/images/testImage.png";
+import dayjs from "dayjs";
 
 interface GenreType {
   id: number;
@@ -73,7 +74,9 @@ const WebNovel = ({
                 <div className="overlay-title">{title}</div>
                 <div className="overlay-genre">{genreName}</div>
 
-                {type === "mywrite" && <div>{String(createdAt)}</div>}
+                {type === "mywrite" && (
+                  <div>{dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
+                )}
 
                 <div
                   className={`overlay-likes ${

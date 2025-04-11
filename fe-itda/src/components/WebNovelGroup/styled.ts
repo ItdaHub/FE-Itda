@@ -6,7 +6,7 @@ export const WebNovelGroupStyled = styled.div`
     margin: 0 auto;
 
     .group-titlebox {
-      padding: 8px 0 20px;
+      padding: 50px 0 20px;
       display: flex;
       align-items: center;
       .group-title {
@@ -44,7 +44,7 @@ export const WebNovelGroupStyled = styled.div`
 
     .group-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       .group-each {
         margin-right: 5px;
