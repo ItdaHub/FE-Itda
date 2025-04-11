@@ -26,23 +26,6 @@ export const WebNovelStyled = styled.div`
       }
     }
 
-    /* 이어쓰기+출품작 */
-    .novel-relay {
-      display: flex;
-      width: fit-content;
-      &:hover {
-        cursor: pointer;
-      }
-
-      .novel-image {
-        margin-right: 10px;
-
-        img {
-          height: 150px;
-        }
-      }
-    }
-
     /* 공통 */
     .novel-title-box {
       height: 100%;

@@ -98,10 +98,6 @@ const ReadBook = ({
 
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
-      {writerId !== null && (
-        <WriterProfile nickname={authorNickname} writerId={writerId} />
-      )}
-
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={handleSlideChange}
@@ -124,6 +120,10 @@ const ReadBook = ({
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* 작가 닉네임 */}
+      {writerId !== null && (
+        <WriterProfile nickname={authorNickname} writerId={writerId} />
+      )}
     </ReadBookStyled>
   );
 };

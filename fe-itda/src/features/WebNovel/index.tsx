@@ -56,7 +56,7 @@ const WebNovel = ({
         onClick={() => {
           router.push(`/noveldetail/novelcheck/${id}`);
         }}
-        className={type === "home" ? "novel-home" : "novel-relay"}
+        className="novel-home"
       >
         {/* 작품 이미지 */}
         <div

@@ -18,7 +18,6 @@ const Chapter = ({
         chapterId={chapterId}
         isFromPaidClick={true}
       />
-      <WriterProfile novelId={novelId} chapterId={chapterId} />
       <NovelComments novelId={novelId} chapterId={chapterId} type="chapter" />
     </ChapterStyled>
   );

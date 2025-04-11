@@ -31,7 +31,7 @@ const WriteComment = ({
     try {
       const response = await api.post("/comments", {
         userId: user?.id, // 유저 ID
-        comment, // 댓글 내용
+        content: comment, // 댓글 내용
         novelId, // 작품 ID
         chapterId, //챕터 ID
       });

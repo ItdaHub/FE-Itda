@@ -3,6 +3,7 @@ import { CommentStyled } from "./styled";
 import { useState } from "react";
 import { useAppSelector } from "../../store/hooks";
 import MoreDropDown from "../MoreDropDown";
+import api from "@/utill/api";
 
 // API 응답 타입 정의
 interface ReportResponse {
@@ -29,11 +30,11 @@ const Comment = ({ item, type }: { item?: any; type?: string }) => {
     try {
       if (isLiked) {
         // 좋아요 취소 요청
-        // await api.delete(`/likes/comment/${user.id}/${item.id}`);
+        await api.delete(`/likes/comment/${user?.id}/${item.id}`);
         setLikeCount((prev: number) => prev - 1);
       } else {
         // 좋아요 추가 요청
-        // await api.post(`/likes/comment/${user.id}/${item.id}`);
+        await api.post(`/likes/comment/${user?.id}/${item.id}`);
         setLikeCount((prev: number) => prev + 1);
       }
 
