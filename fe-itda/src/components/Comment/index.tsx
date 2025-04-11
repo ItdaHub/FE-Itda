@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../store/hooks";
 import MoreDropDown from "../MoreDropDown";
 import api from "@/utill/api";
+import WriteReply from "../WriteReply";
 
 // API 응답 타입 정의
 interface ReportResponse {
@@ -87,6 +88,17 @@ const Comment = ({ item, type }: { item?: any; type?: string }) => {
             </button>
           </div>
         </div>
+        {isVisible ? (
+          <>
+            <WriteReply
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              parentId={item.id}
+            />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </CommentStyled>
   );

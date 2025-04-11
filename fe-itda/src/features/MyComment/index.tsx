@@ -1,8 +1,9 @@
-import { Table, message, Button } from "antd";
+import { Table, Button } from "antd";
 import type { TableColumnsType } from "antd";
 import { useEffect, useState } from "react";
 import { MyCommentStyled } from "./styled";
 import clsx from "clsx";
+import { App as AntdApp } from "antd";
 
 interface CommentData {
   key: number;
@@ -36,6 +37,7 @@ const columns: TableColumnsType<CommentData> = [
 ];
 
 const MyComment: React.FC = () => {
+  const { message } = AntdApp.useApp();
   const [dataSource, setDataSource] = useState<CommentData[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 

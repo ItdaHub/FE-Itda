@@ -62,6 +62,7 @@ const WebNovelGroup = ({
         }
 
         setNovels(response.data);
+        console.log("aaaaaaaaaa", response.data);
       } catch (e) {
         console.error("웹소설 불러오기 실패:", e);
       }
@@ -119,7 +120,7 @@ const WebNovelGroup = ({
                   type={type}
                   index={i}
                   id={novel.id}
-                  views={novel.views}
+                  views={novel.viewCount}
                   createdAt={novel.created_at}
                 />
               </div>

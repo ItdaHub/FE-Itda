@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { NewWriteStyled } from "./styled";
-import { Button, Input, message, Select } from "antd";
+import { Button, Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextArea from "antd/es/input/TextArea";
 import { InfoCircleFilled } from "@ant-design/icons";
 import api from "@/utill/api";
+import { App as AntdApp } from "antd";
 
 const people = [
   { label: "5명", value: 5 },
@@ -24,6 +25,7 @@ const NewWrite = ({
   genres?: string;
   novelId?: number;
 }) => {
+  const { message } = AntdApp.useApp();
   const [categories, setCategories] = useState<object[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedPeople, setSelectedPeople] = useState<number | null>(null);

@@ -1,5 +1,5 @@
 import { WebNovelStyled } from "./styled";
-import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
+import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import testImage from "@/assets/images/testImage.png";
 import dayjs from "dayjs";
@@ -83,10 +83,16 @@ const WebNovel = ({
                     type === "mywrite" ? "overlay-write" : ""
                   }`}
                 >
-                  <HeartOutlined /> {likes}
+                  <span className="overlay-heart">
+                    <HeartOutlined />
+                  </span>
+                  {likes}
                   {type === "mywrite" && (
                     <>
-                      <EyeOutlined /> {views}
+                      <span className="overlay-eye">
+                        <EyeOutlined />
+                      </span>{" "}
+                      {views}
                     </>
                   )}
                 </div>
@@ -113,7 +119,7 @@ const WebNovel = ({
             <div className="novel-info">
               <div className="novel-genre">{genreName}</div>
               <div className="novel-likes">
-                <HeartOutlined /> {likes}
+                <HeartFilled /> {likes}
               </div>
             </div>
           </div>

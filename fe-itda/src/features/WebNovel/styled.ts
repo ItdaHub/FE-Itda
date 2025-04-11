@@ -118,8 +118,14 @@ export const WebNovelStyled = styled.div`
 
       .overlay-write {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
       }
+    }
+    .overlay-heart {
+      margin: 0 5px;
+    }
+    .overlay-eye {
+      margin: 0 5px;
     }
     .novel-info-off {
       display: none;
