@@ -203,11 +203,14 @@ const Mypage = () => {
     }
 
     try {
-      const response = await api.put("/auth/edit", {
+      const response = await api.put(
+        "/auth/edit",
         // data: { updateUserData },
         formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       console.log("정보 수정 성공:", response.data);
       alert("정보가 수정되었습니다.");
     } catch (error) {

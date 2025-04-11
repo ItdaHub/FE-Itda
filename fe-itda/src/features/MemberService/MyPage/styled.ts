@@ -77,6 +77,9 @@ export const MyPageStyled = styled.div`
 
   .profile-modal-btn button {
     padding: 20px;
+    button {
+      background-color: transparent;
+    }
   }
 
   .change-pass,
