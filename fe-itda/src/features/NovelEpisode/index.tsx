@@ -23,7 +23,8 @@ const NovelEpisode = ({ data }: { data?: number }) => {
     const getEpisode = async () => {
       try {
         const res = await api.get(`/chapters/${data}`);
-        setEpisode(res.data);
+        setEpisode([...res.data].sort((a, b) => b.id - a.id));
+        console.log(res.data);
       } catch (e) {
         console.error("에피소드 가져오기 실패: ", e);
       }
@@ -73,10 +74,7 @@ const NovelEpisode = ({ data }: { data?: number }) => {
             className="novelEpisode-list"
             key={item.id}
           >
-            <Episode
-              item={item}
-              index={activeCate ? i + 1 : episode.length - i}
-            />
+            <Episode item={item} />
           </li>
         ))}
       </ul>
