@@ -13,6 +13,7 @@ const PaymentSuccess = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    console.log(amount);
     if (!amount) return;
 
     // axios요청 - 유저 아이디, 가격
