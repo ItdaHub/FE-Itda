@@ -74,7 +74,13 @@ const WebNovelGroup = ({
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
       <>
-        <div className="group-titlebox">
+        <div
+          className={`group-titlebox ${
+            type === "home" || type === "myfavorite" || type === "mywrite"
+              ? ""
+              : "titlebox-off"
+          }`}
+        >
           <div
             className={
               type === "myfavorite" || type === "mywrite"

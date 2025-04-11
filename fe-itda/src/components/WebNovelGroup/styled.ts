@@ -4,9 +4,10 @@ export const WebNovelGroupStyled = styled.div`
   &.group-wrap {
     max-width: 1020px;
     margin: 0 auto;
+    padding: 0 10px;
 
     .group-titlebox {
-      padding: 50px 0 20px;
+      padding: 10px 0 20px;
       display: flex;
       align-items: center;
       .group-title {
@@ -20,6 +21,10 @@ export const WebNovelGroupStyled = styled.div`
         font-size: 14px;
         color: #999;
       }
+    }
+
+    .titlebox-off {
+      display: none;
     }
 
     .group-ageTabs {
@@ -62,7 +67,6 @@ export const WebNovelGroupStyled = styled.div`
       }
     }
     .myfavorite-title {
-      margin-top: 20px;
       font-size: 20px;
       font-weight: 600;
     }

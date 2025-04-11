@@ -209,7 +209,7 @@ const Category = ({
             </p>
             <p
               onClick={() => {
-                router.push("/mylike");
+                router.push("/myfavorite");
               }}
             >
               찜
