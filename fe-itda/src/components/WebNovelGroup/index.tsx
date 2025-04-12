@@ -33,22 +33,31 @@ const WebNovelGroup = ({
 
         if (type === "mywrite") {
           response = await api.get("/novels/my");
-        } else if (type === "home" || genre === "rank") {
-          response = await api.get("/novels"); // 기본 목록 불러오기
+        } else if (type === "myfavorite") {
+          response = await api.get("/likes/my-likes");
+        } else if (type === "home") {
+          // 홈화면: 통합 랭킹 또는 연령별 랭킹
+          if (ageSelect?.selectedAge) {
+            const ageNum = ageGroups.find(
+              (age) => age.value === ageSelect.selectedAge
+            )?.number;
+            response = await api.get("/novels/rankings", {
+              params: { age: Number(ageNum) },
+            });
+          } else {
+            response = await api.get("/novels/rankings");
+          }
         } else {
           const params: any = {};
 
           if (type) params.type = type;
 
-          // genre는 연령값이 아닌 경우만 추가
           const ageValues = ageGroups.map((age) => age.value);
-          // genre는 연령값이 아닌 경우만 추가하고, 'all'은 제외
           if (genre && genre !== "all" && !ageValues.includes(genre)) {
             params.genre = genre;
             console.log("보낼 params:", params);
           }
 
-          // 선택된 연령 값을 숫자로 변환해서 전달
           if (ageSelect?.selectedAge) {
             const ageNum = ageGroups.find(
               (age) => age.value === ageSelect.selectedAge
@@ -61,8 +70,9 @@ const WebNovelGroup = ({
           response = await api.get("/novels/filter", { params });
         }
 
-        setNovels(response.data);
-        console.log("aaaaaaaaaa", response.data);
+        if (response) {
+          setNovels(response.data);
+        }
       } catch (e) {
         console.error("웹소설 불러오기 실패:", e);
       }
@@ -121,7 +131,13 @@ const WebNovelGroup = ({
                 <WebNovel
                   title={novel.title}
                   genre={novel.genre}
-                  likes={novel.likes}
+                  likes={
+                    typeof novel.likes === "number"
+                      ? novel.likes
+                      : Array.isArray(novel.likes)
+                      ? novel.likes.length
+                      : 0
+                  }
                   imageUrl={novel.imageUrl}
                   type={type}
                   index={i}

@@ -63,12 +63,15 @@ const NewWrite = ({
         try {
           const res = await api.get(`/novels/${novelId}`);
           const original = res.data;
-
-          console.log("aaaaaaaaaaaa", original);
-
+          console.log(original);
           setContent("");
           setTitle(original.title);
           setSelectedCategory(original.categoryId);
+
+          // 현재 몇 화인지 계산
+          // const nextChapterNumber = original.chapters.length + 1;
+          // console.log("👉 다음 화는", nextChapterNumber, "화입니다");
+          // 필요하다면 상태로 저장해서 UI에 보여줄 수 있음
         } catch (e) {
           console.error("이어쓰기 원본 소설 불러오기 실패", e);
         }
@@ -156,7 +159,7 @@ const NewWrite = ({
           type: "new",
         });
       } else if (type === "relay" && novelId) {
-        await api.post(`/chapters/write/${novelId}`, {
+        await api.post(`/novels/${novelId}/chapters`, {
           content,
         });
       }
@@ -164,14 +167,9 @@ const NewWrite = ({
       message.success("등록되었습니다.", 1, () => {
         router.push("/");
       });
-    } catch (e: any) {
+    } catch (e) {
       console.error("등록 실패: ", e);
-
-      if (e.response?.status === 403) {
-        message.warning("이미 이어쓰기에 참여하셨습니다!");
-      } else {
-        message.error("등록에 실패했습니다.");
-      }
+      message.error("등록에 실패했습니다.");
     }
   };
 
@@ -198,10 +196,9 @@ const NewWrite = ({
             AI
             <TextArea
               showCount
-              minLength={10}
               maxLength={300}
               value={aianswer}
-              onChange={handleAIanswerChange}
+              readOnly
               placeholder="AI답변이 입력됩니다"
               style={{ height: 120, resize: "none" }}
             />

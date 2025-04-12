@@ -161,7 +161,7 @@ const MoreDropDown = ({
       <>
         <Dropdown
           menu={{
-            items: user?.id === item.writerId ? itemDelete : itemDeclare,
+            items: user?.nickname === item.writer ? itemDelete : itemDeclare,
           }}
           trigger={["click"]}
         >

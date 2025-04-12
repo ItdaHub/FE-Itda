@@ -7,9 +7,15 @@ import { useAppSelector } from "../../store/hooks";
 const WriteComment = ({
   novelId,
   chapterId,
+  parentId, // ✅ 대댓글일 경우 부모 댓글 ID
+  refreshComments,
+  onWriteComplete, // ✅ 대댓글 작성 후 실행될 콜백
 }: {
   novelId?: number;
   chapterId?: number;
+  parentId?: number;
+  refreshComments?: () => void;
+  onWriteComplete?: () => void;
 }) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
@@ -30,14 +36,19 @@ const WriteComment = ({
 
     try {
       const response = await api.post("/comments", {
-        userId: user?.id, // 유저 ID
-        content: comment, // 댓글 내용
-        novelId, // 작품 ID
-        chapterId, //챕터 ID
+        userId: user?.id,
+        content: comment,
+        novelId,
+        chapterId,
+        parentId, // 대댓글일 경우 포함됨
       });
       console.log("댓글 작성 성공:", response.data);
-      setComment(""); // 댓글 초기화
+
+      setComment("");
       setWriteNum(0);
+
+      refreshComments?.(); // 목록 새로고침
+      onWriteComplete?.(); // 부모 댓글 열기 처리
     } catch (e) {
       console.error("댓글 작성 실패:", e);
     }
@@ -46,13 +57,13 @@ const WriteComment = ({
   return (
     <WriteCommentStyled className="writeComment-wrap">
       <div className="writeComment-mycomment">
-        <div className="writeComment-nick">닉네임</div>
+        <div className="writeComment-nick">{user?.nickname}</div>
         <div>
           <div
             className={`writeComment-write-box ${isFocused ? "focused" : ""}`}
           >
             <textarea
-              defaultValue={comment}
+              value={comment}
               className="writeComment-write"
               style={{ width: "100%", height: "100%", resize: "none" }}
               placeholder={
@@ -62,7 +73,10 @@ const WriteComment = ({
               }
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              onChange={(e) => setWriteNum(e.target.value.length)}
+              onChange={(e) => {
+                setComment(e.target.value);
+                setWriteNum(e.target.value.length);
+              }}
               maxLength={99}
             ></textarea>
           </div>

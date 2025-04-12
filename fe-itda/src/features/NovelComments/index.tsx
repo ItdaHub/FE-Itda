@@ -6,17 +6,18 @@ import {
   SendOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Popover } from "antd";
 import WriteComment from "../WriteComment";
 import Comment from "@/components/Comment";
 import api from "@/utill/api";
 import { Collapse } from "antd";
+import { useAppSelector } from "@/store/hooks";
 import WriteReply from "@/components/WriteReply";
 
 interface ReviewType {
   id: number;
-  parentId?: any;
+  parentId: number | null;
   writer: string;
   date: string;
   comment: string;
@@ -47,54 +48,7 @@ const NovelComments = ({
     {}
   );
 
-  const review = [
-    {
-      id: 1,
-      writerId: 1,
-      writer: "마우스",
-      date: "2025.03.25",
-      comment: "재밌다",
-      likeNum: 5,
-      isliked: false,
-    },
-    {
-      id: 2,
-      parentId: 1,
-      writerId: 2,
-      writer: "라라",
-      date: "2025.03.25",
-      comment: "다음편 궁금하네",
-      likeNum: 8,
-      isliked: true,
-    },
-    {
-      id: 3,
-      writerId: 1,
-      writer: "마우스",
-      date: "2025.03.27",
-      comment: "오 뭐야",
-      likeNum: 10,
-      isliked: false,
-    },
-    {
-      id: 4,
-      writerId: 2,
-      writer: "하하",
-      date: "2025.03.31",
-      comment: "시작부터 기대되넹~",
-      likeNum: 1,
-      isliked: false,
-    },
-    {
-      id: 5,
-      writerId: 20,
-      writer: "하하",
-      date: "2025.03.31",
-      comment: "멍청이!",
-      likeNum: 1,
-      isliked: false,
-    },
-  ];
+  const user = useAppSelector((state) => state.auth.user);
 
   const toggleReplies = (parentId: number) => {
     setRepliesVisible((prev) => ({
@@ -103,35 +57,67 @@ const NovelComments = ({
     }));
   };
 
-  // 해당 작품 댓글 목록 가져오는 axios요청
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        // 챕터면 해당 챕터의 id도 같이 보내줌
-        // const response = await api.get(`/comments`, {
-        //   params: {
-        //     novelId,
-        //     chapterId: type === "chapter" ? chapterId : undefined,
-        //   },
-        // });
-        // setReviews(response.data);
-
-        // 테스트용
-        setReviews(review);
-      } catch (error) {
-        console.error("댓글 불러오기 실패:", error);
+  const fetchReviews = useCallback(async () => {
+    try {
+      let endpoint = "";
+      if (type === "chapter" && chapterId) {
+        endpoint = `/comments/chapter/${chapterId}`;
+      } else if (novelId) {
+        endpoint = `/comments/novel/${novelId}`;
+      } else {
+        throw new Error("댓글 조회를 위한 ID가 없습니다.");
       }
-    };
 
+      const response = await api.get(endpoint, {
+        params: { currentUserId: user?.id },
+      });
+
+      const mappedData: ReviewType[] = response.data.map((item: any) => {
+        return {
+          id: item.id,
+          parentId: item.parentId ?? null,
+          writer: item.writer,
+          date:
+            item.date && new Date(item.date).toString() !== "Invalid Date"
+              ? new Date(item.date).toISOString().split("T")[0]
+              : "알 수 없음",
+          comment: item.comment,
+          likeNum: item.likeNum ?? 0,
+          isliked: item.isliked ?? false,
+        };
+      });
+
+      // ✅ 부모 댓글만 좋아요 순 + 최신순으로 정렬
+      const sortedParents = mappedData
+        .filter((item) => item.parentId === null)
+        .sort((a, b) => {
+          if (b.likeNum !== a.likeNum) {
+            return b.likeNum - a.likeNum;
+          }
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+
+      // ✅ 대댓글은 기존 순서 유지
+      const replies = mappedData.filter((item) => item.parentId !== null);
+
+      setReviews([...sortedParents, ...replies]);
+    } catch (error) {
+      console.error("댓글 불러오기 실패:", error);
+    }
+  }, [novelId, chapterId, type, user?.id]);
+
+  // ✅ useEffect로 댓글 불러오기 실행
+  useEffect(() => {
     fetchReviews();
-  }, [novelId, chapterId]);
+  }, [fetchReviews]);
 
   return (
     <NovelCommentStyled className={clsx("novelComment-wrap")}>
       {/* 댓글 개수 */}
       <div className="novelComment-review">
         <div className="novelComment-review-title">
-          {type === "chapter" ? "댓글" : "작품리뷰"} {review.length}
+          {type === "chapter" ? "댓글" : "작품리뷰"}{" "}
+          {reviews.filter((item) => item.parentId === null).length}
         </div>
         <Popover
           placement="bottom"
@@ -150,13 +136,17 @@ const NovelComments = ({
       </div>
 
       {/* 댓글 작성 */}
-      <WriteComment novelId={Number(chapterId)} />
+      <WriteComment
+        novelId={novelId}
+        chapterId={type === "chapter" ? chapterId : undefined}
+        refreshComments={fetchReviews}
+      />
 
       {/* 댓글 목록 */}
       <ul>
         {reviews
-          .filter((item) => !item.parentId)
-          .map((parent, i) => {
+          .filter((item) => item.parentId === null)
+          .map((parent, i, filteredParents) => {
             const replies = reviews.filter(
               (reply) => reply.parentId === parent.id
             );
@@ -164,7 +154,12 @@ const NovelComments = ({
             return (
               <div key={parent.id}>
                 <li>
-                  <Comment item={parent} type="parent" />
+                  <Comment
+                    key={`${parent.id}-${parent.likeNum}-${parent.isliked}`}
+                    item={parent}
+                    type="parent"
+                    refreshComments={fetchReviews}
+                  />
 
                   {/* 대댓글 보기 토글 */}
                   {replies.length > 0 && (
@@ -191,18 +186,18 @@ const NovelComments = ({
                     <ul className="replies">
                       {replies.map((reply) => (
                         <li key={reply.id}>
-                          <Comment item={reply} />
+                          <Comment
+                            key={`${reply.id}-${reply.likeNum}-${reply.isliked}`}
+                            item={reply}
+                            refreshComments={fetchReviews}
+                          />
                         </li>
                       ))}
                     </ul>
                   )}
                 </li>
                 <div
-                  className={
-                    i + 1 !== reviews.filter((item) => !item.parentId).length
-                      ? "stick"
-                      : ""
-                  }
+                  className={i + 1 !== filteredParents.length ? "stick" : ""}
                 ></div>
               </div>
             );

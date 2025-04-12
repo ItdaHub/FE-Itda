@@ -1,18 +1,35 @@
 import { LikeFilled, LikeOutlined, MoreOutlined } from "@ant-design/icons";
 import { CommentStyled } from "./styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../store/hooks";
 import MoreDropDown from "../MoreDropDown";
 import api from "@/utill/api";
 import WriteReply from "../WriteReply";
 
 // API 응답 타입 정의
-interface ReportResponse {
-  data: {
-    success: boolean;
+interface CommentProps {
+  item: {
+    id: number;
+    writer: string;
+    date: string;
+    comment: string;
+    likeNum: number;
+    isliked: boolean;
+    [key: string]: any;
   };
+  type?: "parent" | "child";
+  novelId?: number;
+  chapterId?: number;
+  refreshComments?: () => Promise<void>;
 }
-const Comment = ({ item, type }: { item?: any; type?: string }) => {
+
+const Comment = ({
+  item,
+  type,
+  novelId,
+  chapterId,
+  refreshComments,
+}: CommentProps) => {
   const [isLiked, setIsLiked] = useState(item.isliked);
   const [likeCount, setLikeCount] = useState(item.likeNum);
   const [isVisible, setIsVisible] = useState(false);
@@ -20,29 +37,26 @@ const Comment = ({ item, type }: { item?: any; type?: string }) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
 
-  // const comments = item.filter(
-  //   (comment: { parentId: null }) => comment.parentId === null
-  // );
-  // const commentReplies = item.filter(
-  //   (comment: { parentId: null }) => comment.parentId !== null
-  // );
+  useEffect(() => {
+    console.log(item);
+    setIsLiked(item.isliked);
+    setLikeCount(item.likeNum);
+  }, [item]);
 
   const handleLikeClick = async () => {
-    try {
-      if (isLiked) {
-        // 좋아요 취소 요청
-        await api.delete(`/likes/comment/${user?.id}/${item.id}`);
-        setLikeCount((prev: number) => prev - 1);
-      } else {
-        // 좋아요 추가 요청
-        await api.post(`/likes/comment/${user?.id}/${item.id}`);
-        setLikeCount((prev: number) => prev + 1);
-      }
+    if (!user) {
+      console.warn("로그인 후 좋아요 가능합니다.");
+      return;
+    }
 
-      // 상태 변경
-      setIsLiked(!isLiked);
+    try {
+      const res = await api.patch(`/likes/comment/${item.id}/toggle`);
+      const newIsLiked = res.data.liked;
+
+      setIsLiked(newIsLiked);
+      setLikeCount((prev) => prev + (newIsLiked ? 1 : -1));
     } catch (error) {
-      console.error("좋아요 처리 실패:", error);
+      console.error("댓글 좋아요 실패:", error);
     }
   };
 

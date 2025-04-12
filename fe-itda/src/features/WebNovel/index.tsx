@@ -47,7 +47,7 @@ const WebNovel = ({
   const imageSrc =
     imageUrl && typeof imageUrl === "object" && "src" in imageUrl
       ? imageUrl.src
-      : typeof imageUrl === "string"
+      : typeof imageUrl === "string" && imageUrl.trim() !== ""
       ? imageUrl
       : testImage.src;
 
@@ -67,7 +67,13 @@ const WebNovel = ({
               : ""
           }`}
         >
-          <img src={imageSrc} alt={title} />
+          <img
+            src={imageSrc}
+            alt={title}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = testImage.src;
+            }}
+          />
           {(type === "myfavorite" || type === "mywrite") && (
             <div className="myfavorite-overlay">
               <div className="overlay-content">
@@ -91,7 +97,7 @@ const WebNovel = ({
                     <>
                       <span className="overlay-eye">
                         <EyeOutlined />
-                      </span>{" "}
+                      </span>
                       {views}
                     </>
                   )}
