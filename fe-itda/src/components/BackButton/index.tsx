@@ -1,18 +1,26 @@
-import { LeftOutlined } from "@ant-design/icons";
+import { CloseOutlined, LeftOutlined } from "@ant-design/icons";
 import { BackButtonStyled } from "./styled";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-const BackButton = () => {
+const BackButton = ({ type }: { type?: string }) => {
   const router = useRouter();
 
   return (
     <BackButtonStyled className={clsx("back-wrap")}>
-      <LeftOutlined
-        onClick={() => {
-          router.back();
-        }}
-      />
+      {type === "fail" ? (
+        <CloseOutlined
+          onClick={() => {
+            router.push("/cashhistory");
+          }}
+        />
+      ) : (
+        <LeftOutlined
+          onClick={() => {
+            router.back();
+          }}
+        />
+      )}
     </BackButtonStyled>
   );
 };

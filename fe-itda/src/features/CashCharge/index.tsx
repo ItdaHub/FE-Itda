@@ -71,15 +71,15 @@ const CashCharge = () => {
                 alt="팝콘"
               />
               {item.num}개
-              <button
-                className="pay-button"
-                onClick={() => {
-                  requestPayments({ price: item.price });
-                }}
-              >
-                {item.price}원
-              </button>
             </div>
+            <button
+              className="pay-button"
+              onClick={() => {
+                requestPayments({ price: item.price });
+              }}
+            >
+              {item.price}원
+            </button>
           </div>
         ))}
       </div>
