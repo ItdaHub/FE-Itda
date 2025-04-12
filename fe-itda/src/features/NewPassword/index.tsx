@@ -15,11 +15,11 @@ import Swal from "sweetalert2";
 const NewPassword = () => {
   const router = useRouter();
 
-  // sessionStorage에서 가져오기
+  // ✅ sessionStorage에서 가져오기
   // const email =
   // typeof window !== "undefined" ? sessionStorage.getItem("email") ?? "" : "";
 
-  //   쿼리 파라미터
+  // ✅ 쿼리 파라미터
   const { email } = router.query;
 
   // 비밀번호 토글 버튼

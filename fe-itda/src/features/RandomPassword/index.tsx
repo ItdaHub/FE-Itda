@@ -11,19 +11,19 @@ const RandomPassword = () => {
   const [email, setEmail] = useState("");
 
   // ✅ sessionStorage에 저장된 이메일 가져오기
-  useEffect(() => {
-    const storedEmail = sessionStorage.getItem("email");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
-
-  //   //   ✅ query의 주소에서 가져오기
   //   useEffect(() => {
-  //     if (router.query.email) {
-  //       setEmail(router.query.email as string);
+  //     const storedEmail = sessionStorage.getItem("email");
+  //     if (storedEmail) {
+  //       setEmail(storedEmail);
   //     }
-  //   }, [router.query]);
+  //   }, []);
+
+  // ✅ query의 주소에서 가져오기
+  useEffect(() => {
+    if (router.query.email) {
+      setEmail(router.query.email as string);
+    }
+  }, [router.query]);
 
   return (
     <RandomPassStyled className={clsx("random-wrap")}>
