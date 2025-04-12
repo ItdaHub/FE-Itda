@@ -1,7 +1,6 @@
 // useRef는 DOM 요소 참조 / 렌더링이 필요하지 않은 값을 유지할 때 사용
 // useState는 UI와 연관된 상태를 관리하고, 상태 변경 시 컴포넌트를 리렌더링하여 업데이트
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
 import { Modal } from "antd";
 import Image from "next/image";
 import { MyPageStyled } from "./styled";
@@ -18,6 +17,14 @@ import {
 } from "@/utill/vali"; // 비밀번호 변경 요청
 import api from "@/utill/api";
 import Swal from "sweetalert2";
+import { MailOutlined } from "@ant-design/icons";
+// import ProfileImg from "@/components/ProfileImg";
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import LockIcon from "@mui/icons-material/Lock";
+import TagIcon from "@mui/icons-material/Tag";
 
 const Mypage = () => {
   // 유저 정보 가져오기
@@ -28,23 +35,27 @@ const Mypage = () => {
   useEffect(() => {
     if (user) {
       console.log("현재 유저 정보 확인 👉", user);
+
       setEmail(user.email);
       setNickName(user.nickname);
       setName(user.name);
+      setType(user.type);
       setBirth(user.birthYear);
       setPhoneNumber(user.phone);
+
       if (user.profile_img) {
         setProfileImagePreview(user.profile_img);
       }
     }
-    if (!user) {
-      router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
-    }
+    // if (!user) {
+    //   router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
+    // }
   }, [user]);
 
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [type, setType] = useState<string>("local");
   const [birth, setBirth] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
@@ -128,26 +139,6 @@ const Mypage = () => {
     setIsPasswordModalOpen(false);
   };
 
-  // const handleChangePw = async () => {
-  //   if (!password || !passwordCheck) {
-  //     alert("비밀번호를 입력해주세요");
-  //   }
-
-  //   try {
-  //     const response = await axios.post(`/api/user/password`, {
-  //       data: { password },
-  //     });
-  //     if (response.data.message) {
-  //       alert("비밀번호가 변경되었습니다.");
-  //     } else {
-  //       alert(response.data.message || "비밀번호 변경에 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("비밀번호 변경 오류:", error);
-  //     alert("비밀번호 변경 중 오류가 발생했습니다.");
-  //   }
-  // };
-
   // 비밀번호 변경 버튼 클릭 (axios 요청 => util/vali에서 처리)
   const handleChangePw = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -172,6 +163,11 @@ const Mypage = () => {
     // 닉네임 중복 axios 요청 (현재 사용중인 닉네임 예외처리)
     try {
       const res = await api.post("/auth/nicknameCheck/edit", { nickName });
+
+      if (nickName === user?.nickname) {
+        setNickNameError("현재 사용 중인 닉네임입니다.");
+        return;
+      }
 
       setIsNickName(true);
       setNickNameError("");
@@ -251,6 +247,7 @@ const Mypage = () => {
               icon: "success",
               confirmButtonText: "확인",
             });
+            dispatch(logoutUser());
             router.push("/main");
           } else {
             alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
@@ -264,200 +261,291 @@ const Mypage = () => {
   };
 
   return (
-    <MyPageStyled className={clsx("my-page")}>
+    <MyPageStyled className={clsx("mypage-wrap")}>
       <div className="mypage-box">
-        <h3>내 정보 수정</h3>
-        <form className="user-edit">
-          {/* 프로필 이미지 */}
-          <label htmlFor="input-file">
-            <div className="userEdit-image" onClick={handleImgModal}>
+        <div className="mypage-sidebar left">
+          <h3>내 정보</h3>
+
+          <div>
+            <div className="profile">
               <Image
                 src={image ? URL.createObjectURL(image) : profileStactic}
-                // src={profileImagePreview || "/default-profile.png"} // 미리보기 이미지 또는 기본 이미지
                 alt="프로필 사진"
                 priority
-                width={150}
-                height={150}
+                width={100}
+                height={100}
+                className="profile-image"
               />
-              <div className="edit-icon">
-                <Image
-                  className="edit-profile"
-                  src={profileEdit}
-                  alt="프로필 편집"
-                  width={30}
-                  height={30}
-                />
+              <div className="profile-user">
+                <div className="user-nick">{nickName}</div>
+                <div className="user-email">{email}</div>
               </div>
             </div>
-          </label>
 
-          {/* 프로필 이미지 변경 모달 */}
-          <Modal
-            className="profile-modal"
-            // title="프로필 이미지 변경"
-            open={isModalOpen}
-            onCancel={handleModalClose}
-            footer={null}
-            centered
-          >
-            <div className="profile-modal">
-              <div className="profile-modal-btn">
-                <button onClick={handleImageSelectFromAlbum}>
-                  앨범에서 이미지 선택
-                </button>
-                {/* 파일 input (숨겨진 상태) */}
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  accept="image/*"
-                  style={{ display: "none" }} // 기본적으로 숨기기
-                  onChange={handleImageChange} // 파일 선택 시 핸들러 호출
-                />
-                <button onClick={handleSetDefaultImage}>
-                  기본 이미지 설정
-                </button>
-                <button onClick={handleModalClose}>취소</button>
-              </div>
+            <div className="profile-title">
+              <div>내 프로필</div>
+              <div>내 정보 수정</div>
             </div>
-          </Modal>
 
-          <div className="userEdit-info-container">
-            <div>아이디</div>
-            <div className="userEdit-email">
-              <input className="userEdit" type="text" value={email} readOnly />
+            <div className="smartbox">
+              <div className="tok">스마트봇 상담</div>
+              <div className="tok">회원톡톡</div>
             </div>
-            <div>
-              비밀번호
-              <div className="change-pass">
-                <input
-                  className="userEdit"
-                  type="text"
-                  // value={password}
-                  placeholder="**********"
-                  readOnly
-                />
-                <button
-                  className="change-btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePwOpen();
-                  }}
-                >
-                  비밀번호 변경
-                </button>
+            <div
+              style={{
+                display: "flex",
+                padding: 20,
+                justifyContent: "center",
+                gap: 20,
+              }}
+            >
+              <button
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  color: "gray",
+                }}
+              >
+                로그아웃
+              </button>
+              <button
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  color: "gray",
+                }}
+              >
+                고객센터
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="mypage-info right">
+          <form className="subprofile">
+            <div className="subprofile-basic">
+              <div>기본정보</div>
+              {/* 프로필 이미지 */}
+              <div className="input-file">
+                <div className="userEdit-image" onClick={handleImgModal}>
+                  <Image
+                    src={image ? URL.createObjectURL(image) : profileStactic}
+                    alt="프로필 사진"
+                    priority
+                    width={60}
+                    height={60}
+                  />
+                </div>
+                <div className="profile-user">
+                  <div className="user-nick">{nickName}</div>
+                  <div className="user-email">{email}</div>
+                </div>
+              </div>
+              <div className="userEdit-name">
+                <div className="user-name">
+                  <BadgeOutlinedIcon className="custom-icon" />
+                  <div className="userEdit">{name}</div>
+                </div>
+                <div className="user-email2">
+                  <EmailOutlinedIcon className="custom-icon" />
+                  <div className="userEdit">{email}</div>
+                </div>
               </div>
             </div>
-            {/* 비밀번호 변경 모달 */}
+
+            {/* 프로필 이미지 변경 모달 */}
             <Modal
-              className="password-modal"
-              title="비밀번호 변경"
-              open={isPasswordModalOpen}
-              onCancel={handlePwClose}
+              className="profile-modal"
+              // title="프로필 이미지 변경"
+              open={isModalOpen}
+              onCancel={handleModalClose}
               footer={null}
               centered
             >
-              <div className="password-modal-container">
-                <input
-                  className="userEdit"
-                  type="password"
-                  value={password}
-                  placeholder="새 비밀번호"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    validationPass(e.target.value, setPassError);
-                  }}
-                />
-                {passError && (
-                  <p className="findpw-errorMessage">{passError}</p>
-                )}
-                <input
-                  className="userEdit"
-                  type="password"
-                  value={passwordCheck}
-                  placeholder="새 비밀번호 확인"
-                  onChange={(e) => {
-                    setPasswordCheck(e.target.value);
-                    validationPassCheck(
-                      e.target.value,
-                      password,
-                      setPassCheckError
-                    );
-                  }}
-                />
-                {passCheckError && (
-                  <p className="findpw-errorMessage">{passCheckError}</p>
-                )}
-                <button onClick={handleChangePw}>비밀번호 변경</button>
-                {changePwError && (
-                  <p className="findpw-errorMessage">{changePwError}</p>
-                )}
+              <div className="profile-modal">
+                <div className="profile-modal-btn">
+                  <button onClick={handleImageSelectFromAlbum}>
+                    앨범에서 이미지 선택
+                  </button>
+                  {/* 파일 input (숨겨진 상태) */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    style={{ display: "none" }} // 기본적으로 숨기기
+                    onChange={handleImageChange} // 파일 선택 시 핸들러 호출
+                  />
+                  <button onClick={handleSetDefaultImage}>
+                    기본 이미지 설정
+                  </button>
+                  <button onClick={handleModalClose}>취소</button>
+                </div>
               </div>
             </Modal>
-            <div>닉네임</div>
-            <div className="userEdit-nickname">
-              <input
-                className="userEdit"
-                type="text"
-                value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
-              />
-              {/* </div> */}
-              <button className="double-check" onClick={handleCheckNickName}>
-                중복검사
+
+            <div className="userEdit-info-container">
+              <div className="add-title">부가정보</div>
+              <div className="subprofile-add">
+                {type === "local" && (
+                  <div>
+                    {/* 비밀번호 */}
+                    <div className="change-pass" style={{ display: "flex" }}>
+                      <LockIcon className="custom-icon" />
+                      <input
+                        className="userEdit"
+                        type="password"
+                        // value={password}
+                        placeholder="비밀번호"
+                        readOnly
+                      />
+                      <button
+                        className="change-btn"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePwOpen();
+                        }}
+                      >
+                        변경
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* 비밀번호 변경 모달 */}
+                <Modal
+                  className="password-modal"
+                  title="비밀번호 변경"
+                  open={isPasswordModalOpen}
+                  onCancel={handlePwClose}
+                  footer={null}
+                  centered
+                >
+                  <div
+                    className="password-modal-container"
+                    // style={{
+                    //   display: "flex",
+                    //   flexDirection: "column",
+                    //   gap: "20px",
+                    // }}
+                  >
+                    <input
+                      className="userEdit"
+                      type="password"
+                      value={password}
+                      placeholder="새 비밀번호"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        validationPass(e.target.value, setPassError);
+                      }}
+                    />
+                    {passError && (
+                      <p className="findpw-errorMessage">{passError}</p>
+                    )}
+                    <input
+                      className="userEdit"
+                      type="password"
+                      value={passwordCheck}
+                      placeholder="새 비밀번호 확인"
+                      onChange={(e) => {
+                        setPasswordCheck(e.target.value);
+                        validationPassCheck(
+                          e.target.value,
+                          password,
+                          setPassCheckError
+                        );
+                      }}
+                    />
+                    {passCheckError && (
+                      <p className="findpw-errorMessage">{passCheckError}</p>
+                    )}
+                    <button onClick={handleChangePw}>비밀번호 변경</button>
+                    {changePwError && (
+                      <p className="findpw-errorMessage">{changePwError}</p>
+                    )}
+                  </div>
+                </Modal>
+
+                <div className="userEdit-nickname">
+                  <TagIcon className="custom-icon" />
+                  <input
+                    className="userEdit"
+                    type="text"
+                    value={nickName}
+                    onChange={(e) => setNickName(e.target.value)}
+                  />
+
+                  {/* <button
+                    className="double-check"
+                    onClick={handleCheckNickName}
+                  >
+                    중복검사
+                  </button> */}
+                </div>
+                {/* <p
+                  className={`error-message ${
+                    nickNameError ? "red-text" : "green-text"
+                  }`}
+                >
+                  {nickNameError || nickNameSuccess}
+                </p> */}
+
+                {/* 출생년도 */}
+                <div className="userEdit-birth">
+                  <CakeOutlinedIcon className="custom-icon" />
+                  {type === "naver" ? (
+                    <span className="userEdit" style={{ paddingLeft: "8px" }}>
+                      생일 없음
+                    </span>
+                  ) : (
+                    <input
+                      className="userEdit"
+                      type="number"
+                      value={birth}
+                      readOnly
+                    />
+                  )}
+                </div>
+
+                {/* 전화번호 */}
+                <div className="userEdit-phone">
+                  <PhoneAndroidIcon className="custom-icon" />
+                  {type === "local" ? (
+                    <input
+                      className="userEdit"
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      readOnly
+                    />
+                  ) : (
+                    <span className="userEdit" style={{ paddingLeft: "8px" }}>
+                      번호 없음
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="mypage-btn"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              {/* <button onClick={handleSave}>저장하기</button> */}
+
+              <button
+                type="button"
+                onClick={handleDelete}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  color: "gray",
+                }}
+              >
+                회원탈퇴 {">"}
               </button>
             </div>
-            <p
-              className={`error-message ${
-                nickNameError ? "red-text" : "green-text"
-              }`}
-            >
-              {nickNameError || nickNameSuccess}
-            </p>
-
-            <div>이름</div>
-            <div className="userEdit-name">
-              <input
-                className="userEdit"
-                type="text"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                readOnly
-              />
-            </div>
-            <div>출생년도</div>
-            <div className="userEdit-birth">
-              <input
-                className="userEdit"
-                type="number"
-                value={birth}
-                readOnly
-              />
-            </div>
-            <div>전화번호</div>
-            <div className="userEdit-phone">
-              <input
-                className="userEdit"
-                type="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                readOnly
-              />
-            </div>
-          </div>
-
-          <div
-            className="mypage-btn"
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <button onClick={handleSave}>저장하기</button>
-            <div style={{ display: "flex" }}>
-              <button onClick={handleLogout}>로그아웃</button>
-              <button onClick={handleDelete}>회원탈퇴</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </MyPageStyled>
   );
