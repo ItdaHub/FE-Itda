@@ -5,6 +5,7 @@ interface User {
   email: string;
   nickname: string;
   name: string;
+  type: "local" | "kakao" | "naver";
   birthYear: string;
   phone: string;
   profile_img?: string | null;
