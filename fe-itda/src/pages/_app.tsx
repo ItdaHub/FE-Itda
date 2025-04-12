@@ -78,7 +78,7 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
             <LoadingPage />
           ) : (
             <Layout>
-              {router.pathname === "/main" ? <></> : <BackButton />}
+              {router.pathname === "/" ? <></> : <BackButton />}
 
               <Component {...pageProps} />
               <MobileNav />

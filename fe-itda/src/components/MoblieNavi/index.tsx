@@ -14,7 +14,7 @@ import Image from "next/image";
 const MobileNav = () => {
   return (
     <MoblieNav className={clsx("moblie-wrap")}>
-      <Link href="/main">
+      <Link href="/">
         <HomeOutlined />
       </Link>
       <Link href="/alert">

@@ -162,7 +162,7 @@ const NewWrite = ({
       }
 
       message.success("등록되었습니다.", 1, () => {
-        router.push("/main");
+        router.push("/");
       });
     } catch (e: any) {
       console.error("등록 실패: ", e);

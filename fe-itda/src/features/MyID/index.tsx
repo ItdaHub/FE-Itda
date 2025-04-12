@@ -228,7 +228,7 @@ const MyID = () => {
   const handleLogout = async () => {
     // 로그아웃 로직 (쿠키 삭제)
     dispatch(logoutUser()); // 서버 요청 + 상태 초기화
-    router.push("/main"); // 메인페이지로 이동
+    router.push("/"); // 메인페이지로 이동
     console.log("로그아웃");
   };
 
@@ -257,7 +257,7 @@ const MyID = () => {
               confirmButtonText: "확인",
             });
             dispatch(logoutUser());
-            router.push("/main");
+            router.push("/");
           } else {
             alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
           }
