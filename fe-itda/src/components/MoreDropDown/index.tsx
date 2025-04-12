@@ -1,4 +1,4 @@
-import { Dropdown, Input, MenuProps, message, Modal } from "antd";
+import { Dropdown, Input, MenuProps, Modal } from "antd";
 import { MoreDropDwonStyled } from "./styled";
 import { MoreOutlined } from "@ant-design/icons";
 import { useAppSelector } from "@/store/hooks";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import api from "@/utill/api";
 import WriteReply from "../WriteReply";
 import clsx from "clsx";
+import { App as AntdApp } from "antd";
 
 const MoreDropDown = ({
   type,
@@ -21,6 +22,8 @@ const MoreDropDown = ({
   isVisible: boolean;
   setIsVisible: any;
 }) => {
+  const { message } = AntdApp.useApp();
+
   // 모달 상태 관리
   const [declareModalOpen, setDeclareModalOpen] = useState(false); // 신고 모달 열림 여부
   const [reportReason, setReportReason] = useState(""); // 신고 사유 상태
@@ -168,17 +171,7 @@ const MoreDropDown = ({
             </div>
           </a>
         </Dropdown>
-        {isVisible ? (
-          <>
-            <WriteReply
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
-              parentId={item.id}
-            />
-          </>
-        ) : (
-          <></>
-        )}
+
         {/* 신고 모달 */}
         <Modal
           title="댓글 신고"

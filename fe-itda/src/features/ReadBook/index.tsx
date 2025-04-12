@@ -24,10 +24,12 @@ type ChapterResponse = {
 const ReadBook = ({
   novelId,
   chapterId,
+  setChapterId,
   isFromPaidClick = false,
 }: {
   novelId: number;
   chapterId: number;
+  setChapterId: (id: number) => void;
   isFromPaidClick?: boolean;
 }) => {
   const [contentList, setContentList] = useState<Content[]>([]);
@@ -51,6 +53,8 @@ const ReadBook = ({
         );
 
         const { slides, authorNickname, writerId } = response.data;
+
+        console.log("!!!!!!!!!!!", response.data);
 
         setContentList(slides);
         setAuthorNickname(authorNickname);
@@ -96,12 +100,16 @@ const ReadBook = ({
     }
   };
 
+  const goToPrevChapter = () => {
+    if (chapterId > 1) setChapterId(chapterId - 1); // 예외처리 필요
+  };
+
+  const goToNextChapter = () => {
+    setChapterId(chapterId + 1); // 마지막 챕터 넘기기 예외처리 필요
+  };
+
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
-      {writerId !== null && (
-        <WriterProfile nickname={authorNickname} writerId={writerId} />
-      )}
-
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={handleSlideChange}
@@ -123,7 +131,18 @@ const ReadBook = ({
             )}
           </SwiperSlide>
         ))}
+        <button onClick={goToPrevChapter} className="arrow prev">
+          ← 이전 화
+        </button>
+        <button onClick={goToNextChapter} className="arrow next">
+          다음 화 →
+        </button>
       </Swiper>
+
+      {/* 작가 닉네임 */}
+      {writerId !== null && (
+        <WriterProfile nickname={authorNickname} writerId={writerId} />
+      )}
     </ReadBookStyled>
   );
 };

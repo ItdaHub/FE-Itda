@@ -1,9 +1,10 @@
-import { Input, message } from "antd";
+import { Input } from "antd";
 import { WriteReplyStyled } from "./styled";
 import clsx from "clsx";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
 import { useState } from "react";
+import { App as AntdApp } from "antd";
 
 const WriteReply = ({
   isVisible,
@@ -14,6 +15,8 @@ const WriteReply = ({
   setIsVisible: any;
   parentId: number;
 }) => {
+  const { message } = AntdApp.useApp();
+
   // 유저 가져오기
   const user = useAppSelector((state) => state.auth.user);
 

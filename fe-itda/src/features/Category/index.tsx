@@ -28,6 +28,7 @@ const Category = ({
 }) => {
   const router = useRouter();
   const [activeGenre, setActiveGenre] = useState<string>(genre);
+  const [keyword, setKeyword] = useState("");
 
   // Redux에서 로그인된 유저 정보 가져오기
   const user = useSelector((state: RootState) => state.auth.user);
@@ -43,6 +44,7 @@ const Category = ({
     const checkMobile = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
+      setShowSearch(false);
     };
 
     checkMobile();
@@ -125,6 +127,29 @@ const Category = ({
             {/* 새로쓰기 버튼 부분 */}
             {isMobile ? (
               <div className="mobile-btn">
+                {/* 검색창 */}
+                {showSearch && (
+                  <div className="search-input-wrapper">
+                    <input
+                      className="search-input"
+                      type="text"
+                      placeholder="제목을 입력하세요"
+                      value={keyword}
+                      onChange={(e) => {
+                        setKeyword(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          keyword.trim() === ""
+                            ? alert("검색어를 입력해주세요")
+                            : router.push(
+                                `/search?keyword=${encodeURIComponent(keyword)}`
+                              );
+                        }
+                      }}
+                    />
+                  </div>
+                )}
                 <SearchOutlined
                   className="search-icon"
                   onClick={() => setShowSearch(!showSearch)}
@@ -147,18 +172,6 @@ const Category = ({
               </div>
             )}
           </div>
-
-          {/* 검색창 */}
-          {showSearch && (
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                placeholder="검색어를 입력하세요"
-                className="search-input"
-                autoFocus
-              />
-            </div>
-          )}
         </ConfigProvider>
       </div>
 
@@ -209,7 +222,7 @@ const Category = ({
             </p>
             <p
               onClick={() => {
-                router.push("/mylike");
+                router.push("/myfavorite");
               }}
             >
               찜

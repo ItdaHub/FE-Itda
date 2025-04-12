@@ -93,5 +93,25 @@ export const NewWriteStyled = styled.div`
         color: ${({ theme }) => theme.colors.placeholder};
       }
     }
+
+    .newWrite-btn,
+    input,
+    .ant-btn,
+    textarea,
+    .ant-select-selector {
+      border: 1px solid #adadad !important;
+      border-radius: 3px;
+    }
+
+    .newWrite-btn:hover {
+      border: 1px solid #adadad !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    .ant-select-selector:focus,
+    .ant-select-focused .ant-select-selector {
+      border: 1px solid #adadad !important;
+    }
   }
 `;

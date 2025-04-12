@@ -6,10 +6,11 @@ export const NickBox = styled.div`
   justify-content: center;
   align-items: center;
   .nickbox {
+    color: black;
     border-radius: 1.125rem;
     max-width: 13.25rem;
     padding: 5px 10px;
-    border-color: ${({ theme }) => theme.colors.border};
+    border-color: rgba(0, 0, 0, 0.05);
     border-width: 1px;
     cursor: pointer;
     border-style: solid;

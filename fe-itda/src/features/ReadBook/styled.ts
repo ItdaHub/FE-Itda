@@ -15,17 +15,6 @@ export const ReadBookStyled = styled.div`
       border: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    .readbook-book::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 1px;
-      background-color: #ddd;
-      z-index: 1;
-    }
-
     .readbook-page {
       width: 50%;
       padding: 32px 24px;
@@ -64,6 +53,8 @@ export const ReadBookStyled = styled.div`
       white-space: pre-line;
       min-height: 500px;
       box-sizing: border-box;
+      display: flex;
+      justify-content: center;
     }
 
     .swiper-button-prev,

@@ -35,6 +35,11 @@ a {
   text-decoration: none;
 }
 
+/* 프로필 모달 */
+.ant-popover-inner {
+  background-color: #ffffff !important;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

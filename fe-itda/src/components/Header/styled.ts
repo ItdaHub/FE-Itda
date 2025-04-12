@@ -40,7 +40,7 @@ export const HeaderStyled = styled.div`
 
             .header-Text {
               background-color: transparent;
-              color: ${({ theme }) => theme.colors.text};
+              color: black;
               border: none;
               outline: none;
             }
@@ -112,6 +112,7 @@ export const HeaderStyled = styled.div`
 
     .ant-popover-inner {
       width: 250px !important;
+      background-color: white;
     }
     @media (max-width: 768px) {
       display: none;
@@ -120,7 +121,12 @@ export const HeaderStyled = styled.div`
 `;
 
 export const WrapContent = styled.div`
-  width: 250px;
+  &.content-wrap {
+    width: 250px;
+    .ant-popover-inner {
+      background-color: white !important;
+    }
+  }
 `;
 
 export const DarkModeBox = styled.div`
@@ -128,8 +134,9 @@ export const DarkModeBox = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  color: black;
   height: 3.5rem;
   img {
     margin-right: 3px;
@@ -157,6 +164,7 @@ export const LogoutText = styled.div`
 `;
 
 export const Menus = styled.div`
+  color: black;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -177,13 +185,9 @@ export const Menus = styled.div`
     gap: 10px;
     .comment-icon {
       width: 50px;
-      background-color: white;
-      border-radius: 3px;
     }
     .popcorn-icon {
       width: 50px;
-      background-color: white;
-      border-radius: 3px;
     }
   }
   .menu-right {
@@ -194,13 +198,9 @@ export const Menus = styled.div`
     gap: 10px;
     .mywrite {
       width: 50px;
-      background-color: white;
-      border-radius: 3px;
     }
     .heart {
       width: 50px;
-      background-color: white;
-      border-radius: 3px;
     }
   }
 `;

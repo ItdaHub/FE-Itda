@@ -7,8 +7,7 @@ export const WebNovelStyled = styled.div`
     justify-content: center;
     /* 홈 */
     .novel-home {
-      /* display: flex; */
-      width: fit-content;
+      width: 100%;
       &:hover {
         cursor: pointer;
       }
@@ -26,23 +25,6 @@ export const WebNovelStyled = styled.div`
       }
     }
 
-    /* 이어쓰기+출품작 */
-    .novel-relay {
-      display: flex;
-      width: fit-content;
-      &:hover {
-        cursor: pointer;
-      }
-
-      .novel-image {
-        margin-right: 10px;
-
-        img {
-          height: 150px;
-        }
-      }
-    }
-
     /* 공통 */
     .novel-title-box {
       height: 100%;
@@ -55,15 +37,30 @@ export const WebNovelStyled = styled.div`
       line-height: 20px;
     }
     .novel-info {
+      display: flex;
       font-size: 13px;
       line-height: 17px;
       color: #999;
+      .novel-genre {
+        margin-right: 5px;
+      }
+      .novel-likes {
+        svg {
+          margin-left: 5px;
+        }
+        &::before {
+          display: inline-block;
+          content: "";
+          width: 1px;
+          height: 12px;
+          background-color: #999;
+        }
+      }
     }
     .novel-image {
       img {
         border-radius: 5px;
-        width: 160px;
-        height: 200px;
+        width: 100%;
         object-fit: cover;
         overflow: hidden;
       }
@@ -77,8 +74,6 @@ export const WebNovelStyled = styled.div`
     /* type이 myfavorite인 경우 */
     .myfavorite-image {
       position: relative;
-      width: 160px;
-      height: 200px;
       img {
         height: 100% !important;
       }
@@ -123,8 +118,14 @@ export const WebNovelStyled = styled.div`
 
       .overlay-write {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
       }
+    }
+    .overlay-heart {
+      margin: 0 5px;
+    }
+    .overlay-eye {
+      margin: 0 5px;
     }
     .novel-info-off {
       display: none;

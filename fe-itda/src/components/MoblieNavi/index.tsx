@@ -23,7 +23,7 @@ const MobileNav = () => {
       <Link href="/notice">
         <NotificationOutlined />
       </Link>
-      <Link href="/mylike">
+      <Link href="/myfavorite">
         <HeartOutlined />
       </Link>
       <Link href="/mypage">

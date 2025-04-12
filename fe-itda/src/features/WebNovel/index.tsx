@@ -1,7 +1,8 @@
 import { WebNovelStyled } from "./styled";
-import { EyeOutlined, HeartOutlined } from "@ant-design/icons";
+import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import testImage from "@/assets/images/testImage.png";
+import dayjs from "dayjs";
 
 interface GenreType {
   id: number;
@@ -56,7 +57,7 @@ const WebNovel = ({
         onClick={() => {
           router.push(`/noveldetail/novelcheck/${id}`);
         }}
-        className={type === "home" ? "novel-home" : "novel-relay"}
+        className="novel-home"
       >
         {/* 작품 이미지 */}
         <div
@@ -73,17 +74,25 @@ const WebNovel = ({
                 <div className="overlay-title">{title}</div>
                 <div className="overlay-genre">{genreName}</div>
 
-                {type === "mywrite" && <div>{String(createdAt)}</div>}
+                {type === "mywrite" && (
+                  <div>{dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")}</div>
+                )}
 
                 <div
                   className={`overlay-likes ${
                     type === "mywrite" ? "overlay-write" : ""
                   }`}
                 >
-                  <HeartOutlined /> {likes}
+                  <span className="overlay-heart">
+                    <HeartOutlined />
+                  </span>
+                  {likes}
                   {type === "mywrite" && (
                     <>
-                      <EyeOutlined /> {views}
+                      <span className="overlay-eye">
+                        <EyeOutlined />
+                      </span>{" "}
+                      {views}
                     </>
                   )}
                 </div>
@@ -110,7 +119,7 @@ const WebNovel = ({
             <div className="novel-info">
               <div className="novel-genre">{genreName}</div>
               <div className="novel-likes">
-                <HeartOutlined /> {likes}
+                <HeartFilled /> {likes}
               </div>
             </div>
           </div>

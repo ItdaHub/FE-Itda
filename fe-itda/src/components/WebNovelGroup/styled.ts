@@ -4,9 +4,10 @@ export const WebNovelGroupStyled = styled.div`
   &.group-wrap {
     max-width: 1020px;
     margin: 0 auto;
+    padding: 0 10px;
 
     .group-titlebox {
-      padding: 8px 0 20px;
+      padding: 10px 0 20px;
       display: flex;
       align-items: center;
       .group-title {
@@ -20,6 +21,10 @@ export const WebNovelGroupStyled = styled.div`
         font-size: 14px;
         color: #999;
       }
+    }
+
+    .titlebox-off {
+      display: none;
     }
 
     .group-ageTabs {
@@ -44,7 +49,7 @@ export const WebNovelGroupStyled = styled.div`
 
     .group-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       .group-each {
         margin-right: 5px;
@@ -62,9 +67,29 @@ export const WebNovelGroupStyled = styled.div`
       }
     }
     .myfavorite-title {
-      margin-top: 20px;
       font-size: 20px;
       font-weight: 600;
+    }
+
+    // 1005px 이하일 때 4개
+    @media (max-width: 1005px) {
+      .group-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    // 604px 이하일 때 3개
+    @media (max-width: 814px) {
+      .group-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    // 383px 이하일 때 2개
+    @media (max-width: 620px) {
+      .group-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   }
 `;

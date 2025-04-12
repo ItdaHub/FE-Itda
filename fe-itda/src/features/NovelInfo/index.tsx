@@ -108,31 +108,34 @@ const NovelInfo = ({ data }: { data?: number }) => {
 
   return (
     <NovelInfoStyled className={clsx("novelinfo-wrap")}>
-      <img className="novelinfo-img" src={novel.img} alt={novel.title} />
-      <div className="novelinfo-box">
-        <div className="novelinfo-text-box">
-          <div>
-            <h2>{novel.title}</h2>
-            <p className="novelinfo-text">{novel.genre}</p>
-            <p className="novelinfo-text">{novel.author}</p>
+      <div className="novelinfo-wrap-box">
+        <img className="novelinfo-img" src={novel.img} alt={novel.title} />
+        <div className="novelinfo-infobox">
+          <div className="novelinfo-box">
+            <div className="novelinfo-text-box">
+              <div>
+                <h2>{novel.title}</h2>
+                <p className="novelinfo-text">{novel.genre}</p>
+                <p className="novelinfo-text">{novel.author}</p>
+              </div>
+            </div>
+            <div className="novelinfo-like-wrap">
+              <div className="novelinfo-like-box" onClick={toggleLike}>
+                {liked ? (
+                  <HeartFilled style={{ fontSize: "30px", color: "red" }} />
+                ) : (
+                  <HeartOutlined style={{ fontSize: "30px" }} />
+                )}
+                <p>{likeCount}</p>
+              </div>
+              <div>
+                <KakaoShare />
+              </div>
+            </div>
           </div>
-
           <button className="novelinfo-btn" onClick={handleParticipateClick}>
             함께하기
           </button>
-        </div>
-        <div className="novelinfo-like-wrap">
-          <div className="novelinfo-like-box" onClick={toggleLike}>
-            {liked ? (
-              <HeartFilled style={{ fontSize: "30px", color: "red" }} />
-            ) : (
-              <HeartOutlined style={{ fontSize: "30px" }} />
-            )}
-            <p>{likeCount}</p>
-          </div>
-          <div>
-            <KakaoShare />
-          </div>
         </div>
       </div>
     </NovelInfoStyled>
