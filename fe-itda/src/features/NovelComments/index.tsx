@@ -60,12 +60,19 @@ const NovelComments = ({
   const fetchReviews = useCallback(async () => {
     try {
       let endpoint = "";
-      if (type === "chapter" && chapterId) {
+      if (type === "chapter") {
+        if (!chapterId) {
+          console.warn("chapter 타입인데 chapterId가 없습니다.");
+          return;
+        }
         endpoint = `/comments/chapter/${chapterId}`;
-      } else if (novelId) {
-        endpoint = `/comments/novel/${novelId}`;
       } else {
-        throw new Error("댓글 조회를 위한 ID가 없습니다.");
+        if (novelId === undefined || novelId === null) {
+          console.log(novelId);
+          console.warn("novel 타입인데 novelId가 없습니다.");
+          return;
+        }
+        endpoint = `/comments/novel/${novelId}`;
       }
 
       const response = await api.get(endpoint, {
