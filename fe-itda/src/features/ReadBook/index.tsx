@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { ReadBookStyled } from "./styled";
 import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
+import { useRouter } from "next/router";
 
 type Content = {
   text: string;
@@ -24,18 +25,19 @@ type ChapterResponse = {
 const ReadBook = ({
   novelId,
   chapterId,
-  setChapterId,
   isFromPaidClick = false,
 }: {
   novelId: number;
   chapterId: number;
-  setChapterId: (id: number) => void;
   isFromPaidClick?: boolean;
 }) => {
   const [contentList, setContentList] = useState<Content[]>([]);
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const router = useRouter();
+  const currentChapterId = Number(router.query.id);
 
   const swiperRef = useRef<SwiperCore>();
   const ignoreNextSlide = useRef(false);
@@ -101,11 +103,13 @@ const ReadBook = ({
   };
 
   const goToPrevChapter = () => {
-    if (chapterId > 1) setChapterId(chapterId - 1); // 예외처리 필요
+    if (currentChapterId > 1) {
+      router.push(`/chapter/${currentChapterId - 1}?novelId=${novelId}`);
+    } // 예외처리 필요
   };
 
   const goToNextChapter = () => {
-    setChapterId(chapterId + 1); // 마지막 챕터 넘기기 예외처리 필요
+    router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`); // 마지막 챕터 넘기기 예외처리 필요
   };
 
   return (
