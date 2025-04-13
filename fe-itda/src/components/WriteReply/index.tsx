@@ -10,10 +10,12 @@ const WriteReply = ({
   isVisible,
   setIsVisible,
   parentId,
+  refreshComments,
 }: {
   isVisible: boolean;
   setIsVisible: any;
   parentId: number;
+  refreshComments?: () => Promise<void>;
 }) => {
   const { message } = AntdApp.useApp();
 
@@ -35,6 +37,7 @@ const WriteReply = ({
         setContent(""); // 입력 초기화
         setIsVisible(false); // 닫기
         message.success("답글이 등록되었습니다!");
+        refreshComments?.();
       }
     } catch (e) {
       console.error("대댓글 추가 실패: ", e);

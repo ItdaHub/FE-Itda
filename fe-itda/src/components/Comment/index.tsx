@@ -72,6 +72,7 @@ const Comment = ({
             setIsVisible={setIsVisible}
             item={item}
             isVisible={isVisible}
+            refreshComments={refreshComments}
           />
         </div>
         <div className="comment-date">{item.date}</div>
@@ -108,6 +109,7 @@ const Comment = ({
               isVisible={isVisible}
               setIsVisible={setIsVisible}
               parentId={item.id}
+              refreshComments={refreshComments}
             />
           </>
         ) : (

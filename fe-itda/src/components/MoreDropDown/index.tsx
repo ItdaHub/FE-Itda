@@ -15,12 +15,14 @@ const MoreDropDown = ({
   item,
   isVisible,
   setIsVisible,
+  refreshComments,
 }: {
   type?: string;
   user: any;
   item?: any;
   isVisible: boolean;
   setIsVisible: any;
+  refreshComments?: () => Promise<void>;
 }) => {
   const { message } = AntdApp.useApp();
 
@@ -105,6 +107,8 @@ const MoreDropDown = ({
         try {
           // axios 댓글 삭제 요청
           await api.delete(`/comments/${item.id}`);
+          message.success("댓글이 삭제되었습니다.");
+          refreshComments?.();
         } catch (e) {
           console.error("댓글 삭제 실패: ", e);
           Swal.fire("댓글 삭제에 실패했습니다.");
