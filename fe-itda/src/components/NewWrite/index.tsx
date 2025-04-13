@@ -63,14 +63,14 @@ const NewWrite = ({
         try {
           const res = await api.get(`/novels/${novelId}`);
           const original = res.data;
-          console.log(original);
+
           setContent("");
           setTitle(original.title);
           setSelectedCategory(original.categoryId);
 
-          // 현재 몇 화인지 계산
-          // const nextChapterNumber = original.chapters.length + 1;
-          // console.log("👉 다음 화는", nextChapterNumber, "화입니다");
+          // 🔥 현재 몇 화인지 계산해서 보여주고 싶다면
+          const nextChapterNumber = original.chapters.length + 1;
+          console.log("👉 다음 화는", nextChapterNumber, "화입니다");
           // 필요하다면 상태로 저장해서 UI에 보여줄 수 있음
         } catch (e) {
           console.error("이어쓰기 원본 소설 불러오기 실패", e);
@@ -108,7 +108,10 @@ const NewWrite = ({
   };
 
   const useAIanswer = () => {
-    setContent(aianswer);
+    // 사용자가 '사용하기' 버튼을 클릭한 후에만 내용에 반영
+    if (aianswer.trim()) {
+      setContent(aianswer); // AI 답변을 수동으로 적용
+    }
   };
 
   const handleAskAI = async () => {
@@ -118,10 +121,13 @@ const NewWrite = ({
     }
 
     try {
-      const response = await api.post("/ai", {
+      const response = await api.post("/ai/generate", {
         prompt: aiquestion,
       });
-      setAIanswer(response.data.answer || "AI의 응답이 없습니다.");
+
+      console.log("✅ AI 응답:", response.data);
+      // AI 응답 받기
+      setAIanswer(response.data.content || "AI의 응답이 없습니다.");
     } catch (error) {
       console.error("AI 요청 실패:", error);
       message.error("AI 응답을 받는 데 실패했습니다.");
@@ -149,6 +155,19 @@ const NewWrite = ({
       return;
     }
 
+    // if (!aianswer.trim()) {
+    //   message.warning("AI 답변을 사용해 주세요.");
+    //   return;
+    // }
+
+    console.log("제출 데이터:", {
+      type,
+      categoryId: selectedCategory,
+      peopleNum: selectedPeople,
+      title,
+      content,
+    });
+
     try {
       if (type === "new") {
         await api.post("/novels", {
@@ -159,7 +178,7 @@ const NewWrite = ({
           type: "new",
         });
       } else if (type === "relay" && novelId) {
-        await api.post(`/novels/${novelId}/chapters`, {
+        await api.post(`/chapters/write/${novelId}`, {
           content,
         });
       }
@@ -167,9 +186,14 @@ const NewWrite = ({
       message.success("등록되었습니다.", 1, () => {
         router.push("/");
       });
-    } catch (e) {
-      console.error("등록 실패: ", e);
-      message.error("등록에 실패했습니다.");
+    } catch (e: any) {
+      console.error("등록 실패:", e);
+
+      if (e.response?.status === 403) {
+        message.warning("이미 이어쓰기에 참여하셨습니다!");
+      } else {
+        message.error("등록에 실패했습니다.");
+      }
     }
   };
 
