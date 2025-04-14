@@ -282,6 +282,7 @@ const MypageView = ({
           <button
             type="button"
             onClick={handleDelete}
+            className="exit-user"
             style={{
               backgroundColor: "transparent",
               border: "none",

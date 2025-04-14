@@ -8,7 +8,7 @@ import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import clsx from "clsx";
 
 import api from "@/utill/api";
@@ -24,13 +24,12 @@ const Mypage = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { mode } = router.query;
+  const { mode } = router.query || "view";
 
   useEffect(() => {
-    // const router = useRouter();
     if (!user) {
       router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
-    } else if (user) {
+    } else {
       console.log("현재 유저 정보 확인 👉", user);
 
       setEmail(user.email);
@@ -46,10 +45,6 @@ const Mypage = () => {
     }
   }, [user, router]);
 
-  if (!user) {
-    return null;
-  }
-
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -62,6 +57,26 @@ const Mypage = () => {
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
     null
   ); // 미리보기 이미지 URL
+
+  if (!user) {
+    return null;
+  }
+
+  // 선택한 버튼의 효과 관리
+  const [clickButton, setClickButton] = useState("profile");
+
+  useEffect(() => {
+    if (mode === "edit") {
+      setClickButton("edit");
+    } else {
+      setClickButton("profile");
+    }
+  }, [mode]);
+
+  const handleButtonClick = (buttonName: string) => {
+    setClickButton(buttonName);
+    router.push(`/mypage?mode=${buttonName === "profile" ? "view" : "edit"}`);
+  };
 
   // 로그아웃 처리
   const handleLogout = async () => {
@@ -112,10 +127,20 @@ const Mypage = () => {
     <MyPageStyled className={clsx("mypage-wrap")}>
       {/* 768px 이하에서만 보일 상단 버튼 */}
       <div className="mobile-profile-menu">
-        <button onClick={() => router.push("/mypage?mode=view")}>
+        <button
+          className={clickButton === "profile" ? "active" : ""}
+          onClick={() => {
+            handleButtonClick("profile");
+          }}
+        >
           내 프로필
         </button>
-        <button onClick={() => router.push("/mypage?mode=edit")}>
+        <button
+          className={clickButton === "edit" ? "active" : ""}
+          onClick={() => {
+            handleButtonClick("edit");
+          }}
+        >
           내 정보 수정
         </button>
       </div>
