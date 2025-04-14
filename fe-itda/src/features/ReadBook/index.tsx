@@ -15,11 +15,12 @@ type Content = {
   index: number;
   isPaid?: boolean;
 };
-
+// !!!!
 type ChapterResponse = {
   slides: Content[];
   authorNickname: string;
   writerId: number;
+  chapterNumber: number;
 };
 
 const ReadBook = ({
@@ -35,6 +36,7 @@ const ReadBook = ({
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
@@ -54,13 +56,15 @@ const ReadBook = ({
           `/chapters/content/${novelId}/${chapterId}`
         );
 
-        const { slides, authorNickname, writerId } = response.data;
-
-        console.log("!!!!!!!!!!!", response.data);
+        const { slides, authorNickname, writerId, chapterNumber } =
+          response.data;
 
         setContentList(slides);
         setAuthorNickname(authorNickname);
         setWriterId(writerId);
+        setChapterNumber(chapterNumber);
+
+        console.log("!!!!!!!!!!!!!!!1", response.data);
 
         const matchedIndex = slides.findIndex(
           (item) => item.index === chapterId
@@ -105,15 +109,20 @@ const ReadBook = ({
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
       router.push(`/chapter/${currentChapterId - 1}?novelId=${novelId}`);
-    } // 예외처리 필요
+    }
   };
 
   const goToNextChapter = () => {
-    router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`); // 마지막 챕터 넘기기 예외처리 필요
+    router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
   };
 
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
+      {/* ✅ 회차 번호 표시 */}
+      {chapterNumber !== null && (
+        <div className="chapter-number">{chapterNumber}화</div>
+      )}
+
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={handleSlideChange}
@@ -143,7 +152,6 @@ const ReadBook = ({
         </button>
       </Swiper>
 
-      {/* 작가 닉네임 */}
       {writerId !== null && (
         <WriterProfile nickname={authorNickname} writerId={writerId} />
       )}

@@ -33,10 +33,10 @@ const NewWrite = ({
   const [content, setContent] = useState<string>("");
   const [aiquestion, setAIquestion] = useState<string>("");
   const [aianswer, setAIanswer] = useState<string>("");
+  const [chapterNumber, setChapterNumber] = useState<number | null>(null);
 
   const router = useRouter();
 
-  // 카테고리 불러오기
   useEffect(() => {
     const getGenre = async () => {
       try {
@@ -56,7 +56,6 @@ const NewWrite = ({
     getGenre();
   }, []);
 
-  // 이어쓰기용 원본 소설 정보 불러오기
   useEffect(() => {
     const fetchOriginalNovel = async () => {
       if (type === "relay" && novelId) {
@@ -65,13 +64,26 @@ const NewWrite = ({
           const original = res.data;
 
           setContent("");
-          setTitle(original.title);
           setSelectedCategory(original.categoryId);
 
-          // 🔥 현재 몇 화인지 계산해서 보여주고 싶다면
-          const nextChapterNumber = original.chapters.length + 1;
-          console.log("👉 다음 화는", nextChapterNumber, "화입니다");
-          // 필요하다면 상태로 저장해서 UI에 보여줄 수 있음
+          const chapterRes = await api.get(`/novels/${novelId}/chapters`);
+          const chapters = chapterRes.data;
+
+          if (Array.isArray(chapters) && chapters.length > 0) {
+            const lastChapter = chapters[chapters.length - 1];
+            const nextChapterNumber =
+              typeof lastChapter.chapter_number === "number"
+                ? lastChapter.chapter_number + 1
+                : 1;
+
+            setChapterNumber(nextChapterNumber);
+            setTitle(`제목 - ${nextChapterNumber}회차`);
+            console.log("👉 이어쓰는 챕터 번호:", nextChapterNumber);
+          } else {
+            setChapterNumber(1);
+            setTitle("제목 - 1회차");
+            console.log("👉 이어쓰는 챕터 번호: 1");
+          }
         } catch (e) {
           console.error("이어쓰기 원본 소설 불러오기 실패", e);
         }
@@ -155,10 +167,7 @@ const NewWrite = ({
       return;
     }
 
-    // if (!aianswer.trim()) {
-    //   message.warning("AI 답변을 사용해 주세요.");
-    //   return;
-    // }
+    console.log("현재 이어쓰는 챕터 번호:", chapterNumber); // 여기서 chapterNumber 출력
 
     console.log("제출 데이터:", {
       type,
@@ -166,6 +175,7 @@ const NewWrite = ({
       peopleNum: selectedPeople,
       title,
       content,
+      chapterNumber, // chapterNumber도 출력
     });
 
     try {
@@ -177,9 +187,10 @@ const NewWrite = ({
           content,
           type: "new",
         });
-      } else if (type === "relay" && novelId) {
+      } else if (type === "relay" && novelId && chapterNumber !== null) {
         await api.post(`/chapters/write/${novelId}`, {
           content,
+          chapterNumber, // relay일 경우 chapterNumber도 포함
         });
       }
 
@@ -202,36 +213,48 @@ const NewWrite = ({
       {type === "new" ? <h2>새로쓰기</h2> : <h2>이어쓰기</h2>}
 
       <div className="newWrite-box">
-        <div className={type === "new" ? "newWrite-left" : "newWrite-AI-Off"}>
-          <div className="newWrite-content">
-            나
-            <TextArea
-              showCount
-              minLength={10}
-              maxLength={300}
-              value={aiquestion}
-              onChange={handleAIquestionChange}
-              placeholder="AI에게 첫내용을 추천받아보세요(10~300자)"
-              style={{ height: 60, resize: "none" }}
-            />
-            <div className="newWrite-button">
-              <Button onClick={handleAskAI}>물어보기</Button>
+        <div className="newWrite-left">
+          {type === "new" ? (
+            <>
+              <div className="newWrite-content">
+                나
+                <TextArea
+                  showCount
+                  minLength={10}
+                  maxLength={300}
+                  value={aiquestion}
+                  onChange={handleAIquestionChange}
+                  placeholder="AI에게 첫내용을 추천받아보세요(10~300자)"
+                  style={{ height: 60, resize: "none" }}
+                />
+                <div className="newWrite-button">
+                  <Button onClick={handleAskAI}>물어보기</Button>
+                </div>
+              </div>
+              <div className="newWrite-content">
+                AI
+                <TextArea
+                  showCount
+                  maxLength={300}
+                  value={aianswer}
+                  readOnly
+                  placeholder="AI답변이 입력됩니다"
+                  style={{ height: 120, resize: "none" }}
+                />
+                <div className="newWrite-button">
+                  <Button onClick={useAIanswer}>사용하기</Button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="newWrite-chapter">
+              {chapterNumber !== null ? (
+                <strong>현재 작성 중인 회차: {chapterNumber}회차</strong>
+              ) : (
+                <strong>회차 정보 불러오는 중...</strong>
+              )}
             </div>
-          </div>
-          <div className="newWrite-content">
-            AI
-            <TextArea
-              showCount
-              maxLength={300}
-              value={aianswer}
-              readOnly
-              placeholder="AI답변이 입력됩니다"
-              style={{ height: 120, resize: "none" }}
-            />
-            <div className="newWrite-button">
-              <Button onClick={useAIanswer}>사용하기</Button>
-            </div>
-          </div>
+          )}
         </div>
 
         <div

@@ -7,7 +7,7 @@ export const NovelInfoStyled = styled.div`
       width: 100%;
       max-width: 1020px;
       display: flex;
-      padding: 10px 10px 50px 10px;
+      padding: 30px 10px 50px 10px;
       margin: 0 auto;
 
       .novelinfo-infobox {
