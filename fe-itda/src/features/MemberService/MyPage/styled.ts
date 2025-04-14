@@ -100,9 +100,8 @@ export const MyPageStyled = styled.div`
 
   /* 메인 정보 영역 */
   .mypage-info {
-    flex: 1;
+    width: 70%;
     padding: 1rem;
-    background-color: #f9fbfc;
   }
 
   .subprofile-basic,
@@ -211,11 +210,11 @@ export const MyPageStyled = styled.div`
     background-color: #555;
   }
 
-  .error-message {
+  /* .error-message {
     font-size: 0.9rem;
     margin-top: -0.5rem;
     margin-bottom: 1rem;
-  }
+  } */
 
   .findpw-errorMessage {
     font-size: 0.9rem;

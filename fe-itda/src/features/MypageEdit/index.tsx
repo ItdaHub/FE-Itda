@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Modal } from "antd";
 import Image from "next/image";
@@ -8,12 +8,22 @@ import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { MypageEditStyled } from "./styled";
 import clsx from "clsx";
 import api from "@/utill/api";
+import { useAppSelector } from "@/store/hooks";
 
 interface Props {
   nickName: string;
 }
 
 const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
+  // 유저 정보 가져오기
+  const user = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      setNickName(user.nickname);
+    }
+  }, [user]);
+
   // 이미지 관리
   const [isModalOpen, setIsModalOpen] = useState(false); // 프로필 모달 열기/닫기
   const [image, setImage] = useState<File | null>(null); // 선택된 이미지 파일 (실제 파일 객체)
@@ -96,10 +106,9 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
 
     if (nickName === currentNickname) {
       setNickNameMessage({
-        type: "error",
+        type: "success",
         text: "현재 사용 중인 닉네임입니다.",
       });
-      return;
     }
 
     try {
@@ -132,10 +141,9 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
 
     if (nickName === currentNickname) {
       setNickNameMessage({
-        type: "error",
+        type: "success",
         text: "현재 사용 중인 닉네임입니다.",
       });
-      return;
     }
 
     // FormData로 이미지와 닉네임을 한 번에 보내기

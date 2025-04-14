@@ -65,18 +65,7 @@ const MypageSidebar = ({
           </div>
         </div>
 
-        <div className="smartbox">
-          <div className="tok">스마트봇 상담</div>
-          <div className="tok">회원톡톡</div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            padding: 20,
-            justifyContent: "center",
-            gap: 20,
-          }}
-        >
+        <div className="logout">
           <button
             type="button"
             onClick={handleLogout}
@@ -84,6 +73,7 @@ const MypageSidebar = ({
               backgroundColor: "transparent",
               border: "none",
               color: "gray",
+              cursor: "pointer",
             }}
           >
             로그아웃

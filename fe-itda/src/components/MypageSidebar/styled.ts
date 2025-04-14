@@ -5,8 +5,9 @@ export const MypageSidebarStyled = styled.div`
     display: none;
   }
 
+  /* 프로필 버튼 */
   .profile-title {
-    padding: 20px 20px 40px;
+    padding: 20px 20px 50px;
     display: inline-block;
     font-size: 19px;
     line-height: 26px;
@@ -19,7 +20,7 @@ export const MypageSidebarStyled = styled.div`
     }
   }
 
-  .profile-title button {
+  .profile-title div {
     font-size: 18px;
     font-weight: 500;
     background: none;
@@ -31,5 +32,14 @@ export const MypageSidebarStyled = styled.div`
     display: inline-block;
     font-weight: 700; /* 두껍게 */
     border-bottom: 2px solid #333; /* 언더라인 */
+  }
+
+  /* 로그아웃 버튼 */
+  .logout {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    gap: 20px;
+    border-top: 1 solid rgba(146, 146, 148, 0.3);
   }
 `;

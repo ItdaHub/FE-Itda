@@ -58,12 +58,12 @@ const Mypage = () => {
     null
   ); // 미리보기 이미지 URL
 
+  // 선택한 버튼의 효과 관리
+  const [clickButton, setClickButton] = useState("profile");
+
   if (!user) {
     return null;
   }
-
-  // 선택한 버튼의 효과 관리
-  const [clickButton, setClickButton] = useState("profile");
 
   useEffect(() => {
     if (mode === "edit") {
