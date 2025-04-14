@@ -7,6 +7,7 @@ import { App as AntdApp } from "antd";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 interface CommentData {
   key: number;
   index: number;
@@ -51,11 +52,9 @@ const MyComment: React.FC = () => {
             key: comment.id,
             index: index + 1,
             content: comment.content,
-            createdAt:
-              comment.created_at &&
-              !isNaN(new Date(comment.created_at).getTime())
-                ? new Date(comment.created_at).toISOString().split("T")[0]
-                : "날짜 없음",
+            createdAt: dayjs(comment.created_at).isValid()
+              ? dayjs(comment.created_at).format("YYYY-MM-DD HH:mm:ss")
+              : "날짜 없음",
             locationId: comment.chapter
               ? `${comment.novel?.title} / ${comment.chapter?.id}`
               : `${comment.novel?.title}`,

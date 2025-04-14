@@ -14,6 +14,7 @@ import api from "@/utill/api";
 import { Collapse } from "antd";
 import { useAppSelector } from "@/store/hooks";
 import WriteReply from "@/components/WriteReply";
+import dayjs from "dayjs";
 
 interface ReviewType {
   id: number;
@@ -84,10 +85,9 @@ const NovelComments = ({
           id: item.id,
           parentId: item.parentId ?? null,
           writer: item.writer,
-          date:
-            item.date && new Date(item.date).toString() !== "Invalid Date"
-              ? new Date(item.date).toISOString().split("T")[0]
-              : "알 수 없음",
+          date: dayjs(item.date).isValid()
+            ? dayjs(item.date).format("YYYY-MM-DD HH:mm:ss")
+            : "알 수 없음",
           comment: item.comment,
           likeNum: item.likeNum ?? 0,
           isliked: item.isliked ?? false,
