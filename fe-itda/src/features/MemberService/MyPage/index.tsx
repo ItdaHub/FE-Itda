@@ -1,20 +1,13 @@
 // useRef는 DOM 요소 참조 / 렌더링이 필요하지 않은 값을 유지할 때 사용
 // useState는 UI와 연관된 상태를 관리하고, 상태 변경 시 컴포넌트를 리렌더링하여 업데이트
-import { useState, useRef, useEffect } from "react";
-import { Modal } from "antd";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import clsx from "clsx";
 import { MyPageStyled } from "./styled";
 import profileStactic from "@/assets/images/img_profile_static.svg";
-import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
-import router, { useRouter } from "next/router";
-import clsx from "clsx";
+import { useRouter } from "next/router";
 
-import api from "@/utill/api";
-import Swal from "sweetalert2";
-// import ProfileImg from "@/components/ProfileImg";
-import ProfileImage from "@/components/ProfileImage";
 import MypageSidebar from "@/components/MypageSidebar";
 import MypageView from "@/features/MypageView";
 import MypageEdit from "@/features/MypageEdit";
@@ -86,43 +79,6 @@ const Mypage = () => {
     console.log("로그아웃");
   };
 
-  // 회원 탈퇴 처리
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    Swal.fire({
-      title: "정말 탈퇴하시겠습니까?",
-      text: "탈퇴 후 서비스 이용을 하실 수 없습니다.",
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니오",
-      confirmButtonColor: "#429f50",
-      cancelButtonColor: "#d33",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        // 회원 탈퇴 로직 (API 호출로 계정 삭제)
-        try {
-          const response = await api.delete(`/auth/deleteId/${email}`);
-
-          if (response.status === 200) {
-            Swal.fire({
-              title: "탈퇴가 완료되었습니다.",
-              icon: "success",
-              confirmButtonText: "확인",
-            });
-            dispatch(logoutUser());
-            router.push("/");
-          } else {
-            alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
-          }
-        } catch (error) {
-          console.error("회원 탈퇴 중 오류 발생:", error);
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
-        }
-      }
-    });
-  };
-
   return (
     <MyPageStyled className={clsx("mypage-wrap")}>
       {/* 768px 이하에서만 보일 상단 버튼 */}
@@ -146,6 +102,7 @@ const Mypage = () => {
       </div>
 
       <div className="mypage-box">
+        {/* 왼쪽 사이드 바 */}
         <MypageSidebar
           image={image}
           profileStactic={profileStactic}
@@ -155,8 +112,10 @@ const Mypage = () => {
         />
 
         {mode === "edit" ? (
+          // 내 정보 수정
           <MypageEdit currentNickname={nickName} />
         ) : (
+          // 내 프로필
           <MypageView
             image={image}
             profileStactic={profileStactic}

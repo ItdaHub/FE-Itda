@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MyPageStyled = styled.div`
   &.mypage-wrap {
     font-family: "Pretendard", sans-serif;
-    background-color: #f9fbfc;
+    /* background-color: #f9fbfc; */
     display: flex;
     justify-content: center;
     min-height: calc(100vh - 100px);
@@ -150,13 +150,13 @@ export const MyPageStyled = styled.div`
     background-color: transparent;
   }
 
-  .double-check {
+  /* .double-check {
     padding: 0.5rem 1rem;
     border: none;
     background-color: #eee;
     cursor: pointer;
     border-radius: 4px;
-  }
+  } */
 
   .change-pass {
     display: flex;
@@ -210,12 +210,6 @@ export const MyPageStyled = styled.div`
     background-color: #555;
   }
 
-  /* .error-message {
-    font-size: 0.9rem;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
-  } */
-
   .findpw-errorMessage {
     font-size: 0.9rem;
     color: red;
@@ -223,6 +217,7 @@ export const MyPageStyled = styled.div`
     margin-bottom: 0.5rem;
   }
 
+  /* 메세지 color 지정 */
   .red-text {
     color: red;
   }

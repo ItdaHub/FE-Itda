@@ -40,6 +40,6 @@ export const MypageSidebarStyled = styled.div`
     padding: 20px;
     justify-content: center;
     gap: 20px;
-    border-top: 1 solid rgba(146, 146, 148, 0.3);
+    border-top: 1px solid rgba(146, 146, 148, 0.3);
   }
 `;
