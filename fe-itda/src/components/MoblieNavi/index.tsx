@@ -10,8 +10,10 @@ import { MoblieNav } from "./styled";
 import clsx from "clsx";
 import alarm from "@/assets/images/alram.svg";
 import Image from "next/image";
+import { useAppSelector } from "@/store/hooks";
 
 const MobileNav = () => {
+  const user = useAppSelector((state) => state.auth.user);
   return (
     <MoblieNav className={clsx("moblie-wrap")}>
       <Link href="/">
@@ -26,7 +28,8 @@ const MobileNav = () => {
       <Link href="/myfavorite">
         <HeartOutlined />
       </Link>
-      <Link href="/mypage">
+
+      <Link href={user ? "/mypage" : "/login"}>
         <UserOutlined />
       </Link>
     </MoblieNav>
