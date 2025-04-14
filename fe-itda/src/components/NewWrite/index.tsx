@@ -34,6 +34,7 @@ const NewWrite = ({
   const [aiquestion, setAIquestion] = useState<string>("");
   const [aianswer, setAIanswer] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -132,17 +133,21 @@ const NewWrite = ({
       return;
     }
 
+    setIsLoading(true); // 로딩 시작
+
     try {
       const response = await api.post("/ai/generate", {
         prompt: aiquestion,
       });
 
-      console.log("✅ AI 응답:", response.data);
+      console.log("AI 응답:", response.data);
       // AI 응답 받기
       setAIanswer(response.data.content || "AI의 응답이 없습니다.");
     } catch (error) {
       console.error("AI 요청 실패:", error);
       message.error("AI 응답을 받는 데 실패했습니다.");
+    } finally {
+      setIsLoading(false); // 로딩 끝
     }
   };
 
@@ -228,7 +233,9 @@ const NewWrite = ({
                   style={{ height: 60, resize: "none" }}
                 />
                 <div className="newWrite-button">
-                  <Button onClick={handleAskAI}>물어보기</Button>
+                  <Button onClick={handleAskAI} loading={isLoading}>
+                    {isLoading ? "생성 중" : "물어보기"}
+                  </Button>
                 </div>
               </div>
               <div className="newWrite-content">
