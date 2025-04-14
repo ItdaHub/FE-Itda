@@ -6,6 +6,10 @@ export const NewWriteStyled = styled.div`
     margin: 50px auto;
     padding: 0 10px;
 
+    .newWrite-button {
+      margin-top: 5px;
+    }
+
     .newWrite-box {
       display: flex;
       border: 1px solid #adadad;
@@ -112,6 +116,30 @@ export const NewWriteStyled = styled.div`
     .ant-select-selector:focus,
     .ant-select-focused .ant-select-selector {
       border: 1px solid #adadad !important;
+    }
+
+    @media (max-width: 768px) {
+      &.newWrite-wrap {
+        .newWrite-box {
+          display: block;
+          height: fit-content;
+          padding: 15px 0;
+        }
+        .newWrite-left {
+          width: 100%;
+          border-bottom: 1px solid #adadad;
+          padding-bottom: 20px;
+          .newWrite-content {
+            margin: 0 auto;
+            padding: 0 10px;
+          }
+        }
+
+        .newWrite-right {
+          width: 100%;
+          margin: 0 auto;
+        }
+      }
     }
   }
 `;

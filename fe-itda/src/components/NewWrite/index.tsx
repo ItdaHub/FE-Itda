@@ -214,7 +214,9 @@ const NewWrite = ({
               placeholder="AI에게 첫내용을 추천받아보세요(10~300자)"
               style={{ height: 60, resize: "none" }}
             />
-            <Button onClick={handleAskAI}>물어보기</Button>
+            <div className="newWrite-button">
+              <Button onClick={handleAskAI}>물어보기</Button>
+            </div>
           </div>
           <div className="newWrite-content">
             AI
@@ -226,7 +228,9 @@ const NewWrite = ({
               placeholder="AI답변이 입력됩니다"
               style={{ height: 120, resize: "none" }}
             />
-            <Button onClick={useAIanswer}>사용하기</Button>
+            <div className="newWrite-button">
+              <Button onClick={useAIanswer}>사용하기</Button>
+            </div>
           </div>
         </div>
 
