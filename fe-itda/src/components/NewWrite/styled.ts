@@ -54,7 +54,7 @@ export const NewWriteStyled = styled.div`
       }
 
       .newWrite-rightborder {
-        border-right: 1px solid #adadad;
+        border-left: 1px solid #adadad;
       }
     }
     .newWrite-btn {
@@ -116,6 +116,16 @@ export const NewWriteStyled = styled.div`
     .ant-select-selector:focus,
     .ant-select-focused .ant-select-selector {
       border: 1px solid #adadad !important;
+    }
+
+    .newWrite-chapter {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #999;
     }
 
     @media (max-width: 768px) {

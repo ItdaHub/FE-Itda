@@ -18,6 +18,7 @@ import MobileNav from "@/components/MoblieNavi";
 import { setTheme } from "@/features/theme/themeSlice";
 import { useDispatch } from "react-redux";
 import BackButton from "@/components/BackButton";
+import api from "@/utill/api";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -35,6 +36,8 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
   const theme = mode === "dark" ? darkTheme : lightTheme;
   const [isMounted, setIsMounted] = useState(false);
 
+  const user = useAppSelector((state) => state.auth.user);
+
   useEffect(() => {
     // 새로고침 시 로컬스토리지 값으로 테마 설정
     const savedTheme = localStorage.getItem("theme");
@@ -43,6 +46,25 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
     }
     setIsMounted(true);
   }, [dispatch]);
+
+  // 방문자 기록 요청(IP당 24시간 1번)
+  useEffect(() => {
+    const sendVisitorLog = async () => {
+      try {
+        let visitorId = localStorage.getItem("visitorId");
+        if (!visitorId) {
+          visitorId = crypto.randomUUID(); // 유니크 ID 생성
+          localStorage.setItem("visitorId", visitorId);
+        }
+
+        await api.post("/visitor", { visitorId, userId: user?.id });
+      } catch (e) {
+        console.error("방문자 기록 실패:", e);
+      }
+    };
+
+    sendVisitorLog();
+  }, []);
 
   useEffect(() => {
     const start = () => setLoading(true);
