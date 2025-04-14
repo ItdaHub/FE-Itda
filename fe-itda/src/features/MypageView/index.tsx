@@ -1,27 +1,24 @@
 import { Modal } from "antd";
-
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockIcon from "@mui/icons-material/Lock";
 import TagIcon from "@mui/icons-material/Tag";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-
-import ProfileImage from "@/components/ProfileImage";
-import { MypageViewStyled } from "./styled";
 import clsx from "clsx";
-import Swal from "sweetalert2";
-import api from "@/utill/api";
-
+import { MypageViewStyled, StyledModal } from "./styled";
+import ProfileImage from "@/components/ProfileImage";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import api from "@/utill/api";
 import {
   changePassword,
   validationPass,
   validationPassCheck,
 } from "@/utill/vali";
+import Swal from "sweetalert2";
 
 interface MypageViewProps {
   image: File | null;
@@ -140,27 +137,6 @@ const MypageView = ({
           </div>
         </div>
 
-        {/* 프로필 이미지 변경 모달 */}
-        {/* <Modal
-          className="profile-modal"
-          open={isModalOpen}
-          footer={null}
-          centered
-        >
-          <div className="profile-modal">
-            <div className="profile-modal-btn">
-              앨범에서 이미지 선택
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-                style={{ display: "none" }}
-              />
-              기본 이미지 설정
-            </div>
-          </div>
-        </Modal> */}
-
         <div className="userEdit-info-container">
           <div className="add-title">부가정보</div>
           <div className="subprofile-add">
@@ -188,7 +164,7 @@ const MypageView = ({
             )}
 
             {/* 비밀번호 변경 모달 */}
-            <Modal
+            <StyledModal
               className="password-modal"
               title="비밀번호 변경"
               open={isPasswordModalOpen}
@@ -204,7 +180,7 @@ const MypageView = ({
                   placeholder="새 비밀번호"
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    validationPass(e.target.value, () => {});
+                    validationPass(e.target.value, setPassError);
                   }}
                 />
                 {passError && (
@@ -217,7 +193,11 @@ const MypageView = ({
                   placeholder="새 비밀번호 확인"
                   onChange={(e) => {
                     setPasswordCheck(e.target.value);
-                    validationPassCheck(e.target.value, password, () => {});
+                    validationPassCheck(
+                      e.target.value,
+                      password,
+                      setPassCheckError
+                    );
                   }}
                 />
                 {passCheckError && (
@@ -228,7 +208,7 @@ const MypageView = ({
                   <p className="findpw-errorMessage">{changePwError}</p>
                 )}
               </div>
-            </Modal>
+            </StyledModal>
 
             <div className="userEdit-nickname">
               <TagIcon className="custom-icon" />
