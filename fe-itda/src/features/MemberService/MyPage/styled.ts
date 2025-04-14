@@ -88,20 +88,6 @@ export const MyPageStyled = styled.div`
       }
     }
 
-    .profile-title {
-      padding: 20px 20px 40px;
-      display: inline-block;
-      font-size: 19px;
-      line-height: 26px;
-      font-weight: 400;
-      letter-spacing: -0.8px;
-      color: #303038;
-
-      div {
-        margin-top: 30px;
-      }
-    }
-
     .smartbox {
       padding: 20px;
       border-top: 1px solid rgba(146, 146, 148, 0.3);
@@ -256,17 +242,22 @@ export const MyPageStyled = styled.div`
     .mobile-profile-menu {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 30px;
       padding: 12px;
       background-color: #fff;
       border-bottom: 1px solid #ddd;
 
       button {
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 500;
         background: none;
         border: none;
         cursor: pointer;
+      }
+
+      button.active {
+        font-weight: 700; /* 두껍게 */
+        border-bottom: 2px solid #333; /* 언더라인 */
       }
     }
   }

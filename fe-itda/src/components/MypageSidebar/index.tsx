@@ -19,6 +19,7 @@ const MypageSidebar = ({
   handleLogout,
 }: MypageSidebarProps) => {
   const router = useRouter();
+  const { mode } = router.query;
 
   // '내 정보 수정' 클릭 → 수정 모드
   const handleEditClick = () => {
@@ -50,8 +51,18 @@ const MypageSidebar = ({
         />
 
         <div className="profile-title">
-          <div onClick={handleViewClick}>내 프로필</div>
-          <div onClick={handleEditClick}>내 정보 수정</div>
+          <div
+            onClick={handleViewClick}
+            className={clsx({ active: mode !== "edit" })}
+          >
+            내 프로필
+          </div>
+          <div
+            onClick={handleEditClick}
+            className={clsx({ active: mode === "edit" })}
+          >
+            내 정보 수정
+          </div>
         </div>
 
         <div className="smartbox">
