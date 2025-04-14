@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { App as AntdApp } from "antd";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
-
+import Swal from "sweetalert2";
 interface CommentData {
   key: number;
   index: number;
@@ -14,7 +14,6 @@ interface CommentData {
   createdAt: string;
   locationId: string;
 }
-
 const columns: TableColumnsType<CommentData> = [
   {
     title: "번호",
@@ -37,52 +36,65 @@ const columns: TableColumnsType<CommentData> = [
     width: "25%",
   },
 ];
-
 const MyComment: React.FC = () => {
   const { message } = AntdApp.useApp();
   const user = useAppSelector((state) => state.auth.user);
   const [dataSource, setDataSource] = useState<CommentData[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
   const fetchMyComments = async () => {
     try {
-      const response = await api.get("/comments/my-comments"); // ✅ 변경됨
-
+      const response = await api.get("/comments/my-comments");
       const mappedData: CommentData[] = response.data.map(
-        (comment: any, index: number) => ({
-          key: comment.id,
-          index: index + 1,
-          content: comment.content,
-          createdAt: new Date(comment.createdAt).toISOString().split("T")[0],
-          locationId: comment.chapter
-            ? `${comment.novel?.title} / ${comment.chapter?.id}`
-            : `${comment.novel?.title}`, // ✅ 응답이 객체 형태라고 가정
-        })
+        (comment: any, index: number) => {
+          console.log(":날짜: comment.created_at:", comment.created_at);
+          return {
+            key: comment.id,
+            index: index + 1,
+            content: comment.content,
+            createdAt:
+              comment.created_at &&
+              !isNaN(new Date(comment.created_at).getTime())
+                ? new Date(comment.created_at).toISOString().split("T")[0]
+                : "날짜 없음",
+            locationId: comment.chapter
+              ? `${comment.novel?.title} / ${comment.chapter?.id}`
+              : `${comment.novel?.title}`,
+          };
+        }
       );
-
       setDataSource(mappedData);
     } catch (error) {
       console.error("내 댓글 불러오기 실패:", error);
       message.error("내가 작성한 댓글을 불러오지 못했어요.");
     }
   };
-
   const handleDelete = async () => {
-    try {
-      await api.delete("/comments", {
-        data: { ids: selectedRowKeys }, // 👈 삭제할 댓글 ID 배열
-      });
-
-      const filtered = dataSource.filter(
-        (item) => !selectedRowKeys.includes(item.key)
-      );
-      setDataSource(filtered);
-      setSelectedRowKeys([]);
-      message.success("선택한 댓글이 삭제되었습니다.");
-    } catch (error) {
-      console.error("댓글 삭제 실패:", error);
-      message.error("댓글 삭제에 실패했어요.");
-    }
+    Swal.fire({
+      icon: "question",
+      title: "댓글을 삭제하겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "예",
+      cancelButtonText: "아니오",
+      confirmButtonColor: "#429f50",
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await api.delete("/comments/bulk-delete", {
+            data: { ids: selectedRowKeys },
+          });
+          const filtered = dataSource.filter(
+            (item) => !selectedRowKeys.includes(item.key)
+          );
+          setDataSource(filtered);
+          setSelectedRowKeys([]);
+          message.success("선택한 댓글이 삭제되었습니다.");
+        } catch (error) {
+          console.error("댓글 삭제 실패:", error);
+          message.error("댓글 삭제에 실패했어요.");
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -108,7 +120,6 @@ const MyComment: React.FC = () => {
           삭제
         </Button>
       </div>
-
       <Table<CommentData>
         columns={columns}
         dataSource={dataSource}
@@ -123,5 +134,4 @@ const MyComment: React.FC = () => {
     </MyCommentStyled>
   );
 };
-
 export default MyComment;
