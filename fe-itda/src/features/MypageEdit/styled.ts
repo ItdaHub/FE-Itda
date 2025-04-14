@@ -98,7 +98,6 @@ export const MypageEditStyled = styled.div`
 
   input[type="text"] {
     padding: 14px;
-    margin-top: 20px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -175,5 +174,51 @@ export const MypageEditStyled = styled.div`
     display: flex;
     justify-content: flex-end;
     width: 80%;
+  }
+
+  /* 메세지 */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .success-message {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .input-nickname {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .input-nickname input[type="text"] {
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    flex: 1; /* input이 가능한 한 너비 차지하게 */
+  }
+
+  .check-button {
+    padding: 12px 16px;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 0; /* 버튼 세로 간격 제거 */
+  }
+
+  .check-button:hover {
+    background-color: ${({ theme }) => theme.colors.primaryDark};
   }
 `;

@@ -15,6 +15,34 @@ export const MyPageStyled = styled.div`
       width: 80%;
       max-width: 1280px;
     }
+
+    /* 반응형 스타일 */
+    @media screen and (max-width: 768px) {
+      flex-direction: column; /* 모바일에서 세로 방향으로 정렬 */
+      justify-content: flex-start;
+
+      .mypage-box {
+        width: 100%;
+        max-width: 1280px;
+      }
+
+      /* 수정 모드 (내 정보 수정) */
+      .mypage-edit {
+        width: 100%;
+        form {
+          margin: 10px;
+        }
+      }
+
+      /* 읽기 모드 (내 프로필) */
+      .mypage-info {
+        width: 100%;
+        .subprofile-basic,
+        .subprofile-add {
+          margin: 10px;
+        }
+      }
+    }
   }
 
   /* 아이콘 */
@@ -216,5 +244,30 @@ export const MyPageStyled = styled.div`
 
   .green-text {
     color: green;
+  }
+
+  /* 모바일 부분 - 버튼 (내 프로필 & 내 정보 수정) */
+  .mobile-profile-menu {
+    display: none;
+  }
+
+  /* ✅ 반응형 설정 */
+  @media screen and (max-width: 768px) {
+    .mobile-profile-menu {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+
+      button {
+        font-size: 14px;
+        font-weight: 500;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
   }
 `;

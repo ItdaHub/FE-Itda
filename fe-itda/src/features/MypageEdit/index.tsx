@@ -7,16 +7,28 @@ import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { MypageEditStyled } from "./styled";
 import clsx from "clsx";
+import api from "@/utill/api";
 
-const MypageEdit = () => {
-  // 닉네임과 이미지 상태 관리
-  const [nickName, setNickName] = useState<string>(""); // 닉네임
+interface Props {
+  nickName: string;
+}
 
+const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
+  // 이미지 관리
   const [isModalOpen, setIsModalOpen] = useState(false); // 프로필 모달 열기/닫기
   const [image, setImage] = useState<File | null>(null); // 선택된 이미지 파일 (실제 파일 객체)
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
     null
   ); // 미리보기 이미지 URL
+
+  // 닉네임 관리
+  const [nickName, setNickName] = useState<string>(""); // 닉네임
+  const [nickNameMessage, setNickNameMessage] = useState({
+    type: "", // "error" | "success"
+    text: "",
+  });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // 프로필 이미지 변경 모달 열기
   const handleImgModal = () => {
@@ -57,14 +69,74 @@ const MypageEdit = () => {
     setIsModalOpen(false); // 모달 닫기
   };
 
-  // 닉네임 변경 핸들러
+  // 닉네임 변경
   const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
   };
 
-  // 저장하기 핸들러
+  // 닉네임 중복 검사
+  const handleCheckNickName = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
+    if (!nickName.trim()) {
+      setNickNameMessage({ type: "error", text: "닉네임을 입력해주세요." });
+      return;
+    }
+
+    const isValid = nickName.length >= 2 && nickName.length <= 8;
+    if (!isValid) {
+      setNickNameMessage({
+        type: "error",
+        text: "닉네임은 2~8자 사이여야 합니다.",
+      });
+      return;
+    }
+
+    if (nickName === currentNickname) {
+      setNickNameMessage({
+        type: "error",
+        text: "현재 사용 중인 닉네임입니다.",
+      });
+      return;
+    }
+
+    try {
+      const res = await api.post("/auth/nicknameCheck/edit", { nickName });
+      setNickNameMessage({ type: "success", text: res.data.message });
+    } catch (err: any) {
+      const message =
+        err.response?.data?.message ||
+        "닉네임 중복 확인 중 오류가 발생했습니다.";
+      setNickNameMessage({ type: "error", text: message });
+    }
+  };
+
+  // 저장하기 (axios 요청)
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!nickName.trim()) {
+      setNickNameMessage({ type: "error", text: "닉네임을 입력해주세요." });
+      return;
+    }
+
+    if (nickName.length < 2 || nickName.length > 8) {
+      setNickNameMessage({
+        type: "error",
+        text: "닉네임은 2~8자 사이여야 합니다.",
+      });
+      return;
+    }
+
+    if (nickName === currentNickname) {
+      setNickNameMessage({
+        type: "error",
+        text: "현재 사용 중인 닉네임입니다.",
+      });
+      return;
+    }
 
     // FormData로 이미지와 닉네임을 한 번에 보내기
     const formData = new FormData();
@@ -73,19 +145,22 @@ const MypageEdit = () => {
       formData.append("profileImage", image);
     }
 
+    // 콘솔 확인
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+    // return;
+
     try {
-      const response = await axios.put("/auth/edit", formData, {
+      const response = await api.put("/auth/edit", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("정보 수정 성공:", response.data);
       alert("정보가 수정되었습니다.");
     } catch (error) {
       console.error("정보 수정 실패:", error);
       alert("정보 수정 중 오류가 발생했습니다.");
     }
   };
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <MypageEditStyled className={clsx("mypage-edit")}>
@@ -148,7 +223,6 @@ const MypageEdit = () => {
 
         {/* 닉네임 수정 */}
         <div className="input-nickname">
-          {/* <label htmlFor="nickname">닉네임</label> */}
           <input
             type="text"
             id="nickname"
@@ -156,10 +230,29 @@ const MypageEdit = () => {
             onChange={handleNickNameChange}
             placeholder="새 닉네임을 입력하세요"
           />
+          <button
+            type="button"
+            className="check-button"
+            onClick={handleCheckNickName}
+          >
+            중복
+          </button>
         </div>
         <div className="submit-btn">
           <button type="submit">저장하기</button>
         </div>
+
+        {nickNameMessage.text && (
+          <div
+            className={
+              nickNameMessage.type === "error"
+                ? "error-message"
+                : "success-message"
+            }
+          >
+            {nickNameMessage.text}
+          </div>
+        )}
       </form>
     </MypageEditStyled>
   );
