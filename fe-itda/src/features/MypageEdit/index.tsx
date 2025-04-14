@@ -9,6 +9,7 @@ import { MypageEditStyled } from "./styled";
 import clsx from "clsx";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
+import router from "next/router";
 
 interface Props {
   nickName: string;
@@ -21,6 +22,9 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
   useEffect(() => {
     if (user) {
       setNickName(user.nickname);
+      if (user.profile_img) {
+        setProfileImagePreview(user.profile_img);
+      }
     }
   }, [user]);
 
@@ -37,6 +41,7 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
     type: "", // "error" | "success"
     text: "",
   });
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임이 바뀌면 중복체크 확인 후 저장
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -82,6 +87,11 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
   // 닉네임 변경
   const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
+    setIsNicknameChecked(false); // 닉네임 바뀌면 중복 확인 초기화
+    setNickNameMessage({
+      type: "",
+      text: "",
+    });
   };
 
   // 닉네임 중복 검사
@@ -109,16 +119,19 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
         type: "success",
         text: "현재 사용 중인 닉네임입니다.",
       });
+      setIsNicknameChecked(true); // 현재 닉네임이지만 통과시킴
     }
 
     try {
       const res = await api.post("/auth/nicknameCheck/edit", { nickName });
       setNickNameMessage({ type: "success", text: res.data.message });
+      setIsNicknameChecked(true);
     } catch (err: any) {
       const message =
         err.response?.data?.message ||
         "닉네임 중복 확인 중 오류가 발생했습니다.";
       setNickNameMessage({ type: "error", text: message });
+      setIsNicknameChecked(false);
     }
   };
 
@@ -146,6 +159,11 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
       });
     }
 
+    if (!isNicknameChecked && nickName !== currentNickname) {
+      alert("닉네임 중복 확인을 해주세요.");
+      return;
+    }
+
     // FormData로 이미지와 닉네임을 한 번에 보내기
     const formData = new FormData();
     formData.append("nickname", nickName);
@@ -164,6 +182,7 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("정보가 수정되었습니다.");
+      router.replace("/mypage");
     } catch (error) {
       console.error("정보 수정 실패:", error);
       alert("정보 수정 중 오류가 발생했습니다.");
@@ -221,13 +240,6 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
             </div>
           </div>
         </Modal>
-        {/* <div>
-          <button onClick={handleImageSelectFromAlbum}>
-            앨범에서 이미지 선택
-          </button>
-          <button onClick={handleSetDefaultImage}>기본 이미지 설정</button>
-          <button onClick={handleModalClose}>취소</button>
-        </div> */}
 
         {/* 닉네임 수정 */}
         <div className="input-nickname">
@@ -246,10 +258,6 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
             중복
           </button>
         </div>
-        <div className="submit-btn">
-          <button type="submit">저장하기</button>
-        </div>
-
         {nickNameMessage.text && (
           <div
             className={
@@ -261,6 +269,9 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
             {nickNameMessage.text}
           </div>
         )}
+        <div className="submit-btn">
+          <button type="submit">저장하기</button>
+        </div>
       </form>
     </MypageEditStyled>
   );

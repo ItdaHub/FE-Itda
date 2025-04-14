@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Modal } from "antd"; // 예시로 Modal을 사용
+import { Modal } from "antd";
 
 export const MypageEditStyled = styled.div`
   &.mypage-edit {
@@ -125,49 +125,6 @@ export const MypageEditStyled = styled.div`
 
   button[type="submit"]:hover {
     background-color: ${({ theme }) => theme.colors.primaryDark};
-  }
-
-  /* Modal 스타일 */
-  /* ant-modal 기본 스타일 덮어쓰기 */
-  .ant-modal {
-    border-radius: 8px;
-    background-color: ${({ theme }) => theme.colors.background} !important;
-    padding: 20px !important;
-  }
-
-  .ant-modal-header {
-    background-color: ${({ theme }) => theme.colors.primary} !important;
-    color: white !important;
-    border-radius: 8px 8px 0 0 !important;
-    padding: 16px !important;
-    font-size: 18px !important;
-    text-align: center !important;
-  }
-
-  .ant-modal-body {
-    padding: 16px !important;
-    text-align: center !important;
-  }
-
-  .ant-modal-footer {
-    display: flex !important;
-    justify-content: space-between !important;
-    padding: 10px !important;
-  }
-
-  /* Modal Button 스타일 */
-  .ant-btn {
-    background-color: ${({ theme }) => theme.colors.secondary} !important;
-    border: 1px solid ${({ theme }) => theme.colors.border} !important;
-    border-radius: 4px !important;
-    padding: 10px 20px !important;
-    font-size: 16px !important;
-    cursor: pointer !important;
-    transition: background-color 0.3s !important;
-  }
-
-  .ant-btn:hover {
-    background-color: ${({ theme }) => theme.colors.primary} !important;
   }
 
   .save-btn {
