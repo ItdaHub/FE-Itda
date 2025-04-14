@@ -7,7 +7,7 @@ export const NovelCommentStyled = styled.div`
     background-color: ${({ theme }) => theme.colors.background};
     width: 100%;
     max-width: 1020px;
-    margin: 42px auto 10px auto;
+    margin: 0 auto 10px auto;
 
     li {
       list-style: none;

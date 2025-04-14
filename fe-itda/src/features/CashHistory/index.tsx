@@ -21,9 +21,17 @@ const CashHistory = () => {
   const [nowCash, setNowCash] = useState(0);
   const [historyList, setHistoryList] = useState<HistoryItem[]>([]);
   const [type, setType] = useState<"charge" | "use">("charge");
-  // const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/login");
+    }
+  }, [user, router]);
+
+  if (!user) return null;
 
   // 현재 가지고 있는 팝콘 개수
   const popcorns = 20;

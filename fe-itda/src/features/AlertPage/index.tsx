@@ -1,5 +1,7 @@
 import DropdownList from "@/components/Notice";
-import { useState } from "react";
+import { useAppSelector } from "@/store/hooks";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const alertItems = [
   {
@@ -23,6 +25,17 @@ const alertItems = [
 ];
 
 const AlertPage = () => {
+  const router = useRouter();
+  const user = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
+    }
+  }, [user, router]);
+
+  if (!user) return null;
+
   // 알림 내용보기 상태
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
 

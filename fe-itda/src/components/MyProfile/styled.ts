@@ -15,5 +15,6 @@ export const NickBox = styled.div`
     cursor: pointer;
     border-style: solid;
     margin-bottom: 1rem;
+    background-color: transparent;
   }
 `;

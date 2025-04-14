@@ -7,6 +7,7 @@ import TextArea from "antd/es/input/TextArea";
 import { InfoCircleFilled } from "@ant-design/icons";
 import api from "@/utill/api";
 import { App as AntdApp } from "antd";
+import { useAppSelector } from "@/store/hooks";
 
 const people = [
   { label: "5명", value: 5 },
@@ -35,8 +36,17 @@ const NewWrite = ({
   const [aianswer, setAIanswer] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const user = useAppSelector((state) => state.auth.user);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/login");
+    }
+  }, [user, router]);
+
+  if (!user) return null;
 
   useEffect(() => {
     const getGenre = async () => {

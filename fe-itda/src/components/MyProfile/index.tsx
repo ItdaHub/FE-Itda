@@ -18,10 +18,14 @@ const MyProfile = ({
         setVisible ? setVisible(false) : <></>;
       }}
     >
-      <div className="nickbox">
-        <span>{userNickName || "사용자"}님</span>
-        <img src={nickarrow.src} alt="화살표" />
-      </div>
+      {userNickName ? (
+        <div className="nickbox">
+          <span>{userNickName} 님</span>
+          <img src={nickarrow.src} alt="화살표" />
+        </div>
+      ) : (
+        <button className="nickbox">로그인</button>
+      )}
     </NickBox>
   );
 };

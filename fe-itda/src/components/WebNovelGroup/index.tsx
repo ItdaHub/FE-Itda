@@ -4,6 +4,8 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import api from "@/utill/api";
 import { Empty } from "antd";
+import { useRouter } from "next/router";
+import { useAppSelector } from "@/store/hooks";
 
 // 연령 카테고리
 const ageGroups = [
@@ -25,6 +27,18 @@ const WebNovelGroup = ({
   ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
 }) => {
   const [novels, setNovels] = useState<any[]>([]);
+  const router = useRouter();
+  const user = useAppSelector((state) => state.auth.user);
+
+  if (type === "mywrite" || type === "myfavorite") {
+    useEffect(() => {
+      if (!user) {
+        router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
+      }
+    }, [user, router]);
+
+    if (!user) return null;
+  }
 
   useEffect(() => {
     const fetchNovels = async () => {

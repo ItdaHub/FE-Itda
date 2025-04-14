@@ -8,6 +8,7 @@ import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 interface CommentData {
   key: number;
   index: number;
@@ -38,8 +39,18 @@ const columns: TableColumnsType<CommentData> = [
   },
 ];
 const MyComment: React.FC = () => {
-  const { message } = AntdApp.useApp();
+  const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
+    }
+  }, [user, router]);
+
+  if (!user) return null;
+
+  const { message } = AntdApp.useApp();
   const [dataSource, setDataSource] = useState<CommentData[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const fetchMyComments = async () => {

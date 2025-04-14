@@ -12,6 +12,8 @@ import { SearchOutlined, MenuOutlined, LeftOutlined } from "@ant-design/icons";
 import NowPrice from "@/components/NowPrice";
 import PopcornModal from "@/components/PopcornModal";
 import MyProfile from "@/components/MyProfile";
+import { logoutUser } from "../auth/logout";
+import { useAppDispatch } from "@/store/hooks";
 
 const Category = ({
   type,
@@ -27,11 +29,13 @@ const Category = ({
   categories: any[][];
 }) => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [activeGenre, setActiveGenre] = useState<string>(genre);
   const [keyword, setKeyword] = useState("");
 
   // Redux에서 로그인된 유저 정보 가져오기
   const user = useSelector((state: RootState) => state.auth.user);
+
   const isLoggedIn = !!user;
 
   const [isMobile, setIsMobile] = useState(false);
@@ -226,6 +230,14 @@ const Category = ({
               }}
             >
               찜
+            </p>
+            <p
+              onClick={() => {
+                dispatch(logoutUser()); // 서버 요청 + 상태 초기화
+                router.push("/"); // 메인페이지로 이동
+              }}
+            >
+              로그 아웃
             </p>
           </div>
         </div>

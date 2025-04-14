@@ -81,6 +81,16 @@ const Header = () => {
     "/mypage",
   ];
 
+  // chapter/숫자 형태인지 체크
+  const isChapterPage = /^\/chapter\/\d+/.test(router.asPath);
+
+  // 다른 헤더 적용
+  const isHiddenStyle = notPage.includes(router.pathname);
+
+  // 헤더 제거
+  const isNoHeader = isChapterPage;
+  if (isNoHeader) return null;
+
   // 모달 내용
   const content = (
     <WrapContent className={clsx("content-wrap")}>
@@ -168,11 +178,9 @@ const Header = () => {
     </WrapContent>
   );
 
-  const isHidden = notPage.includes(router.pathname);
-
   return (
     <HeaderStyled className={clsx("header-wrap")}>
-      <div className={isHidden ? "headerOff" : "header"}>
+      <div className={isHiddenStyle ? "headerOff" : "header"}>
         {/* 로고 */}
         <div
           className="header-logoBox"
