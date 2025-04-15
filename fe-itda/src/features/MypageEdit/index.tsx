@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
-import { MypageEditStyled } from "./styled";
+import { ImageModal, MypageEditStyled } from "./styled";
 import clsx from "clsx";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
@@ -216,15 +216,19 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
         </div>
 
         {/* 프로필 이미지 변경 모달 */}
-        <Modal
+        <ImageModal
+          className="image-modal"
           open={isModalOpen}
-          onCancel={handleModalClose}
+          // onCancel={handleModalClose}
+          closable={false}
           footer={null}
           centered
+          width={350}
+          height={200}
         >
-          <div className="profile-modal">
-            <div className="profile-modal-btn">
-              <button onClick={handleImageSelectFromAlbum}>
+          <div className="image-modal-container">
+            <div className="image-modal-btn">
+              <button className="album" onClick={handleImageSelectFromAlbum}>
                 앨범에서 이미지 선택
               </button>
               {/* 파일 input (숨겨진 상태) */}
@@ -235,11 +239,15 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
                 style={{ display: "none" }} // 기본적으로 숨기기
                 onChange={handleImageChange} // 파일 선택 시 핸들러 호출
               />
-              <button onClick={handleSetDefaultImage}>기본 이미지 설정</button>
-              <button onClick={handleModalClose}>취소</button>
+              <button className="album" onClick={handleSetDefaultImage}>
+                기본 이미지 설정
+              </button>
+              <button className="album" onClick={handleModalClose}>
+                취소
+              </button>
             </div>
           </div>
-        </Modal>
+        </ImageModal>
 
         {/* 닉네임 수정 */}
         <div className="input-nickname">

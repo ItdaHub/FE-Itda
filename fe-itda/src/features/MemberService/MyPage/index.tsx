@@ -19,6 +19,22 @@ const Mypage = () => {
   const router = useRouter();
   const { mode } = router.query || "view";
 
+  const [email, setEmail] = useState("");
+  const [nickName, setNickName] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [type, setType] = useState<string>("local");
+  const [birth, setBirth] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // 프로필 모달 열기/닫기
+  const [image, setImage] = useState<File | null>(null); // 선택된 이미지 파일 (실제 파일 객체)
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
+    null
+  ); // 미리보기 이미지 URL
+
+  // 선택한 버튼의 효과 관리
+  const [clickButton, setClickButton] = useState("profile");
+
   useEffect(() => {
     if (!user) {
       router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
@@ -38,26 +54,6 @@ const Mypage = () => {
     }
   }, [user, router]);
 
-  const [email, setEmail] = useState("");
-  const [nickName, setNickName] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [type, setType] = useState<string>("local");
-  const [birth, setBirth] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-
-  const [isModalOpen, setIsModalOpen] = useState(false); // 프로필 모달 열기/닫기
-  const [image, setImage] = useState<File | null>(null); // 선택된 이미지 파일 (실제 파일 객체)
-  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
-    null
-  ); // 미리보기 이미지 URL
-
-  // 선택한 버튼의 효과 관리
-  const [clickButton, setClickButton] = useState("profile");
-
-  if (!user) {
-    return null;
-  }
-
   useEffect(() => {
     if (mode === "edit") {
       setClickButton("edit");
@@ -65,6 +61,10 @@ const Mypage = () => {
       setClickButton("profile");
     }
   }, [mode]);
+
+  if (!user) {
+    return <div>로딩 중입니다...</div>; // 또는 로딩 스피너, Skeleton 컴포넌트 등
+  }
 
   const handleButtonClick = (buttonName: string) => {
     setClickButton(buttonName);
