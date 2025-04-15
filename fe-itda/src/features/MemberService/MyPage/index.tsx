@@ -36,9 +36,7 @@ const Mypage = () => {
   const [clickButton, setClickButton] = useState("profile");
 
   useEffect(() => {
-    if (!user) {
-      router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
-    } else {
+    if (user) {
       console.log("현재 유저 정보 확인 👉", user);
 
       setEmail(user.email);
@@ -52,7 +50,7 @@ const Mypage = () => {
         setProfileImagePreview(user.profile_img);
       }
     }
-  }, [user, router]);
+  }, [user]);
 
   useEffect(() => {
     if (mode === "edit") {
@@ -61,10 +59,6 @@ const Mypage = () => {
       setClickButton("profile");
     }
   }, [mode]);
-
-  if (!user) {
-    return <div>로딩 중입니다...</div>; // 또는 로딩 스피너, Skeleton 컴포넌트 등
-  }
 
   const handleButtonClick = (buttonName: string) => {
     setClickButton(buttonName);

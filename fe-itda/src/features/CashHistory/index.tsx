@@ -25,14 +25,6 @@ const CashHistory = () => {
 
   const userId = user ? user.id : null;
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.replace("/login");
-    }
-  }, [user, router]);
-
   const history = [
     {
       title: "내일의 으뜸",
@@ -75,7 +67,7 @@ const CashHistory = () => {
 
   // 충전/사용 내역 axios get요청
   useEffect(() => {
-    if (userId) return;
+    if (!userId) return;
     fetchHistory(type);
   }, [type, userId]);
 

@@ -47,26 +47,26 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
   }, [dispatch]);
 
   // 방문자 기록 요청(IP당 24시간 1번)
-  useEffect(() => {
-    const sendVisitorLog = async () => {
-      try {
-        let visitorId = localStorage.getItem("visitorId");
-        if (!visitorId) {
-          visitorId = crypto.randomUUID(); // 유니크 ID 생성
-          localStorage.setItem("visitorId", visitorId);
-        }
+  // useEffect(() => {
+  //   const sendVisitorLog = async () => {
+  //     try {
+  //       let visitorId = localStorage.getItem("visitorId");
+  //       if (!visitorId) {
+  //         visitorId = crypto.randomUUID(); // 유니크 ID 생성
+  //         localStorage.setItem("visitorId", visitorId);
+  //       }
 
-        await api.post("/visitor", {
-          visitorId,
-          userId: user ? user.id : null,
-        });
-      } catch (e) {
-        console.error("방문자 기록 실패:", e);
-      }
-    };
+  //       await api.post("/visitor", {
+  //         visitorId,
+  //         userId: user ? user.id : null,
+  //       });
+  //     } catch (e) {
+  //       console.error("방문자 기록 실패:", e);
+  //     }
+  //   };
 
-    sendVisitorLog();
-  }, []);
+  //   sendVisitorLog();
+  // }, []);
 
   useEffect(() => {
     const start = () => setLoading(true);

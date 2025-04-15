@@ -41,9 +41,6 @@ const MyID = () => {
         setProfileImagePreview(user.profile_img);
       }
     }
-    // if (!user) {
-    //   router.replace("/login"); // 로그인 안 되어있으면 로그인 페이지로 이동
-    // }
   }, [user]);
 
   const [email, setEmail] = useState("");

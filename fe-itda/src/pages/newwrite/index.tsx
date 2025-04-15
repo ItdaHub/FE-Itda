@@ -7,16 +7,6 @@ const NewWritePage = () => {
   const router = useRouter();
   const { type, title, genre, novelId } = router.query;
 
-  const user = useAppSelector((state) => state.auth.user);
-
-  useEffect(() => {
-    if (!user) {
-      router.replace("/login");
-    }
-  }, [user, router]);
-
-  if (!user) return null;
-
   // 아직 query 안 들어왔을 때
   if (!type || Array.isArray(type)) return null;
 
