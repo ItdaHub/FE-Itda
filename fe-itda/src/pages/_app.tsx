@@ -56,7 +56,10 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
           localStorage.setItem("visitorId", visitorId);
         }
 
-        await api.post("/visitor", { visitorId, userId: user?.id });
+        await api.post("/visitor", {
+          visitorId,
+          userId: user ? user.id : null,
+        });
       } catch (e) {
         console.error("방문자 기록 실패:", e);
       }

@@ -4,6 +4,14 @@ export const LayoutWrapper = styled.div`
   &.layout-wrap {
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
-    min-height: 100vh;
+    .layout {
+      display: flex;
+      flex-direction: column;
+      min-height: 80vh;
+    }
+
+    .content {
+      flex: 1;
+    }
   }
 `;

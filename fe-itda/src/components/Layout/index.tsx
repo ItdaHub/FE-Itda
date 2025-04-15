@@ -12,10 +12,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <LayoutWrapper className={clsx("layout-wrap")}>
       <AuthHandler />
-      <Header />
-      {children}
-      {/* <Footer /> */}
-      {!isMypage && <Footer />}
+      <div className="layout">
+        <Header />
+        <main className="content">{children}</main>
+        {/* <Footer /> */}
+        {!isMypage && <Footer />}
+      </div>
     </LayoutWrapper>
   );
 };
