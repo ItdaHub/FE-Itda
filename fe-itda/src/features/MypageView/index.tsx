@@ -60,14 +60,25 @@ const MypageView = ({
   // 비밀번호 변경 axios 요청 에러 메세지
   const [changePwError, setChangePwError] = useState("");
 
+  // 입력, 메세지 초기화
+  const resetPasswordModal = () => {
+    setPassword("");
+    setPasswordCheck("");
+    setPassError("");
+    setPassCheckError("");
+    setChangePwError("");
+  };
+
   // 비밀번호 변경 모달 열기
   const handlePwOpen = () => {
+    resetPasswordModal();
     setIsPasswordModalOpen(true);
   };
 
   // 비밀번호 변경 모달 닫기
   const handlePwClose = () => {
     setIsPasswordModalOpen(false);
+    resetPasswordModal();
   };
 
   // 비밀번호 변경 버튼 클릭 (axios 요청 => util/vali에서 처리)
@@ -171,6 +182,7 @@ const MypageView = ({
               onCancel={handlePwClose}
               footer={null}
               centered
+              width={450}
             >
               <div className="password-modal-container">
                 <input
@@ -184,7 +196,7 @@ const MypageView = ({
                   }}
                 />
                 {passError && (
-                  <p className="findpw-errorMessage">{passError}</p>
+                  <p className="findpw-errorMessage">{passError || "⠀"}</p>
                 )}
                 <input
                   className="userEdit"

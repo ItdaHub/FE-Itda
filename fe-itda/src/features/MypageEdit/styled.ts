@@ -59,7 +59,7 @@ export const MypageEditStyled = styled.div`
   }
 
   .edit-icon:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
+    /* background-color: ${({ theme }) => theme.colors.primary}; */
   }
 
   /* 프로필 이미지 변경 모달 */
@@ -178,4 +178,44 @@ export const MypageEditStyled = styled.div`
   .check-button:hover {
     background-color: ${({ theme }) => theme.colors.primaryDark};
   }
+`;
+
+// Modal 래핑
+export const ImageModal = styled(Modal)`
+  /* .ant-modal {
+    width: 400px !important;
+  } */
+  .image-modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 24px; */
+  }
+
+  .image-modal-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    /* max-width: 300px; */
+  }
+
+  .image-modal-btn .album {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+  }
+
+  /* .image-modal-btn .album:hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  .image-modal-btn .album:active {
+    background-color: ${({ theme }) => theme.colors.primary};
+  } */
 `;

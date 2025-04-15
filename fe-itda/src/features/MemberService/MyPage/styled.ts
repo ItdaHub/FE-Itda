@@ -210,13 +210,6 @@ export const MyPageStyled = styled.div`
     background-color: #555;
   }
 
-  .findpw-errorMessage {
-    font-size: 0.9rem;
-    color: red;
-    margin-top: -0.3rem;
-    margin-bottom: 0.5rem;
-  }
-
   /* 메세지 color 지정 */
   .red-text {
     color: red;

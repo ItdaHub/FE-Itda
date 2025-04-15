@@ -32,6 +32,9 @@ export const StyledModal = styled(Modal)`
 
   .findpw-errorMessage {
     color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    height: 20px;
   }
 
   input.userEdit {
@@ -47,8 +50,5 @@ export const MypageViewStyled = styled.div`
     .exit-user {
       padding-left: 10px;
     }
-  }
-  .findpw-errorMessage {
-    color: red;
   }
 `;
