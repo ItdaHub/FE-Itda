@@ -23,6 +23,8 @@ const CashHistory = () => {
   const [type, setType] = useState<"charge" | "use">("charge");
   const user = useAppSelector((state) => state.auth.user);
 
+  const userId = user ? user.id : null;
+
   const router = useRouter();
 
   useEffect(() => {
@@ -30,8 +32,6 @@ const CashHistory = () => {
       router.replace("/login");
     }
   }, [user, router]);
-
-  if (!user) return null;
 
   // 현재 가지고 있는 팝콘 개수
   const popcorns = 20;
@@ -59,20 +59,21 @@ const CashHistory = () => {
   ];
 
   // 전체 팝콘 개수 axios get요청
-  // useEffect(() => {
-  //   const fetchNowCash = async () => {
-  //     try {
-  //       if (!user?.id) return;
-  //       const res = await api.get(`/popcorn/${user.id}`);
-  //       console.log(res.data);
-  //       setNowCash(res.data.amount);
-  //     } catch (e) {
-  //       console.error("팝콘 전체 개수 불러오기 실패: ", e);
-  //     }
-  //   };
+  useEffect(() => {
+    const getCharge = async () => {
+      try {
+        const res = await api.get(`/popcorn/${userId}`);
+        console.log("포인트 응답:", res.data);
+        setNowCash(res.data.total);
+      } catch (error) {
+        console.error("팝콘개수 불러오기 실패:", error);
+      }
+    };
 
-  //   fetchNowCash();
-  // }, [user.id]);
+    if (userId) {
+      getCharge();
+    }
+  }, [userId]);
 
   // 충전/사용 내역 axios get요청
   useEffect(() => {
@@ -93,6 +94,8 @@ const CashHistory = () => {
       console.error("내역 가져오기 실패:", err);
     }
   };
+
+  if (!user) return null;
 
   return (
     <CashHistoryStyled className={clsx("cash-wrap")}>
