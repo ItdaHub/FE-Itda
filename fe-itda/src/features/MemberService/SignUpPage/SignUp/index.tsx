@@ -280,7 +280,6 @@ const SignUp = () => {
                 setEmail(e.target.value);
                 validationEmail(e.target.value);
               }}
-              maxLength={20}
             />
             {/* <p className={`error-message red-text`}>{emailError}</p>
             <p className={`error-message green-text`}>{emailSuccess}</p> */}
