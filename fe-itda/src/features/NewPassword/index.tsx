@@ -9,7 +9,8 @@ import Swal from "sweetalert2";
 
 const NewPassword = () => {
   const router = useRouter();
-  const { token } = router.query;
+  // const { token } = router.query;
+  // console.log("token :", token);
 
   const [toggle1, setToggle1] = useState(true);
   const [toggle2, setToggle2] = useState(true);
@@ -18,6 +19,15 @@ const NewPassword = () => {
   const [passError, setPassError] = useState("");
   const [passCheckError, setPassCheckError] = useState("");
   const [changePwError, setChangePwError] = useState("");
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (router.isReady && typeof router.query.token === "string") {
+      console.log("토큰 값:", router.query.token);
+      setToken(router.query.token);
+    }
+  }, [router.isReady, router.query.token]);
 
   const handleChangePw = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -32,14 +42,12 @@ const NewPassword = () => {
       setChangePwError("");
     }
 
+    console.log(token, "요청 데이터", password);
     try {
-      const response = await api.post(
-        "http://localhost:5001/auth/update-password",
-        {
-          token,
-          password,
-        }
-      );
+      const response = await api.post("/auth/reset-password", {
+        token,
+        newPassword: password,
+      });
 
       if (response.data.message) {
         Swal.fire({
