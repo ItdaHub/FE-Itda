@@ -15,10 +15,12 @@ const PaymentFail = () => {
           title="결제를 완료하지 못했어요"
           subTitle="결제 도중 문제가 발생했어요. 다시 시도해 주세요."
           extra={[
-            <Button type="primary" onClick={() => router.push("/")}>
+            <Button key="home" type="primary" onClick={() => router.push("/")}>
               홈으로 이동
             </Button>,
-            <Button onClick={() => router.back()}>이전 페이지로</Button>,
+            <Button key="back" onClick={() => router.back()}>
+              이전 페이지로
+            </Button>,
           ]}
         />
         {code && <p>에러 코드: {code}</p>}

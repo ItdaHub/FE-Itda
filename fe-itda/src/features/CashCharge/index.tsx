@@ -30,7 +30,7 @@ const CashCharge = () => {
       const orderId = `order-${Date.now()}`;
       const orderName = "포인트 충전";
 
-      // ✅ 1. 결제 정보 백엔드에 저장
+      // 결제 정보 백엔드에 저장
       await api.post("/payments/create", {
         userId,
         orderId,
@@ -38,10 +38,10 @@ const CashCharge = () => {
         method: "toss",
       });
 
-      // ✅ 2. Toss SDK 로딩
+      // Toss SDK 로딩
       const toss = await loadTossPayments(clientKey);
 
-      // ✅ 3. 결제 요청
+      // 결제 요청
       toss.requestPayment("CARD", {
         amount,
         orderId,
