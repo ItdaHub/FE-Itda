@@ -8,30 +8,58 @@ import { Button, Result, Spin } from "antd";
 
 const PaymentSuccess = () => {
   const router = useRouter();
-  const rawAmount = router.query.amount;
-  const amount = Array.isArray(rawAmount) ? rawAmount[0] : rawAmount;
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
   const [isVerifying, setIsVerifying] = useState(true);
   const [message, setMessage] = useState("");
+  const [amountDisplay, setAmountDisplay] = useState("");
 
   useEffect(() => {
-    console.log(amount);
-    if (!amount) return;
+    if (!router.isReady) return;
 
-    // axios요청 - 유저 아이디, 가격
+    let { paymentKey, orderId, amount } = router.query;
+
+    console.log("🔍 [Query Params]", router.query);
+
+    // ✅ 배열이면 첫 번째 값만 사용
+    if (Array.isArray(orderId)) {
+      orderId = orderId[0];
+    }
+    if (Array.isArray(amount)) {
+      amount = amount[0];
+    }
+
+    if (!paymentKey || !orderId || !amount) {
+      console.warn("❌ 필수 결제 정보 누락:", { paymentKey, orderId, amount });
+      setMessage("결제 승인에 필요한 정보가 누락되었습니다.");
+      setIsVerifying(false);
+      return;
+    }
+
     const verifyPayment = async () => {
       try {
-        const response = await api.post("/payment/confirm", {
-          userId,
-          amount,
+        const numericAmount = Number(amount);
+
+        console.log("📦 [Sending to /payments/confirm]", {
+          paymentKey,
+          orderId,
+          amount: numericAmount,
         });
 
-        console.log(response.data);
+        const response = await api.post("/payments/confirm", {
+          paymentKey,
+          orderId,
+          amount: numericAmount,
+        });
 
+        console.log("✅ [Payment Confirm Success]", response.data);
+        setAmountDisplay(numericAmount.toLocaleString());
         setMessage("결제가 정상적으로 처리되었어요.");
       } catch (error: any) {
-        console.error("결제 승인 오류:", error.response?.data || error.message);
+        console.error(
+          "❌ [결제 승인 오류]",
+          error.response?.data || error.message
+        );
         setMessage("결제 승인 중 문제가 발생했어요.");
       } finally {
         setIsVerifying(false);
@@ -39,7 +67,7 @@ const PaymentSuccess = () => {
     };
 
     verifyPayment();
-  }, [userId, amount]);
+  }, [router.isReady, router.query]);
 
   return (
     <PaymentSuccessStyled className={clsx("success-wrap")}>
@@ -64,7 +92,7 @@ const PaymentSuccess = () => {
             }
             subTitle={
               message.includes("정상")
-                ? `총 ${amount}원이 결제되었습니다.`
+                ? `총 ${amountDisplay}원이 결제되었습니다.`
                 : "결제는 되었지만 승인 처리 중 오류가 있었어요."
             }
             extra={[

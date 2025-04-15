@@ -41,6 +41,7 @@ const Category = ({
   const [isMobile, setIsMobile] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [sidebarClosing, setSidebarClosing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   // 반응형 감지
@@ -55,6 +56,15 @@ const Category = ({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // sidebar 닫기
+  const closeSidebar = () => {
+    setSidebarClosing(true);
+    setTimeout(() => {
+      setShowSidebar(false);
+      setSidebarClosing(false);
+    }, 300);
+  };
 
   // 첫 번째 카테고리
   const categoryItems: TabsProps["items"] = categories[0]?.map((item) => ({
@@ -181,14 +191,12 @@ const Category = ({
 
       {/* 사이드바 */}
       {showSidebar && (
-        <div className="sidebar-overlay" onClick={() => setShowSidebar(false)}>
-          <div className="sidebar" onClick={(e) => e.stopPropagation()}>
-            <LeftOutlined
-              className="sidebar-back"
-              onClick={() => {
-                setShowSidebar(false);
-              }}
-            />
+        <div className="sidebar-overlay" onClick={closeSidebar}>
+          <div
+            className={`sidebar ${sidebarClosing ? "closing" : "open"}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <LeftOutlined className="sidebar-back" onClick={closeSidebar} />
 
             {/* 내정보 */}
             <MyProfile userNickName={user?.nickname} />

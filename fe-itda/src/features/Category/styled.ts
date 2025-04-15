@@ -118,6 +118,16 @@ export const CategoryStyled = styled.div`
         background: #fff;
         padding: 20px;
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+
+        &.open {
+          transform: translateX(0%);
+        }
+
+        &.closing {
+          transform: translateX(100%);
+        }
 
         .sidebar-back {
           padding: 15px 0;

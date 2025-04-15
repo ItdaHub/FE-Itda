@@ -12,6 +12,13 @@ export const LayoutWrapper = styled.div`
 
     .content {
       flex: 1;
+      padding-top: 100px;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        padding-top: 0;
+      }
     }
   }
 `;

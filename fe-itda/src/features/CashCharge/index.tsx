@@ -1,56 +1,52 @@
 import clsx from "clsx";
 import { CashChargeStyled } from "./styled";
 import popcornDetail from "@/assets/images/popcorn_detail.png";
-// import PaymentCheckoutPage from "../PaymentCheckoutPage";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useAppSelector } from "@/store/hooks";
 import api from "@/utill/api";
-// import { PaymentCheckStyled } from "./styled";
+
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
-const customerKey = "mg62XE7cK4Q4Vj58xNINq"; // 실제 프로젝트에선 user.id나 uuid 등 유니크한 값으로 설정
 
 const CashCharge = () => {
+  const user = useAppSelector((state) => state.auth.user);
+  const userId = user?.id;
+
   const popcorn = [
-    {
-      num: 1,
-      price: 1,
-    },
-    {
-      num: 10,
-      price: 10,
-    },
-    {
-      num: 30,
-      price: 30,
-    },
-    {
-      num: 50,
-      price: 50,
-    },
-    {
-      num: 100,
-      price: 100,
-    },
+    { num: 1, price: 1 },
+    { num: 10, price: 10 },
+    { num: 30, price: 30 },
+    { num: 50, price: 50 },
+    { num: 100, price: 100 },
   ];
 
   const requestPayments = async ({ price }: { price: number }) => {
+    if (!userId) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
       const amount = price;
       const orderId = `order-${Date.now()}`;
       const orderName = "포인트 충전";
-      // const res = await api.get("/pay/tossClientKey");
-      // const tossClientKey = res.data.tossClientKey;
-      // const toss = await loadTossPayments(tossClientKey); // 토스 sdk
 
-      // 테스트용
-      const toss = await loadTossPayments(clientKey); // 토스 sdk
+      // ✅ 1. 결제 정보 백엔드에 저장
+      await api.post("/payments/create", {
+        userId,
+        orderId,
+        amount,
+        method: "toss",
+      });
 
+      // ✅ 2. Toss SDK 로딩
+      const toss = await loadTossPayments(clientKey);
+
+      // ✅ 3. 결제 요청
       toss.requestPayment("CARD", {
         amount,
         orderId,
         orderName,
-        successUrl: `http://localhost:3000/payment/success?amount=${amount}`,
+        successUrl: `http://localhost:3000/payment/success?amount=${amount}&orderId=${orderId}`,
         failUrl: `http://localhost:3000/payment/fail`,
       });
     } catch (err) {
@@ -74,9 +70,7 @@ const CashCharge = () => {
             </div>
             <button
               className="pay-button"
-              onClick={() => {
-                requestPayments({ price: item.price });
-              }}
+              onClick={() => requestPayments({ price: item.price })}
             >
               {item.price}원
             </button>
