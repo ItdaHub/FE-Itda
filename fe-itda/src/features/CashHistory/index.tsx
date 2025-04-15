@@ -75,16 +75,13 @@ const CashHistory = () => {
 
   // 충전/사용 내역 axios get요청
   useEffect(() => {
+    if (userId) return;
     fetchHistory(type);
-  }, [type]);
-  // useEffect(() => {
-  //   if (!user?.id) return;
-  //   fetchHistory(type);
-  // }, [type, user?.id]);
+  }, [type, userId]);
 
   const fetchHistory = async (type: "charge" | "use") => {
     try {
-      // const res = await api.get(`/${type}/${user.id}`);
+      // const res = await api.get(`/${type}/${userId}`);
 
       // setHistoryList(res.data);
       setHistoryList(history);
