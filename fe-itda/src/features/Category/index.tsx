@@ -41,21 +41,9 @@ const Category = ({
   const [isMobile, setIsMobile] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [sidebarOpenClass, setSidebarOpenClass] = useState(false);
   const [sidebarClosing, setSidebarClosing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
-  // 반응형 감지
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      setShowSearch(false);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // sidebar 닫기
   const closeSidebar = () => {
@@ -65,6 +53,34 @@ const Category = ({
       setSidebarClosing(false);
     }, 300);
   };
+
+  // 반응형 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      setShowSearch(false);
+    };
+
+    if (!isMobile && showSidebar) {
+      setShowSidebar(false);
+    }
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, [isMobile, showSidebar]);
+
+  useEffect(() => {
+    if (showSidebar) {
+      // 다음 렌더링에서 open 클래스를 추가
+      requestAnimationFrame(() => {
+        setSidebarOpenClass(true);
+      });
+    } else {
+      setSidebarOpenClass(false);
+    }
+  }, [showSidebar]);
 
   // 첫 번째 카테고리
   const categoryItems: TabsProps["items"] = categories[0]?.map((item) => ({
@@ -193,60 +209,70 @@ const Category = ({
       {showSidebar && (
         <div className="sidebar-overlay" onClick={closeSidebar}>
           <div
-            className={`sidebar ${sidebarClosing ? "closing" : "open"}`}
+            className={`sidebar ${sidebarOpenClass ? "open" : ""} ${
+              sidebarClosing ? "closing" : ""
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
-            <LeftOutlined className="sidebar-back" onClick={closeSidebar} />
+            <div>
+              <LeftOutlined className="sidebar-back" onClick={closeSidebar} />
 
-            {/* 내정보 */}
-            <MyProfile userNickName={user?.nickname} />
+              {/* 내정보 */}
+              <MyProfile userNickName={user?.nickname} />
 
-            <p
-              onClick={() => {
-                setModalOpen(!modalOpen);
-              }}
-            >
-              {/* 충전 */}
-              <NowPrice userId={user?.id} />
-              {/* 팝콘 모달창 */}
-            </p>
-            <PopcornModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-            <p
-              onClick={() => {
-                router.push("/mycomment");
-              }}
-            >
-              댓글 내역
-            </p>
-            <p
-              onClick={() => {
-                router.push("/mywrite");
-              }}
-            >
-              내 글
-            </p>
-            <p
-              onClick={() => {
-                router.push("/cashhistory");
-              }}
-            >
-              팝콘 내역
-            </p>
-            <p
-              onClick={() => {
-                router.push("/myfavorite");
-              }}
-            >
-              찜
-            </p>
-            <p
+              <div
+                onClick={() => {
+                  setModalOpen(!modalOpen);
+                }}
+              >
+                {/* 충전 */}
+                <NowPrice userId={user?.id} />
+                {/* 팝콘 모달창 */}
+              </div>
+              <PopcornModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+              <div
+                className="sidebar-comment sidebar-menu"
+                onClick={() => {
+                  router.push("/mycomment");
+                }}
+              >
+                댓글 내역
+              </div>
+              <div
+                className="sidebar-menu"
+                onClick={() => {
+                  router.push("/mywrite");
+                }}
+              >
+                내 글
+              </div>
+              <div
+                className="sidebar-menu"
+                onClick={() => {
+                  router.push("/cashhistory");
+                }}
+              >
+                팝콘 내역
+              </div>
+              <div
+                className="sidebar-menu"
+                onClick={() => {
+                  router.push("/myfavorite");
+                }}
+              >
+                찜
+              </div>
+            </div>
+
+            <div
+              className="sidebar-logout"
               onClick={() => {
                 dispatch(logoutUser()); // 서버 요청 + 상태 초기화
                 router.push("/"); // 메인페이지로 이동
               }}
             >
               로그 아웃
-            </p>
+            </div>
           </div>
         </div>
       )}
