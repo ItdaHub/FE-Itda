@@ -36,17 +36,8 @@ const NewWrite = ({
   const [aianswer, setAIanswer] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const user = useAppSelector((state) => state.auth.user);
 
   const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.replace("/login");
-    }
-  }, [user, router]);
-
-  if (!user) return null;
 
   useEffect(() => {
     const getGenre = async () => {
