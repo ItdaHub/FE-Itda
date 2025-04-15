@@ -96,10 +96,17 @@ const PaymentSuccess = () => {
                 : "결제는 되었지만 승인 처리 중 오류가 있었어요."
             }
             extra={[
-              <Button type="primary" onClick={() => router.push("/")}>
+              <Button
+                key="home"
+                type="primary"
+                onClick={() => router.push("/")}
+              >
                 홈으로 이동
               </Button>,
-              <Button onClick={() => router.push("/cashhistory")}>
+              <Button
+                key="chargeHistory"
+                onClick={() => router.push("/cashhistory")}
+              >
                 충전 내역 보기
               </Button>,
             ]}
