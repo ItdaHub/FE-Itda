@@ -33,8 +33,6 @@ const CashHistory = () => {
     }
   }, [user, router]);
 
-  // 현재 가지고 있는 팝콘 개수
-  const popcorns = 20;
   const history = [
     {
       title: "내일의 으뜸",
