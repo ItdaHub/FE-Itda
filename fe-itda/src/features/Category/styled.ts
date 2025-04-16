@@ -109,6 +109,9 @@ export const CategoryStyled = styled.div`
       z-index: 999;
 
       .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         color: black;
         position: absolute;
         top: 0;
@@ -116,7 +119,7 @@ export const CategoryStyled = styled.div`
         width: 300px;
         height: 100%;
         background: #fff;
-        padding: 20px;
+        padding: 20px 20px 90px 20px;
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
@@ -132,10 +135,17 @@ export const CategoryStyled = styled.div`
         .sidebar-back {
           padding: 15px 0;
         }
-
-        p {
+        .sidebar-comment {
+          margin-top: 16px;
+        }
+        .sidebar-menu {
           margin-bottom: 16px;
           font-size: 16px;
+          cursor: pointer;
+        }
+        .sidebar-logout {
+          color: rgb(163, 163, 163);
+          text-align: center;
           cursor: pointer;
         }
       }
