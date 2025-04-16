@@ -74,7 +74,8 @@ export const ReadBookStyled = styled.div`
       align-items: center;
       justify-content: space-between;
       .readbook-home {
-        font-size: 20px;
+        font-size: 15px;
+        cursor: pointer;
       }
       .arrow {
         border: none;
@@ -82,6 +83,11 @@ export const ReadBookStyled = styled.div`
         color: ${({ theme }) => theme.colors.text};
         cursor: pointer;
       }
+      button.arrow.prev:disabled,
+      button.arrow.next:disabled {
+        color: #888;
+      }
+
       .stick::before {
         content: "";
         display: inline-block;

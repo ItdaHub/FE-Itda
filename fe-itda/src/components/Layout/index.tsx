@@ -12,15 +12,18 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   // 나머지 레이아웃 렌더
   const isMypage = router.pathname.startsWith("/mypage");
+  const isChapterPage = router.pathname.startsWith("/chapter");
 
   return (
     <LayoutWrapper className={clsx("layout-wrap")}>
-      <AuthHandler />
-      <div className="layout">
-        <Header />
-        <main className="content">{children}</main>
-        {/* <Footer /> */}
-        {!isMypage && <Footer />}
+      <div className={isChapterPage ? "no-padding-top" : ""}>
+        <AuthHandler />
+        <div className="layout">
+          <Header />
+          <main className="content">{children}</main>
+          {/* <Footer /> */}
+          {!isMypage && <Footer />}
+        </div>
       </div>
     </LayoutWrapper>
   );

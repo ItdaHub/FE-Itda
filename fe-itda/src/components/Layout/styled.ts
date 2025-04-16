@@ -20,5 +20,11 @@ export const LayoutWrapper = styled.div`
         padding-top: 0;
       }
     }
+
+    .no-padding-top {
+      .content {
+        padding-top: 0 !important;
+      }
+    }
   }
 `;

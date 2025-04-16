@@ -22,6 +22,7 @@ type ChapterResponse = {
   authorNickname: string;
   writerId: number;
   chapterNumber: number;
+  isLastChapter: boolean;
 };
 
 const ReadBook = ({
@@ -38,6 +39,9 @@ const ReadBook = ({
   const [writerId, setWriterId] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
+  const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
@@ -57,13 +61,25 @@ const ReadBook = ({
           `/chapters/content/${novelId}/${chapterId}`
         );
 
-        const { slides, authorNickname, writerId, chapterNumber } =
-          response.data;
+        const {
+          slides,
+          authorNickname,
+          writerId,
+          chapterNumber,
+          isLastChapter,
+        } = response.data;
 
         setContentList(slides);
         setAuthorNickname(authorNickname);
         setWriterId(writerId);
         setChapterNumber(chapterNumber);
+        setIsLastChapter(isLastChapter); // 마지막 화 여부 상태 저장
+
+        // 1화면 버튼 비활성화
+        setIsDisabled(chapterNumber === 1);
+
+        // 마지막화면 버튼 비활성화
+        setIsNextDisabled(isLastChapter);
 
         const matchedIndex = slides.findIndex(
           (item) => item.index === chapterId
@@ -118,18 +134,28 @@ const ReadBook = ({
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
       <div className="readbook-nav">
-        <MenuOutlined
+        <span
           className="readbook-home"
           onClick={() => {
             router.push(`/noveldetail/novelcheck/${novelId}`);
           }}
-        />
+        >
+          목록보기
+        </span>
         <div>
-          <button onClick={goToPrevChapter} className="arrow prev">
+          <button
+            onClick={goToPrevChapter}
+            className="arrow prev"
+            disabled={isDisabled}
+          >
             <LeftOutlined /> 이전화
           </button>
           <span className="stick"></span>
-          <button onClick={goToNextChapter} className="arrow next">
+          <button
+            onClick={goToNextChapter}
+            className="arrow next"
+            disabled={isNextDisabled}
+          >
             다음화 <RightOutlined />
           </button>
         </div>
