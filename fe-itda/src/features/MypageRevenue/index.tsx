@@ -1,6 +1,7 @@
-import { Button, Table } from "antd";
+import { Button, Modal, Table } from "antd";
 import { MypageRevenueStyled } from "./styled";
 import clsx from "clsx";
+import { useState } from "react";
 
 const columns = [
   {
@@ -26,6 +27,16 @@ const columns = [
 ];
 
 const MypageRevenue = () => {
+  const [popModalOpen, setPopModalOpen] = useState(false);
+
+  const handlePopOpen = () => {
+    setPopModalOpen(true);
+  };
+
+  const handlePopClose = () => {
+    setPopModalOpen(false);
+  };
+
   return (
     <MypageRevenueStyled className={clsx("mypage-revenue")}>
       <div className="popcorn-box">
@@ -33,12 +44,42 @@ const MypageRevenue = () => {
           type="primary"
           // icon={<PlusOutlined />}
           onClick={() => {
-            // router.push("/newnotice");
+            handlePopOpen();
           }}
         >
           팝콘 교환
         </Button>
       </div>
+
+      {/* 팝콘 모달 */}
+      <Modal
+        className="popcorn-modal"
+        // title=""
+        open={popModalOpen}
+        onCancel={handlePopClose}
+        footer={null}
+        centered
+        width={450}
+      >
+        <div className="popcorn-modal-container">
+          <div className="price" style={{ display: "flex" }}>
+            <p>총 금액</p>
+            <p>123456</p>
+            <p>원</p>
+          </div>
+          <div className="account-number">
+            <select>은행 api?</select>
+            <input
+              className="input-number"
+              placeholder="계좌번호를 입력해주세요"
+            />
+          </div>
+          <div>
+            <button>교환</button>
+          </div>
+        </div>
+      </Modal>
+
       <Table
         columns={columns}
         // dataSource={}
