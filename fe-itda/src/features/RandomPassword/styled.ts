@@ -11,12 +11,12 @@ export const RandomPassStyled = styled.div`
     text-align: center;
 
     img {
-      margin-bottom: 16px;
-      width: 200px;
+      width: 150px;
     }
 
     .random-text {
-      font-size: 34px;
+      font-size: 28px;
+      font-family: sans-serif;
     }
   }
 `;

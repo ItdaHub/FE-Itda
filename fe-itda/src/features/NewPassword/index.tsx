@@ -32,6 +32,11 @@ const NewPassword = () => {
   const handleChangePw = async (e: React.MouseEvent) => {
     e.preventDefault();
 
+    if (!token) {
+      setChangePwError("잘못된 접근입니다. 토큰이 없습니다.");
+      return;
+    }
+
     if (!password || !passwordCheck) {
       setChangePwError("비밀번호를 입력해주세요.");
       return;
@@ -43,6 +48,7 @@ const NewPassword = () => {
     }
 
     console.log(token, "요청 데이터", password);
+
     try {
       const response = await api.post("/auth/reset-password", {
         token,

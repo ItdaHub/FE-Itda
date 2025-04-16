@@ -15,7 +15,7 @@ export const AgreeStyled = styled.div`
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     background-color: white;
-    max-width: 500px;
+    max-width: 530px;
     height: auto;
     margin: 60px auto;
   }
@@ -65,6 +65,11 @@ export const AgreeStyled = styled.div`
     line-height: 1.6em;
     overflow: auto;
     resize: none;
+
+    &:focus {
+      /* border: none; */
+      border-color: ${({ theme }) => theme.colors.primary};
+    }
   }
 
   /* 버튼 */
@@ -78,7 +83,7 @@ export const AgreeStyled = styled.div`
     font-size: 16px;
     width: 80%;
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 30px;
     background-color: #c47ad7;
     border: none;

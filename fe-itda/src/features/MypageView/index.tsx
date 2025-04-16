@@ -185,40 +185,46 @@ const MypageView = ({
               width={450}
             >
               <div className="password-modal-container">
-                <input
-                  className="userEdit"
-                  type="password"
-                  value={password}
-                  placeholder="새 비밀번호"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    validationPass(e.target.value, setPassError);
-                  }}
-                />
-                {passError && (
-                  <p className="findpw-errorMessage">{passError || "⠀"}</p>
-                )}
-                <input
-                  className="userEdit"
-                  type="password"
-                  value={passwordCheck}
-                  placeholder="새 비밀번호 확인"
-                  onChange={(e) => {
-                    setPasswordCheck(e.target.value);
-                    validationPassCheck(
-                      e.target.value,
-                      password,
-                      setPassCheckError
-                    );
-                  }}
-                />
-                {passCheckError && (
-                  <p className="findpw-errorMessage">{passCheckError}</p>
-                )}
-                <button onClick={handleChangePw}>비밀번호 변경</button>
-                {changePwError && (
-                  <p className="findpw-errorMessage">{changePwError}</p>
-                )}
+                <div className="pass-wrap">
+                  <input
+                    className="userEdit"
+                    type="password"
+                    value={password}
+                    placeholder="새 비밀번호"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      validationPass(e.target.value, setPassError);
+                    }}
+                  />
+                  {passError && (
+                    <p className="findpw-errorMessage">{passError || "⠀"}</p>
+                  )}
+                </div>
+                <div className="pass-wrap">
+                  <input
+                    className="userEdit"
+                    type="password"
+                    value={passwordCheck}
+                    placeholder="새 비밀번호 확인"
+                    onChange={(e) => {
+                      setPasswordCheck(e.target.value);
+                      validationPassCheck(
+                        e.target.value,
+                        password,
+                        setPassCheckError
+                      );
+                    }}
+                  />
+                  {passCheckError && (
+                    <p className="findpw-errorMessage">{passCheckError}</p>
+                  )}
+                </div>
+                <div>
+                  <button onClick={handleChangePw}>비밀번호 변경</button>
+                  {changePwError && (
+                    <p className="findpw-errorMessage">{changePwError}</p>
+                  )}
+                </div>
               </div>
             </StyledModal>
 
