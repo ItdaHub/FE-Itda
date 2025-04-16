@@ -2,13 +2,6 @@ import clsx from "clsx";
 import { FindPwPageStyled } from "./styled";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-// 비밀번호, 비밀번호 확인 유효성 검사
-import {
-  changePassword,
-  validationPass,
-  validationPassCheck,
-} from "@/utill/vali";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
 
@@ -26,7 +19,6 @@ const FindPwPage = () => {
   const handleEmailChange = (e: any) => {
     const emailValue = e.target.value;
     setEmail(emailValue); // 이메일 상태 업데이트
-    console.log(emailValue, "email value");
 
     // 이메일 유효성 검사
     if (!emailValue) {
@@ -63,16 +55,10 @@ const FindPwPage = () => {
 
       const foundEmail = response.data.data;
 
+      // 정확히 입력한 이메일과 DB 이메일이 같을 때
       if (foundEmail && foundEmail === email) {
-        // 정확히 입력한 이메일과 DB 이메일이 같을 때
         setFindIt(foundEmail);
         setErrorMessage("");
-
-        // ✅ sessionStorage에 저장
-        // sessionStorage.setItem("email", foundEmail);
-
-        // ✅ 페이지 이동
-        // router.push("/randompass");
 
         // ✅ 쿼리 파라미터
         router.push(`/randompass?email=${encodeURIComponent(foundEmail)}`);
@@ -80,7 +66,6 @@ const FindPwPage = () => {
         setFindIt("");
         setErrorMessage("일치하는 계정이 없습니다.");
       }
-      // setEmail(""); // 이메일 초기화
     } catch (error) {
       setErrorMessage("서버 오류가 발생했습니다");
     }
@@ -101,10 +86,12 @@ const FindPwPage = () => {
               onChange={handleEmailChange}
             />
           </div>
+
           {/* 비밀번호 찾기 버튼 */}
           <button className="findPw-btn" onClick={handleFindPw}>
             비밀번호 찾기
           </button>
+
           {/* 에러 메시지 */}
           {errorMessage && (
             <div className="findpw-errorMessage">{errorMessage}</div>

@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { RandomPassStyled } from "./styled";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import sendMail from "@/assets/images/sending-mail.gif";
@@ -31,9 +30,6 @@ const RandomPassword = () => {
         "http://localhost:5001/auth/forgot-password",
         { email }
       );
-
-      console.log("응답 상태:", response.status);
-      console.log("응답 데이터:", response.data);
 
       if (response.status === 201) {
         setIsSuccess(true);
