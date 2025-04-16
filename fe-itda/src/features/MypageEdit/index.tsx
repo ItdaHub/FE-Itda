@@ -155,37 +155,60 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
     if (nickName === currentNickname) {
       setNickNameMessage({
         type: "success",
-        text: "현재 사용 중인 닉네임입니다.",
+        text: "",
       });
     }
 
-    if (!isNicknameChecked && nickName !== currentNickname) {
-      alert("닉네임 중복 확인을 해주세요.");
+    if (nickName !== currentNickname && !isNicknameChecked) {
+      setNickNameMessage({
+        type: "success",
+        text: "닉네임 중복 확인을 해주세요.",
+      });
       return;
     }
 
-    // FormData로 이미지와 닉네임을 한 번에 보내기
-    const formData = new FormData();
-    formData.append("nickname", nickName);
+    let updated = false;
+
+    // 프로필 이미지 변경된 경우에만 요청
     if (image) {
+      const formData = new FormData();
       formData.append("profileImage", image);
+
+      try {
+        await api.put("/users/me/profile-image", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        updated = true;
+      } catch (error) {
+        console.error("프로필 이미지 수정 실패:", error);
+        alert("프로필 이미지 수정 중 오류가 발생했습니다.");
+        return;
+      }
     }
 
-    // 콘솔 확인
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
-    // return;
+    // 닉네임 변경된 경우에만 요청
+    if (nickName !== currentNickname) {
+      try {
+        await api.put(
+          "/users/me/nickname",
+          { nickname: nickName },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        updated = true;
+      } catch (error) {
+        console.error("닉네임 수정 실패:", error);
+        alert("닉네임 수정 중 오류가 발생했습니다.");
+        return;
+      }
+    }
 
-    try {
-      const response = await api.put("/auth/edit", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    if (updated) {
       alert("정보가 수정되었습니다.");
-      router.replace("/mypage");
-    } catch (error) {
-      console.error("정보 수정 실패:", error);
-      alert("정보 수정 중 오류가 발생했습니다.");
+      router.reload();
+    } else {
+      alert("변경된 정보가 없습니다.");
     }
   };
 

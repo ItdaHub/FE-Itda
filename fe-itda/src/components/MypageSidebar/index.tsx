@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { MypageSidebarStyled } from "./styled";
 import ProfileImage from "../ProfileImage";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface MypageSidebarProps {
   image: File | null;
@@ -21,12 +22,31 @@ const MypageSidebar = ({
   const router = useRouter();
   const { tab } = router.query;
 
-  // Tab 클릭별 쿼리 이동
-  const handleTabClick = (tabName: string) => {
-    router.push({
-      pathname: "/mypage",
-      query: { tab: tabName },
-    });
+  // 선택한 버튼의 효과 관리
+  const [clickButton, setClickButton] = useState("profile");
+
+  useEffect(() => {
+    if (tab === "profile") {
+      setClickButton("profile");
+    } else if (tab === "edit") {
+      setClickButton("edit");
+    } else if (tab === "product") {
+      setClickButton("product");
+    } else {
+      setClickButton("revenue");
+    }
+  }, [tab]);
+
+  const tabList = [
+    { key: "profile", label: "내 프로필" },
+    { key: "edit", label: "내 정보 수정" },
+    { key: "product", label: "출품작" },
+    { key: "revenue", label: "수익관리" },
+  ];
+
+  const handleButtonClick = (buttonName: string) => {
+    setClickButton(buttonName);
+    router.push(`/mypage?tab=${buttonName}`);
   };
 
   return (
@@ -43,30 +63,15 @@ const MypageSidebar = ({
         />
 
         <div className="profile-title">
-          <div
-            onClick={() => handleTabClick("profile")}
-            // className={clsx({ active: tab === "profile" })}
-          >
-            내 프로필
-          </div>
-          <div
-            onClick={() => handleTabClick("edit")}
-            // className={clsx({ active: tab === "edit" })}
-          >
-            내 정보 수정
-          </div>
-          <div
-            onClick={() => handleTabClick("product")}
-            // className={clsx({ active: tab === "products" })}
-          >
-            출품작
-          </div>
-          <div
-            onClick={() => handleTabClick("revenue")}
-            // className={clsx({ active: tab === "revenue" })}
-          >
-            수익 관리
-          </div>
+          {tabList.map(({ key, label }) => (
+            <div
+              key={key}
+              className={clickButton === key ? "active" : ""}
+              onClick={() => handleButtonClick(key)}
+            >
+              {label}
+            </div>
+          ))}
         </div>
 
         <div className="logout">

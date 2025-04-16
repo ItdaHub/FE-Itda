@@ -66,17 +66,17 @@ const Mypage = () => {
     }
   }, [tab]);
 
-  const handleButtonClick = (buttonName: string) => {
-    setClickButton(buttonName);
-    router.push(`/mypage?tab=${buttonName}`);
-  };
-
   const tabList = [
     { key: "profile", label: "내 프로필" },
     { key: "edit", label: "내 정보 수정" },
     { key: "product", label: "출품작" },
     { key: "revenue", label: "수익관리" },
   ];
+
+  const handleButtonClick = (buttonName: string) => {
+    setClickButton(buttonName);
+    router.push(`/mypage?tab=${buttonName}`);
+  };
 
   // 로그아웃 처리
   const handleLogout = async () => {
@@ -89,40 +89,6 @@ const Mypage = () => {
   return (
     <MyPageStyled className={clsx("mypage-wrap")}>
       {/* 768px 이하에서만 보일 상단 버튼 */}
-      {/* <div className="mobile-profile-menu">
-        <button
-          className={clickButton === "profile" ? "active" : ""}
-          onClick={() => {
-            handleButtonClick("profile");
-          }}
-        >
-          내 프로필
-        </button>
-        <button
-          className={clickButton === "edit" ? "active" : ""}
-          onClick={() => {
-            handleButtonClick("edit");
-          }}
-        >
-          내 정보 수정
-        </button>
-        <button
-          className={clickButton === "product" ? "active" : ""}
-          onClick={() => {
-            handleButtonClick("product");
-          }}
-        >
-          출품작
-        </button>
-        <button
-          className={clickButton === "revenue" ? "active" : ""}
-          onClick={() => {
-            handleButtonClick("revenue");
-          }}
-        >
-          수익관리
-        </button>
-      </div> */}
       <div className="mobile-profile-menu">
         {tabList.map(({ key, label }) => (
           <button

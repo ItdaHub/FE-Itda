@@ -33,7 +33,6 @@ const NewPassword = () => {
       setChangePwError("");
     }
 
-    console.log("요청 토큰:", token);
     try {
       const response = await api.post("/auth/reset-password", {
         token,
