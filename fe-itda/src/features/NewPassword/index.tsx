@@ -1,6 +1,6 @@
 import api from "@/utill/api";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NewPassStyled } from "./styled";
 import clsx from "clsx";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
@@ -9,8 +9,8 @@ import Swal from "sweetalert2";
 
 const NewPassword = () => {
   const router = useRouter();
-  // const { token } = router.query;
-  // console.log("token :", token);
+  const token =
+    typeof router.query.token === "string" ? router.query.token : "";
 
   const [toggle1, setToggle1] = useState(true);
   const [toggle2, setToggle2] = useState(true);
@@ -20,22 +20,8 @@ const NewPassword = () => {
   const [passCheckError, setPassCheckError] = useState("");
   const [changePwError, setChangePwError] = useState("");
 
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    if (router.isReady && typeof router.query.token === "string") {
-      console.log("토큰 값:", router.query.token);
-      setToken(router.query.token);
-    }
-  }, [router.isReady, router.query.token]);
-
   const handleChangePw = async (e: React.MouseEvent) => {
     e.preventDefault();
-
-    if (!token) {
-      setChangePwError("잘못된 접근입니다. 토큰이 없습니다.");
-      return;
-    }
 
     if (!password || !passwordCheck) {
       setChangePwError("비밀번호를 입력해주세요.");
@@ -47,8 +33,7 @@ const NewPassword = () => {
       setChangePwError("");
     }
 
-    console.log(token, "요청 데이터", password);
-
+    console.log("요청 토큰:", token);
     try {
       const response = await api.post("/auth/reset-password", {
         token,
