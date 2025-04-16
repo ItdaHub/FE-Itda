@@ -25,29 +25,6 @@ const CashHistory = () => {
 
   const userId = user ? user.id : null;
 
-  const history = [
-    {
-      title: "내일의 으뜸",
-      amount: 5,
-      date: "2025-04-05 09:34:29",
-    },
-    {
-      title: "천상계 탐험기",
-      amount: 3,
-      date: "2025-04-03 18:12:00",
-    },
-    {
-      title: "천상계 탐험기",
-      amount: 2,
-      date: "2025-04-03 18:12:00",
-    },
-    {
-      title: "천상계 탐험기",
-      amount: 1,
-      date: "2025-04-03 18:12:00",
-    },
-  ];
-
   // 전체 팝콘 개수 axios get요청
   useEffect(() => {
     const getCharge = async () => {
@@ -73,12 +50,10 @@ const CashHistory = () => {
 
   const fetchHistory = async (type: "charge" | "use") => {
     try {
-      // const res = await api.get(`/${type}/${userId}`);
-
-      // setHistoryList(res.data);
-      setHistoryList(history);
+      const res = await api.get(`/popcorn/${type}/${userId}`);
+      setHistoryList(res.data);
     } catch (err) {
-      console.error("내역 가져오기 실패:", err);
+      console.error(`${type} 내역 가져오기 실패:`, err);
     }
   };
 
