@@ -103,9 +103,8 @@ const MypageView = ({
       if (result.isConfirmed) {
         // 회원 탈퇴 로직 (API 호출로 계정 삭제)
         try {
-          const response = await api.delete(`/auth/deleteId/${email}`);
-
-          if (response.status === 200) {
+          const response = await api.delete("/users/me");
+          if (response.status === 204) {
             Swal.fire({
               title: "탈퇴가 완료되었습니다.",
               icon: "success",

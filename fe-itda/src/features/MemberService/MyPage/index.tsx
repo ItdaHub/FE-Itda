@@ -82,6 +82,7 @@ const Mypage = () => {
   const handleLogout = async () => {
     // 로그아웃 로직 (쿠키 삭제)
     dispatch(logoutUser()); // 서버 요청 + 상태 초기화
+    alert("로그아웃되었습니다!");
     router.push("/"); // 메인페이지로 이동
     console.log("로그아웃");
   };

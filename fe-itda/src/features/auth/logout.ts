@@ -8,6 +8,6 @@ export const logoutUser = () => async (dispatch: AppDispatch) => {
     console.error("로그아웃 에러:", error);
   } finally {
     dispatch(signOut());
-    alert("로그아웃되었습니다!");
+    // alert("로그아웃되었습니다!");
   }
 };
