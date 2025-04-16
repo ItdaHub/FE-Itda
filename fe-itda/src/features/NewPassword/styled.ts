@@ -20,14 +20,18 @@ export const NewPassStyled = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      /* align-items: center; */
       background-color: white;
       border-radius: 4px;
     }
 
     .newpass-title {
-      margin-bottom: 20px;
+      margin: 0 0 10px;
       text-align: center;
+    }
+
+    .newpass-input-box {
+      height: 80px;
     }
 
     .newpass-input,

@@ -32,7 +32,10 @@ const RandomPassword = () => {
         { email }
       );
 
-      if (response.status === 200) {
+      console.log("응답 상태:", response.status);
+      console.log("응답 데이터:", response.data);
+
+      if (response.status === 201) {
         setIsSuccess(true);
       }
     } catch (error: any) {
@@ -56,7 +59,9 @@ const RandomPassword = () => {
       {isSuccess && (
         <>
           <p className="random-text">안전하게 메일을 전송했습니다.</p>
-          <p className="random-text">{email}로 발송되었으니 확인해 주세요!</p>
+          <p className="random-text">
+            <strong>{email}</strong>로 발송되었으니 확인해 주세요!
+          </p>
         </>
       )}
       {error && <p className="random-text error">{error}</p>}
