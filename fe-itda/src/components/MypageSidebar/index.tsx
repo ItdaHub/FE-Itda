@@ -19,21 +19,13 @@ const MypageSidebar = ({
   handleLogout,
 }: MypageSidebarProps) => {
   const router = useRouter();
-  const { mode } = router.query;
+  const { tab } = router.query;
 
-  // '내 정보 수정' 클릭 → 수정 모드
-  const handleEditClick = () => {
+  // Tab 클릭별 쿼리 이동
+  const handleTabClick = (tabName: string) => {
     router.push({
       pathname: "/mypage",
-      query: { mode: "edit" },
-    });
-  };
-
-  // '내 프로필' 클릭 → 뷰 모드
-  const handleViewClick = () => {
-    router.push({
-      pathname: "/mypage",
-      query: { mode: "view" },
+      query: { tab: tabName },
     });
   };
 
@@ -52,16 +44,28 @@ const MypageSidebar = ({
 
         <div className="profile-title">
           <div
-            onClick={handleViewClick}
-            className={clsx({ active: mode !== "edit" })}
+            onClick={() => handleTabClick("profile")}
+            // className={clsx({ active: tab === "profile" })}
           >
             내 프로필
           </div>
           <div
-            onClick={handleEditClick}
-            className={clsx({ active: mode === "edit" })}
+            onClick={() => handleTabClick("edit")}
+            // className={clsx({ active: tab === "edit" })}
           >
             내 정보 수정
+          </div>
+          <div
+            onClick={() => handleTabClick("product")}
+            // className={clsx({ active: tab === "products" })}
+          >
+            출품작
+          </div>
+          <div
+            onClick={() => handleTabClick("revenue")}
+            // className={clsx({ active: tab === "revenue" })}
+          >
+            수익 관리
           </div>
         </div>
 

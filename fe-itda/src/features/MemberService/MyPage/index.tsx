@@ -11,13 +11,15 @@ import { useRouter } from "next/router";
 import MypageSidebar from "@/components/MypageSidebar";
 import MypageView from "@/features/MypageView";
 import MypageEdit from "@/features/MypageEdit";
+import MypageProduct from "@/features/MypageProduct";
+import MypageRevenue from "@/features/MypageRevenue";
 
 const Mypage = () => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { mode } = router.query || "view";
+  const { tab } = router.query || "profile";
 
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState<string>("");
@@ -53,17 +55,28 @@ const Mypage = () => {
   }, [user]);
 
   useEffect(() => {
-    if (mode === "edit") {
-      setClickButton("edit");
-    } else {
+    if (tab === "profile") {
       setClickButton("profile");
+    } else if (tab === "edit") {
+      setClickButton("edit");
+    } else if (tab === "product") {
+      setClickButton("product");
+    } else {
+      setClickButton("revenue");
     }
-  }, [mode]);
+  }, [tab]);
 
   const handleButtonClick = (buttonName: string) => {
     setClickButton(buttonName);
-    router.push(`/mypage?mode=${buttonName === "profile" ? "view" : "edit"}`);
+    router.push(`/mypage?tab=${buttonName}`);
   };
+
+  const tabList = [
+    { key: "profile", label: "내 프로필" },
+    { key: "edit", label: "내 정보 수정" },
+    { key: "product", label: "출품작" },
+    { key: "revenue", label: "수익관리" },
+  ];
 
   // 로그아웃 처리
   const handleLogout = async () => {
@@ -76,7 +89,7 @@ const Mypage = () => {
   return (
     <MyPageStyled className={clsx("mypage-wrap")}>
       {/* 768px 이하에서만 보일 상단 버튼 */}
-      <div className="mobile-profile-menu">
+      {/* <div className="mobile-profile-menu">
         <button
           className={clickButton === "profile" ? "active" : ""}
           onClick={() => {
@@ -93,6 +106,33 @@ const Mypage = () => {
         >
           내 정보 수정
         </button>
+        <button
+          className={clickButton === "product" ? "active" : ""}
+          onClick={() => {
+            handleButtonClick("product");
+          }}
+        >
+          출품작
+        </button>
+        <button
+          className={clickButton === "revenue" ? "active" : ""}
+          onClick={() => {
+            handleButtonClick("revenue");
+          }}
+        >
+          수익관리
+        </button>
+      </div> */}
+      <div className="mobile-profile-menu">
+        {tabList.map(({ key, label }) => (
+          <button
+            key={key}
+            className={clickButton === key ? "active" : ""}
+            onClick={() => handleButtonClick(key)}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       <div className="mypage-box">
@@ -105,11 +145,13 @@ const Mypage = () => {
           handleLogout={handleLogout}
         />
 
-        {mode === "edit" ? (
-          // 내 정보 수정
+        {tab === "edit" ? (
           <MypageEdit currentNickname={nickName} />
+        ) : tab === "product" ? (
+          <MypageProduct />
+        ) : tab === "revenue" ? (
+          <MypageRevenue />
         ) : (
-          // 내 프로필
           <MypageView
             image={image}
             profileStactic={profileStactic}
