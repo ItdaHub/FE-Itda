@@ -45,6 +45,10 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  // 이미지
+  images: {
+    domains: ["localhost", "localhost:5001"],
+  },
 };
 
 export default nextConfig;
