@@ -12,7 +12,6 @@ const CashCharge = () => {
   const userId = user?.id;
 
   const popcorn = [
-    { num: 1, price: 1 },
     { num: 10, price: 10 },
     { num: 30, price: 30 },
     { num: 50, price: 50 },
