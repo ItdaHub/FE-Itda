@@ -203,12 +203,12 @@ const NewWrite = ({
           content,
           chapterNumber, // relay일 경우 chapterNumber도 포함
         });
-      }
 
-      // 현재 작성한 소설이 마지막화일 경우 관리자에게 출품 요청
-      if (peopleNumber === chapterNumber) {
-        console.log("관리자로 이동하자");
-        await api.post(`/admin/complete/${novelId}`);
+        // 현재 작성한 소설이 마지막화일 경우 관리자에게 출품 요청
+        if (peopleNumber === chapterNumber) {
+          console.log("관리자로 이동하자");
+          await api.post(`/admin/complete/${novelId}`);
+        }
       }
 
       message.success("등록되었습니다.", 1, () => {
