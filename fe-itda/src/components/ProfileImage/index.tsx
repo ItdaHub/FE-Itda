@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ProfileImageStyled } from "./styled";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProfileImageProps {
   image: File | null;
@@ -27,6 +27,15 @@ const ProfileImage = ({
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
     null
   ); // 미리보기 이미지 URL
+
+  // 유저 데이터에서 프로필 이미지가 있을 경우 preview 기본값 설정
+  useEffect(() => {
+    if (user?.profile_img) {
+      setProfileImagePreview(
+        `http://localhost:5001/uploads/profiles/${user.profile_img}`
+      );
+    }
+  }, [user]);
 
   return (
     <ProfileImageStyled className={clsx("profile-wrapper", type)}>

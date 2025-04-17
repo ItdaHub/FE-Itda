@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { Modal } from "antd";
 import Image from "next/image";
-
 import profileStactic from "@/assets/images/img_profile_static.svg";
 import profileEdit from "@/assets/images/img_profile_edit.svg";
 import { ImageModal, MypageEditStyled } from "./styled";
@@ -36,7 +33,7 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
   ); // 미리보기 이미지 URL
 
   // 닉네임 관리
-  const [nickName, setNickName] = useState<string>(""); // 닉네임
+  const [nickName, setNickName] = useState<string>("");
   const [nickNameMessage, setNickNameMessage] = useState({
     type: "", // "error" | "success"
     text: "",
@@ -169,6 +166,18 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
 
     let updated = false;
 
+    // // ✅ 1. 기본 이미지로 설정된 경우: 삭제 요청
+    // if (!image && !profileImagePreview && user?.profile_img) {
+    //   try {
+    //     await api.delete("/users/me/profile-image");
+    //     updated = true;
+    //   } catch (error) {
+    //     console.error("프로필 이미지 삭제 실패:", error);
+    //     alert("기본 이미지로 설정 중 오류가 발생했습니다.");
+    //     return;
+    //   }
+    // }
+
     // 프로필 이미지 변경된 경우에만 요청
     if (image) {
       const formData = new FormData();
@@ -219,8 +228,27 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
 
         <div className="label">
           <div className="userEdit-image" onClick={handleImgModal}>
-            <Image
+            {/* <Image
               src={image ? URL.createObjectURL(image) : profileStactic} // 선택된 이미지 또는 기본 이미지
+              alt="프로필 사진"
+              priority
+              width={150}
+              height={150}
+            /> */}
+            {/* <Image
+              src={`http://localhost:5001/uploads/profiles/${profileImagePreview}`}
+              alt="프로필 사진"
+              width={150}
+              height={150}
+            /> */}
+            <Image
+              src={
+                image
+                  ? URL.createObjectURL(image) // 1순위: 선택된 새 이미지
+                  : profileImagePreview
+                  ? `http://localhost:5001/uploads/profiles/${profileImagePreview}` // 2순위: 서버에 저장된 유저 이미지
+                  : profileStactic // 3순위: 기본 이미지
+              }
               alt="프로필 사진"
               priority
               width={150}
