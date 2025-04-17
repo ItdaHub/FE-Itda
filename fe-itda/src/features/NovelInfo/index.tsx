@@ -15,6 +15,7 @@ interface NovelInfoType {
   author: string;
   isLiked: boolean;
   likeNum: number;
+  status: "ongoing" | "completed";
 }
 
 const NovelInfo = ({ data }: { data?: number }) => {
@@ -27,6 +28,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
     genre: "",
     author: "",
     isLiked: false,
+    status: "ongoing",
   });
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -48,12 +50,14 @@ const NovelInfo = ({ data }: { data?: number }) => {
           genre: novelData.genre || "장르 없음",
           author: novelData.author || "작가 미상",
           isLiked: novelData.isLiked ?? false,
+          status: "ongoing",
         });
 
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
           typeof novelData.likeCount === "number" ? novelData.likeCount : 0
         );
+        console.log("aaaaaaaaaaaa", novel.status);
       } catch (e) {
         console.error("소설 가져오기 실패: ", e);
       }
@@ -133,9 +137,13 @@ const NovelInfo = ({ data }: { data?: number }) => {
               </div>
             </div>
           </div>
-          <button className="novelinfo-btn" onClick={handleParticipateClick}>
-            함께하기
-          </button>
+          {novel.status !== "ongoing" ? (
+            <></>
+          ) : (
+            <button className="novelinfo-btn" onClick={handleParticipateClick}>
+              함께하기
+            </button>
+          )}
         </div>
       </div>
     </NovelInfoStyled>

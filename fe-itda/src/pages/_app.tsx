@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const mode = useAppSelector((state) => state.theme.mode);
   const theme = mode === "dark" ? darkTheme : lightTheme;
@@ -46,41 +46,11 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
     setIsMounted(true);
   }, [dispatch]);
 
-  // 방문자 기록 요청(IP당 24시간 1번)
-  // useEffect(() => {
-  //   const sendVisitorLog = async () => {
-  //     try {
-  //       let visitorId = localStorage.getItem("visitorId");
-  //       if (!visitorId) {
-  //         visitorId = crypto.randomUUID(); // 유니크 ID 생성
-  //         localStorage.setItem("visitorId", visitorId);
-  //       }
-
-  //       await api.post("/visitor", {
-  //         visitorId,
-  //         userId: user ? user.id : null,
-  //       });
-  //     } catch (e) {
-  //       console.error("방문자 기록 실패:", e);
-  //     }
-  //   };
-
-  //   sendVisitorLog();
-  // }, []);
-
+  // 로딩 0.5초 시간주기
   useEffect(() => {
-    const start = () => setLoading(true);
-    const end = () => setLoading(false);
-
-    router.events.on("routeChangeStart", start);
-    router.events.on("routeChangeComplete", end);
-    router.events.on("routeChangeError", end);
-
-    return () => {
-      router.events.off("routeChangeStart", start);
-      router.events.off("routeChangeComplete", end);
-      router.events.off("routeChangeError", end);
-    };
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, [router]);
 
   // 클라이언트가 렌더링될때까지 기다림(SSR에서 렌더하지 않도록)
