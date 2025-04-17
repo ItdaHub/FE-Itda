@@ -21,45 +21,53 @@ const DropdownList = ({ title, items, onChange }: Props) => {
     <NoticeStyled className={clsx("notice-wrap")}>
       <div className="notice-box">
         <h2 className="notice-title">{title}</h2>
-        <Collapse expandIconPosition="end" onChange={onChange}>
-          {items.map((item, index) => (
-            <Panel
-              key={item.key}
-              header={
-                // item.priorityLabel
-                //   ? `[${item.priorityLabel}] ${item.title}`
-                //   : item.title
-                item.priorityLabel ? (
-                  //❗priorityLabel이 있을 때
-                  <div className="dropdown-header">
-                    <div className="dropdown-header-title">
-                      <span className={`label ${item.priorityLabel}`}>
-                        [{item.priorityLabel}]
-                      </span>
-                      <span>{item.title}</span>
+        <div className="collapse-wrap">
+          <Collapse
+            className="collapse"
+            expandIconPosition="end"
+            onChange={onChange}
+          >
+            {/* <div className="collapse"> */}
+            {items.map((item, index) => (
+              <Panel
+                key={item.key}
+                header={
+                  // item.priorityLabel
+                  //   ? `[${item.priorityLabel}] ${item.title}`
+                  //   : item.title
+                  item.priorityLabel ? (
+                    //❗priorityLabel이 있을 때
+                    <div className="dropdown-header">
+                      <div className="dropdown-header-title">
+                        <span className={`label ${item.priorityLabel}`}>
+                          [{item.priorityLabel}]
+                        </span>
+                        <span>{item.title}</span>
+                      </div>
+                      <div className="dropdown-header-date">
+                        <span>{item.date}</span>
+                      </div>
                     </div>
-                    <div className="dropdown-header-date">
-                      <span>{item.date}</span>
+                  ) : (
+                    // ❗priorityLabel이 없을 때 (넘버링 스타일)
+                    <div className="dropdown-header">
+                      <div className="dropdown-header-title">
+                        <span className="label no-priority">{index + 1}</span>
+                        <span>{item.title}</span>
+                      </div>
+                      <div className="dropdown-header-date">
+                        <span>{item.date}</span>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  // ❗priorityLabel이 없을 때 (넘버링 스타일)
-                  <div className="dropdown-header">
-                    <div className="dropdown-header-title">
-                      <span className="label no-priority">{index + 1}</span>
-                      <span>{item.title}</span>
-                    </div>
-                    <div className="dropdown-header-date">
-                      <span>{item.date}</span>
-                    </div>
-                  </div>
-                )
-              }
-            >
-              <p>{item.content}</p>
-            </Panel>
-          ))}
-        </Collapse>
+                  )
+                }
+              >
+                <p>{item.content}</p>
+              </Panel>
+            ))}
+            {/* </div> */}
+          </Collapse>
+        </div>
       </div>
     </NoticeStyled>
   );

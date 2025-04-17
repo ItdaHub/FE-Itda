@@ -1,7 +1,7 @@
-import ProfileEdit from "@/features/MypageEdit";
+import MypageEdit from "@/features/MypageEdit";
 
 const Profileedit = () => {
-  return <ProfileEdit />;
+  return <MypageEdit />;
 };
 
 export default Profileedit;

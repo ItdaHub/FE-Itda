@@ -10,6 +10,9 @@ export const NoticeStyled = styled.div`
       margin-bottom: 10px;
       text-align: center;
     }
+    .collapse {
+      border-radius: 0;
+    }
 
     .dropdown-header {
       display: flex;

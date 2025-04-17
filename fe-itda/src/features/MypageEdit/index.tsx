@@ -9,10 +9,10 @@ import { useAppSelector } from "@/store/hooks";
 import router from "next/router";
 
 interface Props {
-  nickName: string;
+  currentNickname?: string;
 }
 
-const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
+const MypageEdit = ({ currentNickname }: Props) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
 
@@ -228,19 +228,6 @@ const MypageEdit = ({ currentNickname }: { currentNickname: string }) => {
 
         <div className="label">
           <div className="userEdit-image" onClick={handleImgModal}>
-            {/* <Image
-              src={image ? URL.createObjectURL(image) : profileStactic} // 선택된 이미지 또는 기본 이미지
-              alt="프로필 사진"
-              priority
-              width={150}
-              height={150}
-            /> */}
-            {/* <Image
-              src={`http://localhost:5001/uploads/profiles/${profileImagePreview}`}
-              alt="프로필 사진"
-              width={150}
-              height={150}
-            /> */}
             <Image
               src={
                 image

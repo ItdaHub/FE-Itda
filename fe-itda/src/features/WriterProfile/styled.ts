@@ -18,6 +18,9 @@ export const WriterProfileStyled = styled.div`
         align-items: center;
       }
     }
+    .profile-image-wrap {
+      border-radius: 50%;
+    }
     .profile-nickname {
       margin-left: 15px;
       font-size: 17px;

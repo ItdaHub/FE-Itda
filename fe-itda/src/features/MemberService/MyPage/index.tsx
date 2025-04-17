@@ -39,8 +39,6 @@ const Mypage = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("현재 유저 정보 확인 👉", user);
-
       setEmail(user.email);
       setNickName(user.nickname);
       setName(user.name);
@@ -55,7 +53,6 @@ const Mypage = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log(clickButton, "기본값");
     if (tab === "profile") {
       setClickButton("profile");
     } else if (tab === "edit") {
@@ -85,9 +82,7 @@ const Mypage = () => {
   const handleLogout = async () => {
     // 로그아웃 로직 (쿠키 삭제)
     dispatch(logoutUser()); // 서버 요청 + 상태 초기화
-    alert("로그아웃되었습니다!");
     router.push("/"); // 메인페이지로 이동
-    console.log("로그아웃");
   };
 
   return (

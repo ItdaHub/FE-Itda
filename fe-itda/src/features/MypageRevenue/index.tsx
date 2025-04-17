@@ -1,5 +1,5 @@
 import { Button, Modal, Table } from "antd";
-import { MypageRevenueStyled } from "./styled";
+import { MypageRevenueStyled, PopcornModal } from "./styled";
 import clsx from "clsx";
 import { useState } from "react";
 
@@ -42,7 +42,6 @@ const MypageRevenue = () => {
       <div className="popcorn-box">
         <Button
           type="primary"
-          // icon={<PlusOutlined />}
           onClick={() => {
             handlePopOpen();
           }}
@@ -52,9 +51,8 @@ const MypageRevenue = () => {
       </div>
 
       {/* 팝콘 모달 */}
-      <Modal
+      <PopcornModal
         className="popcorn-modal"
-        // title=""
         open={popModalOpen}
         onCancel={handlePopClose}
         footer={null}
@@ -62,13 +60,12 @@ const MypageRevenue = () => {
         width={450}
       >
         <div className="popcorn-modal-container">
-          <div className="price" style={{ display: "flex" }}>
+          <div className="price">
             <p>총 금액</p>
-            <p>123456</p>
+            <p>10,000</p>
             <p>원</p>
           </div>
           <div className="account-number">
-            <select>은행 api?</select>
             <input
               className="input-number"
               placeholder="계좌번호를 입력해주세요"
@@ -78,7 +75,7 @@ const MypageRevenue = () => {
             <button>교환</button>
           </div>
         </div>
-      </Modal>
+      </PopcornModal>
 
       <Table
         columns={columns}
