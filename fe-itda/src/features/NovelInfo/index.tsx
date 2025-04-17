@@ -137,7 +137,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
               </div>
             </div>
           </div>
-          {novel.status === "completed" ? (
+          {novel.status !== "ongoing" ? (
             <></>
           ) : (
             <button className="novelinfo-btn" onClick={handleParticipateClick}>
