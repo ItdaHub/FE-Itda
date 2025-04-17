@@ -35,6 +35,7 @@ const NewWrite = ({
   const [aiquestion, setAIquestion] = useState<string>("");
   const [aianswer, setAIanswer] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
+  const [peopleNumber, setPeopleNumber] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -78,6 +79,7 @@ const NewWrite = ({
                 ? lastChapter.chapter_number + 1
                 : 1;
 
+            setPeopleNumber(original.peopleNum);
             setChapterNumber(nextChapterNumber);
             setTitle(`제목 - ${nextChapterNumber}회차`);
             console.log("👉 이어쓰는 챕터 번호:", nextChapterNumber);
@@ -152,6 +154,7 @@ const NewWrite = ({
     }
   };
 
+  // 등록하기
   const handleSubmit = async () => {
     if (type === "new" && selectedCategory === null) {
       message.warning("카테고리를 선택해주세요.");
@@ -185,6 +188,7 @@ const NewWrite = ({
     });
 
     try {
+      // 첫화일 경우
       if (type === "new") {
         await api.post("/novels", {
           categoryId: selectedCategory,
@@ -194,10 +198,17 @@ const NewWrite = ({
           type: "new",
         });
       } else if (type === "relay" && novelId && chapterNumber !== null) {
+        // 첫화가 아닐 경우
         await api.post(`/chapters/write/${novelId}`, {
           content,
           chapterNumber, // relay일 경우 chapterNumber도 포함
         });
+      }
+
+      // 현재 작성한 소설이 마지막화일 경우 관리자에게 출품 요청
+      if (peopleNumber === chapterNumber) {
+        console.log("관리자로 이동하자");
+        await api.post(`/admin/complete/${novelId}`);
       }
 
       message.success("등록되었습니다.", 1, () => {
