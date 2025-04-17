@@ -26,14 +26,17 @@ const MypageSidebar = ({
   const [clickButton, setClickButton] = useState("profile");
 
   useEffect(() => {
+    console.log(clickButton, "기본값");
     if (tab === "profile") {
       setClickButton("profile");
     } else if (tab === "edit") {
       setClickButton("edit");
     } else if (tab === "product") {
       setClickButton("product");
-    } else {
+    } else if (tab === "revenue") {
       setClickButton("revenue");
+    } else {
+      setClickButton("profile");
     }
   }, [tab]);
 
