@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { KaKaoShareStyled } from "./styled";
 import clsx from "clsx";
 import { ShareAltOutlined } from "@ant-design/icons";
+import { App as AntdApp } from "antd";
 
 declare global {
   interface Window {
@@ -12,6 +13,7 @@ declare global {
 const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_SHARE_KEY;
 
 const KakaoShare = () => {
+  const { message } = AntdApp.useApp();
   useEffect(() => {
     // Kakao SDK 초기화
     if (typeof window !== "undefined" && !window.Kakao) {
@@ -30,7 +32,7 @@ const KakaoShare = () => {
   //공유하기 버튼 클릭 시 실행
   const shareKakao = () => {
     if (!window.Kakao) {
-      alert("카카오 SDK 로드 실패");
+      message.warning("카카오 SDK 로드 실패");
       return;
     }
 

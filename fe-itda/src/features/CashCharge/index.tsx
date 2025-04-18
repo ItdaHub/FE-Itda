@@ -4,11 +4,14 @@ import popcornDetail from "@/assets/images/popcorn_detail.png";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
 import { useAppSelector } from "@/store/hooks";
 import api from "@/utill/api";
-import { message } from "antd";
+import { App as AntdApp } from "antd";
+import { useRouter } from "next/router";
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 
 const CashCharge = () => {
+  const { message } = AntdApp.useApp();
+  const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
 
@@ -22,6 +25,7 @@ const CashCharge = () => {
   const requestPayments = async ({ price }: { price: number }) => {
     if (!userId) {
       message.warning("로그인이 필요합니다.");
+      router.push("/login");
       return;
     }
 

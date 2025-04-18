@@ -7,7 +7,7 @@ import clsx from "clsx";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
 import router from "next/router";
-import { message } from "antd";
+import { App as AntdApp } from "antd";
 
 interface Props {
   currentNickname?: string;
@@ -16,6 +16,8 @@ interface Props {
 const MypageEdit = ({ currentNickname }: Props) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
+
+  const { message } = AntdApp.useApp();
 
   useEffect(() => {
     if (user) {

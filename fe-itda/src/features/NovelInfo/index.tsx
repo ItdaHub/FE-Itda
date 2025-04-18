@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
-import { message } from "antd";
+import { App as AntdApp } from "antd";
 
 interface NovelInfoProps {
   data?: number;
@@ -16,6 +16,7 @@ interface NovelInfoProps {
 const NovelInfo = ({ data }: NovelInfoProps) => {
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
+  const { message } = AntdApp.useApp();
 
   const [novel, setNovel] = useState({
     img: test.src,
@@ -79,6 +80,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   const toggleLike = async () => {
     if (!user) {
       message.warning("로그인이 필요합니다.");
+      router.push("/login");
       return;
     }
 
@@ -98,6 +100,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   const handleParticipateClick = async () => {
     if (!user) {
       message.warning("로그인이 필요합니다.");
+      router.push("/login");
       return;
     }
 

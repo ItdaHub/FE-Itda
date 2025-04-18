@@ -1,11 +1,9 @@
 import { Dropdown, Input, MenuProps, Modal } from "antd";
 import { MoreDropDwonStyled } from "./styled";
 import { MoreOutlined } from "@ant-design/icons";
-import { useAppSelector } from "@/store/hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import api from "@/utill/api";
-import WriteReply from "../WriteReply";
 import clsx from "clsx";
 import { App as AntdApp } from "antd";
 

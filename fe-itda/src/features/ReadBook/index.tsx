@@ -44,7 +44,6 @@ const ReadBook = ({
   const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
   const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isNextDisabled, setIsNextDisabled] = useState(false);
   const { message } = AntdApp.useApp();
 
   const router = useRouter();

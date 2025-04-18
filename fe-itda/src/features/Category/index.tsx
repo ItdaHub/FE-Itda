@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { CategoryStyled } from "./styled";
-import { ConfigProvider, Tabs, message } from "antd";
+import { ConfigProvider, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import HomeCategory from "../HomeCategory";
 import WebNovelGroup from "@/components/WebNovelGroup";
@@ -14,6 +14,7 @@ import PopcornModal from "@/components/PopcornModal";
 import MyProfile from "@/components/MyProfile";
 import { logoutUser } from "../auth/logout";
 import { useAppDispatch } from "@/store/hooks";
+import { App as AntdApp } from "antd";
 
 interface CategoryProps {
   type: string;
@@ -30,6 +31,7 @@ const Category = ({
   setGenre,
   categories,
 }: CategoryProps) => {
+  const { message } = AntdApp.useApp();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [activeGenre, setActiveGenre] = useState<string>(genre);

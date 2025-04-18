@@ -5,9 +5,10 @@ import { NewPassStyled } from "./styled";
 import clsx from "clsx";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { validationPass, validationPassCheck } from "@/utill/vali";
-import Swal from "sweetalert2";
+import { App as AntdApp } from "antd";
 
 const NewPassword = () => {
+  const { message } = AntdApp.useApp();
   const router = useRouter();
   const token =
     typeof router.query.token === "string" ? router.query.token : "";
@@ -40,16 +41,8 @@ const NewPassword = () => {
       });
 
       if (response.data.message) {
-        Swal.fire({
-          icon: "success",
-          title: "비밀번호 변경 완료",
-          text: "새 비밀번호가 저장되었습니다. 다시 로그인해 주세요.",
-          confirmButtonText: "확인",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "/login";
-          }
-        });
+        message.success("비밀번호 변경 완료");
+        router.push("/login");
       } else {
         setChangePwError("비밀번호 변경에 실패했습니다.");
       }

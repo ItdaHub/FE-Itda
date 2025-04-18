@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 // 비밀번호, 비밀번호 확인 유효성 검사
 import { validationPass, validationPassCheck } from "@/utill/vali";
 import api from "@/utill/api";
-import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import { App as AntdApp } from "antd";
 
 const SignUp = () => {
-  const dispatch = useDispatch();
+  const { message } = AntdApp.useApp();
   const router = useRouter();
 
   // 비밀번호 토글 버튼
@@ -210,16 +210,12 @@ const SignUp = () => {
         type: type.toLowerCase(),
       });
 
-      Swal.fire({
-        title: "회원가입이 완료되었습니다.",
-        icon: "success",
-        confirmButtonText: "확인",
-      });
+      message.success("회원가입이 완료되었습니다.");
 
       router.push("/login"); // 회원가입 후 로그인으로 이동
     } catch (err: any) {
       console.log(err.response?.data);
-      Swal.fire("회원가입 중 오류가 발생했습니다.");
+      message.error("회원가입 중 오류가 발생했습니다.");
     } finally {
       setDisabled(false); // 요청 완료 후 버튼 활성화
     }
