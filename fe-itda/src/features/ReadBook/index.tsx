@@ -84,8 +84,6 @@ const ReadBook = ({
         setIsLastChapter(isLastChapter);
         // 1화면 버튼 비활성화
         setIsDisabled(chapterNumber === 1);
-        // 마지막화면 버튼 비활성화
-        setIsNextDisabled(isLastChapter);
 
         const matchedIndex = slides.findIndex(
           (item) => item.index === chapterId
@@ -136,7 +134,11 @@ const ReadBook = ({
 
   // 다음화
   const goToNextChapter = () => {
-    router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
+    if (isLastChapter) {
+      message.info("마지막화입니다");
+    } else {
+      router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
+    }
   };
 
   return (
@@ -161,41 +163,31 @@ const ReadBook = ({
           <span className="stick"></span>
           <button
             onClick={goToNextChapter}
-            className="arrow next"
-            disabled={isNextDisabled}
+            className={`arrow next ${isLastChapter ? "disabled" : ""}`}
           >
             다음화 <RightOutlined />
           </button>
         </div>
       </div>
-      <Swiper
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        onSlideChange={handleSlideChange}
-        modules={[Navigation]}
-        navigation
-        allowTouchMove={true}
-        initialSlide={currentIndex}
-      >
+      <div className="readbook-page full">
         {contentList.map((content, idx) => (
-          <SwiperSlide key={idx}>
+          <div key={idx} className="readbook-chapnum">
             {!isPaidContent(idx) ? (
-              <div className="readbook-book">
-                <div className="readbook-page full">
-                  {/* 회차 번호 */}
-                  {chapterNumber !== null && idx === 0 && (
-                    <div className="chapter-number">{chapterNumber}화</div>
-                  )}
-                  {content.text}
-                </div>
-              </div>
+              <>
+                {/* 회차 번호 */}
+                {chapterNumber !== null && idx === 0 && (
+                  <div className="chapter-number">{chapterNumber}화</div>
+                )}
+                <div className="chapter-text">{content.text}</div>
+              </>
             ) : (
-              <div className="readbook-book locked">
-                <div className="readbook-page full">🔒 유료 콘텐츠입니다.</div>
-              </div>
+              <div className="readbook-book locked">🔒 유료 콘텐츠입니다.</div>
             )}
-          </SwiperSlide>
+            <br />
+            <br />
+          </div>
         ))}
-      </Swiper>
+      </div>
 
       {writerId !== null && (
         <WriterProfile nickname={authorNickname} writerId={writerId} />

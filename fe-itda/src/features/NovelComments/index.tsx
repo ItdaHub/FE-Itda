@@ -26,6 +26,12 @@ interface ReviewType {
   isliked: boolean;
 }
 
+interface NovelComment {
+  chapterId?: number;
+  novelId?: number;
+  type?: string;
+}
+
 const content = (
   <div style={{ color: "#a6a6a6", fontWeight: 700 }}>
     <p>좋아요 투표 비율이 높은 댓글입니다.</p>
@@ -35,15 +41,7 @@ const content = (
 );
 
 // 댓글
-const NovelComments = ({
-  chapterId,
-  novelId,
-  type,
-}: {
-  chapterId?: number;
-  novelId?: number;
-  type?: string;
-}) => {
+const NovelComments = ({ chapterId, novelId, type }: NovelComment) => {
   // 댓글 목록 저장
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [repliesVisible, setRepliesVisible] = useState<Record<number, boolean>>(
@@ -59,7 +57,7 @@ const NovelComments = ({
     }));
   };
 
-  const fetchReviews = useCallback(async () => {
+  const fetchReviews = async () => {
     try {
       let endpoint = "";
       if (type === "chapter") {
@@ -114,12 +112,12 @@ const NovelComments = ({
     } catch (error) {
       console.error("댓글 불러오기 실패:", error);
     }
-  }, [novelId, chapterId, type, user?.id]);
+  };
 
-  // useEffect로 댓글 불러오기 실행
+  // 댓글 불러오기 실행
   useEffect(() => {
     fetchReviews();
-  }, [fetchReviews]);
+  }, [novelId, chapterId, type, user?.id]);
 
   return (
     <NovelCommentStyled className={clsx("novelComment-wrap")}>

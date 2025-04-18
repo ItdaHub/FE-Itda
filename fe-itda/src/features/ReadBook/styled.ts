@@ -7,14 +7,6 @@ export const ReadBookStyled = styled.div`
     box-sizing: border-box;
     margin: 0 auto;
 
-    .readbook-book {
-      display: flex;
-      min-height: 500px;
-      position: relative;
-      background-color: ${({ theme }) => theme.colors.background};
-      border: 1px solid #e0e0e0;
-    }
-
     .readbook-page {
       width: 50%;
       padding: 32px 24px;
@@ -53,9 +45,14 @@ export const ReadBookStyled = styled.div`
       white-space: pre-line;
       min-height: 500px;
       box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      word-break: break-word;
+      background-color: ${({ theme }) => theme.colors.background};
+      border: 1px solid #e0e0e0;
+      .readbook-chapnum {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .chapter-number {
@@ -69,6 +66,7 @@ export const ReadBookStyled = styled.div`
     }
 
     .readbook-nav {
+      padding: 0 10px;
       height: 60px;
       display: flex;
       align-items: center;
@@ -83,9 +81,13 @@ export const ReadBookStyled = styled.div`
         color: ${({ theme }) => theme.colors.text};
         cursor: pointer;
       }
-      button.arrow.prev:disabled,
-      button.arrow.next:disabled {
+      .disabled {
         color: #888;
+        cursor: default;
+      }
+      button.arrow.prev:disabled {
+        color: #888;
+        cursor: default;
       }
 
       .stick::before {
@@ -99,16 +101,8 @@ export const ReadBookStyled = styled.div`
     }
 
     @media (max-width: 768px) {
-      .readbook-book {
-        flex-direction: column;
-      }
-
       .readbook-page {
         width: 100%;
-      }
-
-      .readbook-book::before {
-        display: none;
       }
     }
   }

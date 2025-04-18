@@ -63,28 +63,36 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
           const res = await api.get(`/novels/${novelId}`);
           const original = res.data;
 
-          setContent("");
-          setSelectedCategory(original.categoryId);
+          // 소설 상태가 completed면 진입 차단
+          if (original.status === "COMPLETED") {
+            message.warning("이미 완료된 소설입니다.");
+            router.push("/");
+            return;
+          }
 
           const chapterRes = await api.get(`/novels/${novelId}/chapters`);
           const chapters = chapterRes.data;
 
-          if (Array.isArray(chapters) && chapters.length > 0) {
-            const lastChapter = chapters[chapters.length - 1];
-            const nextChapterNumber =
-              typeof lastChapter.chapter_number === "number"
-                ? lastChapter.chapter_number + 1
-                : 1;
+          const sortedChapters = chapters.sort(
+            (a: any, b: any) => a.chapterNumber - b.chapterNumber
+          );
 
-            setPeopleNumber(original.peopleNum);
-            setChapterNumber(nextChapterNumber);
-            setTitle(`제목 - ${nextChapterNumber}회차`);
-            console.log("👉 이어쓰는 챕터 번호:", nextChapterNumber);
-          } else {
-            setChapterNumber(1);
-            setTitle("제목 - 1회차");
-            console.log("👉 이어쓰는 챕터 번호: 1");
+          const lastChapter = sortedChapters.at(-1);
+          const lastChapterNumber = lastChapter?.chapterNumber ?? 0;
+          const nextChapterNumber = lastChapterNumber + 1;
+
+          // 인원 다 채워졌는지 확인
+          if (original.peopleNum <= lastChapterNumber) {
+            message.warning("모든 인원이 이미 참여하여 작성할 수 없습니다.");
+            router.push("/");
+            return;
           }
+
+          setPeopleNumber(original.peopleNum);
+          setChapterNumber(nextChapterNumber);
+          setSelectedCategory(original.categoryId);
+          setTitle(`제목 - ${nextChapterNumber}회차`);
+          setContent("");
         } catch (e) {
           console.error("이어쓰기 원본 소설 불러오기 실패", e);
         }
@@ -133,7 +141,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       return;
     }
 
-    setIsLoading(true); // 로딩 시작
+    setIsLoading(true);
 
     try {
       const response = await api.post("/ai/generate", {
@@ -173,15 +181,20 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       return;
     }
 
-    console.log("현재 이어쓰는 챕터 번호:", chapterNumber); // 여기서 chapterNumber 출력
+    if (content.length > 300) {
+      message.warning("내용을 300자 넘지않게 입력해주세요.");
+      return;
+    }
+
+    console.log("현재 이어쓰는 챕터 번호:", chapterNumber);
 
     console.log("제출 데이터:", {
       type,
       categoryId: selectedCategory,
-      peopleNum: selectedPeople,
+      peopleNum: type === "new" ? selectedPeople : peopleNumber,
       title,
       content,
-      chapterNumber, // chapterNumber도 출력
+      chapterNumber,
     });
 
     try {
@@ -189,22 +202,35 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       if (type === "new") {
         await api.post("/novels", {
           categoryId: selectedCategory,
-          peopleNum: selectedPeople,
+          peopleNum: selectedPeople, // 첫화일 경우
           title,
           content,
           type: "new",
         });
       } else if (type === "relay" && novelId && chapterNumber !== null) {
         // 첫화가 아닐 경우
-        await api.post(`/chapters/write/${novelId}`, {
-          content,
-          chapterNumber, // relay일 경우 chapterNumber도 포함
-        });
+        try {
+          await api.post(`/chapters/write/${novelId}`, {
+            content,
+            chapterNumber, // relay일 경우
+          });
+        } catch (e) {
+          console.error("이어쓰기 실패: ", e);
+        }
 
         // 현재 작성한 소설이 마지막화일 경우 관리자에게 출품 요청
         if (peopleNumber === chapterNumber) {
           console.log("관리자로 이동하자");
-          await api.post(`/admin/complete/${novelId}`);
+
+          try {
+            await api.post(`/admin/complete/${novelId}`);
+          } catch (err: any) {
+            console.error(
+              "출품 요청 실패:",
+              err.response?.data?.message || err.message
+            );
+            alert("출품 요청 중 문제가 발생했습니다. 관리자에게 문의해주세요.");
+          }
         }
       }
 
@@ -250,12 +276,10 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
               <div className="newWrite-content">
                 AI
                 <TextArea
-                  showCount
-                  maxLength={300}
                   value={aianswer}
                   readOnly
                   placeholder="AI답변이 입력됩니다"
-                  style={{ height: 120, resize: "none" }}
+                  style={{ height: 250, resize: "none" }}
                 />
                 <div className="newWrite-button">
                   <Button onClick={useAIanswer}>사용하기</Button>
@@ -326,7 +350,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                 onChange={handleContentChange}
                 placeholder="내용을 입력해주세요(10~300자)"
                 defaultValue={content}
-                style={{ height: 120, resize: "none" }}
+                style={{ height: 255, resize: "none" }}
               />
 
               <div className="newWrite-info-box">

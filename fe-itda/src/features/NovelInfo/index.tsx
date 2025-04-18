@@ -23,7 +23,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
     genre: "",
     author: "",
     isLiked: false,
-    status: "ongoing",
+    status: "",
   });
 
   const [liked, setLiked] = useState(false);
@@ -41,16 +41,19 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
 
         const novelData = res.data;
 
+        console.log("상태가 담겨있나", novelData);
+
         setNovel({
           img: novelData.image || test.src,
           title: novelData.title || "제목 없음",
           genre: novelData.genre || "장르 없음",
           author: novelData.author || "작가 미상",
           isLiked: novelData.isLiked ?? false,
-          status: "ongoing",
+          status:
+            novelData.nextChapterNumber - 1 === novelData.peopleNum
+              ? "completed"
+              : "ongoing",
         });
-
-        console.log("tkdxo??", res.data);
 
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
@@ -142,7 +145,9 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
           </div>
           {/* 함께하기 버튼 */}
           {novel.status !== "ongoing" ? (
-            <></>
+            <div className="ongoing-text">
+              이어쓰기를 완료한 소설입니다(출품여부 대기중)
+            </div>
           ) : (
             <button className="novelinfo-btn" onClick={handleParticipateClick}>
               함께하기
