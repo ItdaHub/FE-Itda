@@ -73,6 +73,7 @@ const Comment = ({
             item={item}
             isVisible={isVisible}
             refreshComments={refreshComments}
+            target_type="comment"
           />
         </div>
         <div className="comment-date">{item.date}</div>

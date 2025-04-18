@@ -19,6 +19,7 @@ import {
   validationPassCheck,
 } from "@/utill/vali";
 import Swal from "sweetalert2";
+import { App as AntdApp } from "antd";
 
 interface MypageViewProps {
   image: File | null;
@@ -41,6 +42,8 @@ const MypageView = ({
   birth,
   phoneNumber,
 }: MypageViewProps) => {
+  const { message } = AntdApp.useApp();
+
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
@@ -96,9 +99,9 @@ const MypageView = ({
 
       if (response.status === 200) {
         setIsEditingPhone(false);
-        alert("전화번호가 저장되었습니다.");
+        message.success("전화번호가 저장되었습니다.");
       } else {
-        alert("전화번호 저장에 실패했습니다.");
+        message.error("전화번호 저장에 실패했습니다.");
       }
     } catch (error) {
       console.error(error);
