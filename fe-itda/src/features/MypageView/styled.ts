@@ -79,6 +79,29 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const MypageViewStyled = styled.div`
+  .change-pass {
+    display: flex;
+  }
+
+  span.userEdit {
+    padding-left: 8px;
+  }
+
+  .exit-user {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    background-color: transparent;
+    color: gray;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+
+  .exit-user:hover {
+    background-color: #555;
+  }
+
   @media screen and (max-width: 768px) {
     .add-title {
       padding-left: 10px;

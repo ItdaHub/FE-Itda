@@ -147,7 +147,7 @@ const MypageView = ({
           <div className="subprofile-add">
             {type === "local" && (
               <div className="userEdit-password">
-                <div className="change-pass" style={{ display: "flex" }}>
+                <div className="change-pass">
                   <LockIcon className="custom-icon" />
                   <input
                     className="userEdit"
@@ -235,9 +235,7 @@ const MypageView = ({
             <div className="userEdit-birth">
               <CakeOutlinedIcon className="custom-icon" />
               {type === "naver" ? (
-                <span className="userEdit" style={{ paddingLeft: "8px" }}>
-                  생일 없음
-                </span>
+                <span className="userEdit">생일 없음</span>
               ) : (
                 <input
                   className="userEdit"
@@ -258,28 +256,14 @@ const MypageView = ({
                   readOnly
                 />
               ) : (
-                <span className="userEdit" style={{ paddingLeft: "8px" }}>
-                  번호 없음
-                </span>
+                <span className="userEdit">번호 없음</span>
               )}
             </div>
           </div>
         </div>
 
-        <div
-          className="mypage-btn"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="exit-user"
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              color: "gray",
-            }}
-          >
+        <div className="mypage-btn">
+          <button type="button" onClick={handleDelete} className="exit-user">
             회원탈퇴 {">"}
           </button>
         </div>

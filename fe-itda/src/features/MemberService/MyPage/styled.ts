@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const MyPageStyled = styled.div`
   &.mypage-wrap {
     font-family: "Pretendard", sans-serif;
-    /* background-color: #f9fbfc; */
     display: flex;
     justify-content: center;
     min-height: calc(100vh - 100px);
@@ -150,14 +149,6 @@ export const MyPageStyled = styled.div`
     background-color: transparent;
   }
 
-  /* .double-check {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #eee;
-    cursor: pointer;
-    border-radius: 4px;
-  } */
-
   .change-pass {
     display: flex;
     justify-content: space-between;
@@ -170,7 +161,6 @@ export const MyPageStyled = styled.div`
   .change-btn {
     padding: 5px 8px;
     border: none;
-    /* background: none; */
     cursor: pointer;
     border-radius: 4px;
     font-size: 0.9rem;
@@ -194,20 +184,6 @@ export const MyPageStyled = styled.div`
 
   .password-modal-container input {
     margin-bottom: 0.5rem;
-  }
-
-  .mypage-btn button {
-    padding: 0.6rem 0;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-right: 0.5rem;
-  }
-
-  .mypage-btn button:hover {
-    background-color: #555;
   }
 
   /* 메세지 color 지정 */
@@ -243,8 +219,8 @@ export const MyPageStyled = styled.div`
       }
 
       button.active {
-        font-weight: 700; /* 두껍게 */
-        border-bottom: 2px solid #333; /* 언더라인 */
+        font-weight: 700;
+        border-bottom: 2px solid #333;
       }
     }
   }

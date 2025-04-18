@@ -158,17 +158,17 @@ const MypageEdit = ({ currentNickname }: Props) => {
 
     let updated = false;
 
-    // //  1. 기본 이미지로 설정된 경우: 삭제 요청
-    // if (!image && !profileImagePreview && user?.profile_img) {
-    //   try {
-    //     await api.delete("/users/me/profile-image");
-    //     updated = true;
-    //   } catch (error) {
-    //     console.error("프로필 이미지 삭제 실패:", error);
-    //     message.warning("기본 이미지로 설정 중 오류가 발생했습니다.");
-    //     return;
-    //   }
-    // }
+    //  1. 기본 이미지로 설정된 경우: 삭제 요청
+    if (!image && !profileImagePreview && user?.profile_img) {
+      try {
+        await api.delete("/users/me/profile-image");
+        updated = true;
+      } catch (error) {
+        console.error("프로필 이미지 삭제 실패:", error);
+        message.warning("기본 이미지로 설정 중 오류가 발생했습니다.");
+        return;
+      }
+    }
 
     // 프로필 이미지 변경된 경우에만 요청
     if (image) {
