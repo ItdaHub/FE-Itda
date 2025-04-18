@@ -90,15 +90,15 @@ const MypageView = ({
     }
 
     try {
-      const response = await api.patch("/users/phone", {
-        phoneNumber: editPhoneNumber,
+      const response = await api.put("/users/me/phone", {
+        phone: editPhoneNumber,
       });
 
-      if (response.status === 204) {
+      if (response.status === 200) {
         setIsEditingPhone(false);
-        message.success(response.data.message || "전화번호가 저장되었습니다.");
+        alert("전화번호가 저장되었습니다.");
       } else {
-        message.error(response.data.message || "전화번호 저장에 실패했습니다.");
+        alert("전화번호 저장에 실패했습니다.");
       }
     } catch (error) {
       console.error(error);
