@@ -10,6 +10,7 @@ import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
 import { useRouter } from "next/router";
 import { LeftOutlined, MenuOutlined, RightOutlined } from "@ant-design/icons";
+import { message } from "antd";
 
 type Content = {
   text: string;
@@ -100,7 +101,7 @@ const ReadBook = ({
         }
 
         if (isFromPaidClick && isPaidContent(matchedIndex)) {
-          alert("유료 화입니다. 결제 후 열람 가능합니다.");
+          message.info("유료 화입니다. 결제 후 열람 가능합니다.");
         }
       } catch (error) {
         console.error("콘텐츠 불러오기 실패:", error);
@@ -119,7 +120,7 @@ const ReadBook = ({
     const nextIndex = swiper.activeIndex;
 
     if (isPaidContent(nextIndex)) {
-      alert("유료 화입니다. 결제 후 열람 가능합니다.");
+      message.info("유료 화입니다. 결제 후 열람 가능합니다.");
       swiper.slideTo(currentIndex);
     } else {
       setCurrentIndex(nextIndex);

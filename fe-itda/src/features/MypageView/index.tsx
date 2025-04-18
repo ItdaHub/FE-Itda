@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockIcon from "@mui/icons-material/Lock";
@@ -109,11 +109,11 @@ const MypageView = ({
             dispatch(logoutUser());
             router.push("/");
           } else {
-            alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+            message.error("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
           }
         } catch (error) {
           console.error("회원 탈퇴 중 오류 발생:", error);
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
+          message.error("오류가 발생했습니다. 다시 시도해주세요.");
         }
       }
     });

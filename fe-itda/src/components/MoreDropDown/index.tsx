@@ -201,7 +201,6 @@ const MoreDropDown = ({
               신고시 이용에 제한을 받을 수 있습니다.
             </div>
           </div>
-          {/* <button>등록하기</button> */}
         </Modal>
       </>
     </MoreDropDwonStyled>

@@ -18,12 +18,8 @@ import {
   WrapContent,
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import {
-  BellOutlined,
-  NotificationOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Avatar, ConfigProvider, Popover } from "antd";
+import { BellOutlined, NotificationOutlined } from "@ant-design/icons";
+import { ConfigProvider, message, Popover } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
@@ -31,6 +27,7 @@ import api from "@/utill/api";
 import { logoutUser } from "@/features/auth/logout";
 import NowPrice from "../NowPrice";
 import MyProfile from "../MyProfile";
+import profileStatic from "@/assets/images/img_profile_static.svg";
 
 const Header = () => {
   // 검색 키워드 값 관리
@@ -90,6 +87,11 @@ const Header = () => {
   // 헤더 제거
   const isNoHeader = isChapterPage;
   if (isNoHeader) return null;
+
+  // 프로필 이미지
+  const profileImageSrc = user?.profile_img
+    ? `http://localhost:5001/uploads/profiles/${user.profile_img}`
+    : profileStatic;
 
   // 모달 내용
   const content = (
@@ -207,7 +209,7 @@ const Header = () => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     keyword.trim() === ""
-                      ? alert("검색어를 입력해주세요")
+                      ? message.warning("검색어를 입력해주세요")
                       : router.push(
                           `/search?keyword=${encodeURIComponent(keyword)}`
                         );
@@ -220,7 +222,7 @@ const Header = () => {
               className="header-searchImg"
               onClick={() => {
                 keyword.trim() === ""
-                  ? alert("검색어를 입력해주세요")
+                  ? message.warning("검색어를 입력해주세요")
                   : router.push(
                       `/search?keyword=${encodeURIComponent(keyword)}`
                     );
@@ -258,7 +260,13 @@ const Header = () => {
               placement="bottomRight"
             >
               <div className="header-profile" style={{ cursor: "pointer" }}>
-                <Avatar size="small" icon={<UserOutlined />} />
+                <Image
+                  src={profileImageSrc}
+                  alt="유저 이미지"
+                  width={25}
+                  height={25}
+                  className="profile-image-wrap"
+                />
               </div>
             </Popover>
           ) : (

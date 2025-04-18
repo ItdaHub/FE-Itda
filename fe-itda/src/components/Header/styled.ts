@@ -83,6 +83,9 @@ export const HeaderStyled = styled.div`
 
             color: ${({ theme }) => theme.colors.background};
           }
+          .profile-image-wrap {
+            border-radius: 50%;
+          }
         }
         .header-arrow {
           margin-left: 8px;

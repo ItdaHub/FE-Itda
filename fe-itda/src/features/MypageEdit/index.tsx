@@ -7,6 +7,7 @@ import clsx from "clsx";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
 import router from "next/router";
+import { message } from "antd";
 
 interface Props {
   currentNickname?: string;
@@ -100,11 +101,11 @@ const MypageEdit = ({ currentNickname }: Props) => {
       return;
     }
 
-    const isValid = nickName.length >= 2 && nickName.length <= 8;
+    const isValid = nickName.length >= 2 && nickName.length <= 12;
     if (!isValid) {
       setNickNameMessage({
         type: "error",
-        text: "닉네임은 2~8자 사이여야 합니다.",
+        text: "닉네임은 2~12자 사이여야 합니다.",
       });
       return;
     }
@@ -139,10 +140,10 @@ const MypageEdit = ({ currentNickname }: Props) => {
       return;
     }
 
-    if (nickName.length < 2 || nickName.length > 8) {
+    if (nickName.length < 2 || nickName.length > 12) {
       setNickNameMessage({
         type: "error",
-        text: "닉네임은 2~8자 사이여야 합니다.",
+        text: "닉네임은 2~12자 사이여야 합니다.",
       });
       return;
     }
@@ -164,7 +165,7 @@ const MypageEdit = ({ currentNickname }: Props) => {
     //     updated = true;
     //   } catch (error) {
     //     console.error("프로필 이미지 삭제 실패:", error);
-    //     alert("기본 이미지로 설정 중 오류가 발생했습니다.");
+    //     message.warning("기본 이미지로 설정 중 오류가 발생했습니다.");
     //     return;
     //   }
     // }
@@ -181,7 +182,7 @@ const MypageEdit = ({ currentNickname }: Props) => {
         updated = true;
       } catch (error) {
         console.error("프로필 이미지 수정 실패:", error);
-        alert("프로필 이미지 수정 중 오류가 발생했습니다.");
+        message.error("프로필 이미지 수정 중 오류가 발생했습니다.");
         return;
       }
     }
@@ -199,16 +200,16 @@ const MypageEdit = ({ currentNickname }: Props) => {
         updated = true;
       } catch (error) {
         console.error("닉네임 수정 실패:", error);
-        alert("닉네임 수정 중 오류가 발생했습니다.");
+        message.error("닉네임 수정 중 오류가 발생했습니다.");
         return;
       }
     }
 
     if (updated) {
-      alert("정보가 수정되었습니다.");
+      message.success("정보가 수정되었습니다.");
       router.reload();
     } else {
-      alert("변경된 정보가 없습니다.");
+      message.info("변경된 정보가 없습니다.");
     }
   };
 

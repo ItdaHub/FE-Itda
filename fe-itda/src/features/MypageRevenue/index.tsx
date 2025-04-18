@@ -72,7 +72,7 @@ const MypageRevenue = () => {
             />
           </div>
           <div>
-            <button>교환</button>
+            <button>등록</button>
           </div>
         </div>
       </PopcornModal>
