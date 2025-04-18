@@ -11,7 +11,7 @@ import ProfileImage from "@/components/ProfileImage";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "@/utill/api";
 import {
   changePassword,
@@ -46,15 +46,63 @@ const MypageView = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    if (phoneNumber) {
+      setEditPhoneNumber(phoneNumber);
+    }
+  }, [phoneNumber]);
+
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 모달 열기 / 닫기
-  const [password, setPassword] = useState(""); // 새 비밀번호
-  const [passwordCheck, setPasswordCheck] = useState(""); // 새 비밀번호 확인
-  // 새 비밀번호 에러 메세지
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [passError, setPassError] = useState("");
-  // 새 비밀번호 확인 에러 메세지
   const [passCheckError, setPassCheckError] = useState("");
   // 비밀번호 변경 axios 요청 에러 메세지
   const [changePwError, setChangePwError] = useState("");
+
+  const [editPhoneNumber, setEditPhoneNumber] = useState(phoneNumber || ""); // 전화번호 없으면 빈 문자열
+  const [isEditingPhone, setIsEditingPhone] = useState(false); // 수정 / 저장 토글
+
+  // 전화번호 자동 하이픈(-) 생성
+  const formatPhoneNumber = (value: string) => {
+    const number = value.replace(/[^\d]/g, "");
+    if (number.length <= 3) return number;
+    if (number.length <= 7) return `${number.slice(0, 3)}-${number.slice(3)}`;
+    return `${number.slice(0, 3)}-${number.slice(3, 7)}-${number.slice(7, 11)}`;
+  };
+
+  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setEditPhoneNumber(formatted);
+  };
+
+  // 전화번호 저장 시
+  const handlePhoneSaveClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const phoneRegex = /^01[0-9]-\d{4}-\d{4}$/;
+    if (!editPhoneNumber) {
+      message.warning("휴대폰번호를 입력해주세요.");
+      return;
+    } else if (!phoneRegex.test(editPhoneNumber)) {
+      message.warning("올바른 휴대폰번호를 입력해주세요. (예: 010-1234-5678)");
+      return;
+    }
+
+    try {
+      await api.patch("/users/phone", { phoneNumber: editPhoneNumber });
+      setIsEditingPhone(false);
+      message.success("전화번호가 저장되었습니다.");
+    } catch (error) {
+      console.error(error);
+      message.error("전화번호 저장에 실패했습니다.");
+    }
+  };
+
+  const handlePhoneEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsEditingPhone(true);
+  };
 
   // 입력, 메세지 초기화
   const resetPasswordModal = () => {
@@ -232,6 +280,7 @@ const MypageView = ({
               />
             </div>
 
+            {/* 출생년도 */}
             <div className="userEdit-birth">
               <CakeOutlinedIcon className="custom-icon" />
               {type === "naver" ? (
@@ -246,17 +295,42 @@ const MypageView = ({
               )}
             </div>
 
+            {/* 전화번호 */}
             <div className="userEdit-phone">
               <PhoneAndroidIcon className="custom-icon" />
-              {type === "local" ? (
-                <input
-                  className="userEdit"
-                  type="tel"
-                  value={phoneNumber}
-                  readOnly
-                />
+              {editPhoneNumber || isEditingPhone ? (
+                <>
+                  <input
+                    className="userEdit"
+                    type="tel"
+                    value={editPhoneNumber}
+                    readOnly={!isEditingPhone}
+                    onChange={handlePhoneInputChange}
+                    placeholder="010-1234-5678"
+                  />
+                  {isEditingPhone ? (
+                    <button
+                      className="change-btn"
+                      onClick={handlePhoneSaveClick}
+                    >
+                      저장
+                    </button>
+                  ) : (
+                    <button
+                      className="change-btn"
+                      onClick={handlePhoneEditClick}
+                    >
+                      수정
+                    </button>
+                  )}
+                </>
               ) : (
-                <span className="userEdit">번호 없음</span>
+                <>
+                  <span className="userEdit">번호 없음</span>
+                  <button className="change-btn" onClick={handlePhoneEditClick}>
+                    수정
+                  </button>
+                </>
               )}
             </div>
           </div>
