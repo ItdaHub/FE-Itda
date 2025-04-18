@@ -22,7 +22,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
     genre: "",
     author: "",
     isLiked: false,
-    status: "ongoing",
+    status: "",
   });
 
   const [liked, setLiked] = useState(false);

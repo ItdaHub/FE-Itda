@@ -10,6 +10,7 @@ import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
 import { useRouter } from "next/router";
 import { LeftOutlined, MenuOutlined, RightOutlined } from "@ant-design/icons";
+import { message } from "antd";
 
 type Content = {
   text: string;
@@ -83,8 +84,6 @@ const ReadBook = ({
         setIsLastChapter(isLastChapter);
         // 1화면 버튼 비활성화
         setIsDisabled(chapterNumber === 1);
-        // 마지막화면 버튼 비활성화
-        setIsNextDisabled(isLastChapter);
 
         const matchedIndex = slides.findIndex(
           (item) => item.index === chapterId
@@ -135,7 +134,11 @@ const ReadBook = ({
 
   // 다음화
   const goToNextChapter = () => {
-    router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
+    if (isLastChapter) {
+      message.info("마지막화입니다");
+    } else {
+      router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
+    }
   };
 
   return (
@@ -160,8 +163,7 @@ const ReadBook = ({
           <span className="stick"></span>
           <button
             onClick={goToNextChapter}
-            className="arrow next"
-            disabled={isNextDisabled}
+            className={`arrow next ${isLastChapter ? "disabled" : ""}`}
           >
             다음화 <RightOutlined />
           </button>

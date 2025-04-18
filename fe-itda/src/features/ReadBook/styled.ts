@@ -69,6 +69,7 @@ export const ReadBookStyled = styled.div`
     }
 
     .readbook-nav {
+      padding: 0 10px;
       height: 60px;
       display: flex;
       align-items: center;
@@ -83,9 +84,13 @@ export const ReadBookStyled = styled.div`
         color: ${({ theme }) => theme.colors.text};
         cursor: pointer;
       }
-      button.arrow.prev:disabled,
-      button.arrow.next:disabled {
+      .disabled {
         color: #888;
+        cursor: default;
+      }
+      button.arrow.prev:disabled {
+        color: #888;
+        cursor: default;
       }
 
       .stick::before {
