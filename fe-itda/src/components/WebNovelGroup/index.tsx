@@ -57,26 +57,44 @@ const WebNovelGroup = ({
             response = await api.get("/novels/rankings");
           }
         } else {
-          // 장르
-          const params: any = {};
+          // 출품작
+          if (type === "exhibit") {
+            const res = await api.get("novels/published");
 
-          if (type) params.type = type;
+            // 장르
+            const filtered =
+              genre && genre !== "all"
+                ? res.data.filter(
+                    (novel: { genre: { value: string } }) =>
+                      novel.genre?.value === genre
+                  )
+                : res.data;
 
-          const ageValues = ageGroups.map((age) => age.value);
-          if (genre && genre !== "all" && !ageValues.includes(genre)) {
-            params.genre = genre;
-          }
+            setNovels(filtered);
+          } else if (type === "new") {
+            // 이어쓰기
 
-          if (ageSelect?.selectedAge) {
-            const ageNum = ageGroups.find(
-              (age) => age.value === ageSelect.selectedAge
-            )?.number;
-            if (ageNum) {
-              params.age = ageNum;
+            // 장르
+            const params: any = {};
+
+            if (type) params.type = type;
+
+            const ageValues = ageGroups.map((age) => age.value);
+            if (genre && genre !== "all" && !ageValues.includes(genre)) {
+              params.genre = genre;
             }
-          }
 
-          response = await api.get("/novels/filter", { params });
+            if (ageSelect?.selectedAge) {
+              const ageNum = ageGroups.find(
+                (age) => age.value === ageSelect.selectedAge
+              )?.number;
+              if (ageNum) {
+                params.age = ageNum;
+              }
+            }
+
+            response = await api.get("/novels/filter", { params });
+          }
         }
 
         if (response) {

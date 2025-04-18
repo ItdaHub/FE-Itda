@@ -17,7 +17,6 @@ import MobileNav from "@/components/MoblieNavi";
 import { setTheme } from "@/features/theme/themeSlice";
 import { useDispatch } from "react-redux";
 import BackButton from "@/components/BackButton";
-import api from "@/utill/api";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
