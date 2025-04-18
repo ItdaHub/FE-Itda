@@ -90,9 +90,14 @@ const MypageView = ({
     }
 
     try {
-      await api.patch("/users/phone", { phoneNumber: editPhoneNumber });
-      setIsEditingPhone(false);
-      message.success("전화번호가 저장되었습니다.");
+      const response = await api.patch("/users/phone", {
+        phoneNumber: editPhoneNumber,
+      });
+
+      if (response.data.success) {
+        setIsEditingPhone(false);
+        message.success(response.data.message || "전화번호가 저장되었습니다.");
+      }
     } catch (error) {
       console.error(error);
       message.error("전화번호 저장에 실패했습니다.");
