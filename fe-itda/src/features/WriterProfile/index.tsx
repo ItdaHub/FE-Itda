@@ -6,7 +6,7 @@ import clsx from "clsx";
 import MoreDropDown from "@/components/MoreDropDown";
 import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
-import profileStactic from "@/assets/images/img_profile_static.svg";
+import profileStatic from "@/assets/images/img_profile_static.svg";
 
 interface WriterProfileProps {
   nickname: string;
@@ -19,7 +19,7 @@ const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
 
   const profileImageSrc = user?.profile_img
     ? `http://localhost:5001/uploads/profiles/${user.profile_img}`
-    : profileStactic;
+    : profileStatic;
 
   return (
     <WriterProfileStyled className={clsx("profile-wrap")}>

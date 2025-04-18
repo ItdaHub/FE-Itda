@@ -12,7 +12,11 @@ interface SearchItem {
   imageUrl: string;
 }
 
-const SearchResult = ({ keyword }: { keyword: string }) => {
+interface KeyProps {
+  keyword?: string;
+}
+
+const SearchResult = ({ keyword }: KeyProps) => {
   const [results, setResults] = useState<SearchItem[]>([]);
 
   useEffect(() => {

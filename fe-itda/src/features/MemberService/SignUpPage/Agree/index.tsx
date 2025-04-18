@@ -121,30 +121,26 @@ const terms = {
 };
 
 const Agree = () => {
-  // 모두 동의하기 체크박스 상태
+  const router = useRouter();
+
+  // 모두 동의하기
   const [allCheck, setAllCheck] = useState(false);
-  // 이용 약관 체크박스 상태
+  // 이용 약관
   const [useCheck, setUseCheck] = useState(false);
-  // 개인 정보 수집 및 이용 동의 체크박스 상태
+  // 개인 정보 수집 및 이용 동의
   const [privacyCheck, setPrivacyCheck] = useState(false);
-  // 프로필 정보 추가 수집 동의 체크박스 상태
+  // 프로필 정보 추가 수집 동의
   const [profileCheck, setProfileCheck] = useState(false);
 
   const [isAgreed, setIsAgreed] = useState(false); // 동의 여부 상태
 
   // 모두 동의하기 클릭 시
   const allCheckEvent = () => {
-    if (allCheck === false) {
-      setAllCheck(true);
-      setUseCheck(true);
-      setPrivacyCheck(true);
-      setProfileCheck(true);
-    } else {
-      setAllCheck(false);
-      setUseCheck(false);
-      setPrivacyCheck(false);
-      setProfileCheck(false);
-    }
+    const newState = !allCheck;
+    setAllCheck(newState);
+    setUseCheck(newState);
+    setPrivacyCheck(newState);
+    setProfileCheck(newState);
   };
 
   // 이용 약관 클릭 시
@@ -185,13 +181,6 @@ const Agree = () => {
 
   // "동의" 버튼 활성화 조건 (필수 항목만)
   const isAgree = useCheck && privacyCheck;
-
-  const router = useRouter();
-
-  // 동의 버튼 클릭 시
-  const handleAgreeClick = (e: any) => {
-    e.preventDefault();
-  };
 
   return (
     <AgreeStyled className={clsx("agree-service")}>
@@ -271,7 +260,7 @@ const Agree = () => {
                 e.preventDefault();
                 router.push("/signup");
               }}
-              disabled={!isAgree} // 필수 체크박스들이 모두 체크되었을 때만 활성화
+              disabled={!isAgree} // 필수 체크 시 활성화
             >
               동의
             </button>

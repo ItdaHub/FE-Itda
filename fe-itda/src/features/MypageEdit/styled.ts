@@ -210,12 +210,4 @@ export const ImageModal = styled(Modal)`
     background-color: transparent;
     transition: background-color 0.3s ease;
   }
-
-  /* .image-modal-btn .album:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-  }
-
-  .image-modal-btn .album:active {
-    background-color: ${({ theme }) => theme.colors.primary};
-  } */
 `;

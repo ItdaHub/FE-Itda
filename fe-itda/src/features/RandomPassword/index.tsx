@@ -8,17 +8,17 @@ import axios from "axios";
 const RandomPassword = () => {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   // query의 주소에서 이메일 가져오기
   useEffect(() => {
-    if (router.query.email) {
-      setEmail(router.query.email as string);
+    if (typeof router.query.email === "string") {
+      setEmail(router.query.email);
     }
-  }, [router.query]);
+  }, [router.query.email]);
 
   // 이메일 전송 처리 함수
   const sendResetPasswordEmail = async () => {

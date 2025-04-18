@@ -19,9 +19,7 @@ const MypageEdit = ({ currentNickname }: Props) => {
   useEffect(() => {
     if (user) {
       setNickName(user.nickname);
-      if (user.profile_img) {
-        setProfileImagePreview(user.profile_img);
-      }
+      setProfileImagePreview(user.profile_img || null);
     }
   }, [user]);
 
@@ -149,16 +147,9 @@ const MypageEdit = ({ currentNickname }: Props) => {
       return;
     }
 
-    if (nickName === currentNickname) {
-      setNickNameMessage({
-        type: "success",
-        text: "",
-      });
-    }
-
     if (nickName !== currentNickname && !isNicknameChecked) {
       setNickNameMessage({
-        type: "success",
+        type: "error",
         text: "닉네임 중복 확인을 해주세요.",
       });
       return;

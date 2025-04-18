@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { MyPageStyled } from "./styled";
-import profileStactic from "@/assets/images/img_profile_static.svg";
+import profileStatic from "@/assets/images/img_profile_static.svg";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/features/auth/logout";
 import { useRouter } from "next/router";
@@ -103,8 +103,7 @@ const Mypage = () => {
       <div className="mypage-box">
         {/* 왼쪽 사이드 바 */}
         <MypageSidebar
-          image={image}
-          profileStactic={profileStactic}
+          profileStatic={profileStatic}
           nickName={nickName}
           email={email}
           handleLogout={handleLogout}
@@ -118,16 +117,14 @@ const Mypage = () => {
           <MypageRevenue />
         ) : (
           <MypageView
-            image={image}
-            profileStactic={profileStactic}
+            profileStatic={profileStatic}
             nickName={nickName}
-            setNickName={setNickName}
             email={email}
             name={name}
             type={type}
             birth={birth}
             phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
+            image={null}
           />
         )}
       </div>
