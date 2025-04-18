@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { App as AntdApp } from "antd";
 
 interface MoreDropProps {
+  target_type?: "comment" | "chapter";
   type?: string;
   user: any;
   item?: any;
@@ -19,6 +20,7 @@ interface MoreDropProps {
 }
 
 const MoreDropDown = ({
+  target_type,
   type,
   user,
   item,
@@ -26,6 +28,7 @@ const MoreDropDown = ({
   setIsVisible,
   refreshComments,
 }: MoreDropProps) => {
+  console.log("item 확인:", item);
   const { message } = AntdApp.useApp();
 
   // 모달 상태 관리
@@ -57,35 +60,19 @@ const MoreDropDown = ({
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log("신고 요청 전:", { reason: reportReason }); // 요청 전 로그
+          const target =
+            target_type === "comment"
+              ? `/comments/declare/${item.id}` // 댓글 axios 요청
+              : `/novels/declare/${item.id}`; // 소설 axios 요청
 
           // axios 댓글 신고 요청(해당 댓글의 id)
-          const response = await api.post(`/comments/declare/${item.id}`, {
+          const response = await api.post(target, {
             reason: reportReason,
+            userId: user.id,
           });
-
-          // 응답 확인
-          console.log("서버 응답:", response);
 
           message.success("신고가 완료되었습니다.");
           setDeclareModalOpen(false); // 신고 후 모달 닫기
-
-          // // 임의로 API 응답을 시뮬레이션 (모의 응답)
-          // const mockResponse = new Promise<ReportResponse>((resolve) => {
-          //   setTimeout(() => {
-          //     resolve({ data: { success: true } });
-          //   }, 1000);
-          // });
-
-          // const response: ReportResponse = await mockResponse; // 타입을 명시적으로 지정
-          // console.log("서버 응답:", response);
-
-          // if (response.data.success) {
-          //   message.success("신고가 완료되었습니다.");
-          //   setDeclareModalOpen(false);
-          // } else {
-          //   message.error("신고 처리에 실패했습니다.");
-          // }
         } catch (e) {
           console.error("댓글 신고 실패: ", e);
           Swal.fire("댓글 신고에 실패했습니다.");
@@ -118,30 +105,6 @@ const MoreDropDown = ({
       }
     });
   };
-
-  // // 신고하기 요청
-  // const declareComment = async () => {
-  //   Swal.fire({
-  //     icon: "question",
-  //     title: "신고하시겠습니까?",
-  //     showCancelButton: true,
-  //     confirmButtonText: "예",
-  //     cancelButtonText: "아니오",
-  //     confirmButtonColor: "#429f50",
-  //     cancelButtonColor: "#d33",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         // axios 댓글 신고 요청(해당 댓글의 id)
-  //         await api.post(`/comments/declare/${item.id}`);
-  //         message.success("신고되었습니다.");
-  //       } catch (e) {
-  //         console.error("댓글 신고 실패: ", e);
-  //         Swal.fire("댓글 신고에 실패했습니다.");
-  //       }
-  //     }
-  //   });
-  // };
 
   // 모달 취소 핸들러
   const CloseModal = () => {
@@ -180,7 +143,7 @@ const MoreDropDown = ({
 
         {/* 신고 모달 */}
         <Modal
-          title="댓글 신고"
+          title={target_type === "comment" ? "댓글 신고" : "소설 신고"}
           open={declareModalOpen}
           onOk={handleReportSubmit} // 신고하기 버튼 클릭 시 제출
           onCancel={CloseModal} // 취소 버튼 클릭 시 모달 닫기
@@ -196,9 +159,11 @@ const MoreDropDown = ({
               placeholder="신고 사유를 입력해주세요."
             />
             <div style={{ marginTop: "10px", fontSize: "12px", color: "#666" }}>
-              ! 불법적인 내용이거나, 서비스 이용 목적에 부합하지 않는 댓글을
-              신고해주세요. 신고하신 댓글은 운영정책에 따라 처리되며, 허위
-              신고시 이용에 제한을 받을 수 있습니다.
+              ! 불법적인 내용이거나, 서비스 이용 목적에 부합하지 않는{" "}
+              {target_type === "comment" ? "댓글" : "소설"}을 신고해주세요.
+              신고하신 {target_type === "comment" ? "댓글" : "소설"}은
+              운영정책에 따라 처리되며, 허위 신고시 이용에 제한을 받을 수
+              있습니다.
             </div>
           </div>
         </Modal>

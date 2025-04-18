@@ -41,6 +41,7 @@ const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
           user={user}
           setIsVisible={setIsVisible}
           isVisible={isVisible}
+          target_type="chapter"
         />
       </div>
     </WriterProfileStyled>
