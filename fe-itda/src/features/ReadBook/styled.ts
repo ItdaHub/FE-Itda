@@ -60,11 +60,6 @@ export const ReadBookStyled = styled.div`
       margin-bottom: 30px;
     }
 
-    .swiper-button-prev,
-    .swiper-button-next {
-      color: ${({ theme }) => theme.colors.primary};
-    }
-
     .readbook-nav {
       padding: 0 10px;
       height: 60px;
@@ -85,7 +80,8 @@ export const ReadBookStyled = styled.div`
         color: #888;
         cursor: default;
       }
-      button.arrow.prev:disabled {
+      button.arrow.prev:disabled,
+      button.arrow.next:disabled {
         color: #888;
         cursor: default;
       }

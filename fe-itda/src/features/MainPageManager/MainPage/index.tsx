@@ -23,6 +23,7 @@ const MainPage = () => {
 
   useEffect(() => {
     const handleResize = () => {
+      console.log("asd");
       setIsMobile(window.innerWidth <= 768);
     };
 

@@ -124,7 +124,7 @@ export const CategoryStyled = styled.div`
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
 
-        &.open {
+        @media (max-width: 768px) {
           transform: translateX(0%);
         }
 

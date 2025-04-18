@@ -1,11 +1,7 @@
 import MainPage from "@/features/MainPageManager/MainPage";
 
 const Main = () => {
-  return (
-    <>
-      <MainPage />
-    </>
-  );
+  return <MainPage />;
 };
 
 export default Main;
