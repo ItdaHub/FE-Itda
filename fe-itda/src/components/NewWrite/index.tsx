@@ -223,13 +223,19 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
           console.log("관리자로 이동하자");
 
           try {
-            await api.post(`/admin/complete/${novelId}`);
+            // 출품 요청 API 호출
+            await api.patch(`/novels/${novelId}/submit`);
+            message.success("소설이 출품되었습니다.", 1, () => {
+              router.push("/"); // 출품 후 홈으로 리디렉션
+            });
           } catch (err: any) {
             console.error(
               "출품 요청 실패:",
               err.response?.data?.message || err.message
             );
-            alert("출품 요청 중 문제가 발생했습니다. 관리자에게 문의해주세요.");
+            message.error(
+              "출품 요청 중 문제가 발생했습니다. 관리자에게 문의해주세요."
+            );
           }
         }
       }
