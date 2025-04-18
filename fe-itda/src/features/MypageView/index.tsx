@@ -94,9 +94,11 @@ const MypageView = ({
         phoneNumber: editPhoneNumber,
       });
 
-      if (response.data.success) {
+      if (response.status === 204) {
         setIsEditingPhone(false);
         message.success(response.data.message || "전화번호가 저장되었습니다.");
+      } else {
+        message.error(response.data.message || "전화번호 저장에 실패했습니다.");
       }
     } catch (error) {
       console.error(error);
