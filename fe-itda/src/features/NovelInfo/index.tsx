@@ -47,7 +47,15 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
           img: novelData.image || test.src,
           title: novelData.title || "제목 없음",
           genre: novelData.genre || "장르 없음",
-          author: novelData.author || "작가 미상",
+          author: Array.isArray(novelData.chapters)
+            ? [
+                ...new Set(
+                  novelData.chapters.map(
+                    (ch: { authorNickname: any }) => ch.authorNickname
+                  )
+                ),
+              ].join(", ")
+            : "작가 미상",
           isLiked: novelData.isLiked ?? false,
           status:
             novelData.nextChapterNumber - 1 === novelData.peopleNum
