@@ -46,15 +46,12 @@ const LoginPage = () => {
     }
 
     try {
-      // 1. 로그인 요청
+      // 로그인 요청
       await api.post("/auth/local", { email, password });
 
-      // 2. 쿠키에 토큰 저장되었으므로, 유저 정보 가져오기
+      // 쿠키에 토큰 저장 -> 유저 정보 가져오기
       const userResponse = await api.get("/auth/login");
       console.log("userResponse 전체:", userResponse);
-
-      // ✅ 콘솔로 유저 정보 확인
-      console.log("로그인한 유저 정보:", userResponse.data.user);
 
       dispatch(setUser(userResponse.data.user));
       setErrorMessage("");

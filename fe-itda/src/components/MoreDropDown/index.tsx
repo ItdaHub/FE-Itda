@@ -9,6 +9,15 @@ import WriteReply from "../WriteReply";
 import clsx from "clsx";
 import { App as AntdApp } from "antd";
 
+interface MoreDropProps {
+  type?: string;
+  user: any;
+  item?: any;
+  isVisible: boolean;
+  setIsVisible: any;
+  refreshComments?: () => Promise<void>;
+}
+
 const MoreDropDown = ({
   type,
   user,
@@ -16,14 +25,7 @@ const MoreDropDown = ({
   isVisible,
   setIsVisible,
   refreshComments,
-}: {
-  type?: string;
-  user: any;
-  item?: any;
-  isVisible: boolean;
-  setIsVisible: any;
-  refreshComments?: () => Promise<void>;
-}) => {
+}: MoreDropProps) => {
   const { message } = AntdApp.useApp();
 
   // 모달 상태 관리

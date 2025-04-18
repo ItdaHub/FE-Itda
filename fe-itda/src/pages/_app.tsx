@@ -73,7 +73,6 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
           ) : (
             <Layout>
               {router.pathname === "/" ||
-              router.pathname === "/payment/fail" ||
               router.pathname.startsWith("/chapter") ? (
                 <></>
               ) : (

@@ -6,6 +6,7 @@ import { PaymentSuccessStyled } from "./styled";
 import clsx from "clsx";
 import { Button, Result, Spin } from "antd";
 
+// 결제 성공
 const PaymentSuccess = () => {
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
@@ -19,9 +20,9 @@ const PaymentSuccess = () => {
 
     let { paymentKey, orderId, amount } = router.query;
 
-    console.log("🔍 [Query Params]", router.query);
+    console.log("[Query Params]", router.query);
 
-    // ✅ 배열이면 첫 번째 값만 사용
+    // 배열이면 첫 번째 값만 사용
     if (Array.isArray(orderId)) {
       orderId = orderId[0];
     }
@@ -30,7 +31,7 @@ const PaymentSuccess = () => {
     }
 
     if (!paymentKey || !orderId || !amount) {
-      console.warn("❌ 필수 결제 정보 누락:", { paymentKey, orderId, amount });
+      console.warn("필수 결제 정보 누락:", { paymentKey, orderId, amount });
       setMessage("결제 승인에 필요한 정보가 누락되었습니다.");
       setIsVerifying(false);
       return;
@@ -52,12 +53,12 @@ const PaymentSuccess = () => {
           amount: numericAmount,
         });
 
-        console.log("✅ [Payment Confirm Success]", response.data);
+        console.log("[Payment Confirm Success]", response.data);
         setAmountDisplay(numericAmount.toLocaleString());
         setMessage("결제가 정상적으로 처리되었어요.");
       } catch (error: any) {
         console.error(
-          "❌ [결제 승인 오류]",
+          "[결제 승인 오류]",
           error.response?.data || error.message
         );
         setMessage("결제 승인 중 문제가 발생했어요.");

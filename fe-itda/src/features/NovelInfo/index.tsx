@@ -8,17 +8,11 @@ import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
 
-interface NovelInfoType {
-  img: string;
-  title: string;
-  genre: string;
-  author: string;
-  isLiked: boolean;
-  likeNum: number;
-  status: "ongoing" | "completed";
+interface NovelInfoProps {
+  data?: number;
 }
 
-const NovelInfo = ({ data }: { data?: number }) => {
+const NovelInfo = ({ data }: NovelInfoProps) => {
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
 
@@ -30,6 +24,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
     isLiked: false,
     status: "ongoing",
   });
+
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -37,6 +32,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
     if (!data) return;
 
     const getNovelDetail = async () => {
+      // 소설 가져오기 요청
       try {
         const res = await api.get(`/novels/${data}`, {
           params: user ? { userId: user.id } : {},
@@ -53,11 +49,12 @@ const NovelInfo = ({ data }: { data?: number }) => {
           status: "ongoing",
         });
 
+        console.log("tkdxo??", res.data);
+
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
           typeof novelData.likeCount === "number" ? novelData.likeCount : 0
         );
-        console.log("aaaaaaaaaaaa", novel.status);
       } catch (e) {
         console.error("소설 가져오기 실패: ", e);
       }
@@ -66,6 +63,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
     getNovelDetail();
   }, [data, user]);
 
+  // 좋아요 누르기
   const toggleLike = async () => {
     if (!user) {
       alert("로그인이 필요합니다.");
@@ -84,6 +82,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
     }
   };
 
+  // 이어쓰기 버튼 클릭시
   const handleParticipateClick = async () => {
     if (!user) {
       alert("로그인이 필요합니다.");
@@ -92,9 +91,9 @@ const NovelInfo = ({ data }: { data?: number }) => {
 
     try {
       const res = await api.get(`/chapters/participation/${data}`, {
-        params: { userId: user.id }, // ✅ userId를 쿼리로 전달
+        params: { userId: user.id },
       });
-      const alreadyParticipated = res.data.hasParticipated; // ✅ 응답에서 이 값을 확인해야 해
+      const alreadyParticipated = res.data.hasParticipated;
 
       if (alreadyParticipated) {
         alert("이미 이어쓰기한 소설입니다.");
@@ -113,16 +112,19 @@ const NovelInfo = ({ data }: { data?: number }) => {
   return (
     <NovelInfoStyled className={clsx("novelinfo-wrap")}>
       <div className="novelinfo-wrap-box">
+        {/* 소설 이미지 */}
         <img className="novelinfo-img" src={novel.img} alt={novel.title} />
         <div className="novelinfo-infobox">
           <div className="novelinfo-box">
             <div className="novelinfo-text-box">
+              {/* 소설 정보 */}
               <div>
                 <h2>{novel.title}</h2>
                 <p className="novelinfo-text">{novel.genre}</p>
                 <p className="novelinfo-text">{novel.author}</p>
               </div>
             </div>
+            {/* 좋아요 및 카카오공유 */}
             <div className="novelinfo-like-wrap">
               <div className="novelinfo-like-box" onClick={toggleLike}>
                 {liked ? (
@@ -137,6 +139,7 @@ const NovelInfo = ({ data }: { data?: number }) => {
               </div>
             </div>
           </div>
+          {/* 함께하기 버튼 */}
           {novel.status !== "ongoing" ? (
             <></>
           ) : (

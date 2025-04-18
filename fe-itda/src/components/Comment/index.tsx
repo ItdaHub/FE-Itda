@@ -6,7 +6,6 @@ import MoreDropDown from "../MoreDropDown";
 import api from "@/utill/api";
 import WriteReply from "../WriteReply";
 
-// API 응답 타입 정의
 interface CommentProps {
   item: {
     id: number;
@@ -38,14 +37,15 @@ const Comment = ({
   const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
-    console.log(item);
     setIsLiked(item.isliked);
     setLikeCount(item.likeNum);
   }, [item]);
 
+  // 좋아요 클릭
   const handleLikeClick = async () => {
     if (!user) {
       console.warn("로그인 후 좋아요 가능합니다.");
+
       return;
     }
 
@@ -79,6 +79,7 @@ const Comment = ({
         <div className="comment-comment">{item.comment}</div>
         <div className="comment-likebox">
           <div>
+            {/* 부모 댓글 */}
             {type === "parent" ? (
               <div
                 onClick={() => {
@@ -92,6 +93,7 @@ const Comment = ({
               <></>
             )}
           </div>
+          {/* 좋아요 */}
           <div className="comment-like">
             <button onClick={handleLikeClick}>
               {isLiked ? (
@@ -103,6 +105,7 @@ const Comment = ({
             </button>
           </div>
         </div>
+        {/* 자식 댓글 */}
         {isVisible ? (
           <>
             <WriteReply

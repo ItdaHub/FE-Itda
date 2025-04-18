@@ -53,7 +53,7 @@ const NoticePage = () => {
       (a, b) => priorityOrder[a.priorityLabel] - priorityOrder[b.priorityLabel]
     );
     setSortedItems(sorted);
-  }, []); // ✅ 최초 1번 정렬
+  }, []); // 최초 1번 정렬
 
   //   useEffect(() => {
   //     const sorted = [...noticeItems]

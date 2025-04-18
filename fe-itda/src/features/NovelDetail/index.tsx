@@ -7,8 +7,11 @@ import NovelComments from "../NovelComments";
 const NovelDetail = ({ data }: { data?: number }) => {
   return (
     <NovelDetailStyled>
+      {/* 소설 정보 */}
       <NovelInfo data={data} />
+      {/* 소설 1화~ */}
       <NovelEpisode data={data} />
+      {/* 소설 댓글 */}
       <NovelComments novelId={data} />
     </NovelDetailStyled>
   );

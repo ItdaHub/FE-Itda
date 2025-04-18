@@ -11,12 +11,17 @@ type EpisodeType = {
   createDate: string;
 };
 
-const NovelEpisode = ({ data }: { data?: number }) => {
+interface DataProps {
+  data?: number;
+}
+
+const NovelEpisode = ({ data }: DataProps) => {
   const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
 
   const router = useRouter();
 
+  // 에피소드 가져오기 요청
   useEffect(() => {
     if (!data) return;
 
@@ -33,6 +38,7 @@ const NovelEpisode = ({ data }: { data?: number }) => {
     getEpisode();
   }, [data]);
 
+  // 1화+최신순 정렬
   const handleSort = (isLatest: boolean) => {
     const sorted = [...episode].sort((a, b) =>
       isLatest ? a.id - b.id : b.id - a.id

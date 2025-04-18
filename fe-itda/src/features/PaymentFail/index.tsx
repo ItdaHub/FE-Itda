@@ -3,6 +3,7 @@ import { PaymentFailStyled } from "./styled";
 import clsx from "clsx";
 import { Button, Result } from "antd";
 
+// 결제 실패
 const PaymentFail = () => {
   const router = useRouter();
   const { code, message, orderId } = router.query;

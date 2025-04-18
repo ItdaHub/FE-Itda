@@ -3,11 +3,16 @@ import { BackButtonStyled } from "./styled";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-const BackButton = ({ type }: { type?: string }) => {
+interface TypeProps {
+  type?: string;
+}
+
+const BackButton = ({ type }: TypeProps) => {
   const router = useRouter();
 
   return (
     <BackButtonStyled className={clsx("back-wrap")}>
+      {/* 결제 실패시 x버튼 */}
       {type === "fail" ? (
         <CloseOutlined
           onClick={() => {
@@ -15,6 +20,7 @@ const BackButton = ({ type }: { type?: string }) => {
           }}
         />
       ) : (
+        // 나머진 < 버튼
         <LeftOutlined
           onClick={() => {
             router.back();

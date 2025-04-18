@@ -224,7 +224,7 @@ export const MyPageStyled = styled.div`
     display: none;
   }
 
-  /* ✅ 반응형 설정 */
+  /* 반응형 설정 */
   @media screen and (max-width: 768px) {
     .mobile-profile-menu {
       display: flex;

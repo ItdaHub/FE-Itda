@@ -1,13 +1,12 @@
 import CashCharge from "@/features/CashCharge";
 import { Modal } from "antd";
 
-const PopcornModal = ({
-  modalOpen,
-  setModalOpen,
-}: {
+interface PopcornProps {
   modalOpen: boolean;
   setModalOpen: any;
-}) => {
+}
+
+const PopcornModal = ({ modalOpen, setModalOpen }: PopcornProps) => {
   return (
     <>
       {/* 결제할 팝콘 모달창 */}

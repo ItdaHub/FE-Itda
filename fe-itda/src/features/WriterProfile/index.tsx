@@ -8,13 +8,12 @@ import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
 import profileStactic from "@/assets/images/img_profile_static.svg";
 
-const WriterProfile = ({
-  nickname,
-  writerId,
-}: {
+interface WriterProfileProps {
   nickname: string;
   writerId: number;
-}) => {
+}
+
+const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
 

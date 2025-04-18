@@ -2,7 +2,12 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import { EpisodeStyled } from "./styled";
 
-const Episode = ({ item }: { item: any }) => {
+interface ItemProps {
+  item: any;
+}
+
+// 각 챕터 박스
+const Episode = ({ item }: ItemProps) => {
   return (
     <EpisodeStyled className={clsx("episode-wrap")}>
       <div color="episode-num">{item.chapter_number}화</div>

@@ -13,7 +13,7 @@ const RandomPassword = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ query의 주소에서 이메일 가져오기
+  // query의 주소에서 이메일 가져오기
   useEffect(() => {
     if (router.query.email) {
       setEmail(router.query.email as string);

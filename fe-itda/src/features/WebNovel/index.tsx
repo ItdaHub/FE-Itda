@@ -74,6 +74,7 @@ const WebNovel = ({
               (e.target as HTMLImageElement).src = testImage.src;
             }}
           />
+          {/* 내 찜 + 내 글 -> 호버시 소설 정보 */}
           {(type === "myfavorite" || type === "mywrite") && (
             <div className="myfavorite-overlay">
               <div className="overlay-content">
@@ -114,7 +115,7 @@ const WebNovel = ({
               : "novel-infoBox"
           }
         >
-          {/* 랭킹 숫자 */}
+          {/* 랭킹 숫자 -> 홈에만 나타남 */}
           <div className={type === "home" ? "group-on" : "group-agerank-off"}>
             <em className="group-rank">{index + 1}</em>
           </div>

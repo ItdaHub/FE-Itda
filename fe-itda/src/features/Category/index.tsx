@@ -15,19 +15,21 @@ import MyProfile from "@/components/MyProfile";
 import { logoutUser } from "../auth/logout";
 import { useAppDispatch } from "@/store/hooks";
 
+interface CategoryProps {
+  type: string;
+  setType: (type: string) => void;
+  genre: string;
+  setGenre: (genre: string) => void;
+  categories: any[][];
+}
+
 const Category = ({
   type,
   setType,
   genre,
   setGenre,
   categories,
-}: {
-  type: string;
-  setType: (type: string) => void;
-  genre: string;
-  setGenre: (genre: string) => void;
-  categories: any[][];
-}) => {
+}: CategoryProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [activeGenre, setActiveGenre] = useState<string>(genre);

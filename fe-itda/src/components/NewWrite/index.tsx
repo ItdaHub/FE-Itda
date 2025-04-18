@@ -15,17 +15,14 @@ const people = [
   { label: "9명", value: 9 },
 ];
 
-const NewWrite = ({
-  type,
-  titles,
-  genres,
-  novelId,
-}: {
+interface NewWriteProps {
   type: "new" | "relay";
   titles?: string;
   genres?: string;
   novelId?: number;
-}) => {
+}
+
+const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
   const { message } = AntdApp.useApp();
   const [categories, setCategories] = useState<object[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);

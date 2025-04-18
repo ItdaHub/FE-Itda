@@ -3,7 +3,11 @@ import { ChargeButton, NowPriceStyled, TopBox } from "./styled";
 import api from "@/utill/api";
 import PopcornModal from "../PopcornModal";
 
-const NowPrice = ({ userId }: { userId?: number }) => {
+interface userIdProps {
+  userId?: number;
+}
+
+const NowPrice = ({ userId }: userIdProps) => {
   // 현재 가지고 있는 팝콘
   const [nowPrice, setNowPrice] = useState(0);
 
@@ -26,6 +30,7 @@ const NowPrice = ({ userId }: { userId?: number }) => {
     }
   }, [userId]);
   return (
+    // 프로필 모달창의 팝콘 현재 개수
     <NowPriceStyled>
       <TopBox>
         <span className="nowprice">{nowPrice}</span>

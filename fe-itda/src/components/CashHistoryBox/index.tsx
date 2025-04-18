@@ -1,19 +1,19 @@
 import clsx from "clsx";
 import { CashHistoryBoxStyled } from "./stylde";
 
-type HistoryItem = {
+interface HistoryItem {
   title?: string;
   amount: number;
   date: string;
-};
+}
 
-const CashHistoryBox = ({
-  list,
-  type,
-}: {
+interface CashProps {
   list: HistoryItem[];
   type: string;
-}) => {
+}
+
+// 사용팝콘 or 충전내역
+const CashHistoryBox = ({ list, type }: CashProps) => {
   return (
     <CashHistoryBoxStyled className={clsx("history-wrap")}>
       {list.map((item, i) => (

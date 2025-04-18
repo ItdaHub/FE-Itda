@@ -4,7 +4,7 @@ const { Panel } = Collapse; // Panel을 Collapse에서 가져옴
 import { NoticeStyled } from "./styled";
 import clsx from "clsx";
 
-interface Props {
+interface DropdownListProps {
   title: string;
   items: {
     key: string;
@@ -13,10 +13,10 @@ interface Props {
     priorityLabel?: string;
     date: string;
   }[];
-  onChange?: (keys: string | string[]) => void; // onChange를 props로 받음
+  onChange?: (keys: string | string[]) => void;
 }
 
-const DropdownList = ({ title, items, onChange }: Props) => {
+const DropdownList = ({ title, items, onChange }: DropdownListProps) => {
   return (
     <NoticeStyled className={clsx("notice-wrap")}>
       <div className="notice-box">
@@ -36,7 +36,7 @@ const DropdownList = ({ title, items, onChange }: Props) => {
                   //   ? `[${item.priorityLabel}] ${item.title}`
                   //   : item.title
                   item.priorityLabel ? (
-                    //❗priorityLabel이 있을 때
+                    //priorityLabel이 있을 때
                     <div className="dropdown-header">
                       <div className="dropdown-header-title">
                         <span className={`label ${item.priorityLabel}`}>
@@ -49,7 +49,7 @@ const DropdownList = ({ title, items, onChange }: Props) => {
                       </div>
                     </div>
                   ) : (
-                    // ❗priorityLabel이 없을 때 (넘버링 스타일)
+                    //priorityLabel이 없을 때 (넘버링 스타일)
                     <div className="dropdown-header">
                       <div className="dropdown-header-title">
                         <span className="label no-priority">{index + 1}</span>

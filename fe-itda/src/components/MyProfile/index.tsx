@@ -2,13 +2,12 @@ import { useRouter } from "next/router";
 import { NickBox } from "./styled";
 import nickarrow from "@/assets/images/nick_arrow.svg";
 
-const MyProfile = ({
-  setVisible,
-  userNickName,
-}: {
+interface MyProfileProps {
   setVisible?: any;
   userNickName?: string;
-}) => {
+}
+
+const MyProfile = ({ setVisible, userNickName }: MyProfileProps) => {
   const router = useRouter();
 
   return (

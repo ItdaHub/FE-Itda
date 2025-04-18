@@ -166,7 +166,7 @@ const MypageEdit = ({ currentNickname }: Props) => {
 
     let updated = false;
 
-    // // ✅ 1. 기본 이미지로 설정된 경우: 삭제 요청
+    // //  1. 기본 이미지로 설정된 경우: 삭제 요청
     // if (!image && !profileImagePreview && user?.profile_img) {
     //   try {
     //     await api.delete("/users/me/profile-image");

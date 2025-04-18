@@ -15,20 +15,21 @@ const ageGroups = [
   { label: "40대", value: "forties", number: 40 },
 ];
 
+interface WebNovelGroupProps {
+  title: string;
+  type?: string;
+  genre?: string;
+  ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
+}
+
+// 소설 그룹
 const WebNovelGroup = ({
   title,
   type,
   genre,
   ageSelect,
-}: {
-  title: string;
-  type?: string;
-  genre?: string;
-  ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
-}) => {
+}: WebNovelGroupProps) => {
   const [novels, setNovels] = useState<any[]>([]);
-  const router = useRouter();
-  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchNovels = async () => {
@@ -36,12 +37,15 @@ const WebNovelGroup = ({
         let response;
 
         if (type === "mywrite") {
+          // 내가 쓴글
           response = await api.get("/novels/my");
         } else if (type === "myfavorite") {
+          // 내 찜
           response = await api.get("/likes/my-likes");
         } else if (type === "home") {
-          // 홈화면: 통합 랭킹 또는 연령별 랭킹
+          // 홈화면
           if (ageSelect?.selectedAge) {
+            // 연령별 랭킹
             const ageNum = ageGroups.find(
               (age) => age.value === ageSelect.selectedAge
             )?.number;
@@ -49,9 +53,11 @@ const WebNovelGroup = ({
               params: { age: Number(ageNum) },
             });
           } else {
+            // 통합 랭킹
             response = await api.get("/novels/rankings");
           }
         } else {
+          // 장르
           const params: any = {};
 
           if (type) params.type = type;
@@ -59,7 +65,6 @@ const WebNovelGroup = ({
           const ageValues = ageGroups.map((age) => age.value);
           if (genre && genre !== "all" && !ageValues.includes(genre)) {
             params.genre = genre;
-            console.log("보낼 params:", params);
           }
 
           if (ageSelect?.selectedAge) {
@@ -106,6 +111,7 @@ const WebNovelGroup = ({
           </div>
 
           <div className="group-agecategory">
+            {/* 연령 카테고리 */}
             {ageSelect && (
               <div className="group-ageTabs">
                 {ageGroups.map((age) => (
@@ -132,6 +138,7 @@ const WebNovelGroup = ({
                   type === "home" ? "group-rank-on" : ""
                 }`}
               >
+                {/* 소설 정보 */}
                 <WebNovel
                   title={novel.title}
                   genre={novel.genre}

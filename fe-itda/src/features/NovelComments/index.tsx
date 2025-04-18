@@ -34,6 +34,7 @@ const content = (
   </div>
 );
 
+// 댓글
 const NovelComments = ({
   chapterId,
   novelId,
@@ -62,12 +63,14 @@ const NovelComments = ({
     try {
       let endpoint = "";
       if (type === "chapter") {
+        // 챕터인경우
         if (!chapterId) {
           console.warn("chapter 타입인데 chapterId가 없습니다.");
           return;
         }
         endpoint = `/comments/chapter/${chapterId}`;
       } else {
+        // 소설부분인 경우
         if (novelId === undefined || novelId === null) {
           console.log(novelId);
           console.warn("novel 타입인데 novelId가 없습니다.");
@@ -94,7 +97,7 @@ const NovelComments = ({
         };
       });
 
-      // ✅ 부모 댓글만 좋아요 순 + 최신순으로 정렬
+      // 부모 댓글만 좋아요 순 + 최신순으로 정렬
       const sortedParents = mappedData
         .filter((item) => item.parentId === null)
         .sort((a, b) => {
@@ -104,7 +107,7 @@ const NovelComments = ({
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
 
-      // ✅ 대댓글은 기존 순서 유지
+      // 대댓글은 기존 순서 유지
       const replies = mappedData.filter((item) => item.parentId !== null);
 
       setReviews([...sortedParents, ...replies]);
@@ -113,7 +116,7 @@ const NovelComments = ({
     }
   }, [novelId, chapterId, type, user?.id]);
 
-  // ✅ useEffect로 댓글 불러오기 실행
+  // useEffect로 댓글 불러오기 실행
   useEffect(() => {
     fetchReviews();
   }, [fetchReviews]);
@@ -126,6 +129,7 @@ const NovelComments = ({
           {type === "chapter" ? "댓글" : "작품리뷰"}{" "}
           {reviews.filter((item) => item.parentId === null).length}
         </div>
+        {/* 댓글 안내 */}
         <Popover
           placement="bottom"
           content={content}

@@ -14,7 +14,7 @@ const MyDocument = ({ styles }: any) => {
       <body>
         <Main />
         <NextScript />
-        {styles} {/* 스타일을 추가합니다 */}
+        {styles} {/* 스타일을 추가 */}
       </body>
     </Html>
   );
@@ -24,13 +24,13 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const sheet = new ServerStyleSheet();
   const originalRenderPage = ctx.renderPage;
   try {
-    // 페이지 렌더링 중에 styled-components 스타일을 수집합니다.
+    // 페이지 렌더링 중에 styled-components 스타일을 수집
     ctx.renderPage = () =>
       originalRenderPage({
         enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
       });
-    // 기본 Document의 초기 props를 가져옵니다.
-    const initialProps = await Document.getInitialProps(ctx); // 여전히 Next.js에서 제공하는 방식
+    // 기본 Document의 초기 props를 가져옴
+    const initialProps = await Document.getInitialProps(ctx); // Next.js에서 제공하는 방식
     return {
       ...initialProps,
       styles: (
@@ -41,7 +41,7 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
       ),
     };
   } finally {
-    sheet.seal(); // styled-components의 sheet를 봉인합니다.
+    sheet.seal(); // styled-components의 sheet를 봉인
   }
 };
 export default MyDocument;

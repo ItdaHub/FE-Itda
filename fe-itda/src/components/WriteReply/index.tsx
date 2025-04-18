@@ -6,17 +6,20 @@ import { useAppSelector } from "@/store/hooks";
 import { useState } from "react";
 import { App as AntdApp } from "antd";
 
+interface WriterReplyProps {
+  isVisible: boolean;
+  setIsVisible: any;
+  parentId: number;
+  refreshComments?: () => Promise<void>;
+}
+
+// 자식 답글
 const WriteReply = ({
   isVisible,
   setIsVisible,
   parentId,
   refreshComments,
-}: {
-  isVisible: boolean;
-  setIsVisible: any;
-  parentId: number;
-  refreshComments?: () => Promise<void>;
-}) => {
+}: WriterReplyProps) => {
   const { message } = AntdApp.useApp();
 
   // 유저 가져오기

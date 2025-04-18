@@ -60,7 +60,7 @@ const FindPwPage = () => {
         setFindIt(foundEmail);
         setErrorMessage("");
 
-        // ✅ 쿼리 파라미터
+        // 쿼리 파라미터
         router.push(`/randompass?email=${encodeURIComponent(foundEmail)}`);
       } else {
         setFindIt("");

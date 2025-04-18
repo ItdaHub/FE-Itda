@@ -25,15 +25,17 @@ type ChapterResponse = {
   isLastChapter: boolean;
 };
 
+interface ReadBookProps {
+  novelId: number;
+  chapterId: number;
+  isFromPaidClick?: boolean;
+}
+
 const ReadBook = ({
   novelId,
   chapterId,
   isFromPaidClick = false,
-}: {
-  novelId: number;
-  chapterId: number;
-  isFromPaidClick?: boolean;
-}) => {
+}: ReadBookProps) => {
   const [contentList, setContentList] = useState<Content[]>([]);
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
@@ -54,6 +56,7 @@ const ReadBook = ({
     return content?.isPaid;
   };
 
+  // 읽을 소설 불러오기 요청
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -69,15 +72,17 @@ const ReadBook = ({
           isLastChapter,
         } = response.data;
 
+        // 내용
         setContentList(slides);
+        // 작가
         setAuthorNickname(authorNickname);
         setWriterId(writerId);
+        // 현재 회차
         setChapterNumber(chapterNumber);
-        setIsLastChapter(isLastChapter); // 마지막 화 여부 상태 저장
-
+        // 마지막 화 여부 상태
+        setIsLastChapter(isLastChapter);
         // 1화면 버튼 비활성화
         setIsDisabled(chapterNumber === 1);
-
         // 마지막화면 버튼 비활성화
         setIsNextDisabled(isLastChapter);
 
@@ -121,12 +126,14 @@ const ReadBook = ({
     }
   };
 
+  // 이전화
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
       router.push(`/chapter/${currentChapterId - 1}?novelId=${novelId}`);
     }
   };
 
+  // 다음화
   const goToNextChapter = () => {
     router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
   };

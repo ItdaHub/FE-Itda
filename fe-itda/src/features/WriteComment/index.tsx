@@ -7,9 +7,9 @@ import { useAppSelector } from "../../store/hooks";
 const WriteComment = ({
   novelId,
   chapterId,
-  parentId, // ✅ 대댓글일 경우 부모 댓글 ID
+  parentId, // 대댓글일 경우 부모 댓글 ID
   refreshComments,
-  onWriteComplete, // ✅ 대댓글 작성 후 실행될 콜백
+  onWriteComplete, // 대댓글 작성 후 실행될 콜백
 }: {
   novelId?: number;
   chapterId?: number;
@@ -40,7 +40,7 @@ const WriteComment = ({
         content: comment,
         novelId,
         chapterId,
-        parentId, // 대댓글일 경우 포함됨
+        parentId, // 대댓글일 경우 포함
       });
       console.log("댓글 작성 성공:", response.data);
 

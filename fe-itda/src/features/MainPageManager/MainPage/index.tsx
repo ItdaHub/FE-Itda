@@ -68,6 +68,7 @@ const MainPage = () => {
         setGenre={setGenre}
         categories={categories}
       />
+      {/* Top버튼 + 글쓰기 */}
       {isMobile ? (
         <FloatButton
           icon={
