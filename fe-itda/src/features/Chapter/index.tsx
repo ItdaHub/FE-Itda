@@ -6,13 +6,13 @@ import { ChapterStyled } from "./styled";
 import { useRouter } from "next/router";
 
 interface NovelIdProps {
+  chapterId: number;
   novelId: number;
 }
 
 // 1화 이런거 누르면 해당 챕터의 소설 내용볼 수 있음
-const Chapter = ({ novelId }: NovelIdProps) => {
+const Chapter = ({ chapterId, novelId }: NovelIdProps) => {
   const router = useRouter();
-  const chapterId = Number(router.query.id);
 
   if (!chapterId || isNaN(chapterId)) return null;
 

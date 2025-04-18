@@ -10,7 +10,7 @@ import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
 import { useRouter } from "next/router";
 import { LeftOutlined, MenuOutlined, RightOutlined } from "@ant-design/icons";
-import { message } from "antd";
+import { App as AntdApp } from "antd";
 
 type Content = {
   text: string;
@@ -45,11 +45,10 @@ const ReadBook = ({
   const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
   const [isDisabled, setIsDisabled] = useState(false);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
+  const { message } = AntdApp.useApp();
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
-
-  const swiperRef = useRef<SwiperCore>();
   const ignoreNextSlide = useRef(false);
 
   const isPaidContent = (index: number) => {
@@ -64,6 +63,8 @@ const ReadBook = ({
         const response = await api.get<ChapterResponse>(
           `/chapters/content/${novelId}/${chapterId}`
         );
+
+        console.log(response.data);
 
         const {
           slides,
@@ -92,11 +93,6 @@ const ReadBook = ({
           isFromPaidClick && isPaidContent(matchedIndex) ? 0 : matchedIndex;
 
         setCurrentIndex(displayIndex);
-
-        if (swiperRef.current) {
-          ignoreNextSlide.current = true;
-          swiperRef.current.slideTo(displayIndex);
-        }
 
         if (isFromPaidClick && isPaidContent(matchedIndex)) {
           alert("유료 화입니다. 결제 후 열람 가능합니다.");
@@ -128,6 +124,7 @@ const ReadBook = ({
   // 이전화
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
+      chapterId = currentChapterId - 1;
       router.push(`/chapter/${currentChapterId - 1}?novelId=${novelId}`);
     }
   };
