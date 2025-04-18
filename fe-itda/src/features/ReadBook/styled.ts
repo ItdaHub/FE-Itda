@@ -7,14 +7,6 @@ export const ReadBookStyled = styled.div`
     box-sizing: border-box;
     margin: 0 auto;
 
-    .readbook-book {
-      display: flex;
-      min-height: 500px;
-      position: relative;
-      background-color: ${({ theme }) => theme.colors.background};
-      border: 1px solid #e0e0e0;
-    }
-
     .readbook-page {
       width: 50%;
       padding: 32px 24px;
@@ -56,6 +48,9 @@ export const ReadBookStyled = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
+      word-break: break-word;
+      background-color: ${({ theme }) => theme.colors.background};
+      border: 1px solid #e0e0e0;
     }
 
     .chapter-number {
@@ -104,16 +99,8 @@ export const ReadBookStyled = styled.div`
     }
 
     @media (max-width: 768px) {
-      .readbook-book {
-        flex-direction: column;
-      }
-
       .readbook-page {
         width: 100%;
-      }
-
-      .readbook-book::before {
-        display: none;
       }
     }
   }

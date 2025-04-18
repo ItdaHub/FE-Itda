@@ -169,34 +169,25 @@ const ReadBook = ({
           </button>
         </div>
       </div>
-      <Swiper
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        onSlideChange={handleSlideChange}
-        modules={[Navigation]}
-        navigation
-        allowTouchMove={true}
-        initialSlide={currentIndex}
-      >
+      <div className="readbook-page full">
         {contentList.map((content, idx) => (
-          <SwiperSlide key={idx}>
+          <>
             {!isPaidContent(idx) ? (
-              <div className="readbook-book">
-                <div className="readbook-page full">
-                  {/* 회차 번호 */}
-                  {chapterNumber !== null && idx === 0 && (
-                    <div className="chapter-number">{chapterNumber}화</div>
-                  )}
-                  {content.text}
-                </div>
-              </div>
+              <>
+                {/* 회차 번호 */}
+                {chapterNumber !== null && idx === 0 && (
+                  <div className="chapter-number">{chapterNumber}화</div>
+                )}
+                <div className="chapter-text">{content.text}</div>
+              </>
             ) : (
-              <div className="readbook-book locked">
-                <div className="readbook-page full">🔒 유료 콘텐츠입니다.</div>
-              </div>
+              <div className="readbook-book locked">🔒 유료 콘텐츠입니다.</div>
             )}
-          </SwiperSlide>
+            <br />
+            <br />
+          </>
         ))}
-      </Swiper>
+      </div>
 
       {writerId !== null && (
         <WriterProfile nickname={authorNickname} writerId={writerId} />
