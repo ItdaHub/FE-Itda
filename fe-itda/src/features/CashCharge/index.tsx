@@ -4,6 +4,7 @@ import popcornDetail from "@/assets/images/popcorn_detail.png";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
 import { useAppSelector } from "@/store/hooks";
 import api from "@/utill/api";
+import { message } from "antd";
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 
@@ -20,7 +21,7 @@ const CashCharge = () => {
 
   const requestPayments = async ({ price }: { price: number }) => {
     if (!userId) {
-      alert("로그인이 필요합니다.");
+      message.warning("로그인이 필요합니다.");
       return;
     }
 
@@ -50,7 +51,7 @@ const CashCharge = () => {
       });
     } catch (err) {
       console.error("결제 요청 중 오류:", err);
-      alert("결제를 시작할 수 없습니다.");
+      message.error("결제를 시작할 수 없습니다.");
     }
   };
 

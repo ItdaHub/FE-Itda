@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
+import { message } from "antd";
 
 interface NovelInfoProps {
   data?: number;
@@ -69,7 +70,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   // 좋아요 누르기
   const toggleLike = async () => {
     if (!user) {
-      alert("로그인이 필요합니다.");
+      message.warning("로그인이 필요합니다.");
       return;
     }
 
@@ -81,14 +82,14 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
       setLikeCount((prev) => (isNowLiked ? prev + 1 : Math.max(prev - 1, 0)));
     } catch (error) {
       console.error("좋아요 상태 변경 실패", error);
-      alert("좋아요 처리 중 문제가 발생했어요. 다시 시도해주세요.");
+      message.error("좋아요 처리 중 문제가 발생했어요. 다시 시도해주세요.");
     }
   };
 
   // 이어쓰기 버튼 클릭시
   const handleParticipateClick = async () => {
     if (!user) {
-      alert("로그인이 필요합니다.");
+      message.warning("로그인이 필요합니다.");
       return;
     }
 
@@ -99,7 +100,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
       const alreadyParticipated = res.data.hasParticipated;
 
       if (alreadyParticipated) {
-        alert("이미 이어쓰기한 소설입니다.");
+        message.info("이미 이어쓰기한 소설입니다.");
         return;
       }
 
@@ -108,7 +109,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
       );
     } catch (e) {
       console.error("참여 여부 확인 실패: ", e);
-      alert("참여 여부 확인 중 문제가 발생했어요.");
+      message.error("참여 여부 확인 중 문제가 발생했어요.");
     }
   };
 

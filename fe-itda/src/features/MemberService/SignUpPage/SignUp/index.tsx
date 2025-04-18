@@ -87,9 +87,9 @@ const SignUp = () => {
   const checkNickName = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     validationNickName(nickName);
-    const isValid = nickName.length >= 2 && nickName.length <= 8;
+    const isValid = nickName.length >= 2 && nickName.length <= 12;
     if (!isValid) {
-      setNickNameError("닉네임은 2~8자 사이여야 합니다.");
+      setNickNameError("닉네임은 2~12자 사이여야 합니다.");
       return;
     }
     setDisabled(true);
@@ -140,8 +140,8 @@ const SignUp = () => {
       setNickNameError("닉네임을 입력해주세요.");
     } else if (nickName.length < 2) {
       setNickNameError("닉네임은 최소 2자 이상이어야 합니다.");
-    } else if (nickName.length > 8) {
-      setNickNameError("닉네임은 최대 8자 까지 가능합니다.");
+    } else if (nickName.length > 12) {
+      setNickNameError("닉네임은 최대 12자 까지 가능합니다.");
     } else setNickNameError("");
   };
 

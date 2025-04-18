@@ -173,7 +173,7 @@ const Category = ({
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           keyword.trim() === ""
-                            ? alert("검색어를 입력해주세요")
+                            ? message.warning("검색어를 입력해주세요")
                             : router.push(
                                 `/search?keyword=${encodeURIComponent(keyword)}`
                               );
@@ -270,7 +270,6 @@ const Category = ({
               className="sidebar-logout"
               onClick={() => {
                 dispatch(logoutUser()); // 서버 요청 + 상태 초기화
-                alert("로그아웃되었습니다!");
                 router.push("/"); // 메인페이지로 이동
               }}
             >
