@@ -22,28 +22,24 @@ import Swal from "sweetalert2";
 
 interface MypageViewProps {
   image: File | null;
-  profileStactic: string;
+  profileStatic: string;
   nickName: string;
-  setNickName: (value: string) => void;
   email: string;
   name: string;
   type: string;
   birth: string;
   phoneNumber: string;
-  setPhoneNumber: (value: string) => void;
 }
 
 const MypageView = ({
   image,
-  profileStactic,
+  profileStatic,
   nickName,
-  setNickName,
   email,
   name,
   type,
   birth,
   phoneNumber,
-  setPhoneNumber,
 }: MypageViewProps) => {
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
@@ -129,8 +125,7 @@ const MypageView = ({
         <div className="subprofile-basic">
           <div>기본정보</div>
           <ProfileImage
-            image={image}
-            profileStatic={profileStactic}
+            profileStatic={profileStatic}
             nickName={nickName}
             email={email}
             type="contain"
@@ -233,7 +228,7 @@ const MypageView = ({
                 className="userEdit"
                 type="text"
                 value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
+                readOnly
               />
             </div>
 
@@ -260,7 +255,6 @@ const MypageView = ({
                   className="userEdit"
                   type="tel"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
                   readOnly
                 />
               ) : (

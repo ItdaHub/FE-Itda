@@ -5,16 +5,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 interface MypageSidebarProps {
-  image: File | null;
-  profileStactic: string;
+  profileStatic: string;
   nickName: string;
   email: string;
   handleLogout: () => void;
 }
 
 const MypageSidebar = ({
-  image,
-  profileStactic,
+  profileStatic,
   nickName,
   email,
   handleLogout,
@@ -26,7 +24,6 @@ const MypageSidebar = ({
   const [clickButton, setClickButton] = useState("profile");
 
   useEffect(() => {
-    console.log(clickButton, "기본값");
     if (tab === "profile") {
       setClickButton("profile");
     } else if (tab === "edit") {
@@ -58,8 +55,7 @@ const MypageSidebar = ({
       <div>
         {/* 내정보 sidebar 프로필 이미지 */}
         <ProfileImage
-          image={image}
-          profileStatic={profileStactic}
+          profileStatic={profileStatic}
           nickName={nickName}
           email={email}
           type="sidebar"
