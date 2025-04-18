@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const NovelInfoStyled = styled.div`
   &.novelinfo-wrap {
+    .ongoing-text {
+      color: ${({ theme }) => theme.colors.profile};
+    }
     .novelinfo-wrap-box {
       border-bottom: 1px solid #ebebeb;
       width: 100%;
