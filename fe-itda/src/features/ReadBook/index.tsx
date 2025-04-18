@@ -171,7 +171,7 @@ const ReadBook = ({
       </div>
       <div className="readbook-page full">
         {contentList.map((content, idx) => (
-          <>
+          <div key={idx} className="readbook-chapnum">
             {!isPaidContent(idx) ? (
               <>
                 {/* 회차 번호 */}
@@ -185,7 +185,7 @@ const ReadBook = ({
             )}
             <br />
             <br />
-          </>
+          </div>
         ))}
       </div>
 

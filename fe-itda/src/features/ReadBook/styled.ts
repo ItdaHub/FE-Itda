@@ -45,12 +45,14 @@ export const ReadBookStyled = styled.div`
       white-space: pre-line;
       min-height: 500px;
       box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       word-break: break-word;
       background-color: ${({ theme }) => theme.colors.background};
       border: 1px solid #e0e0e0;
+      .readbook-chapnum {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .chapter-number {
