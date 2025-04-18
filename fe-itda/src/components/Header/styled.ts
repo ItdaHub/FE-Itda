@@ -2,21 +2,20 @@ import styled from "styled-components";
 
 export const HeaderStyled = styled.div`
   &.header-wrap {
+    width: 100vw;
     border-bottom: 1px solid rgb(213, 213, 213);
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
     z-index: 1000;
     background-color: ${({ theme }) => theme.colors.background};
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       max-width: 1020px;
       margin: 0 auto;
-      padding: 0 10px;
+      padding-right: 30px;
       min-height: 100px;
 
       .header-logoBox {

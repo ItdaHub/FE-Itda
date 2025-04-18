@@ -23,7 +23,7 @@ const BackButton = ({ type }: TypeProps) => {
         // 나머진 < 버튼
         <LeftOutlined
           onClick={() => {
-            router.back();
+            router.push("/");
           }}
         />
       )}

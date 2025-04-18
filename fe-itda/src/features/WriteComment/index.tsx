@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { WriteCommentStyled } from "./styled";
-import { SendOutlined } from "@ant-design/icons";
+import { InfoCircleFilled, SendOutlined } from "@ant-design/icons";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
 

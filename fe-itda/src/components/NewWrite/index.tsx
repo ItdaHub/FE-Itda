@@ -329,6 +329,14 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                     options={people}
                     placeholder="인원수"
                   />
+                  <span className="newWrite-people-info">
+                    <InfoCircleFilled
+                      style={{ fontSize: "12px", color: "#acacac" }}
+                    />
+                    <span className="newWrite-people">
+                      같이 소설 이어쓰기할 인원수를 선택해주세요.
+                    </span>
+                  </span>
                 </div>
 
                 <div className="newWrite-title">

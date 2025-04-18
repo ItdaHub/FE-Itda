@@ -38,6 +38,16 @@ export const NewWriteStyled = styled.div`
 
         .newWrite-category {
           margin: 0px 3px 3px 30px;
+          display: flex;
+          align-items: center;
+          .newWrite-people-info {
+            margin-left: 10px;
+            .newWrite-people {
+              color: rgb(134, 134, 134);
+              font-size: 12px;
+              margin-left: 3px;
+            }
+          }
         }
         .newWrite-title {
           max-width: 430px;
