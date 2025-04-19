@@ -34,15 +34,20 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
     if (!data) return;
 
     const getNovelDetail = async () => {
-      // 소설 가져오기 요청
       try {
         const res = await api.get(`/novels/${data}`, {
           params: user ? { userId: user.id } : {},
         });
 
         const novelData = res.data;
-
         console.log("상태가 담겨있나", novelData);
+
+        const status =
+          novelData.status === "submitted"
+            ? "completed"
+            : novelData.nextChapterNumber - 1 === novelData.peopleNum
+            ? "completed"
+            : "ongoing";
 
         setNovel({
           img: novelData.image || test.src,
@@ -58,10 +63,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
               ].join(", ")
             : "작가 미상",
           isLiked: novelData.isLiked ?? false,
-          status:
-            novelData.nextChapterNumber - 1 === novelData.peopleNum
-              ? "completed"
-              : "ongoing",
+          status,
         });
 
         setLiked(novelData.isLiked ?? false);
@@ -76,7 +78,6 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
     getNovelDetail();
   }, [data, user]);
 
-  // 좋아요 누르기
   const toggleLike = async () => {
     if (!user) {
       message.warning("로그인이 필요합니다.");
@@ -96,7 +97,6 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
     }
   };
 
-  // 이어쓰기 버튼 클릭시
   const handleParticipateClick = async () => {
     if (!user) {
       message.warning("로그인이 필요합니다.");
@@ -127,19 +127,16 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   return (
     <NovelInfoStyled className={clsx("novelinfo-wrap")}>
       <div className="novelinfo-wrap-box">
-        {/* 소설 이미지 */}
         <img className="novelinfo-img" src={novel.img} alt={novel.title} />
         <div className="novelinfo-infobox">
           <div className="novelinfo-box">
             <div className="novelinfo-text-box">
-              {/* 소설 정보 */}
               <div>
                 <h2>{novel.title}</h2>
                 <p className="novelinfo-text">{novel.genre}</p>
                 <p className="novelinfo-text">{novel.author}</p>
               </div>
             </div>
-            {/* 좋아요 및 카카오공유 */}
             <div className="novelinfo-like-wrap">
               <div className="novelinfo-like-box" onClick={toggleLike}>
                 {liked ? (
@@ -154,7 +151,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
               </div>
             </div>
           </div>
-          {/* 함께하기 버튼 */}
+
           {novel.status !== "ongoing" ? (
             <div className="ongoing-text">
               이어쓰기를 완료한 소설입니다(출품여부 대기중)

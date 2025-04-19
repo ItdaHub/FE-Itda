@@ -61,6 +61,8 @@ const WebNovelGroup = ({
           if (type === "exhibit") {
             const res = await api.get("novels/published");
 
+            console.log("출품작 리스트", res.data); // ✅ 여기에서 응답 확인
+
             // 장르
             const filtered =
               genre && genre !== "all"
@@ -110,53 +112,55 @@ const WebNovelGroup = ({
 
   return (
     <WebNovelGroupStyled className={clsx("group-wrap")}>
-      <>
+      <div
+        className={`group-titlebox ${
+          type === "home" || type === "myfavorite" || type === "mywrite"
+            ? ""
+            : "titlebox-off"
+        }`}
+      >
         <div
-          className={`group-titlebox ${
-            type === "home" || type === "myfavorite" || type === "mywrite"
-              ? ""
-              : "titlebox-off"
-          }`}
+          className={
+            type === "myfavorite" || type === "mywrite"
+              ? "myfavorite-title"
+              : "group-title"
+          }
         >
-          <div
-            className={
-              type === "myfavorite" || type === "mywrite"
-                ? "myfavorite-title"
-                : "group-title"
-            }
-          >
-            {title}
-          </div>
-
-          <div className="group-agecategory">
-            {/* 연령 카테고리 */}
-            {ageSelect && (
-              <div className="group-ageTabs">
-                {ageGroups.map((age) => (
-                  <span
-                    key={age.value}
-                    className={clsx("group-ageTab", {
-                      active: ageSelect.selectedAge === age.value,
-                    })}
-                    onClick={() => ageSelect.setSelectedAge(age.value)}
-                  >
-                    {age.label}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          {title}
         </div>
-        {novels.length !== 0 ? (
-          <div className="group-row">
-            {novels.map((novel, i) => (
+
+        <div className="group-agecategory">
+          {/* 연령 카테고리 */}
+          {ageSelect && (
+            <div className="group-ageTabs">
+              {ageGroups.map((age) => (
+                <span
+                  key={age.value}
+                  className={clsx("group-ageTab", {
+                    active: ageSelect.selectedAge === age.value,
+                  })}
+                  onClick={() => ageSelect.setSelectedAge(age.value)}
+                >
+                  {age.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      {novels.length !== 0 ? (
+        <div className="group-row">
+          {novels.map((novel, i) => {
+            const statusBasedType =
+              novel.status === "submitted" ? "exhibit" : type;
+
+            return (
               <div
                 key={i}
                 className={`group-each ${
                   type === "home" ? "group-rank-on" : ""
                 }`}
               >
-                {/* 소설 정보 */}
                 <WebNovel
                   title={novel.title}
                   genre={novel.genre}
@@ -168,19 +172,19 @@ const WebNovelGroup = ({
                       : 0
                   }
                   imageUrl={novel.imageUrl}
-                  type={type}
+                  type={statusBasedType}
                   index={i}
                   id={novel.id}
                   views={novel.viewCount}
                   createdAt={novel.created_at}
                 />
               </div>
-            ))}
-          </div>
-        ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-        )}
-      </>
+            );
+          })}
+        </div>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      )}
     </WebNovelGroupStyled>
   );
 };
