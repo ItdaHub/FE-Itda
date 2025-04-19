@@ -1,8 +1,18 @@
 import { useState } from "react";
 import { WriteCommentStyled } from "./styled";
-import { InfoCircleFilled, SendOutlined } from "@ant-design/icons";
+import { SendOutlined } from "@ant-design/icons";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
+import { App as AntdApp } from "antd";
+import { useRouter } from "next/router";
+
+interface WriteCommentProps {
+  novelId?: number;
+  chapterId?: number;
+  parentId?: number;
+  refreshComments?: () => void;
+  onWriteComplete?: () => void;
+}
 
 const WriteComment = ({
   novelId,
@@ -10,13 +20,10 @@ const WriteComment = ({
   parentId, // 대댓글일 경우 부모 댓글 ID
   refreshComments,
   onWriteComplete, // 대댓글 작성 후 실행될 콜백
-}: {
-  novelId?: number;
-  chapterId?: number;
-  parentId?: number;
-  refreshComments?: () => void;
-  onWriteComplete?: () => void;
-}) => {
+}: WriteCommentProps) => {
+  const { message } = AntdApp.useApp();
+  const router = useRouter();
+
   // 유저 정보 가져오기
   const user = useAppSelector((state) => state.auth.user);
 
@@ -34,23 +41,28 @@ const WriteComment = ({
     // 댓글이 없으면 요청 x
     if (writeNum < 1) return;
 
-    try {
-      const response = await api.post("/comments", {
-        userId: user?.id,
-        content: comment,
-        novelId,
-        chapterId,
-        parentId, // 대댓글일 경우 포함
-      });
-      console.log("댓글 작성 성공:", response.data);
+    if (!user) {
+      message.warning("로그인이 필요합니다.");
+      router.push("/login");
+    } else {
+      try {
+        const response = await api.post("/comments", {
+          userId: user?.id,
+          content: comment,
+          novelId,
+          chapterId,
+          parentId, // 대댓글일 경우 포함
+        });
+        console.log("댓글 작성 성공:", response.data);
 
-      setComment("");
-      setWriteNum(0);
+        setComment("");
+        setWriteNum(0);
 
-      refreshComments?.(); // 목록 새로고침
-      onWriteComplete?.(); // 부모 댓글 열기 처리
-    } catch (e) {
-      console.error("댓글 작성 실패:", e);
+        refreshComments?.(); // 목록 새로고침
+        onWriteComplete?.(); // 부모 댓글 열기 처리
+      } catch (e) {
+        console.error("댓글 작성 실패:", e);
+      }
     }
   };
 

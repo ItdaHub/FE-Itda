@@ -31,6 +31,20 @@ export const CategoryStyled = styled.div`
           font-weight: bold;
         }
       }
+
+      .mobile-btn {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .write-btn {
+          display: none;
+        }
+
+        .mobile-btn {
+          display: block;
+        }
+      }
     }
 
     .category-onwrap {
@@ -121,12 +135,8 @@ export const CategoryStyled = styled.div`
         background: #fff;
         padding: 20px 20px 90px 20px;
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        transform: translateX(100%);
+        transform: translateX(0%);
         transition: transform 0.3s ease-in-out;
-
-        @media (max-width: 768px) {
-          transform: translateX(0%);
-        }
 
         &.closing {
           transform: translateX(100%);

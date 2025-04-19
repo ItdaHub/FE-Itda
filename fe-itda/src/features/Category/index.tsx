@@ -42,7 +42,6 @@ const Category = ({
 
   const isLoggedIn = !!user;
 
-  const [isMobile, setIsMobile] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [sidebarOpenClass, setSidebarOpenClass] = useState(false);
@@ -57,34 +56,6 @@ const Category = ({
       setSidebarClosing(false);
     }, 300);
   };
-
-  // 반응형 감지
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      setShowSearch(false);
-    };
-
-    if (!isMobile && showSidebar) {
-      setShowSidebar(false);
-    }
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, [isMobile, showSidebar]);
-
-  useEffect(() => {
-    if (showSidebar) {
-      // 다음 렌더링에서 open 클래스를 추가
-      requestAnimationFrame(() => {
-        setSidebarOpenClass(true);
-      });
-    } else {
-      setSidebarOpenClass(false);
-    }
-  }, [showSidebar]);
 
   // 첫 번째 카테고리
   const categoryItems: TabsProps["items"] = categories[0]?.map((item) => ({
@@ -133,6 +104,7 @@ const Category = ({
   // 새로쓰기 버튼 클릭
   const handleWriteClick = () => {
     if (!isLoggedIn) {
+      message.warning("로그인이 필요합니다.");
       router.push("/login");
       return;
     }
@@ -159,52 +131,51 @@ const Category = ({
             />
 
             {/* 새로쓰기 버튼 부분 */}
-            {isMobile ? (
-              <div className="mobile-btn">
-                {/* 검색창 */}
-                {showSearch && (
-                  <div className="search-input-wrapper">
-                    <input
-                      className="search-input"
-                      type="text"
-                      placeholder="제목을 입력하세요"
-                      value={keyword}
-                      onChange={(e) => {
-                        setKeyword(e.target.value);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          keyword.trim() === ""
-                            ? message.warning("검색어를 입력해주세요")
-                            : router.push(
-                                `/search?keyword=${encodeURIComponent(keyword)}`
-                              );
-                        }
-                      }}
-                    />
-                  </div>
-                )}
-                <SearchOutlined
-                  className="search-icon"
-                  onClick={() => setShowSearch(!showSearch)}
-                />
-                <MenuOutlined
-                  className="icon"
-                  onClick={() => setShowSidebar(true)}
-                />
-              </div>
-            ) : (
-              <div
-                className="write-btn"
-                onClick={handleWriteClick}
-                style={{
-                  cursor: isLoggedIn ? "pointer" : "not-allowed",
-                  opacity: isLoggedIn ? 1 : 0.5,
-                }}
-              >
-                새로쓰기
-              </div>
-            )}
+            {/* 모바일 */}
+            <div className="mobile-btn">
+              {/* 검색창 */}
+              {showSearch && (
+                <div className="search-input-wrapper">
+                  <input
+                    className="search-input"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                    value={keyword}
+                    onChange={(e) => {
+                      setKeyword(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        keyword.trim() === ""
+                          ? message.warning("검색어를 입력해주세요")
+                          : router.push(
+                              `/search?keyword=${encodeURIComponent(keyword)}`
+                            );
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              <SearchOutlined
+                className="search-icon"
+                onClick={() => setShowSearch(!showSearch)}
+              />
+              <MenuOutlined
+                className="icon"
+                onClick={() => setShowSidebar(true)}
+              />
+            </div>
+            {/* web */}
+            <div
+              className="write-btn"
+              onClick={handleWriteClick}
+              style={{
+                cursor: isLoggedIn ? "pointer" : "not-allowed",
+                opacity: isLoggedIn ? 1 : 0.5,
+              }}
+            >
+              새로쓰기
+            </div>
           </div>
         </ConfigProvider>
       </div>
@@ -213,9 +184,7 @@ const Category = ({
       {showSidebar && (
         <div className="sidebar-overlay" onClick={closeSidebar}>
           <div
-            className={`sidebar ${sidebarOpenClass ? "open" : ""} ${
-              sidebarClosing ? "closing" : ""
-            }`}
+            className={clsx("sidebar", { closing: sidebarClosing })}
             onClick={(e) => e.stopPropagation()}
           >
             <div>
