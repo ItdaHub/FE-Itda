@@ -37,7 +37,7 @@ const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
         </div>
         <MoreDropDown
           type="writer"
-          item={{ nickname, writerId }}
+          item={{ nickname, id: writerId }}
           user={user}
           setIsVisible={setIsVisible}
           isVisible={isVisible}

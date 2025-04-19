@@ -60,13 +60,12 @@ const MoreDropDown = ({
         try {
           const target =
             target_type === "comment"
-              ? `/comments/declare/${item.id}` // 댓글 axios 요청
-              : `/novels/declare/${item.id}`; // 소설 axios 요청
+              ? `/reports/comments/${item.id}` // 댓글 axios 요청
+              : `/reports/novels/${item.id}`; // 소설 axios 요청
 
           // axios 댓글 신고 요청(해당 댓글의 id)
           const response = await api.post(target, {
             reason: reportReason,
-            userId: user.id,
           });
 
           message.success("신고가 완료되었습니다.");
