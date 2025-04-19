@@ -7,15 +7,18 @@ import { useRouter } from "next/router";
 
 type EpisodeType = {
   id: number;
+  chapter_number: number;
   commentNum: number;
   createDate: string;
+  isPaid: boolean;
 };
 
 interface DataProps {
   data?: number;
+  isPublished?: boolean;
 }
 
-const NovelEpisode = ({ data }: DataProps) => {
+const NovelEpisode = ({ data, isPublished }: DataProps) => {
   const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
 
@@ -29,7 +32,7 @@ const NovelEpisode = ({ data }: DataProps) => {
       try {
         const res = await api.get(`/chapters/${data}`);
         setEpisode([...res.data].sort((a, b) => b.id - a.id));
-        console.log(res.data);
+        console.log("에피소드", res.data);
       } catch (e) {
         console.error("에피소드 가져오기 실패: ", e);
       }
@@ -74,15 +77,32 @@ const NovelEpisode = ({ data }: DataProps) => {
       </div>
 
       <ul>
-        {episode.map((item, i) => (
-          <li
-            onClick={() => router.push(`/chapter/${item.id}?novelId=${data}`)}
-            className="novelEpisode-list"
-            key={item.id}
-          >
-            <Episode item={item} />
-          </li>
-        ))}
+        {episode.map((item, i) => {
+          // 전체 에피소드 수의 2/3을 계산
+          const totalChapters = episode.length;
+          const paidChapterCount = Math.floor((totalChapters * 2) / 3);
+
+          // 2/3까지는 무료, 이후는 유료
+          const isPaid = item.chapter_number > paidChapterCount;
+          return (
+            <li
+              onClick={() => {
+                if (isPublished && isPaid) {
+                  // 유료일 경우
+                  alert("유료 회차입니다. 결제가 필요합니다.");
+                  // 결제 페이지나 모달 열기 로직으로 변경
+                } else {
+                  // 무료일 경우 바로 이동
+                  router.push(`/chapter/${item.id}?novelId=${data}`);
+                }
+              }}
+              className="novelEpisode-list"
+              key={item.id}
+            >
+              <Episode item={item} />
+            </li>
+          );
+        })}
       </ul>
     </NovelEpisodeStyled>
   );

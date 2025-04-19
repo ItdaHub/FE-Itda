@@ -61,7 +61,7 @@ const WebNovelGroup = ({
           if (type === "exhibit") {
             const res = await api.get("novels/published");
 
-            console.log("출품작 리스트", res.data); // ✅ 여기에서 응답 확인
+            console.log("출품작 리스트", res.data);
 
             // 장르
             const filtered =
@@ -178,6 +178,7 @@ const WebNovelGroup = ({
                   id={novel.id}
                   views={novel.viewCount}
                   createdAt={novel.created_at}
+                  isPublished={novel.isPublished}
                 />
               </div>
             );

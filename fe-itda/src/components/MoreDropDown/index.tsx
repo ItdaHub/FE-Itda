@@ -26,7 +26,6 @@ const MoreDropDown = ({
   setIsVisible,
   refreshComments,
 }: MoreDropProps) => {
-  console.log("item 확인:", item);
   const { message } = AntdApp.useApp();
 
   // 모달 상태 관리

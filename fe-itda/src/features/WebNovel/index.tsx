@@ -24,6 +24,7 @@ interface WebNovelProps {
   id: number;
   views?: number;
   createdAt?: string;
+  isPublished?: boolean;
 }
 
 const WebNovel = ({
@@ -36,6 +37,7 @@ const WebNovel = ({
   id,
   views,
   createdAt,
+  isPublished,
 }: WebNovelProps) => {
   const router = useRouter();
 
@@ -55,7 +57,9 @@ const WebNovel = ({
     <WebNovelStyled className="novel-wrap">
       <div
         onClick={async () => {
-          await router.push(`/noveldetail/novelcheck/${id}`);
+          await router.push(
+            `/noveldetail/novelcheck/${id}?isPublished=${isPublished}`
+          );
         }}
         className="novel-home"
       >
