@@ -124,47 +124,44 @@ const MoreDropDown = ({
   ];
   return (
     <MoreDropDwonStyled className={clsx("more-wrap")}>
-      <>
-        <Dropdown
-          menu={{
-            items: user?.nickname === item.writer ? itemDelete : itemDeclare,
-          }}
-          trigger={["click"]}
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <div className="more">
-              <MoreOutlined />
-            </div>
-          </a>
-        </Dropdown>
-
-        {/* 신고 모달 */}
-        <Modal
-          title={target_type === "comment" ? "댓글 신고" : "소설 신고"}
-          open={declareModalOpen}
-          onOk={handleReportSubmit} // 신고하기 버튼 클릭 시 제출
-          onCancel={CloseModal} // 취소 버튼 클릭 시 모달 닫기
-          okText="신고하기"
-          cancelText="취소"
-          centered
-        >
-          <div>
-            <Input.TextArea
-              rows={4}
-              value={reportReason}
-              onChange={(e) => setReportReason(e.target.value)} // 신고 사유 입력
-              placeholder="신고 사유를 입력해주세요."
-            />
-            <div style={{ marginTop: "10px", fontSize: "12px", color: "#666" }}>
-              ! 불법적인 내용이거나, 서비스 이용 목적에 부합하지 않는{" "}
-              {target_type === "comment" ? "댓글" : "소설"}을 신고해주세요.
-              신고하신 {target_type === "comment" ? "댓글" : "소설"}은
-              운영정책에 따라 처리되며, 허위 신고시 이용에 제한을 받을 수
-              있습니다.
-            </div>
+      <Dropdown
+        menu={{
+          items: user?.nickname === item.writer ? itemDelete : itemDeclare,
+        }}
+        trigger={["click"]}
+      >
+        <a onClick={(e) => e.preventDefault()}>
+          <div className="more">
+            <MoreOutlined />
           </div>
-        </Modal>
-      </>
+        </a>
+      </Dropdown>
+
+      {/* 신고 모달 */}
+      <Modal
+        title={target_type === "comment" ? "댓글 신고" : "소설 신고"}
+        open={declareModalOpen}
+        onOk={handleReportSubmit} // 신고하기 버튼 클릭 시 제출
+        onCancel={CloseModal} // 취소 버튼 클릭 시 모달 닫기
+        okText="신고하기"
+        cancelText="취소"
+        centered
+      >
+        <div>
+          <Input.TextArea
+            rows={4}
+            value={reportReason}
+            onChange={(e) => setReportReason(e.target.value)} // 신고 사유 입력
+            placeholder="신고 사유를 입력해주세요."
+          />
+          <div style={{ marginTop: "10px", fontSize: "12px", color: "#666" }}>
+            ! 불법적인 내용이거나, 서비스 이용 목적에 부합하지 않는{" "}
+            {target_type === "comment" ? "댓글" : "소설"}을 신고해주세요.
+            신고하신 {target_type === "comment" ? "댓글" : "소설"}은 운영정책에
+            따라 처리되며, 허위 신고시 이용에 제한을 받을 수 있습니다.
+          </div>
+        </div>
+      </Modal>
     </MoreDropDwonStyled>
   );
 };

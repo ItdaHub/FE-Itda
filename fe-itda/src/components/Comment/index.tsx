@@ -108,14 +108,12 @@ const Comment = ({
         </div>
         {/* 자식 댓글 */}
         {isVisible ? (
-          <>
-            <WriteReply
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
-              parentId={item.id}
-              refreshComments={refreshComments}
-            />
-          </>
+          <WriteReply
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
+            parentId={item.id}
+            refreshComments={refreshComments}
+          />
         ) : (
           <></>
         )}

@@ -54,8 +54,8 @@ const WebNovel = ({
   return (
     <WebNovelStyled className="novel-wrap">
       <div
-        onClick={() => {
-          router.push(`/noveldetail/novelcheck/${id}`);
+        onClick={async () => {
+          await router.push(`/noveldetail/novelcheck/${id}`);
         }}
         className="novel-home"
       >

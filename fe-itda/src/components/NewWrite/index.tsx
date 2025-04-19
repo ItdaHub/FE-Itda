@@ -187,6 +187,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
     }
 
     console.log("현재 이어쓰는 챕터 번호:", chapterNumber);
+    console.log("인워ㄴ수터 번호:", peopleNumber);
 
     console.log("제출 데이터:", {
       type,

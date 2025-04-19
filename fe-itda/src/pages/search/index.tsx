@@ -7,11 +7,7 @@ const search = () => {
   // 타입 가드 처리
   const keywords = typeof keyword === "string" ? keyword : "";
 
-  return (
-    <>
-      <SearchResult keyword={keywords} />
-    </>
-  );
+  return <SearchResult keyword={keywords} />;
 };
 
 export default search;

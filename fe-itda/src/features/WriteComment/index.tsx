@@ -81,7 +81,7 @@ const WriteComment = ({
               placeholder={
                 isFocused
                   ? "주제와 무관한 댓글, 악플은 삭제될 수 있습니다."
-                  : "댓글을 입력해 주세요."
+                  : "댓글 수정은 불가능하니 신중하게 작성해주세요."
               }
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}

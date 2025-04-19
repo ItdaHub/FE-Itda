@@ -96,6 +96,7 @@ const WebNovelGroup = ({
             }
 
             response = await api.get("/novels/filter", { params });
+            console.log("이어쓰기", response.data);
           }
         }
 

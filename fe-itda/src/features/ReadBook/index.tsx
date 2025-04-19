@@ -142,8 +142,8 @@ const ReadBook = ({
       <div className="readbook-nav">
         <span
           className="readbook-home"
-          onClick={() => {
-            router.push(`/noveldetail/novelcheck/${novelId}`);
+          onClick={async () => {
+            await router.push(`/noveldetail/novelcheck/${novelId}`);
           }}
         >
           목록보기
