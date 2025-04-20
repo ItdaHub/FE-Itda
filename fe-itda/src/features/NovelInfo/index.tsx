@@ -56,18 +56,15 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
               ].join(", ")
             : "작가 미상",
           isLiked: novelData.isLiked ?? false,
-          status: novelData.status || "ongoing", // 🔥 여기에서 status는 백에서 준 값을 그대로 사용
+          status: novelData.status || "ongoing",
         });
 
-        console.log("소설 상태: ", novelData.status);
-
-        setIsSubmitted(novelData.status === "submitted"); // 🔥 백에서 받은 상태로 판단
+        setIsSubmitted(novelData.status);
 
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
           typeof novelData.likeCount === "number" ? novelData.likeCount : 0
         );
-        console.log("상태가 담겨있나", res.data.status);
       } catch (e) {
         console.error("소설 가져오기 실패: ", e);
       }
@@ -151,7 +148,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
           </div>
 
           {/* 상태에 따라 버튼/메시지 표시 */}
-          {novel.status === "submitted" ? (
+          {novel.status === "completed" ? (
             <div className="ongoing-text">
               이어쓰기를 완료한 소설입니다(출품여부 대기중)
             </div>
