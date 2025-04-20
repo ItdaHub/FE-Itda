@@ -99,7 +99,7 @@ export const MypageViewStyled = styled.div`
   }
 
   .exit-user:hover {
-    background-color: #555;
+    color: rgb(230, 92, 105);
   }
 
   @media screen and (max-width: 768px) {

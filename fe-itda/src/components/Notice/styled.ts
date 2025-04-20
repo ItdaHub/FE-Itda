@@ -8,8 +8,15 @@ export const NoticeStyled = styled.div`
 
     .notice-title {
       margin-bottom: 10px;
-      text-align: center;
     }
+
+    .empty-message {
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .collapse {
       border-radius: 0;
     }
@@ -21,6 +28,10 @@ export const NoticeStyled = styled.div`
       .dropdown-header-title {
         display: flex;
         gap: 10px;
+
+        .urgent {
+          color: red;
+        }
       }
 
       .dropdown-header-date {

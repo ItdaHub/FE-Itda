@@ -82,6 +82,7 @@ const NoticePage = () => {
       title="공지사항"
       items={sortedItems}
       onChange={handleCollapseChange}
+      emptyMessage="공지사항이 없습니다."
     />
   );
 };
