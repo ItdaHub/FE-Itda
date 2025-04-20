@@ -12,9 +12,9 @@
 
 html,
 body {
+  overflow-y: scroll;
   max-width: 100vw;
   overflow-x: hidden;
-  scrollbar-gutter: stable;
 }
 
 body {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderStyled = styled.div`
   &.header-wrap {
-    width: 100vw;
+    width: 100%;
     border-bottom: 1px solid rgb(213, 213, 213);
     position: fixed;
     top: 0;
@@ -15,7 +15,7 @@ export const HeaderStyled = styled.div`
       justify-content: space-between;
       max-width: 1020px;
       margin: 0 auto;
-      padding-right: 30px;
+      padding: 0 10px;
       min-height: 100px;
 
       .header-logoBox {
