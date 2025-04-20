@@ -7,9 +7,12 @@ const NovelCheck = () => {
 
   const { id, isPublished } = router.query;
 
-  console.log(router.query);
-
-  return <NovelDetail data={Number(id)} isPublished={Boolean(isPublished)} />;
+  return (
+    <NovelDetail
+      data={Number(id)}
+      isPublished={Array.isArray(isPublished) ? isPublished[0] : isPublished}
+    />
+  );
 };
 
 export default NovelCheck;

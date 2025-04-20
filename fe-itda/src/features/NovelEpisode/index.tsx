@@ -15,7 +15,7 @@ type EpisodeType = {
 
 interface DataProps {
   data?: number;
-  isPublished?: boolean;
+  isPublished?: string;
 }
 
 const NovelEpisode = ({ data, isPublished }: DataProps) => {
@@ -84,10 +84,11 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
 
           // 2/3까지는 무료, 이후는 유료
           const isPaid = item.chapter_number > paidChapterCount;
+
           return (
             <li
               onClick={() => {
-                if (isPublished && isPaid) {
+                if (isPublished === "true" && isPaid) {
                   // 유료일 경우
                   alert("유료 회차입니다. 결제가 필요합니다.");
                   // 결제 페이지나 모달 열기 로직으로 변경
