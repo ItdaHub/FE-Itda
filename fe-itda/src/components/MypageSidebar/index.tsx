@@ -86,15 +86,6 @@ const MypageSidebar = ({
           >
             로그아웃
           </button>
-          <button
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              color: "gray",
-            }}
-          >
-            고객센터
-          </button>
         </div>
       </div>
     </MypageSidebarStyled>
