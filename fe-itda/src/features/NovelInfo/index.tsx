@@ -28,6 +28,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   });
 
   const [liked, setLiked] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>();
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
@@ -65,6 +66,8 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
           isLiked: novelData.isLiked ?? false,
           status,
         });
+
+        setIsSubmitted(novelData.status === "submitted");
 
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
@@ -152,10 +155,12 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
             </div>
           </div>
 
-          {novel.status !== "ongoing" ? (
+          {isSubmitted ? (
             <div className="ongoing-text">
               이어쓰기를 완료한 소설입니다(출품여부 대기중)
             </div>
+          ) : novel.status !== "ongoing" ? (
+            <></>
           ) : (
             <button className="novelinfo-btn" onClick={handleParticipateClick}>
               함께하기
