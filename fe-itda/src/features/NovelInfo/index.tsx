@@ -28,7 +28,7 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   });
 
   const [liked, setLiked] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>();
+  const [isSubmitted, setIsSubmitted] = useState<string>();
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
@@ -41,14 +41,6 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
         });
 
         const novelData = res.data;
-        console.log("상태가 담겨있나", novelData);
-
-        const status =
-          novelData.status === "submitted"
-            ? "completed"
-            : novelData.nextChapterNumber - 1 === novelData.peopleNum
-            ? "completed"
-            : "ongoing";
 
         setNovel({
           img: novelData.image || test.src,
@@ -64,15 +56,15 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
               ].join(", ")
             : "작가 미상",
           isLiked: novelData.isLiked ?? false,
-          status,
+          status: novelData.status,
         });
 
-        setIsSubmitted(novelData.status === "submitted");
-
+        setIsSubmitted(novelData.status);
         setLiked(novelData.isLiked ?? false);
         setLikeCount(
           typeof novelData.likeCount === "number" ? novelData.likeCount : 0
         );
+        console.log("상태가 담겨있나", res.data.status);
       } catch (e) {
         console.error("소설 가져오기 실패: ", e);
       }
@@ -155,16 +147,16 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
             </div>
           </div>
 
-          {isSubmitted ? (
+          {isSubmitted === "completed" ? (
             <div className="ongoing-text">
               이어쓰기를 완료한 소설입니다(출품여부 대기중)
             </div>
-          ) : novel.status !== "ongoing" ? (
-            <></>
-          ) : (
+          ) : isSubmitted === "ongoing" ? (
             <button className="novelinfo-btn" onClick={handleParticipateClick}>
               함께하기
             </button>
+          ) : (
+            <></>
           )}
         </div>
       </div>

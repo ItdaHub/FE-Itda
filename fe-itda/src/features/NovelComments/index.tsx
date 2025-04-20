@@ -1,19 +1,12 @@
 import clsx from "clsx";
 import { NovelCommentStyled } from "./styled";
-import {
-  DownOutlined,
-  InfoCircleFilled,
-  SendOutlined,
-  UpOutlined,
-} from "@ant-design/icons";
-import { useEffect, useState, useCallback } from "react";
-import { Popover } from "antd";
+import { DownOutlined, InfoCircleFilled, UpOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { FloatButton, Popover } from "antd";
 import WriteComment from "../WriteComment";
 import Comment from "@/components/Comment";
 import api from "@/utill/api";
-import { Collapse } from "antd";
 import { useAppSelector } from "@/store/hooks";
-import WriteReply from "@/components/WriteReply";
 import dayjs from "dayjs";
 
 interface ReviewType {
@@ -215,6 +208,11 @@ const NovelComments = ({ chapterId, novelId, type }: NovelComment) => {
               </div>
             );
           })}
+        <FloatButton.BackTop
+          className="float-web"
+          visibilityHeight={0}
+          style={{ bottom: 80 }}
+        />
       </ul>
     </NovelCommentStyled>
   );
