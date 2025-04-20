@@ -167,6 +167,8 @@ const NovelComments = ({ chapterId, novelId, type }: NovelComment) => {
                     key={`${parent.id}-${parent.likeNum}-${parent.isliked}`}
                     item={parent}
                     type="parent"
+                    chapterId={chapterId}
+                    novelId={novelId}
                     refreshComments={fetchReviews}
                   />
 
@@ -198,6 +200,8 @@ const NovelComments = ({ chapterId, novelId, type }: NovelComment) => {
                           <Comment
                             key={`${reply.id}-${reply.likeNum}-${reply.isliked}`}
                             item={reply}
+                            chapterId={chapterId}
+                            novelId={novelId}
                             refreshComments={fetchReviews}
                           />
                         </li>
