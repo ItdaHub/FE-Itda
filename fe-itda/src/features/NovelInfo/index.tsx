@@ -11,9 +11,10 @@ import { App as AntdApp } from "antd";
 
 interface NovelInfoProps {
   data?: number;
+  setNovelTitle?: any;
 }
 
-const NovelInfo = ({ data }: NovelInfoProps) => {
+const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
   const { message } = AntdApp.useApp();
@@ -31,45 +32,45 @@ const NovelInfo = ({ data }: NovelInfoProps) => {
   const [isSubmitted, setIsSubmitted] = useState<string>();
   const [likeCount, setLikeCount] = useState(0);
 
-  useEffect(() => {
+  const getNovelDetail = async () => {
     if (!data) return;
 
-    const getNovelDetail = async () => {
-      try {
-        const res = await api.get(`/novels/${data}`, {
-          params: user ? { userId: user.id } : {},
-        });
+    try {
+      const res = await api.get(`/novels/${data}`, {
+        params: user ? { userId: user.id } : {},
+      });
 
-        const novelData = res.data;
+      const novelData = res.data;
 
-        setNovel({
-          img: novelData.image || test.src,
-          title: novelData.title || "제목 없음",
-          genre: novelData.genre || "장르 없음",
-          author: Array.isArray(novelData.chapters)
-            ? [
-                ...new Set(
-                  novelData.chapters.map(
-                    (ch: { authorNickname: any }) => ch.authorNickname
-                  )
-                ),
-              ].join(", ")
-            : "작가 미상",
-          isLiked: novelData.isLiked ?? false,
-          status: novelData.status || "ongoing",
-        });
+      setNovel({
+        img: novelData.image || test.src,
+        title: novelData.title || "제목 없음",
+        genre: novelData.genre || "장르 없음",
+        author: Array.isArray(novelData.chapters)
+          ? [
+              ...new Set(
+                novelData.chapters.map(
+                  (ch: { authorNickname: any }) => ch.authorNickname
+                )
+              ),
+            ].join(", ")
+          : "작가 미상",
+        isLiked: novelData.isLiked ?? false,
+        status: novelData.status || "ongoing",
+      });
 
-        setIsSubmitted(novelData.status);
+      setNovelTitle(novelData.title);
+      setIsSubmitted(novelData.status);
+      setLiked(novelData.isLiked ?? false);
+      setLikeCount(
+        typeof novelData.likeCount === "number" ? novelData.likeCount : 0
+      );
+    } catch (e) {
+      console.error("소설 가져오기 실패: ", e);
+    }
+  };
 
-        setLiked(novelData.isLiked ?? false);
-        setLikeCount(
-          typeof novelData.likeCount === "number" ? novelData.likeCount : 0
-        );
-      } catch (e) {
-        console.error("소설 가져오기 실패: ", e);
-      }
-    };
-
+  useEffect(() => {
     getNovelDetail();
   }, [data, user]);
 

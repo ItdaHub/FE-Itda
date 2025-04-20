@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { NovelEpisodeStyled } from "./styled";
 import Episode from "../Episode";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
-import PopcornModal from "@/components/PopcornModal";
 import { App as AntdApp } from "antd";
+import BuyChapterModal from "@/components/BuyChapterModal";
+import { useAppSelector } from "@/store/hooks";
 
 type EpisodeType = {
   id: number;
@@ -17,33 +18,42 @@ type EpisodeType = {
 
 interface DataProps {
   data?: number;
-  isPublished?: string;
+  novelTitle?: string;
 }
 
-const NovelEpisode = ({ data, isPublished }: DataProps) => {
+const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   const { message } = AntdApp.useApp();
+  const [selectedChapter, setSelectedChapter] = useState<any>();
   const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const user = useAppSelector((state) => state.auth.user);
   const router = useRouter();
+  const { isPublished } = router.query;
 
   // 에피소드 가져오기 요청
-  useEffect(() => {
+  const getEpisode = async () => {
     if (!data) return;
 
-    const getEpisode = async () => {
-      try {
-        const res = await api.get(`/chapters/${data}`);
-        setEpisode([...res.data].sort((a, b) => b.id - a.id));
-        console.log("에피소드", res.data);
-      } catch (e) {
-        console.error("에피소드 가져오기 실패: ", e);
-      }
-    };
+    try {
+      const res = await api.get(`/chapters/${data}`);
+      setEpisode([...res.data].sort((a, b) => b.id - a.id));
 
+      console.log("에피소드", res.data);
+    } catch (e) {
+      console.error("에피소드 가져오기 실패: ", e);
+    }
+  };
+
+  useEffect(() => {
     getEpisode();
   }, [data]);
+
+  // 상태 초기화
+  useEffect(() => {
+    setModalOpen(false);
+    setSelectedChapter(null);
+  }, [router.asPath]);
 
   // 1화+최신순 정렬
   const handleSort = (isLatest: boolean) => {
@@ -53,6 +63,11 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
     setEpisode(sorted);
     setActiveCate(isLatest);
   };
+
+  // 유료여부 계산
+  const paidChapterCount = useMemo(() => {
+    return Math.floor((episode.length * 2) / 3);
+  }, [episode]);
 
   return (
     <NovelEpisodeStyled className={clsx("novelEpisode-wrap")}>
@@ -82,29 +97,29 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
 
       <ul>
         {episode.map((item, i) => {
-          // 전체 에피소드 수의 2/3을 계산
-          const totalChapters = episode.length;
-          const paidChapterCount = Math.floor((totalChapters * 2) / 3);
-
           // 2/3까지는 무료, 이후는 유료
           const isPaid = item.chapter_number > paidChapterCount;
 
-          const handleClick = () => {
-            console.log(isPublished);
-            console.log(isPaid);
+          const handleClick = (item: EpisodeType) => {
             if (isPublished === "true" && isPaid) {
-              setModalOpen(true);
-              // 유료일 경우
+              if (!user) {
+                router.push("/login");
+              } else {
+                setSelectedChapter(item.chapter_number);
+                setModalOpen(true);
+              }
               message.info("유료 회차입니다. 결제가 필요합니다.");
             } else {
-              // 무료일 경우 바로 이동
-              router.push(`/chapter/${item.id}?novelId=${data}`);
+              // 무료인 경우
+              router.push(
+                `/chapter/${item.id}?novelId=${data}&isPublished=${isPublished}`
+              );
             }
           };
 
           return (
             <li
-              onClick={handleClick}
+              onClick={() => handleClick(item)}
               className="novelEpisode-list"
               key={item.id}
             >
@@ -113,8 +128,13 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
           );
         })}
       </ul>
-      {modalOpen && (
-        <PopcornModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      {modalOpen && selectedChapter && (
+        <BuyChapterModal
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          chapter={selectedChapter}
+          novelTitle={novelTitle}
+        />
       )}
     </NovelEpisodeStyled>
   );

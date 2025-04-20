@@ -29,18 +29,12 @@ type ChapterResponse = {
 interface ReadBookProps {
   novelId: number;
   chapterId: number;
-  isFromPaidClick?: boolean;
 }
 
-const ReadBook = ({
-  novelId,
-  chapterId,
-  isFromPaidClick = false,
-}: ReadBookProps) => {
+const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
   const [contentList, setContentList] = useState<Content[]>([]);
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
   const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
   const [isDisabled, setIsDisabled] = useState(false);
@@ -48,12 +42,7 @@ const ReadBook = ({
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
-  const ignoreNextSlide = useRef(false);
-
-  const isPaidContent = (index: number) => {
-    const content = contentList[index];
-    return content?.isPaid;
-  };
+  const { isPublished } = router.query;
 
   // 읽을 소설 불러오기 요청
   useEffect(() => {
@@ -88,43 +77,25 @@ const ReadBook = ({
         const matchedIndex = slides.findIndex(
           (item) => item.index === chapterId
         );
-        const displayIndex =
-          isFromPaidClick && isPaidContent(matchedIndex) ? 0 : matchedIndex;
-
-        setCurrentIndex(displayIndex);
-
-        if (isFromPaidClick && isPaidContent(matchedIndex)) {
-          message.info("유료 화입니다. 결제 후 열람 가능합니다.");
-        }
       } catch (error) {
         console.error("콘텐츠 불러오기 실패:", error);
       }
     };
 
     fetchData();
-  }, [novelId, chapterId, isFromPaidClick]);
-
-  const handleSlideChange = (swiper: SwiperCore) => {
-    if (ignoreNextSlide.current) {
-      ignoreNextSlide.current = false;
-      return;
-    }
-
-    const nextIndex = swiper.activeIndex;
-
-    if (isPaidContent(nextIndex)) {
-      message.info("유료 화입니다. 결제 후 열람 가능합니다.");
-      swiper.slideTo(currentIndex);
-    } else {
-      setCurrentIndex(nextIndex);
-    }
-  };
+  }, [novelId, chapterId]);
 
   // 이전화
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
       chapterId = currentChapterId - 1;
-      router.push(`/chapter/${currentChapterId - 1}?novelId=${novelId}`);
+      router.push({
+        pathname: `/chapter/${currentChapterId - 1}`,
+        query: {
+          novelId,
+          isPublished,
+        },
+      });
     }
   };
 
@@ -133,7 +104,13 @@ const ReadBook = ({
     if (isLastChapter) {
       message.info("마지막화입니다");
     } else {
-      router.push(`/chapter/${currentChapterId + 1}?novelId=${novelId}`);
+      router.push({
+        pathname: `/chapter/${currentChapterId + 1}`,
+        query: {
+          novelId,
+          isPublished,
+        },
+      });
     }
   };
 
@@ -143,7 +120,9 @@ const ReadBook = ({
         <span
           className="readbook-home"
           onClick={async () => {
-            await router.push(`/noveldetail/novelcheck/${novelId}`);
+            await router.push(
+              `/noveldetail/novelcheck/${novelId}?isPublished=${isPublished}`
+            );
           }}
         >
           목록보기
@@ -168,17 +147,11 @@ const ReadBook = ({
       <div className="readbook-page full">
         {contentList.map((content, idx) => (
           <div key={idx} className="readbook-chapnum">
-            {!isPaidContent(idx) ? (
-              <>
-                {/* 회차 번호 */}
-                {chapterNumber !== null && idx === 0 && (
-                  <div className="chapter-number">{chapterNumber}화</div>
-                )}
-                <div className="chapter-text">{content.text}</div>
-              </>
-            ) : (
-              <div className="readbook-book locked">🔒 유료 콘텐츠입니다.</div>
+            {/* 회차 번호 */}
+            {chapterNumber !== null && idx === 0 && (
+              <div className="chapter-number">{chapterNumber}화</div>
             )}
+            <div className="chapter-text">{content.text}</div>
             <br />
             <br />
           </div>
