@@ -160,7 +160,7 @@ const MypageEdit = ({ currentNickname }: Props) => {
 
     let updated = false;
 
-    //  1. 기본 이미지로 설정된 경우: 삭제 요청
+    // 기본 이미지로 설정된 경우: 삭제 요청
     if (!image && !profileImagePreview && user?.profile_img) {
       try {
         await api.delete("/users/me/profile-image");
@@ -251,7 +251,6 @@ const MypageEdit = ({ currentNickname }: Props) => {
         <ImageModal
           className="image-modal"
           open={isModalOpen}
-          // onCancel={handleModalClose}
           closable={false}
           footer={null}
           centered
@@ -268,8 +267,8 @@ const MypageEdit = ({ currentNickname }: Props) => {
                 type="file"
                 ref={fileInputRef}
                 accept="image/*"
-                style={{ display: "none" }} // 기본적으로 숨기기
-                onChange={handleImageChange} // 파일 선택 시 핸들러 호출
+                style={{ display: "none" }}
+                onChange={handleImageChange}
               />
               <button className="album" onClick={handleSetDefaultImage}>
                 기본 이미지 설정

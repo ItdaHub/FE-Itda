@@ -28,7 +28,7 @@ const AlertPage = () => {
 
         setAlertItems(items);
       } catch (error) {
-        console.error("❌ 알림 목록 불러오기 실패:", error);
+        console.error(" 알림 목록 불러오기 실패:", error);
       }
     };
 
@@ -40,6 +40,7 @@ const AlertPage = () => {
       title="알림"
       items={alertItems}
       onChange={handleCollapseChange}
+      emptyMessage="받은 알림이 없습니다."
     />
   );
 };
