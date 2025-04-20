@@ -15,6 +15,8 @@ interface MoreDropProps {
   isVisible: boolean;
   setIsVisible: any;
   refreshComments?: () => Promise<void>;
+  novelId?: number;
+  chapterId?: number;
 }
 
 const MoreDropDown = ({
@@ -25,8 +27,14 @@ const MoreDropDown = ({
   isVisible,
   setIsVisible,
   refreshComments,
+  novelId,
+  chapterId,
 }: MoreDropProps) => {
   const { message } = AntdApp.useApp();
+
+  console.log("소설아이디", novelId);
+  console.log("챕터아이디", chapterId);
+  console.log(">>>>", item);
 
   // 모달 상태 관리
   const [declareModalOpen, setDeclareModalOpen] = useState(false); // 신고 모달 열림 여부
@@ -60,7 +68,7 @@ const MoreDropDown = ({
           const target =
             target_type === "comment"
               ? `/reports/comments/${item.id}` // 댓글 axios 요청
-              : `/reports/novels/${item.id}`; // 소설 axios 요청
+              : `/reports/chapters/${chapterId}`; // 소설 axios 요청
 
           // axios 댓글 신고 요청(해당 댓글의 id)
           const response = await api.post(target, {
@@ -121,6 +129,7 @@ const MoreDropDown = ({
       key: "1",
     },
   ];
+
   return (
     <MoreDropDwonStyled className={clsx("more-wrap")}>
       <Dropdown

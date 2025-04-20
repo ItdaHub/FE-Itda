@@ -10,7 +10,6 @@ interface NovelDetailProps {
 
 // data->작품의 Id
 const NovelDetail = ({ data, isPublished }: NovelDetailProps) => {
-  console.log("@@", isPublished);
   return (
     <NovelDetailStyled>
       {/* 소설 정보 */}

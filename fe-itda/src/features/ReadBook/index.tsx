@@ -186,7 +186,12 @@ const ReadBook = ({
       </div>
 
       {writerId !== null && (
-        <WriterProfile nickname={authorNickname} writerId={writerId} />
+        <WriterProfile
+          nickname={authorNickname}
+          writerId={writerId}
+          novelId={novelId}
+          chapterId={chapterId}
+        />
       )}
     </ReadBookStyled>
   );

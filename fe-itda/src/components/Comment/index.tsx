@@ -74,6 +74,8 @@ const Comment = ({
             isVisible={isVisible}
             refreshComments={refreshComments}
             target_type="comment"
+            novelId={novelId}
+            chapterId={chapterId}
           />
         </div>
         <div className="comment-date">{item.date}</div>

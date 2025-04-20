@@ -11,9 +11,16 @@ import profileStatic from "@/assets/images/img_profile_static.svg";
 interface WriterProfileProps {
   nickname: string;
   writerId: number;
+  novelId: number;
+  chapterId: number;
 }
 
-const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
+const WriterProfile = ({
+  nickname,
+  writerId,
+  novelId,
+  chapterId,
+}: WriterProfileProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
 
@@ -42,6 +49,8 @@ const WriterProfile = ({ nickname, writerId }: WriterProfileProps) => {
           setIsVisible={setIsVisible}
           isVisible={isVisible}
           target_type="chapter"
+          novelId={novelId}
+          chapterId={chapterId}
         />
       </div>
     </WriterProfileStyled>
