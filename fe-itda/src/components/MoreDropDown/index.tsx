@@ -32,10 +32,6 @@ const MoreDropDown = ({
 }: MoreDropProps) => {
   const { message } = AntdApp.useApp();
 
-  console.log("소설아이디", novelId);
-  console.log("챕터아이디", chapterId);
-  console.log(">>>>", item);
-
   // 모달 상태 관리
   const [declareModalOpen, setDeclareModalOpen] = useState(false); // 신고 모달 열림 여부
   const [reportReason, setReportReason] = useState(""); // 신고 사유 상태

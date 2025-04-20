@@ -12,7 +12,7 @@ export const LayoutWrapper = styled.div`
 
     .content {
       flex: 1;
-      padding-top: 100px;
+      padding-top: 80px;
     }
 
     @media (max-width: 768px) {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const CategoryStyled = styled.div`
   &.category-wrap {
-    /* border-bottom: 1px solid #adadad; */
+    padding-top: 20px;
 
     .category-box {
       padding: 0 10px;

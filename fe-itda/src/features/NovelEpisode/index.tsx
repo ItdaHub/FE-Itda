@@ -4,6 +4,8 @@ import Episode from "../Episode";
 import { useEffect, useState } from "react";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
+import PopcornModal from "@/components/PopcornModal";
+import { App as AntdApp } from "antd";
 
 type EpisodeType = {
   id: number;
@@ -19,8 +21,10 @@ interface DataProps {
 }
 
 const NovelEpisode = ({ data, isPublished }: DataProps) => {
+  const { message } = AntdApp.useApp();
   const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -85,18 +89,22 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
           // 2/3까지는 무료, 이후는 유료
           const isPaid = item.chapter_number > paidChapterCount;
 
+          const handleClick = () => {
+            console.log(isPublished);
+            console.log(isPaid);
+            if (isPublished === "true" && isPaid) {
+              setModalOpen(true);
+              // 유료일 경우
+              message.info("유료 회차입니다. 결제가 필요합니다.");
+            } else {
+              // 무료일 경우 바로 이동
+              router.push(`/chapter/${item.id}?novelId=${data}`);
+            }
+          };
+
           return (
             <li
-              onClick={() => {
-                if (isPublished === "true" && isPaid) {
-                  // 유료일 경우
-                  alert("유료 회차입니다. 결제가 필요합니다.");
-                  // 결제 페이지나 모달 열기 로직으로 변경
-                } else {
-                  // 무료일 경우 바로 이동
-                  router.push(`/chapter/${item.id}?novelId=${data}`);
-                }
-              }}
+              onClick={handleClick}
               className="novelEpisode-list"
               key={item.id}
             >
@@ -105,6 +113,9 @@ const NovelEpisode = ({ data, isPublished }: DataProps) => {
           );
         })}
       </ul>
+      {modalOpen && (
+        <PopcornModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      )}
     </NovelEpisodeStyled>
   );
 };
