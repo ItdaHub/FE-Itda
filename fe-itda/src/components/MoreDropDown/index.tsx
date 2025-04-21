@@ -35,6 +35,7 @@ const MoreDropDown = ({
   // 모달 상태 관리
   const [declareModalOpen, setDeclareModalOpen] = useState(false); // 신고 모달 열림 여부
   const [reportReason, setReportReason] = useState(""); // 신고 사유 상태
+  const [reportedItems, setReportedItems] = useState<number[]>([]);
 
   // 신고 모달 띄우기
   const OpenModal = () => {
@@ -43,9 +44,15 @@ const MoreDropDown = ({
   };
 
   // 신고 제출 핸들러
+  // 신고 완료 후, 신고된 항목을 상태에 추가
   const handleReportSubmit = async () => {
     if (!reportReason) {
       message.error("신고 사유를 입력해주세요.");
+      return;
+    }
+
+    if (reportedItems.includes(item.id)) {
+      message.error("이미 신고한 콘텐츠입니다.");
       return;
     }
 
@@ -63,19 +70,41 @@ const MoreDropDown = ({
         try {
           const target =
             target_type === "comment"
-              ? `/reports/comments/${item.id}` // 댓글 axios 요청
-              : `/reports/chapters/${chapterId}`; // 소설 axios 요청
+              ? `/reports/comments/${item.id}` // 댓글 신고
+              : `/reports/chapters/${chapterId}`; // 소설 신고
 
-          // axios 댓글 신고 요청(해당 댓글의 id)
+          // 로그 출력
+          console.log("신고 데이터:", {
+            reason: reportReason,
+            target_id: item.id,
+            target_type,
+          });
+
+          // axios 신고 요청
           const response = await api.post(target, {
             reason: reportReason,
           });
 
+          // 신고 성공 시
           message.success("신고가 완료되었습니다.");
+          setReportedItems([...reportedItems, item.id]); // 신고한 항목 추가
           setDeclareModalOpen(false); // 신고 후 모달 닫기
-        } catch (e) {
-          console.error("댓글 신고 실패: ", e);
-          Swal.fire("댓글 신고에 실패했습니다.");
+        } catch (e: any) {
+          console.error("신고 실패: ", e);
+          const messageFromBackend = e?.response?.data?.message;
+
+          if (
+            messageFromBackend ===
+            "이미 해당 콘텐츠에 대해 신고한 이력이 있습니다."
+          ) {
+            message.error("이미 신고한 콘텐츠입니다.");
+            setReportedItems([...reportedItems, item.id]); // 상태에 추가하여 중복 방지
+            setDeclareModalOpen(false); // 모달 닫기
+          } else if (messageFromBackend === "댓글을 찾을 수 없습니다.") {
+            message.error("해당 댓글을 찾을 수 없습니다.");
+          } else {
+            Swal.fire("신고에 실패했습니다.");
+          }
         }
       }
     });
