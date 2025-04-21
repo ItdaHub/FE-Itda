@@ -51,10 +51,10 @@ const MainPage = () => {
     <MainPageStyled className={clsx("main-wrap")}>
       {/* 카테고리 */}
       <Category
-        type={type}
-        setType={setType}
-        genre={genre}
-        setGenre={setGenre}
+        // type={type}
+        // setType={setType}
+        // genre={genre}
+        // setGenre={setGenre}
         categories={categories}
       />
       {/* Top버튼 + 글쓰기 */}

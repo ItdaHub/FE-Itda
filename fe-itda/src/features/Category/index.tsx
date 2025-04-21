@@ -15,23 +15,26 @@ import MyProfile from "@/components/MyProfile";
 import { logoutUser } from "../auth/logout";
 import { useAppDispatch } from "@/store/hooks";
 import { App as AntdApp } from "antd";
+import { setType, setGenre } from "@/features/cate/categorySlice";
 
 interface CategoryProps {
-  type: string;
-  setType: (type: string) => void;
-  genre: string;
-  setGenre: (genre: string) => void;
+  // type: string;
+  // setType: any;
+  // genre: string;
+  // setGenre: any;
   categories: any[][];
 }
 
 const Category = ({
-  type,
-  setType,
-  genre,
-  setGenre,
+  // type,
+  // setType,
+  // genre,
+  // setGenre,
   categories,
 }: CategoryProps) => {
   const { message } = AntdApp.useApp();
+  const type = useSelector((state: RootState) => state.category.type);
+  const genre = useSelector((state: RootState) => state.category.genre);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [activeGenre, setActiveGenre] = useState<string>(genre);
@@ -76,7 +79,7 @@ const Category = ({
           label: item.label,
           children: (
             <div className="category-item">
-              <WebNovelGroup title="" type={type} genre={genre} />
+              <WebNovelGroup title="" />
             </div>
           ),
         }))
@@ -91,13 +94,13 @@ const Category = ({
 
   // 타입
   const onCategoryChange = (key: string) => {
-    setType(key);
-    setGenre("all");
+    dispatch(setType(key));
+    dispatch(setGenre("all"));
   };
 
   // 장르
   const onGenreChange = (key: string) => {
-    setGenre(key);
+    dispatch(setGenre(key));
     setActiveGenre(key);
   };
 
@@ -124,7 +127,7 @@ const Category = ({
         >
           <div className="tabs-container">
             <Tabs
-              defaultActiveKey={type}
+              activeKey={type}
               items={categoryItems}
               onChange={onCategoryChange}
               tabPosition="top"

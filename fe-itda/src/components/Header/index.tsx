@@ -10,6 +10,7 @@ import mywrite from "@/assets/images/mywrite_icon.png";
 import heart_icon from "@/assets/images/heart_icon.png";
 import darknode from "@/assets/images/darkmode.svg";
 import { useRouter } from "next/router";
+import { resetCategory } from "@/features/cate/categorySlice";
 import {
   DarkModeBox,
   HeaderStyled,
@@ -187,6 +188,7 @@ const Header = () => {
         <div
           className="header-logoBox"
           onClick={() => {
+            dispatch(resetCategory());
             router.push("/");
           }}
         >
