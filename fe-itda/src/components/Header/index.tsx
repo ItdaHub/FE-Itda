@@ -20,7 +20,7 @@ import {
 } from "./styled";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { BellOutlined, NotificationOutlined } from "@ant-design/icons";
-import { ConfigProvider, message, Popover } from "antd";
+import { Badge, ConfigProvider, message, Popover } from "antd";
 import { useEffect, useState } from "react";
 import CustomSwitch from "@/components/common/CustomSwitch";
 import { toggleTheme } from "@/features/theme/themeSlice";
@@ -235,21 +235,27 @@ const Header = () => {
           </div>
 
           {/* 공지사항 */}
-          <div className="header-louder">
-            <NotificationOutlined
-              onClick={() => {
-                router.push("/notice");
-              }}
-            />
+          <div className="header-count-box">
+            <Badge className="header-count" count={1} overflowCount={999}>
+              <NotificationOutlined
+                className="header-louder"
+                onClick={() => {
+                  router.push("/notice");
+                }}
+              />
+            </Badge>
           </div>
 
           {/* 알림 */}
-          <div className="header-alram">
-            <BellOutlined
-              onClick={() => {
-                router.push("/alert");
-              }}
-            />
+          <div className="header-count-box">
+            <Badge className="header-count" count={1} overflowCount={999}>
+              <BellOutlined
+                className="header-alram"
+                onClick={() => {
+                  router.push("/alert");
+                }}
+              />
+            </Badge>
           </div>
 
           {/* 로그인 or 프로필 */}

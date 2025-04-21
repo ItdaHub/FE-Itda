@@ -60,6 +60,13 @@ export const HeaderStyled = styled.div`
             }
           }
         }
+        .header-count {
+          font-size: 10px;
+        }
+        .header-count-box {
+          display: flex;
+          align-items: center;
+        }
 
         .header-louder,
         .header-alram,
