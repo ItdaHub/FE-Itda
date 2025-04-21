@@ -3,18 +3,16 @@ import { NickBox } from "./styled";
 import nickarrow from "@/assets/images/nick_arrow.svg";
 
 interface MyProfileProps {
-  setVisible?: any;
   userNickName?: string;
 }
 
-const MyProfile = ({ setVisible, userNickName }: MyProfileProps) => {
+const MyProfile = ({ userNickName }: MyProfileProps) => {
   const router = useRouter();
 
   return (
     <NickBox
       onClick={() => {
         router.push("/mypage");
-        setVisible ? setVisible(false) : <></>;
       }}
     >
       {userNickName ? (

@@ -49,7 +49,7 @@ const Banner = () => {
         navigation
         pagination={{ clickable: true }}
       >
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <img className="banner-img" src={banner1.src} alt="test" />
         </SwiperSlide>
         <SwiperSlide>
@@ -57,12 +57,12 @@ const Banner = () => {
         </SwiperSlide>
         <SwiperSlide>
           <img className="banner-img" src={banner3.src} alt="test" />
-        </SwiperSlide>
+        </SwiperSlide><
         <SwiperSlide>
           <img className="banner-img" src={banner4.src} alt="test" />
-        </SwiperSlide>
+        </SwiperSlide> */}
         {/* 실제 관리자에 추가된 배너 나타내기 */}
-        {/* {banners.map((banner) => (
+        {banners.map((banner) => (
           <SwiperSlide key={banner.id}>
             <img
               className="banner-img"
@@ -70,7 +70,7 @@ const Banner = () => {
               alt={banner.title}
             />
           </SwiperSlide>
-        ))} */}
+        ))}
       </Swiper>
     </BannerStyled>
   );

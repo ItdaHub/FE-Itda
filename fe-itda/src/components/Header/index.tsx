@@ -8,7 +8,6 @@ import popcorn from "@/assets/images/popcorn_icon.png";
 import comment_icon from "@/assets/images/comment_icon.png";
 import mywrite from "@/assets/images/mywrite_icon.png";
 import heart_icon from "@/assets/images/heart_icon.png";
-import darknode from "@/assets/images/darkmode.svg";
 import { useRouter } from "next/router";
 import { resetCategory } from "@/features/cate/categorySlice";
 import {
@@ -29,13 +28,16 @@ import { logoutUser } from "@/features/auth/logout";
 import NowPrice from "../NowPrice";
 import MyProfile from "../MyProfile";
 import profileStatic from "@/assets/images/img_profile_static.svg";
+import { useMediaQuery } from "react-responsive";
 
 const Header = () => {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   // 검색 키워드 값 관리
   const [keyword, setKeyword] = useState("");
   const [alertLength, setAlertLength] = useState<number>();
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [noticeLength, setNoticeLength] = useState<number>();
-  const [visible, setVisible] = useState(false);
   const router = useRouter();
 
   // 다크모드 상태 가져오기
@@ -69,29 +71,18 @@ const Header = () => {
     }
   };
 
-  // 768이하일때 모달창 닫기
+  // 공지+알림 개수
+  const fetchCounts = async () => {
+    const [notice, alert] = await Promise.all([
+      getNoticeCount(),
+      getAlertCount(),
+    ]);
+    setNoticeLength(notice);
+    setAlertLength(alert);
+  };
+
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisible(false);
-      }
-    };
-
-    const fetchCounts = async () => {
-      const [notice, alert] = await Promise.all([
-        getNoticeCount(),
-        getAlertCount(),
-      ]);
-      setNoticeLength(notice);
-      setAlertLength(alert);
-    };
-
-    handleResize();
     fetchCounts();
-
-    handleResize(); // 초기 실행
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleDarkMode = () => {
@@ -102,8 +93,21 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logoutUser()); // 서버 요청 + 상태 초기화
     router.push("/"); // 메인페이지로 이동
-    setVisible(false); // 팝오버 닫기
   };
+
+  //Popover 열고 닫기
+  const handlePopoverChange = (newOpen: boolean) => {
+    if (!isMobile) {
+      setPopoverOpen(newOpen);
+    }
+  };
+
+  // 모바일이고 열려있다면 모달 닫아주기
+  useEffect(() => {
+    if (isMobile && popoverOpen) {
+      setPopoverOpen(false);
+    }
+  }, [isMobile, popoverOpen]);
 
   // 헤더 제외할 페이지
   const notPage = [
@@ -134,7 +138,7 @@ const Header = () => {
   const content = (
     <WrapContent className={clsx("content-wrap")}>
       {/* 내정보 */}
-      <MyProfile userNickName={user?.nickname} setVisible={setVisible} />
+      <MyProfile userNickName={user?.nickname} />
 
       {/* 충전 */}
       <NowPrice userId={user?.id} />
@@ -147,7 +151,6 @@ const Header = () => {
             className="menu-icon"
             onClick={() => {
               router.push("/mycomment");
-              setVisible(false);
             }}
           >
             <img className="comment-icon" src={comment_icon.src} alt="댓글" />
@@ -159,7 +162,6 @@ const Header = () => {
             className="menu-icon"
             onClick={() => {
               router.push("/cashhistory");
-              setVisible(false);
             }}
           >
             <img className="popcorn-icon" src={popcorn.src} alt="팝콘" />
@@ -172,7 +174,6 @@ const Header = () => {
             className="menu-icon"
             onClick={() => {
               router.push("/mywrite");
-              setVisible(false);
             }}
           >
             <img className="mywrite" src={mywrite.src} alt="내글" />
@@ -184,7 +185,6 @@ const Header = () => {
             className="menu-icon"
             onClick={() => {
               router.push("/myfavorite");
-              setVisible(false);
             }}
           >
             <img className="heart" src={heart_icon.src} alt="찜" />
@@ -307,9 +307,9 @@ const Header = () => {
             <Popover
               trigger="click"
               content={content}
-              open={visible}
-              onOpenChange={setVisible}
               placement="bottomRight"
+              open={popoverOpen}
+              onOpenChange={handlePopoverChange}
             >
               <div className="header-profile" style={{ cursor: "pointer" }}>
                 <Image

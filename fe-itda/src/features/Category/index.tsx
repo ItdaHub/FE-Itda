@@ -16,22 +16,13 @@ import { logoutUser } from "../auth/logout";
 import { useAppDispatch } from "@/store/hooks";
 import { App as AntdApp } from "antd";
 import { setType, setGenre } from "@/features/cate/categorySlice";
+import { useMediaQuery } from "react-responsive";
 
 interface CategoryProps {
-  // type: string;
-  // setType: any;
-  // genre: string;
-  // setGenre: any;
   categories: any[][];
 }
 
-const Category = ({
-  // type,
-  // setType,
-  // genre,
-  // setGenre,
-  categories,
-}: CategoryProps) => {
+const Category = ({ categories }: CategoryProps) => {
   const { message } = AntdApp.useApp();
   const types = useSelector((state: RootState) => state.category.type);
   const genres = useSelector((state: RootState) => state.category.genre);
@@ -50,6 +41,7 @@ const Category = ({
   const [sidebarOpenClass, setSidebarOpenClass] = useState(false);
   const [sidebarClosing, setSidebarClosing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   // sidebar 닫기
   const closeSidebar = () => {
@@ -59,6 +51,13 @@ const Category = ({
       setSidebarClosing(false);
     }, 300);
   };
+
+  // 사이드바 자동 닫기
+  useEffect(() => {
+    if (!isMobile && showSidebar) {
+      setShowSidebar(false);
+    }
+  }, [isMobile, showSidebar]);
 
   // 첫 번째 카테고리
   const categoryItems: TabsProps["items"] = categories[0]?.map((item) => ({
@@ -165,7 +164,11 @@ const Category = ({
               />
               <MenuOutlined
                 className="icon"
-                onClick={() => setShowSidebar(true)}
+                onClick={() => {
+                  if (isMobile) {
+                    setShowSidebar(true);
+                  }
+                }}
               />
             </div>
             {/* web */}
