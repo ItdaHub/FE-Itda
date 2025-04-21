@@ -115,7 +115,6 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
 
             // novelId, chapterId
             const isPaid = await getIsPaid(data, item.id);
-            console.log(isPaid);
 
             if (item.isPublished && isPaid) {
               setSelectedChapter({

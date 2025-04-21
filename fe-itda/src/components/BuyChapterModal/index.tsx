@@ -118,6 +118,7 @@ const BuyChapterModal = ({
         chapterId,
       });
       setModalOpen(false);
+      router.push(`/chapter/${chapterId}?novelId=${novelId}`);
     } catch (e) {
       console.error("팝콘 사용 요청 실패: ", e);
     }
