@@ -7,7 +7,7 @@ export const CashHistoryStyled = styled.div`
     margin: 0 auto;
     padding: 0 10px;
     .cash-title {
-      padding: 30px 0 20px 0;
+      padding: 50px 0 20px 0;
       font-size: 21px;
       line-height: 26px;
       font-weight: 700;

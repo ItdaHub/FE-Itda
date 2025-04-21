@@ -7,7 +7,7 @@ export const WebNovelGroupStyled = styled.div`
     padding: 0 10px;
 
     .group-titlebox {
-      padding: 10px 0 20px;
+      padding: 50px 0 20px;
       display: flex;
       align-items: center;
       .group-title {

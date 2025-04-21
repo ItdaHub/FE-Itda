@@ -19,13 +19,18 @@ const ageGroups = [
 
 interface WebNovelGroupProps {
   title: string;
+  type?: string;
+  genre?: string;
   ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
 }
 
 // 소설 그룹
-const WebNovelGroup = ({ title, ageSelect }: WebNovelGroupProps) => {
-  const type = useSelector((state: RootState) => state.category.type);
-  const genre = useSelector((state: RootState) => state.category.genre);
+const WebNovelGroup = ({
+  title,
+  type,
+  genre,
+  ageSelect,
+}: WebNovelGroupProps) => {
   const [novels, setNovels] = useState<any[]>([]);
 
   useEffect(() => {
@@ -36,9 +41,11 @@ const WebNovelGroup = ({ title, ageSelect }: WebNovelGroupProps) => {
         if (type === "mywrite") {
           // 내가 쓴글
           response = await api.get("/novels/my");
+          console.log("mywrite");
         } else if (type === "myfavorite") {
           // 내 찜
           response = await api.get("/likes/my-likes");
+          console.log("likes");
         } else if (type === "home") {
           // 홈화면
           if (ageSelect?.selectedAge) {
@@ -49,15 +56,18 @@ const WebNovelGroup = ({ title, ageSelect }: WebNovelGroupProps) => {
             response = await api.get("/novels/rankings", {
               params: { age: Number(ageNum) },
             });
+
+            console.log("연령별rankings");
           } else {
             // 통합 랭킹
             response = await api.get("/novels/rankings");
+            console.log("통랍rankings");
           }
         } else {
           // 출품작
           if (type === "exhibit") {
             const res = await api.get("novels/published");
-
+            console.log("출품잗");
             // 장르
             const filtered =
               genre && genre !== "all"

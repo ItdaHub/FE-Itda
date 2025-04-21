@@ -33,11 +33,11 @@ const Category = ({
   categories,
 }: CategoryProps) => {
   const { message } = AntdApp.useApp();
-  const type = useSelector((state: RootState) => state.category.type);
-  const genre = useSelector((state: RootState) => state.category.genre);
+  const types = useSelector((state: RootState) => state.category.type);
+  const genres = useSelector((state: RootState) => state.category.genre);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [activeGenre, setActiveGenre] = useState<string>(genre);
+  const [activeGenre, setActiveGenre] = useState<string>(genres);
   const [keyword, setKeyword] = useState("");
 
   // Redux에서 로그인된 유저 정보 가져오기
@@ -73,13 +73,13 @@ const Category = ({
 
   // 두 번째 카테고리 (홈 제외)
   const genreItems: TabsProps["items"] =
-    type !== "home"
+    types !== "home"
       ? categories[1]?.map((item) => ({
           key: item.value,
           label: item.label,
           children: (
             <div className="category-item">
-              <WebNovelGroup title="" />
+              <WebNovelGroup title="" type={types} genre={genres} />
             </div>
           ),
         }))
@@ -87,10 +87,10 @@ const Category = ({
 
   // 활성화되는거 표시
   useEffect(() => {
-    if (type !== "home" && categories[1]?.length > 0) {
+    if (types !== "home" && categories[1]?.length > 0) {
       setActiveGenre(categories[1][0]?.value);
     }
-  }, [type, categories]);
+  }, [types, categories]);
 
   // 타입
   const onCategoryChange = (key: string) => {
@@ -127,7 +127,7 @@ const Category = ({
         >
           <div className="tabs-container">
             <Tabs
-              activeKey={type}
+              activeKey={types}
               items={categoryItems}
               onChange={onCategoryChange}
               tabPosition="top"
@@ -254,7 +254,7 @@ const Category = ({
       )}
 
       {/* 두 번째 카테고리 그룹 (홈 제외) */}
-      {type !== "home" && (
+      {types !== "home" && (
         <div className="category-box">
           <ConfigProvider
             theme={{

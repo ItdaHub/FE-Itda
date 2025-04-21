@@ -16,11 +16,12 @@ const HomeCategory = () => {
         <Banner />
 
         {/* 웹소설 통합 랭킹 */}
-        <WebNovelGroup title="웹소설 통합 랭킹" />
+        <WebNovelGroup title="웹소설 통합 랭킹" type="home" />
 
         {/* 연령별 인기작 */}
         <WebNovelGroup
           title="연령별 인기작"
+          type="home"
           ageSelect={{ selectedAge, setSelectedAge }}
         />
       </div>
