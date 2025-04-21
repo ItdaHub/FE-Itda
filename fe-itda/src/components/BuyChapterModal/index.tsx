@@ -57,13 +57,13 @@ const BuyChapterModal = ({
       return;
     }
 
-    console.log("구매 처리 로직");
+    console.log("🔔 구매 처리 시작");
+
     try {
       const orderId = `order-${Date.now()}`;
       const orderName = "포인트 충전";
 
-      // 결제 정보 백엔드에 저장
-      await api.post("/payments/create", {
+      console.log("📦 백엔드로 결제 생성 요청:", {
         userId,
         novelId,
         chapterId,
@@ -73,11 +73,25 @@ const BuyChapterModal = ({
         method: "toss",
       });
 
-      // Toss SDK 로딩
-      const toss = await loadTossPayments(clientKey);
+      // 1. 결제 정보 백엔드에 저장
+      const res = await api.post("/payments/create", {
+        userId,
+        novelId,
+        chapterId,
+        type: "read",
+        orderId,
+        amount,
+        method: "toss",
+      });
 
-      // 결제 요청
-      toss.requestPayment("CARD", {
+      console.log("✅ 결제 정보 저장 완료:", res.data);
+
+      // 2. Toss SDK 로딩
+      const toss = await loadTossPayments(clientKey);
+      console.log("🚀 Toss SDK 로딩 완료");
+
+      // 3. 결제 요청
+      await toss.requestPayment("CARD", {
         amount,
         orderId,
         orderName,
@@ -86,22 +100,22 @@ const BuyChapterModal = ({
       });
 
       setModalOpen(false);
-    } catch (e) {
-      console.error("팝콘 구매 요청 실패: ", e);
+    } catch (e: any) {
+      console.error("❌ 팝콘 구매 요청 실패:", e);
+      console.error("🧾 에러 응답:", e?.response?.data || e.message);
     }
   };
 
-  // 팝콘 10개 이상이면 사용 axios요청
+  // 팝콘 사용 요청 함수
   const handleUse = async () => {
     console.log("사용 처리 로직");
 
     try {
       await api.post("/popcorn/use", {
         userId,
+        amount, // 사용해야 하는 팝콘 개수
         novelId,
         chapterId,
-        nowCash, //현재 가지고 있는 팝콘 개수
-        amount, //사용해야하는 팝콘 개수
       });
       setModalOpen(false);
     } catch (e) {

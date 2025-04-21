@@ -70,7 +70,7 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   // 유료여부 axios 요청
   const getIsPaid = async (novelId: number, chapterId: number) => {
     try {
-      const res = await api.get(`/${novelId}/popcorn`, {
+      const res = await api.get(`chapters/${novelId}/popcorn`, {
         params: { chapterId },
       });
       return res.data.isPaid;
