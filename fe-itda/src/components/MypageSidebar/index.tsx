@@ -28,10 +28,8 @@ const MypageSidebar = ({
       setClickButton("profile");
     } else if (tab === "edit") {
       setClickButton("edit");
-    } else if (tab === "product") {
-      setClickButton("product");
-    } else if (tab === "revenue") {
-      setClickButton("revenue");
+    } else if (tab === "submission") {
+      setClickButton("submission");
     } else {
       setClickButton("profile");
     }
@@ -40,8 +38,7 @@ const MypageSidebar = ({
   const tabList = [
     { key: "profile", label: "내 프로필" },
     { key: "edit", label: "내 정보 수정" },
-    { key: "product", label: "출품작" },
-    { key: "revenue", label: "수익관리" },
+    { key: "submission", label: "출품작" },
   ];
 
   const handleButtonClick = (buttonName: string) => {
