@@ -18,7 +18,6 @@ import {
   validationPass,
   validationPassCheck,
 } from "@/utill/vali";
-import Swal from "sweetalert2";
 import { App as AntdApp } from "antd";
 
 interface MypageViewProps {
@@ -144,26 +143,20 @@ const MypageView = ({
   // 회원 탈퇴 처리
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
-
-    Swal.fire({
+    Modal.confirm({
       title: "정말 탈퇴하시겠습니까?",
-      text: "탈퇴 후 서비스 이용을 하실 수 없습니다.",
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니오",
-      confirmButtonColor: "#429f50",
-      cancelButtonColor: "#d33",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+      content: "탈퇴 후 서비스 이용을 하실 수 없습니다.",
+      okText: "예",
+      cancelText: "아니오",
+      okButtonProps: {
+        style: { backgroundColor: "#c47ad7" },
+      },
+      async onOk() {
         // 회원 탈퇴 로직 (API 호출로 계정 삭제)
         try {
           const response = await api.delete("/users/me");
           if (response.status === 204) {
-            Swal.fire({
-              title: "탈퇴가 완료되었습니다.",
-              icon: "success",
-              confirmButtonText: "확인",
-            });
+            message.success("탈퇴가 완료되었습니다.");
             dispatch(logoutUser());
             router.push("/");
           } else {
@@ -173,7 +166,7 @@ const MypageView = ({
           console.error("회원 탈퇴 중 오류 발생:", error);
           message.error("오류가 발생했습니다. 다시 시도해주세요.");
         }
-      }
+      },
     });
   };
 
