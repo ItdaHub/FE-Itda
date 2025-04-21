@@ -6,11 +6,10 @@ import { useEffect, useState } from "react";
 
 interface NovelDetailProps {
   data?: number;
-  isPublished?: string;
 }
 
 // data->작품의 Id
-const NovelDetail = ({ data, isPublished }: NovelDetailProps) => {
+const NovelDetail = ({ data }: NovelDetailProps) => {
   const [novelTitle, setNovelTitle] = useState<string>("");
 
   return (

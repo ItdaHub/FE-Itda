@@ -24,6 +24,7 @@ type ChapterResponse = {
   writerId: number;
   chapterNumber: number;
   isLastChapter: boolean;
+  isPublished: boolean;
 };
 
 interface ReadBookProps {
@@ -42,7 +43,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
-  const { isPublished } = router.query;
 
   // 읽을 소설 불러오기 요청
   useEffect(() => {
@@ -60,6 +60,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
           writerId,
           chapterNumber,
           isLastChapter,
+          isPublished,
         } = response.data;
 
         // 내용
@@ -93,7 +94,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         pathname: `/chapter/${currentChapterId - 1}`,
         query: {
           novelId,
-          isPublished,
         },
       });
     }
@@ -108,7 +108,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         pathname: `/chapter/${currentChapterId + 1}`,
         query: {
           novelId,
-          isPublished,
         },
       });
     }
@@ -120,9 +119,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         <span
           className="readbook-home"
           onClick={async () => {
-            await router.push(
-              `/noveldetail/novelcheck/${novelId}?isPublished=${isPublished}`
-            );
+            await router.push(`/noveldetail/novelcheck/${novelId}`);
           }}
         >
           목록보기

@@ -5,14 +5,9 @@ import { useRouter } from "next/router";
 const NovelCheck = () => {
   const router = useRouter();
 
-  const { id, isPublished } = router.query;
+  const { id } = router.query;
 
-  return (
-    <NovelDetail
-      data={Number(id)}
-      isPublished={Array.isArray(isPublished) ? isPublished[0] : isPublished}
-    />
-  );
+  return <NovelDetail data={Number(id)} />;
 };
 
 export default NovelCheck;

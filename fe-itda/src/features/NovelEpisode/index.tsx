@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { NovelEpisodeStyled } from "./styled";
 import Episode from "../Episode";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
 import { App as AntdApp } from "antd";
@@ -14,6 +14,7 @@ type EpisodeType = {
   commentNum: number;
   createDate: string;
   isPaid: boolean;
+  isPublished: boolean;
 };
 
 interface DataProps {
@@ -22,7 +23,6 @@ interface DataProps {
 }
 
 const NovelEpisode = ({ data, novelTitle }: DataProps) => {
-  const { message } = AntdApp.useApp();
   const [selectedChapter, setSelectedChapter] = useState<{
     chapter_number: number;
     chapterId: number;
@@ -31,7 +31,6 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
-  const { isPublished } = router.query;
   const user = useAppSelector((state) => state.auth.user);
 
   // 에피소드 가져오기 요청
@@ -76,7 +75,7 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
       return res.data.isPaid;
     } catch (e) {
       console.error("유료 여부 요청 실패: ", e);
-      return false;
+      return true;
     }
   };
 
@@ -117,7 +116,7 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
             // novelId, chapterId
             const isPaid = await getIsPaid(data, item.id);
 
-            if (isPublished === "true" && isPaid) {
+            if (item.isPublished && isPaid) {
               setSelectedChapter({
                 chapter_number: item.chapter_number,
                 chapterId: item.id,
@@ -125,9 +124,7 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
               setModalOpen(true);
             } else {
               // 무료인 경우
-              router.push(
-                `/chapter/${item.id}?novelId=${data}&isPublished=${isPublished}`
-              );
+              router.push(`/chapter/${item.id}?novelId=${data}`);
             }
           };
 
