@@ -6,6 +6,8 @@ import api from "@/utill/api";
 import { Empty } from "antd";
 import { useRouter } from "next/router";
 import { useAppSelector } from "@/store/hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 // 연령 카테고리
 const ageGroups = [
@@ -17,18 +19,13 @@ const ageGroups = [
 
 interface WebNovelGroupProps {
   title: string;
-  type?: string;
-  genre?: string;
   ageSelect?: { selectedAge: string; setSelectedAge: (age: string) => void };
 }
 
 // 소설 그룹
-const WebNovelGroup = ({
-  title,
-  type,
-  genre,
-  ageSelect,
-}: WebNovelGroupProps) => {
+const WebNovelGroup = ({ title, ageSelect }: WebNovelGroupProps) => {
+  const type = useSelector((state: RootState) => state.category.type);
+  const genre = useSelector((state: RootState) => state.category.genre);
   const [novels, setNovels] = useState<any[]>([]);
 
   useEffect(() => {
@@ -61,8 +58,6 @@ const WebNovelGroup = ({
           if (type === "exhibit") {
             const res = await api.get("novels/published");
 
-            console.log("출품작 리스트", res.data);
-
             // 장르
             const filtered =
               genre && genre !== "all"
@@ -94,9 +89,7 @@ const WebNovelGroup = ({
                 params.age = ageNum;
               }
             }
-
             response = await api.get("/novels/filter", { params });
-            console.log("이어쓰기", response.data);
           }
         }
 
