@@ -25,7 +25,6 @@ export const SignUpStyled = styled.div`
 
   .input-box {
     position: relative;
-    /* margin-bottom: 10px; */
 
     p {
       height: 15px;
@@ -68,21 +67,8 @@ export const SignUpStyled = styled.div`
     top: 40px;
   }
 
-  .signup-pwBox {
-    position: relative;
-  }
-
-  .signup-toggleBtn {
-    position: absolute;
-    font-size: 18px;
-    right: 12px;
-    top: 40px;
-  }
-
   .same-id-check-btn,
   .same-nick-check-btn {
-    /* width: 100%;
-    height: 45px; */
     border-radius: 4px;
     font-size: 15px;
     margin: 3px 0;
@@ -122,9 +108,9 @@ export const SignUpStyled = styled.div`
     }
 
     &:disabled {
-      cursor: not-allowed; /* 기본적으로 disabled 상태에서도 포인터 커서 유지 */
-      opacity: 0.5; /* 비활성화된 것처럼 보이도록 설정 */
-      pointer-events: auto; /* 클릭 이벤트를 허용하려면 auto로 변경 */
+      cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: auto;
     }
   }
 `;

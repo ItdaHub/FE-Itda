@@ -5,6 +5,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import TagIcon from "@mui/icons-material/Tag";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import clsx from "clsx";
 import { MypageViewStyled, StyledModal } from "./styled";
 import ProfileImage from "@/components/ProfileImage";
@@ -54,6 +55,10 @@ const MypageView = ({
       setEditPhoneNumber(phoneNumber);
     }
   }, [phoneNumber]);
+
+  // 비밀번호 토글 버튼
+  const [toggle1, setToggle1] = useState(true);
+  const [toggle2, setToggle2] = useState(true);
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 모달 열기 / 닫기
   const [password, setPassword] = useState("");
@@ -209,7 +214,7 @@ const MypageView = ({
                   <LockIcon className="custom-icon" />
                   <input
                     className="userEdit"
-                    type="password"
+                    type={toggle1 ? "password" : "text"}
                     placeholder="비밀번호"
                     readOnly
                   />
@@ -240,7 +245,7 @@ const MypageView = ({
                 <div className="pass-wrap">
                   <input
                     className="userEdit"
-                    type="password"
+                    type={toggle1 ? "password" : "text"}
                     value={password}
                     placeholder="새 비밀번호"
                     onChange={(e) => {
@@ -248,14 +253,33 @@ const MypageView = ({
                       validationPass(e.target.value, setPassError);
                     }}
                   />
+                  {/* 토글 버튼 */}
+                  {toggle1 ? (
+                    <EyeInvisibleOutlined
+                      className="signup-toggleBtn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle1(!toggle1);
+                      }}
+                    />
+                  ) : (
+                    <EyeOutlined
+                      className="signup-toggleBtn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle1(!toggle1);
+                      }}
+                    />
+                  )}
                   {passError && (
                     <p className="findpw-errorMessage">{passError || "⠀"}</p>
                   )}
                 </div>
+
                 <div className="pass-wrap">
                   <input
                     className="userEdit"
-                    type="password"
+                    type={toggle2 ? "password" : "text"}
                     value={passwordCheck}
                     placeholder="새 비밀번호 확인"
                     onChange={(e) => {
@@ -267,6 +291,24 @@ const MypageView = ({
                       );
                     }}
                   />
+                  {/* 토글 버튼 */}
+                  {toggle2 ? (
+                    <EyeInvisibleOutlined
+                      className="signup-toggleBtn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle2(!toggle2);
+                      }}
+                    />
+                  ) : (
+                    <EyeOutlined
+                      className="signup-toggleBtn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setToggle2(!toggle2);
+                      }}
+                    />
+                  )}
                   {passCheckError && (
                     <p className="findpw-errorMessage">{passCheckError}</p>
                   )}

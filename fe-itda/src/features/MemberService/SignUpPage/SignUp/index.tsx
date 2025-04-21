@@ -3,7 +3,6 @@ import { SignUpStyled } from "./styled";
 import { useMemo, useState } from "react";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-// 비밀번호, 비밀번호 확인 유효성 검사
 import { validationPass, validationPassCheck } from "@/utill/vali";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
@@ -277,8 +276,7 @@ const SignUp = () => {
                 validationEmail(e.target.value);
               }}
             />
-            {/* <p className={`error-message red-text`}>{emailError}</p>
-            <p className={`error-message green-text`}>{emailSuccess}</p> */}
+
             <p
               className={`error-message ${
                 emailError ? "red-text" : "green-text"
@@ -381,9 +379,6 @@ const SignUp = () => {
               }}
               maxLength={8}
             />
-
-            {/* <p className={`error-message red-text`}>{nickNameError}</p>
-            <p className={`error-message green-text`}>{nickNameSuccess}</p> */}
 
             <p
               className={`error-message ${

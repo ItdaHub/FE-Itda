@@ -36,9 +36,9 @@ const MypageSidebar = ({
   }, [tab]);
 
   const tabList = [
-    { key: "profile", label: "내 프로필" },
-    { key: "edit", label: "내 정보 수정" },
-    { key: "submission", label: "출품작" },
+    { key: "profile", label: "개인정보" },
+    { key: "edit", label: "프로필 수정" },
+    { key: "submission", label: "내 출품작" },
   ];
 
   const handleButtonClick = (buttonName: string) => {
