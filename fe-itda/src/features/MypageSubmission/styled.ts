@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const MypageProductStyled = styled.div`
-  &.mypage-product {
+export const MypageSubmissionStyled = styled.div`
+  &.mypage-submission {
     width: 70%;
     padding: 1rem;
 

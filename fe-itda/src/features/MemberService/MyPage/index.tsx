@@ -11,8 +11,7 @@ import { useRouter } from "next/router";
 import MypageSidebar from "@/components/MypageSidebar";
 import MypageView from "@/features/MypageView";
 import MypageEdit from "@/features/MypageEdit";
-import MypageProduct from "@/features/MypageProduct";
-import MypageRevenue from "@/features/MypageRevenue";
+import MypageSubmission from "@/features/MypageSubmission";
 
 const Mypage = () => {
   // 유저 정보 가져오기
@@ -57,10 +56,8 @@ const Mypage = () => {
       setClickButton("profile");
     } else if (tab === "edit") {
       setClickButton("edit");
-    } else if (tab === "product") {
-      setClickButton("product");
-    } else if (tab === "revenue") {
-      setClickButton("revenue");
+    } else if (tab === "submission") {
+      setClickButton("submission");
     } else {
       setClickButton("profile");
     }
@@ -69,8 +66,7 @@ const Mypage = () => {
   const tabList = [
     { key: "profile", label: "내 프로필" },
     { key: "edit", label: "내 정보 수정" },
-    { key: "product", label: "출품작" },
-    { key: "revenue", label: "수익관리" },
+    { key: "submission", label: "출품작" },
   ];
 
   const handleButtonClick = (buttonName: string) => {
@@ -111,10 +107,8 @@ const Mypage = () => {
 
         {tab === "edit" ? (
           <MypageEdit currentNickname={nickName} />
-        ) : tab === "product" ? (
-          <MypageProduct />
-        ) : tab === "revenue" ? (
-          <MypageRevenue />
+        ) : tab === "submission" ? (
+          <MypageSubmission />
         ) : (
           <MypageView
             profileStatic={profileStatic}
