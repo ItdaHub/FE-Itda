@@ -33,7 +33,8 @@ import profileStatic from "@/assets/images/img_profile_static.svg";
 const Header = () => {
   // 검색 키워드 값 관리
   const [keyword, setKeyword] = useState("");
-
+  const [alertLength, setAlertLength] = useState<number>();
+  const [noticeLength, setNoticeLength] = useState<number>();
   const [visible, setVisible] = useState(false);
   const router = useRouter();
 
@@ -44,6 +45,30 @@ const Header = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
+  // 공지사항 개수 불러오기
+  const getNoticeCount = async () => {
+    try {
+      const res = await api.get("/announcement");
+      return res.data.length;
+    } catch (e) {
+      console.error("공지사항 개수 불러오기 실패:", e);
+      return 0;
+    }
+  };
+
+  // 알림 개수 불러오기
+  const getAlertCount = async () => {
+    try {
+      const res = await api.get("/notifications", {
+        withCredentials: true,
+      });
+      return res.data.length;
+    } catch (e) {
+      console.error("알림 개수 불러오기 실패:", e);
+      return 0;
+    }
+  };
+
   // 768이하일때 모달창 닫기
   useEffect(() => {
     const handleResize = () => {
@@ -52,8 +77,19 @@ const Header = () => {
       }
     };
 
-    handleResize(); // 초기 실행
+    const fetchCounts = async () => {
+      const [notice, alert] = await Promise.all([
+        getNoticeCount(),
+        getAlertCount(),
+      ]);
+      setNoticeLength(notice);
+      setAlertLength(alert);
+    };
 
+    handleResize();
+    fetchCounts();
+
+    handleResize(); // 초기 실행
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -236,7 +272,11 @@ const Header = () => {
 
           {/* 공지사항 */}
           <div className="header-count-box">
-            <Badge className="header-count" count={1} overflowCount={999}>
+            <Badge
+              className="header-count"
+              count={noticeLength}
+              overflowCount={999}
+            >
               <NotificationOutlined
                 className="header-louder"
                 onClick={() => {
@@ -248,7 +288,11 @@ const Header = () => {
 
           {/* 알림 */}
           <div className="header-count-box">
-            <Badge className="header-count" count={1} overflowCount={999}>
+            <Badge
+              className="header-count"
+              count={alertLength}
+              overflowCount={999}
+            >
               <BellOutlined
                 className="header-alram"
                 onClick={() => {

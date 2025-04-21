@@ -1,6 +1,6 @@
 import DropdownList from "@/components/Notice";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/utill/api";
 
 const AlertPage = () => {
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
@@ -15,7 +15,7 @@ const AlertPage = () => {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/notifications", {
+        const res = await api.get("/notifications", {
           withCredentials: true, // 로그인 쿠키 필요
         });
 
