@@ -2,6 +2,9 @@ import CashCharge from "@/features/CashCharge";
 import { Modal } from "antd";
 
 interface PopcornProps {
+  novelId?: number;
+  chapterId?: number;
+  type?: string;
   modalOpen: boolean;
   setModalOpen: any;
 }
@@ -9,16 +12,22 @@ interface PopcornProps {
 {
   /* 결제할 팝콘 모달창 */
 }
-const PopcornModal = ({ modalOpen, setModalOpen }: PopcornProps) => {
+const PopcornModal = ({
+  novelId,
+  chapterId,
+  type,
+  modalOpen,
+  setModalOpen,
+}: PopcornProps) => {
   return (
     <Modal
       title="팝콘 패키지"
       centered
       open={modalOpen}
       footer={null}
-      onCancel={() => setModalOpen(false)}
+      onCancel={() => setModalOpen(null)}
     >
-      <CashCharge />
+      <CashCharge novelId={novelId} chapterId={chapterId} type={type} />
     </Modal>
   );
 };

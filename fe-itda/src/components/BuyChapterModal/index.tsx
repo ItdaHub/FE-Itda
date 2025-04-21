@@ -6,6 +6,7 @@ import { App as AntdApp } from "antd";
 import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/router";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
+import PopcornModal from "../PopcornModal";
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 
@@ -29,6 +30,7 @@ const BuyChapterModal = ({
   const { message } = AntdApp.useApp();
   const router = useRouter();
   const [nowCash, setNowCash] = useState<any>();
+  const [modal2Open, setModal2Open] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
   const amount = 10;
@@ -57,53 +59,7 @@ const BuyChapterModal = ({
       return;
     }
 
-    console.log("🔔 구매 처리 시작");
-
-    try {
-      const orderId = `order-${Date.now()}`;
-      const orderName = "포인트 충전";
-
-      console.log("📦 백엔드로 결제 생성 요청:", {
-        userId,
-        novelId,
-        chapterId,
-        type: "read",
-        orderId,
-        amount,
-        method: "toss",
-      });
-
-      // 1. 결제 정보 백엔드에 저장
-      const res = await api.post("/payments/create", {
-        userId,
-        novelId,
-        chapterId,
-        type: "read",
-        orderId,
-        amount,
-        method: "toss",
-      });
-
-      console.log("✅ 결제 정보 저장 완료:", res.data);
-
-      // 2. Toss SDK 로딩
-      const toss = await loadTossPayments(clientKey);
-      console.log("🚀 Toss SDK 로딩 완료");
-
-      // 3. 결제 요청
-      await toss.requestPayment("CARD", {
-        amount,
-        orderId,
-        orderName,
-        successUrl: `http://localhost:3000/chapter/${chapterId}?novelId=${novelId}`,
-        failUrl: `http://localhost:3000/payment/fail`,
-      });
-
-      setModalOpen(false);
-    } catch (e: any) {
-      console.error("❌ 팝콘 구매 요청 실패:", e);
-      console.error("🧾 에러 응답:", e?.response?.data || e.message);
-    }
+    setModal2Open(!modal2Open);
   };
 
   // 팝콘 사용 요청 함수
@@ -147,6 +103,13 @@ const BuyChapterModal = ({
           10팝콘으로 구매하기
         </Button>
       </AntModal>
+      <PopcornModal
+        novelId={novelId}
+        chapterId={chapterId}
+        type="read"
+        modalOpen={modal2Open}
+        setModalOpen={setModal2Open}
+      />
     </BuyChapterModalStyled>
   );
 };

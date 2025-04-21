@@ -7,9 +7,15 @@ import api from "@/utill/api";
 import { App as AntdApp } from "antd";
 import { useRouter } from "next/router";
 
+interface CashChargeProps {
+  novelId?: number;
+  chapterId?: number;
+  type?: string;
+}
+
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 
-const CashCharge = () => {
+const CashCharge = ({ novelId, chapterId, type }: CashChargeProps) => {
   const { message } = AntdApp.useApp();
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
@@ -37,6 +43,9 @@ const CashCharge = () => {
       // 결제 정보 백엔드에 저장
       await api.post("/payments/create", {
         userId,
+        novelId,
+        chapterId,
+        type,
         orderId,
         amount,
         method: "toss",
@@ -50,7 +59,10 @@ const CashCharge = () => {
         amount,
         orderId,
         orderName,
-        successUrl: `http://localhost:3000/payment/success?amount=${amount}&orderId=${orderId}`,
+        successUrl:
+          type === "read"
+            ? `http://localhost:3000/chapter/${chapterId}?novelId=${novelId}`
+            : `http://localhost:3000/payment/success?amount=${amount}&orderId=${orderId}`,
         failUrl: `http://localhost:3000/payment/fail`,
       });
     } catch (err) {
