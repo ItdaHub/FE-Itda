@@ -1,7 +1,6 @@
 import { Dropdown, Input, MenuProps, Modal } from "antd";
 import { MoreDropDwonStyled } from "./styled";
-import { MoreOutlined } from "@ant-design/icons";
-import Swal from "sweetalert2";
+import { ExclamationCircleOutlined, MoreOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import api from "@/utill/api";
 import clsx from "clsx";
@@ -57,16 +56,16 @@ const MoreDropDown = ({
     }
 
     // 신고하기 요청
-    Swal.fire({
-      icon: "question",
+    Modal.confirm({
       title: "신고하시겠습니까?",
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니오",
-      confirmButtonColor: "#429f50",
-      cancelButtonColor: "#d33",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+      icon: <ExclamationCircleOutlined />,
+      content: "신고는 한번만 가능합니다.",
+      okText: "예",
+      cancelText: "아니오",
+      okButtonProps: {
+        style: { backgroundColor: "#c47ad7" },
+      },
+      async onOk() {
         try {
           const target =
             target_type === "comment"
@@ -103,25 +102,24 @@ const MoreDropDown = ({
           } else if (messageFromBackend === "댓글을 찾을 수 없습니다.") {
             message.error("해당 댓글을 찾을 수 없습니다.");
           } else {
-            Swal.fire("신고에 실패했습니다.");
+            message.error("신고에 실패했습니다.");
           }
         }
-      }
+      },
     });
   };
 
   // 삭제하기 요청
   const deleteComment = async () => {
-    Swal.fire({
-      icon: "question",
+    Modal.confirm({
       title: "삭제하시겠습니까?",
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니오",
-      confirmButtonColor: "#429f50",
-      cancelButtonColor: "#d33",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+      content: "삭제한 내용은 복구할 수 없습니다.",
+      okText: "삭제",
+      cancelText: "취소",
+      okButtonProps: {
+        style: { backgroundColor: "#c47ad7" },
+      },
+      async onOk() {
         try {
           // axios 댓글 삭제 요청
           await api.delete(`/comments/${item.id}`);
@@ -129,9 +127,9 @@ const MoreDropDown = ({
           refreshComments?.();
         } catch (e) {
           console.error("댓글 삭제 실패: ", e);
-          Swal.fire("댓글 삭제에 실패했습니다.");
+          message.error("댓글 삭제에 실패했습니다.");
         }
-      }
+      },
     });
   };
 

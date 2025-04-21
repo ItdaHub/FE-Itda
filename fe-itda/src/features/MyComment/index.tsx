@@ -1,4 +1,4 @@
-import { Table, Button } from "antd";
+import { Table, Button, Modal } from "antd";
 import type { TableColumnsType } from "antd";
 import { useEffect, useState } from "react";
 import { MyCommentStyled } from "./styled";
@@ -6,9 +6,7 @@ import clsx from "clsx";
 import { App as AntdApp } from "antd";
 import api from "@/utill/api";
 import { useAppSelector } from "@/store/hooks";
-import Swal from "sweetalert2";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 interface CommentData {
   key: number;
   index: number;
@@ -69,17 +67,17 @@ const MyComment: React.FC = () => {
       message.error("내가 작성한 댓글을 불러오지 못했어요.");
     }
   };
+
   const handleDelete = async () => {
-    Swal.fire({
-      icon: "question",
+    Modal.confirm({
       title: "댓글을 삭제하겠습니까?",
-      showCancelButton: true,
-      confirmButtonText: "예",
-      cancelButtonText: "아니오",
-      confirmButtonColor: "#429f50",
-      cancelButtonColor: "#d33",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+      content: "삭제한 내용은 복구할 수 없습니다.",
+      okText: "삭제",
+      cancelText: "취소",
+      okButtonProps: {
+        style: { backgroundColor: "#c47ad7" },
+      },
+      async onOk() {
         try {
           await api.delete("/comments/bulk-delete", {
             data: { ids: selectedRowKeys },
@@ -94,7 +92,7 @@ const MyComment: React.FC = () => {
           console.error("댓글 삭제 실패:", error);
           message.error("댓글 삭제에 실패했어요.");
         }
-      }
+      },
     });
   };
 
