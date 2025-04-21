@@ -17,19 +17,22 @@ type EpisodeType = {
 };
 
 interface DataProps {
-  data?: number;
+  data?: any;
   novelTitle?: string;
 }
 
 const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   const { message } = AntdApp.useApp();
-  const [selectedChapter, setSelectedChapter] = useState<any>();
+  const [selectedChapter, setSelectedChapter] = useState<{
+    chapter_number: number;
+    chapterId: number;
+  } | null>(null);
   const [activeCate, setActiveCate] = useState<boolean>(false);
   const [episode, setEpisode] = useState<EpisodeType[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const user = useAppSelector((state) => state.auth.user);
   const router = useRouter();
   const { isPublished } = router.query;
+  const user = useAppSelector((state) => state.auth.user);
 
   // 에피소드 가져오기 요청
   const getEpisode = async () => {
@@ -64,10 +67,18 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
     setActiveCate(isLatest);
   };
 
-  // 유료여부 계산
-  const paidChapterCount = useMemo(() => {
-    return Math.floor((episode.length * 2) / 3);
-  }, [episode]);
+  // 유료여부 axios 요청
+  const getIsPaid = async (novelId: number, chapterId: number) => {
+    try {
+      const res = await api.get(`/${novelId}/popcorn`, {
+        params: { chapterId },
+      });
+      return res.data.isPaid;
+    } catch (e) {
+      console.error("유료 여부 요청 실패: ", e);
+      return false;
+    }
+  };
 
   return (
     <NovelEpisodeStyled className={clsx("novelEpisode-wrap")}>
@@ -97,18 +108,21 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
 
       <ul>
         {episode.map((item, i) => {
-          // 2/3까지는 무료, 이후는 유료
-          const isPaid = item.chapter_number > paidChapterCount;
+          const handleClick = async (item: EpisodeType) => {
+            if (!user) {
+              router.push("/login");
+              return;
+            }
 
-          const handleClick = (item: EpisodeType) => {
+            // novelId, chapterId
+            const isPaid = await getIsPaid(data, item.id);
+
             if (isPublished === "true" && isPaid) {
-              if (!user) {
-                router.push("/login");
-              } else {
-                setSelectedChapter(item.chapter_number);
-                setModalOpen(true);
-              }
-              message.info("유료 회차입니다. 결제가 필요합니다.");
+              setSelectedChapter({
+                chapter_number: item.chapter_number,
+                chapterId: item.id,
+              });
+              setModalOpen(true);
             } else {
               // 무료인 경우
               router.push(
@@ -130,9 +144,11 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
       </ul>
       {modalOpen && selectedChapter && (
         <BuyChapterModal
+          novelId={data}
+          chapterId={selectedChapter.chapterId}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
-          chapter={selectedChapter}
+          chapter={selectedChapter.chapter_number}
           novelTitle={novelTitle}
         />
       )}

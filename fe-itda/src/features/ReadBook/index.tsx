@@ -52,7 +52,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
           `/chapters/content/${novelId}/${chapterId}`
         );
 
-        console.log(response.data);
+        console.log("잘오고 있나??????", response.data);
 
         const {
           slides,
