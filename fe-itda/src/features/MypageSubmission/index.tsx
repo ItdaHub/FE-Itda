@@ -18,22 +18,18 @@ const MypageSubmission = () => {
     if (!user) return;
 
     try {
-      // 출품작 가져오기
-      const res = await api.get(`/novel/submitted?status=submitted`); // 경로 수정
+      // 내가 작성한 글 가져오기
+      const res = await api.get("/novels/my");
       const data = res.data;
 
-      console.log("출품된 작품 전체 데이터:", data); // 유저의 id와 출품작의 회차에 참여한 작가가 일치 할 때 테이블 표시 해야함 // authorId?
-
-      // 조건: 출품된 작품이면서 내가 쓴 작품만 필터링
-      // const filtered = data.filter(
-      //   (x: any) => x.status === "submitted" && x.authorId === user.id
-      // );
+      // 출품된 작품만 필터링
+      const filtered = data.filter((x: any) => x.status === "submitted");
 
       const mapped = data.map((x: any) => ({
         key: x.id,
         id: x.id,
         title: x.title,
-        date: new Date(x.created_at).toLocaleDateString(), // 작품 등록일? 출품일?
+        date: new Date(x.created_at).toLocaleDateString(),
         status: x.status,
       }));
 
@@ -61,7 +57,7 @@ const MypageSubmission = () => {
       width: "50%",
     },
     {
-      title: "출품일",
+      title: "작성일",
       dataIndex: "date",
       key: "date",
       width: "30%",
@@ -77,13 +73,11 @@ const MypageSubmission = () => {
         onRow={(record) => {
           return {
             onClick: () => {
-              // router.push(
-              //   `/noveldetail/novelcheck/${id}?isPublished=${isPublished}` // 상세페이지 이동
-              // );
+              router.push(`/noveldetail/novelcheck/${record.id}`);
             },
-            style: { cursor: "pointer" },
           };
         }}
+        rowClassName="submission-row"
       />
     </MypageSubmissionStyled>
   );

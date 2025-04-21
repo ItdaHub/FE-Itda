@@ -63,6 +63,14 @@ export const StyledModal = styled(Modal)`
     display: flex;
     flex-direction: column;
     height: 50px;
+    position: relative;
+  }
+
+  .signup-toggleBtn {
+    position: absolute;
+    font-size: 18px;
+    right: 12px;
+    top: 10px;
   }
 
   .findpw-errorMessage {
