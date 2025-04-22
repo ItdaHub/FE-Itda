@@ -75,6 +75,11 @@ export const WebNovelStyled = styled.div`
     /* type이 myfavorite인 경우 */
     .myfavorite-image {
       position: relative;
+      border-radius: 5px;
+      width: 170.33px;
+      height: 260.33px;
+      object-fit: cover;
+      overflow: hidden;
       img {
         height: 100% !important;
       }
