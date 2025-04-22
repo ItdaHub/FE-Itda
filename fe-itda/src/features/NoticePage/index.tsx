@@ -50,10 +50,7 @@ const NoticePage = () => {
       for (const key of openedKeys) {
         if (!readIdsRef.current.has(key)) {
           console.log(user?.id, key);
-          await api.post(`/announcement/read`, {
-            userId: user?.id, //유저 id
-            announcementId: Number(key), // 공지사항 id
-          });
+          await api.post(`/announcement/read/${key}`);
           readIdsRef.current.add(key);
         }
       }
