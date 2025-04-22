@@ -9,6 +9,7 @@ interface ApiResponseNotice {
   content: string;
   priority: "urgent" | "normal";
   created_at: string;
+  isRead: boolean;
 }
 
 interface DropdownItem {
@@ -17,41 +18,41 @@ interface DropdownItem {
   content: string;
   priority?: "urgent" | "normal";
   date: string;
+  isRead: boolean;
 }
 
 const priority: Record<"urgent" | "normal", number> = {
-  // 백엔드 enum 값과 타입 일치
   urgent: 1,
   normal: 2,
 };
 
 const NoticePage = () => {
-  // 유저 정보
   const user = useAppSelector((state) => state.auth.user);
-
-  // 공지사항 내용보기 상태
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
-
-  // DropdownList에 전달할 아이템 목록 상태
   const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>([]);
-
-  // 로딩 상태
   const [loading, setLoading] = useState(true);
-
-  // 중복 요청 방지
   const readIdsRef = useRef<Set<string>>(new Set());
 
+  // 읽음 처리
   const handleCollapseChange = async (keys: string | string[]) => {
     const openedKeys = Array.isArray(keys) ? keys : [keys];
     setActiveKeys(openedKeys);
 
+    if (!user?.id) return; // 로그인하지 않으면 읽음 처리하지 않음
+
     try {
-      // 읽은 공지사항 처리 API 호출
       for (const key of openedKeys) {
         if (!readIdsRef.current.has(key)) {
-          console.log(user?.id, key);
-          await api.post(`/announcement/read/${key}`);
+          await api.post(`/announcement/read/${key}`, { userId: user.id });
           readIdsRef.current.add(key);
+
+          // 읽음 처리 UI에도 반영
+          setDropdownItems((prev) =>
+            prev.map((item) =>
+              item.key === key ? { ...item, isRead: true } : item
+            )
+          );
+          console.log(`읽음 처리됨: ${key}`);
         }
       }
     } catch (err) {
@@ -61,18 +62,29 @@ const NoticePage = () => {
 
   useEffect(() => {
     const fetchNotices = async () => {
+      if (!user?.id) return;
+
       setLoading(true);
       try {
-        const res = await api.get<ApiResponseNotice[]>("/announcement");
-        const transformedData = res.data.map((item) => ({
-          key: String(item.id),
-          title: item.title,
-          content: item.content,
-          priority: item.priority,
-          date: item.created_at
-            ? new Date(item.created_at).toLocaleDateString()
-            : "Invalid Date",
-        }));
+        const res = await api.get<ApiResponseNotice[]>(
+          `/announcement?userId=${user.id}`
+        );
+        const transformedData = res.data.map((item) => {
+          const idStr = String(item.id);
+          if (item.isRead) {
+            readIdsRef.current.add(idStr); // 중복 방지
+          }
+          return {
+            key: idStr,
+            title: item.title,
+            content: item.content,
+            priority: item.priority,
+            date: item.created_at
+              ? new Date(item.created_at).toLocaleDateString()
+              : "Invalid Date",
+            isRead: item.isRead,
+          };
+        });
         setDropdownItems(transformedData);
       } catch (error: any) {
         console.error("공지사항 목록 불러오기 실패:", error);
@@ -81,10 +93,12 @@ const NoticePage = () => {
       }
     };
 
-    fetchNotices();
-  }, []);
+    if (user?.id) {
+      fetchNotices();
+    }
+  }, [user]);
 
-  // 우선순위에 따라 정렬된 공지사항 목록 (렌더링 시 계산)
+  // 우선순위 정렬
   const sortedItems = [...dropdownItems].sort((a, b) => {
     const priorityA = priority[a.priority ?? "normal"];
     const priorityB = priority[b.priority ?? "normal"];
