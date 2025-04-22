@@ -55,7 +55,7 @@ const LoginPage = () => {
 
       dispatch(setUser(userResponse.data.user));
       setErrorMessage("");
-      router.push("/");
+      router.push("/?fromLogin=true");
     } catch (error) {
       console.error("로그인 오류:", error);
       setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
