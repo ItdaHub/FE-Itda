@@ -7,6 +7,7 @@ import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/router";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
 import PopcornModal from "../PopcornModal";
+import clsx from "clsx";
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
 
@@ -81,18 +82,26 @@ const BuyChapterModal = ({
   };
 
   return (
-    <BuyChapterModalStyled>
+    <BuyChapterModalStyled className={clsx("buyModal-wrap")}>
       <AntModal
         title="회차 결제"
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
         footer={null}
         centered
+        width={300}
       >
-        <p>
-          {novelTitle} <strong>{chapter}화</strong>
+        <p
+          style={{
+            fontSize: 16,
+            fontWeight: 700,
+            textAlign: "center",
+            lineHeight: 5,
+          }}
+        >
+          {novelTitle} {chapter}화
         </p>
-        <p>
+        <p style={{ textAlign: "right" }}>
           <strong>보유 팝콘:</strong> {nowCash}팝콘
         </p>
         <Button
