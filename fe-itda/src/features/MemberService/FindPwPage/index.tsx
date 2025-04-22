@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "@/utill/api";
 import { useRouter } from "next/router";
+import { LeftOutlined } from "@ant-design/icons";
 
 const FindPwPage = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,17 @@ const FindPwPage = () => {
   return (
     <FindPwPageStyled className={clsx("findpw-wrap")}>
       <div className="findpw-box">
-        <h3 className="findpw-title">비밀번호 찾기</h3>
+        <div className="findpw-titleBox">
+          <div
+            className="findpw-backBtn"
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
+            <LeftOutlined />
+          </div>
+          <h3 className="findpw-title">비밀번호 찾기</h3>{" "}
+        </div>
         <form className="findpw-form">
           <div>
             <input

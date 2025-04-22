@@ -149,6 +149,7 @@ export const NewWriteStyled = styled.div`
           width: 100%;
           border-bottom: 1px solid #adadad;
           padding-bottom: 20px;
+          border-right: none;
           .newWrite-content {
             margin: 0 auto;
             padding: 0 10px;

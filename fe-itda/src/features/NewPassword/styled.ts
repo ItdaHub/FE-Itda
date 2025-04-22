@@ -20,7 +20,6 @@ export const NewPassStyled = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      /* align-items: center; */
       background-color: white;
       border-radius: 4px;
     }
@@ -43,6 +42,10 @@ export const NewPassStyled = styled.div`
       font-size: 15px;
       margin: 3px 0;
       border: 1px solid rgb(214, 222, 235);
+
+      &:focus {
+        outline: none;
+      }
     }
 
     .newpass-btn {

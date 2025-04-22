@@ -12,6 +12,23 @@ export const FindPwPageStyled = styled.div`
     align-items: center;
     justify-content: center;
 
+    .findpw-titleBox {
+      width: 80%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      .findpw-backBtn {
+        position: absolute;
+        font-size: 20px;
+        left: 5px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
     .findpw-box {
       width: 100%;
       display: flex;
@@ -20,21 +37,15 @@ export const FindPwPageStyled = styled.div`
       align-items: center;
       background-color: white;
       max-width: 500px;
-      height: 370px;
+      height: auto;
       margin: 60px auto;
       border-radius: 4px;
-
-      .findpw-title {
-        margin-bottom: 20px;
-      }
 
       .findpw-form {
         width: 80%;
       }
     }
-    .findpw-id,
-    .new-pass,
-    .new-passCheck {
+    .findpw-id {
       width: 100%;
       height: 45px;
       border-radius: 4px;
@@ -42,10 +53,13 @@ export const FindPwPageStyled = styled.div`
       font-size: 15px;
       margin: 3px 0;
       border: 1px solid rgb(214, 222, 235);
+
+      &:focus {
+        outline: none;
+      }
     }
 
-    .findPw-btn,
-    .changePw-btn {
+    .findPw-btn {
       width: 100%;
       padding: 10px 34px;
       font-size: 16px;
@@ -68,16 +82,6 @@ export const FindPwPageStyled = styled.div`
 
     .findpw-title {
       text-align: center;
-    }
-
-    .new-password-box {
-      margin: 30px 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .findpw-newpass-box {
-      position: relative;
     }
 
     .findpw-toggleBtn {
