@@ -62,12 +62,10 @@ const NoticePage = () => {
 
   useEffect(() => {
     const fetchNotices = async () => {
-      if (!user?.id) return;
-
       setLoading(true);
       try {
         const res = await api.get<ApiResponseNotice[]>(
-          `/announcement?userId=${user.id}`
+          `/announcement?userId=${user?.id}`
         );
         const transformedData = res.data.map((item) => {
           const idStr = String(item.id);
@@ -93,10 +91,8 @@ const NoticePage = () => {
       }
     };
 
-    if (user?.id) {
-      fetchNotices();
-    }
-  }, [user]);
+    fetchNotices();
+  }, []);
 
   // 우선순위 정렬
   const sortedItems = [...dropdownItems].sort((a, b) => {

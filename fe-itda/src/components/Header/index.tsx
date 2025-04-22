@@ -82,17 +82,16 @@ const Header = () => {
         const res = await api.get("/notifications", {
           withCredentials: true,
         });
-
         const unReadCount = res.data.filter(
           (item: { is_read: boolean }) => !item.is_read
         ).length;
-
-        console.log("알림", unReadCount);
         return unReadCount;
       } catch (e) {
         console.error("알림 개수 불러오기 실패:", e);
         return 0;
       }
+    } else {
+      return 0;
     }
   };
 
