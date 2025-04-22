@@ -67,7 +67,6 @@ const Header = () => {
       const unReadCount = res.data.filter(
         (item: { isRead: boolean }) => !item.isRead
       ).length;
-      console.log(unReadCount);
       return unReadCount;
     } catch (e) {
       console.error("공지사항 개수 불러오기 실패:", e);
@@ -85,6 +84,7 @@ const Header = () => {
         const unReadCount = res.data.filter(
           (item: { is_read: boolean }) => !item.is_read
         ).length;
+        console.log("알림개수", unReadCount);
         return unReadCount;
       } catch (e) {
         console.error("알림 개수 불러오기 실패:", e);
@@ -298,8 +298,7 @@ const Header = () => {
           <div className="header-count-box">
             <Badge
               className="header-count"
-              count={noticeLength}
-              overflowCount={999}
+              dot={noticeLength !== 0 ? true : false}
             >
               <NotificationOutlined
                 className="header-louder"
