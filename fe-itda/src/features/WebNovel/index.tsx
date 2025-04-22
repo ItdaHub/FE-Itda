@@ -1,7 +1,7 @@
 import { WebNovelStyled } from "./styled";
 import { EyeOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import testImage from "@/assets/images/testImage.png";
+
 import dayjs from "dayjs";
 
 interface GenreType {
@@ -49,7 +49,7 @@ const WebNovel = ({
       ? imageUrl.src
       : typeof imageUrl === "string" && imageUrl.trim() !== ""
       ? imageUrl
-      : testImage.src;
+      : ""; // 백엔드에서 imageUrl이 없을 경우 빈 문자열 처리
 
   return (
     <WebNovelStyled className="novel-wrap">
@@ -67,13 +67,19 @@ const WebNovel = ({
               : ""
           }`}
         >
-          <img
-            src={imageSrc}
-            alt={title}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = testImage.src;
-            }}
-          />
+          {imageSrc && (
+            <img
+              src={imageSrc}
+              alt={title}
+              onError={(e) => {
+                // (e.target as HTMLImageElement).src = testImage.src; // 에러 처리 제거
+                console.error("Failed to load image:", imageSrc);
+                (e.target as HTMLImageElement).style.display = "none"; // 이미지 로드 실패 시 숨김 처리
+              }}
+            />
+          )}
+          {imageSrc === "" && <div className="no-image">No Image</div>}
+
           {/* 내 찜 + 내 글 -> 호버시 소설 정보 */}
           {(type === "myfavorite" || type === "mywrite") && (
             <div className="myfavorite-overlay">
