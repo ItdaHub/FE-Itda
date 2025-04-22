@@ -45,6 +45,7 @@ const Header = () => {
 
   // 로그인된 유저 가져오기
   const user = useAppSelector((state) => state.auth.user);
+  const userId = user?.id;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const Header = () => {
   // 공지사항 개수 불러오기
   const getNoticeCount = async () => {
     try {
-      const res = await api.get("/announcement");
+      const res = await api.get(`/announcement/${userId}`);
       console.log("공지", res.data);
       return res.data.length;
     } catch (e) {
@@ -76,8 +77,11 @@ const Header = () => {
       const res = await api.get("/notifications", {
         withCredentials: true,
       });
-      console.log("알림", res.data);
-      return res.data.length;
+
+      const unReadCount = res.data.filter(
+        (item: { is_read: boolean }) => !item.is_read
+      ).length;
+      return unReadCount;
     } catch (e) {
       console.error("알림 개수 불러오기 실패:", e);
       return 0;

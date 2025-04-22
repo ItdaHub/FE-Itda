@@ -91,8 +91,6 @@ const NoticePage = () => {
     return priorityA - priorityB;
   });
 
-  console.log("정렬된 sortedItems:", sortedItems);
-
   if (loading) {
     return <div>공지사항 목록을 불러오는 중...</div>;
   }
