@@ -266,7 +266,6 @@ const Header = () => {
                 value={keyword}
                 onChange={(e) => {
                   setKeyword(e.target.value);
-                  // router.push("/search");
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -275,6 +274,7 @@ const Header = () => {
                       : router.push(
                           `/search?keyword=${encodeURIComponent(keyword)}`
                         );
+                    setKeyword("");
                   }
                 }}
               />
@@ -288,6 +288,7 @@ const Header = () => {
                   : router.push(
                       `/search?keyword=${encodeURIComponent(keyword)}`
                     );
+                setKeyword("");
               }}
             >
               <Image src={search} alt="search" />
