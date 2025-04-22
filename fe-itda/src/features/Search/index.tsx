@@ -35,9 +35,9 @@ const SearchResult = ({ keyword }: KeyProps) => {
           title: novel.title,
           genre: novel.genre?.name || "장르없음",
           likes: novel.likeCount || 0,
-          imageUrl: novel.coverImage || "/defaultCover.png", // 기본 커버 이미지 경로
+          imageUrl: novel.imageUrl || "/defaultCover.png", // 기본 커버 이미지 경로
         }));
-
+        console.log(novels);
         setResults(novels);
       } catch (error) {
         console.error("검색 실패:", error);
