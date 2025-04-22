@@ -47,10 +47,22 @@ const Header = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const fromLogin = router.query.fromLogin;
+
+    if (fromLogin) {
+      // 로그인 직후에는 Popover를 닫아놓고, URL 파라미터를 정리함
+      setPopoverOpen(false);
+      const cleanUrl = router.pathname; // fromLogin 제거
+      router.replace(cleanUrl, undefined, { shallow: true });
+    }
+  }, [router.query]);
+
   // 공지사항 개수 불러오기
   const getNoticeCount = async () => {
     try {
       const res = await api.get("/announcement");
+      console.log("공지", res.data);
       return res.data.length;
     } catch (e) {
       console.error("공지사항 개수 불러오기 실패:", e);
@@ -64,6 +76,7 @@ const Header = () => {
       const res = await api.get("/notifications", {
         withCredentials: true,
       });
+      console.log("알림", res.data);
       return res.data.length;
     } catch (e) {
       console.error("알림 개수 불러오기 실패:", e);

@@ -1,6 +1,7 @@
 import DropdownList from "@/components/Notice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "@/utill/api";
+import { useAppSelector } from "@/store/hooks";
 
 interface ApiResponseNotice {
   id: number;
@@ -25,6 +26,9 @@ const priority: Record<"urgent" | "normal", number> = {
 };
 
 const NoticePage = () => {
+  // 유저 정보
+  const user = useAppSelector((state) => state.auth.user);
+
   // 공지사항 내용보기 상태
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
 
@@ -34,9 +38,28 @@ const NoticePage = () => {
   // 로딩 상태
   const [loading, setLoading] = useState(true);
 
-  const handleCollapseChange = (keys: string | string[]) => {
-    console.log("현재 열린 패널:", keys);
-    setActiveKeys(Array.isArray(keys) ? keys : [keys]);
+  // 중복 요청 방지
+  const readIdsRef = useRef<Set<string>>(new Set());
+
+  const handleCollapseChange = async (keys: string | string[]) => {
+    const openedKeys = Array.isArray(keys) ? keys : [keys];
+    setActiveKeys(openedKeys);
+
+    try {
+      // 읽은 공지사항 처리 API 호출
+      for (const key of openedKeys) {
+        if (!readIdsRef.current.has(key)) {
+          console.log(user?.id, key);
+          await api.post(`/announcement/read`, {
+            userId: user?.id, //유저 id
+            announcementId: Number(key), // 공지사항 id
+          });
+          readIdsRef.current.add(key);
+        }
+      }
+    } catch (err) {
+      console.error("읽음 처리 실패:", err);
+    }
   };
 
   useEffect(() => {
