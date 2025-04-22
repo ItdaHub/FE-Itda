@@ -60,7 +60,8 @@ export const WebNovelStyled = styled.div`
     .novel-image {
       img {
         border-radius: 5px;
-        width: 100%;
+        width: 170.33px;
+        height: 260.33px;
         object-fit: cover;
         overflow: hidden;
       }

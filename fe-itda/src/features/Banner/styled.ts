@@ -16,6 +16,9 @@ export const BannerStyled = styled.div`
 
     .banner-img {
       width: 100%;
+      height: 382px;
+      object-fit: cover;
+      overflow: hidden;
     }
   }
 `;

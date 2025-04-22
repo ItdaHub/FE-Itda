@@ -37,6 +37,8 @@ export const NovelInfoStyled = styled.div`
         border: 1px solid rgba(0, 0, 0, 0.05);
         border-radius: 4px;
         margin-right: 25px;
+        width: 170.33px;
+        height: 260.33px;
       }
       .novelinfo-box {
         width: 100%;
