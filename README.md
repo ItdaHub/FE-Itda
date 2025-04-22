@@ -1,0 +1,169 @@
+# Itda-소설 이어쓰기 웹사이트
+프로젝트 소개
+신선한 아이디어와 재미를 기반으로, 창작자와 소비자 구분 없이 누구나 쉽게 참여할 수 있는 소설 이어달리기 플랫폼입니다.
+
+
+<br>
+
+## 🔗 목차
+
+1. [기술스택](#-기술-스택)
+2. [프로젝트 목적](#-프로젝트-목적)
+3. [기능정의서](#-기능-정의서)
+4. [DB 설계도](#-DB-설계도)
+5. [주요 기능](#-주요-기능들)
+6. [배포 주소](#-배포-주소)
+
+<br>
+<br>
+
+## 🛠 기술 스택
+
+<h4>기술 스택</h4>
+ <div style="display: flex; gap: 20px;">
+   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
+   <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
+   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+   <img src="https://img.shields.io/badge/styledcomponents-DB7093?&style=for-the-badge&logo=styledcomponents&logoColor=white" />
+   <img src="https://img.shields.io/badge/nestjs-E0234E?&style=for-the-badge&logo=nestjs&logoColor=white" />
+   <img src="https://img.shields.io/badge/mysql-4479A1?&style=for-the-badge&logo=mysql&logoColor=white" /> 
+ <br/>
+ <h4>개발 환경</h4>
+   <img src="https://img.shields.io/badge/visual%20studio%20code-%23007ACC.svg?&style=for-the-badge&logo=visual%20studio%20code&logoColor=white" />
+   <img src="https://img.shields.io/badge/git-%23F05032.svg?&style=for-the-badge&logo=git&logoColor=white" />
+   <img src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
+ <br/>
+ <h4>라이브러리</h4>
+    <img src="https://img.shields.io/badge/antdesign-0170FE?&style=for-the-badge&logo=antdesign&logoColor=white" /> 
+    <img src="https://img.shields.io/badge/mui-007FFF?&style=for-the-badge&logo=mui&logoColor=white" /> 
+  </div>
+<h4>API 서비스</h4>
+SNS: 네이버 API / 카카오 API / 구글 API
+<br/>
+결제: 토스 API
+<br/>
+
+
+## 📚 프로젝트 목적
+
+
+
+## 👥 프로젝트 기간 및 팀원 소개
+ *  **프로젝트 기간** : 2025.04.01-2025.04.25
+ *  **권태연** ([Taetea1](https://github.com/Taetea1)) : FE
+ *  **박소현** ([rmfnxm23](https://github.com/rmfnxm23)) : FE
+ *  **손한별** ([HanbyeolSon74](https://github.com/HanbyeolSon74)) : BE
+
+
+ 
+## 🗒️ 기능 정의서
+
+
+
+## 📐 DB 설계도
+
+
+
+## 💡 주요 기능들
+
+### 메인 페이지
+- 관리자에 등록된 배너가 5초마다 자동 스와이퍼
+- 카테고리 클릭시 해당 카테고리 게시글만 필터링 (이어쓰기는 미완결 작품)
+- 장르 클릭 시 해당 장르의 게시글만 필터링
+- 모든 작품의 조회수와 찜의 갯수 합산하여 상위 5개만 표시 // 갯수 정확하지 않음
+- 연령별 인기작 현재 년도와 출생년도를 계산하여 추정한 연령대별 조회수와 찜의 갯수 합산하여 상위 5개만 표시 // 갯수 정확하지 않음
+- 새로쓰기 기능 : 소설을 쓰는 첫 주자는 장르와 함께 이어쓰기를 할 인원수 선택, 제목과 내용 입력 가능
+ - top 버튼 클릭 시 상단 이동
+
+
+
+### 작품 회차정보 페이지
+- 함께하기 클릭 시 다음화 작성하는 페이지로 이동
+- 찜 버튼으로 관심있는 작품 표시
+- 공유 버튼으로 카카오톡에 해당 사이트 공유 가능 (카카오톡 로그인 필요)
+- 정렬 기능 : 작품의 회차를 최신순 또는 1화부터 정렬
+- 댓글, 대댓글 입력 가능
+- 댓글 신고 가능 (회원자에 한해서 가능, 중복 신고 불가)
+
+
+
+### 회차 내용 보기 페이지
+- 이전화 : 이전 회차로 이동 (첫화는 제외)
+- 다음화 : 다음 회차로 이동 (마지막화는 제외)
+- 댓글, 대댓글 입력 가능
+- 해당 회차 신고 가능 (회원자에 한해서 가능, 중복 신고 불가)
+
+
+
+### 댓글 내역 페이지
+- 내가 쓴 댓글 표시
+- 댓글 삭제 가능
+
+
+
+### 내 글 페이지
+- 내가 참여한 작품 표시
+
+
+
+### 팝콘 내역 페이지
+- 내가 결제, 사용한 내역 표시
+- 팝콘 충전 버튼 : 토스API를 활용하여 선택한 팝콘 (사이트에서 통용되는 단위) 충전 가능
+
+
+
+### 찜 페이지
+- 내가 관심있는 작품 표시
+
+
+
+### 회원가입
+- 이용약관 필수 항목 동의 후 회원가입 입력 창으로 이동
+- 아이디, 닉네임 중복검사
+
+
+
+### 로그인
+- 로컬 로그인 : 입력한 ID, 비밀번호를 검증하여 로그인 접속 여부 확인
+- SNS 로그인 : 네이버, 카카오, 구글 API활용
+
+
+
+### ID 찾기
+- 가입 시 입력한 전화번호로 ID찾기 
+
+
+
+### PW 찾기
+-  ID로 본인 인증 후 등록된 이메일로 비밀번호 재설정 링크를 통해 비밀번호 변경
+
+
+
+### 내 정보
+- 로그아웃 시에는 sign up block
+- 로그인 시에만 내정보창으로 이동가능한 배너 block
+
+
+
+### 공지사항
+- 관리자에 등록된 공지사항을 우선순위, 최신순으로 표시
+- 공지사항의 갯수 표시
+- antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
+
+
+
+### 알림
+- 사용자에 따라 출품한 작품이나 신고처리에 대한 알림을 표시
+- 알림의 갯수 표시
+- antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
+
+
+
+### 검색
+- 검색 기능 제공 (제목에 키워드가 포함된 게시글 출력)
+
+
+
+### 다크모드
+- 화면의 색상 반전
+
