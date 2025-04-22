@@ -62,7 +62,7 @@ const Header = () => {
   // 공지사항 개수 불러오기
   const getNoticeCount = async () => {
     try {
-      const res = await api.get(`/announcement/${userId}`);
+      const res = await api.get(`/announcement`);
       console.log("공지", res.data);
       return res.data.length;
     } catch (e) {
@@ -81,6 +81,8 @@ const Header = () => {
       const unReadCount = res.data.filter(
         (item: { is_read: boolean }) => !item.is_read
       ).length;
+
+      console.log("알림", unReadCount);
       return unReadCount;
     } catch (e) {
       console.error("알림 개수 불러오기 실패:", e);
