@@ -25,7 +25,7 @@ const MypageSubmission = () => {
       // 출품된 작품만 필터링
       const filtered = data.filter((x: any) => x.status === "submitted");
 
-      const mapped = data.map((x: any) => ({
+      const mapped = filtered.map((x: any) => ({
         key: x.id,
         id: x.id,
         title: x.title,
