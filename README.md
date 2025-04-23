@@ -1,7 +1,5 @@
 # Itda-소설 이어쓰기 웹사이트
-프로젝트 소개
-신선한 아이디어와 재미를 기반으로, 창작자와 소비자 구분 없이 누구나 쉽게 참여할 수 있는 소설 이어달리기 플랫폼입니다.
-
+누구나 쉽게 참여할 수 있는 소설 이어달리기 플랫폼입니다.
 
 <br>
 
@@ -9,9 +7,9 @@
 
 1. [기술스택](#-기술-스택)
 2. [프로젝트 목적](#-프로젝트-목적)
-3. [기능정의서](#-기능-정의서)
+3. [기능정의서](#-기능정의서)
 4. [DB 설계도](#-DB-설계도)
-5. [주요 기능](#-주요-기능들)
+5. [주요 기능](#-주요-기능)
 6. [배포 주소](#-배포-주소)
 
 <br>
@@ -19,61 +17,81 @@
 
 ## 🛠 기술 스택
 
-<h4>기술 스택</h4>
- <div style="display: flex; gap: 20px;">
-   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
-   <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
-   <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-   <img src="https://img.shields.io/badge/styledcomponents-DB7093?&style=for-the-badge&logo=styledcomponents&logoColor=white" />
-   <img src="https://img.shields.io/badge/nestjs-E0234E?&style=for-the-badge&logo=nestjs&logoColor=white" />
-   <img src="https://img.shields.io/badge/mysql-4479A1?&style=for-the-badge&logo=mysql&logoColor=white" /> 
- <br/>
- <h4>개발 환경</h4>
-   <img src="https://img.shields.io/badge/visual%20studio%20code-%23007ACC.svg?&style=for-the-badge&logo=visual%20studio%20code&logoColor=white" />
-   <img src="https://img.shields.io/badge/git-%23F05032.svg?&style=for-the-badge&logo=git&logoColor=white" />
-   <img src="https://img.shields.io/badge/github-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white" />
- <br/>
- <h4>라이브러리</h4>
-    <img src="https://img.shields.io/badge/antdesign-0170FE?&style=for-the-badge&logo=antdesign&logoColor=white" /> 
-    <img src="https://img.shields.io/badge/mui-007FFF?&style=for-the-badge&logo=mui&logoColor=white" /> 
-  </div>
-<h4>API 서비스</h4>
-SNS: 네이버 API / 카카오 API / 구글 API
-<br/>
-결제: 토스 API
-<br/>
+<h3>Frontend & UI</h3>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Styled--Components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white" />
+  <img src="https://img.shields.io/badge/Ant Design-0170FE?style=for-the-badge&logo=antdesign&logoColor=white" />
+  <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white" />
+</div>
 
+<h3>Backend & Database</h3>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
+</div>
+
+<h3>Development Tools</h3>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+  <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+</div>
+
+<h3>Integrations</h3>
+
+SNS 로그인: 네이버 API / 카카오 API / 구글 API
+<br/>
+결제 시스템: 토스 API
+
+<br/>
 
 ## 📚 프로젝트 목적
+창작자와 소비자 구분 없이 누구나 쉽게 참여하고 협력할 수 있는 참여형 콘텐츠를 제공합니다. <br/>
+신선한 아이디어와 재미를 바탕으로, 모든 사용자가 창작의 즐거움을 경험하며, 함께 소설을 만들어가는 과정을 제공하는 것이 목표입니다.
 
 
+<br/>
 
-## 👥 프로젝트 기간 및 팀원 소개
- *  **프로젝트 기간** : 2025.04.01-2025.04.25
- *  **권태연** ([Taetea1](https://github.com/Taetea1)) : FE
- *  **박소현** ([rmfnxm23](https://github.com/rmfnxm23)) : FE
- *  **손한별** ([HanbyeolSon74](https://github.com/HanbyeolSon74)) : BE
+## 📆 프로젝트 기간
+* **진행 기간**: 2025.04.01-2025.04.25
+* **총 작업 기간**: 약 4주
+  
+<br/>
 
+## 👨‍👩‍👧‍👦 프로젝트 팀원
 
+| 이름       | 역할                  | GitHub                           |
+|------------|-----------------------|----------------------------------|
+| 권태연     | 프론트엔드 개발         | [Taetea1](https://github.com/Taetea1) |
+| 박소현     | 프론트엔드 개발         | [rmfnxm23](https://github.com/rmfnxm23) |
+| 손한별     | 백엔드 개발 / 팀장      | [HanbyeolSon74](https://github.com/HanbyeolSon74)|
+
+<br/>
+<br/>
  
-## 🗒️ 기능 정의서
+## 🗒️ 기능정의서
 
-
+<br/>
+<br/>
 
 ## 📐 DB 설계도
 
+<br/>
+<br/>
 
-
-## 💡 주요 기능들
+## 💡 주요 기능
 
 ### 메인 페이지
 - 관리자에 등록된 배너가 5초마다 자동 스와이퍼
 - 카테고리 클릭시 해당 카테고리 게시글만 필터링 (이어쓰기는 미완결 작품)
 - 장르 클릭 시 해당 장르의 게시글만 필터링
-- 모든 작품의 조회수와 찜의 갯수 합산하여 상위 5개만 표시 // 갯수 정확하지 않음
-- 연령별 인기작 현재 년도와 출생년도를 계산하여 추정한 연령대별 조회수와 찜의 갯수 합산하여 상위 5개만 표시 // 갯수 정확하지 않음
+- 모든 작품의 조회수와 찜의 갯수 합산하여 상위 10개만 표시 
+- 연령별 인기작 현재년도와 출생년도를 계산하여 추정한 연령대별 조회수와 찜의 갯수 합산하여 상위 10개만 표시
 - 새로쓰기 기능 : 소설을 쓰는 첫 주자는 장르와 함께 이어쓰기를 할 인원수 선택, 제목과 내용 입력 가능
- - top 버튼 클릭 시 상단 이동
+- top 버튼 클릭 시 상단 이동
 
 
 
@@ -144,12 +162,16 @@ SNS: 네이버 API / 카카오 API / 구글 API
 - 로그인 시에만 내정보창으로 이동가능한 배너 block
 
 
+## 💡 부가 기능 (헤더)
+
+### 검색
+- 검색 기능 제공 (제목에 키워드가 포함된 게시글 출력)
+
 
 ### 공지사항
 - 관리자에 등록된 공지사항을 우선순위, 최신순으로 표시
 - 공지사항의 갯수 표시
 - antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
-
 
 
 ### 알림
@@ -158,12 +180,15 @@ SNS: 네이버 API / 카카오 API / 구글 API
 - antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
 
 
-
-### 검색
-- 검색 기능 제공 (제목에 키워드가 포함된 게시글 출력)
-
+### 결제
+- 토스 API를 활용하여 결제 기능을 구현
 
 
 ### 다크모드
 - 화면의 색상 반전
+
+<br/>
+<br/>
+
+### 배포 주소 (예정)
 
