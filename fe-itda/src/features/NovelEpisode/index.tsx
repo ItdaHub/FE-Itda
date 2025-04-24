@@ -33,6 +33,24 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
 
+  // 사용자가 결제한 회차 목록 가져오기
+  const getUserPurchasedChapters = async (novelId: number) => {
+    if (!user) {
+      console.error("사용자가 로그인하지 않았습니다.");
+      return []; // 사용자 로그인하지 않으면 빈 배열 반환
+    }
+
+    try {
+      const res = await api.get(`/popcorn/purchases/${user.id}`, {
+        params: { novelId },
+      });
+      return res.data; // 결제한 회차 목록
+    } catch (e) {
+      console.error("결제 내역 가져오기 실패: ", e);
+      return [];
+    }
+  };
+
   // 에피소드 가져오기 요청
   const getEpisode = async () => {
     if (!data) return;
@@ -66,16 +84,31 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
     setActiveCate(isLatest);
   };
 
-  // 유료여부 axios 요청
-  const getIsPaid = async (novelId: number, chapterId: number) => {
-    try {
-      const res = await api.get(`chapters/${novelId}/popcorn`, {
-        params: { chapterId },
+  // 회차 클릭 시 처리
+  const handleClick = async (item: EpisodeType) => {
+    if (!user) {
+      router.push("/login"); // 로그인 안 되어 있으면 로그인 페이지로 리디렉션
+      return;
+    }
+
+    // 사용자가 결제한 회차 목록을 받아옵니다.
+    const purchasedChapters = await getUserPurchasedChapters(data);
+
+    // 클릭한 회차가 결제된 회차인지 확인합니다.
+    const isPaid = purchasedChapters.some(
+      (chapter: any) => chapter.chapterId === item.id
+    );
+
+    // 결제된 회차라면 바로 해당 회차로 이동
+    if (item.isPublished && isPaid) {
+      router.push(`/chapter/${item.id}?novelId=${data}`);
+    } else {
+      // 결제되지 않은 회차라면 모달을 띄웁니다.
+      setSelectedChapter({
+        chapter_number: item.chapter_number,
+        chapterId: item.id,
       });
-      return res.data.isPaid;
-    } catch (e) {
-      console.error("유료 여부 요청 실패: ", e);
-      return true;
+      setModalOpen(true);
     }
   };
 
@@ -106,38 +139,15 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
       </div>
 
       <ul>
-        {episode.map((item, i) => {
-          const handleClick = async (item: EpisodeType) => {
-            if (!user) {
-              router.push("/login");
-              return;
-            }
-
-            // novelId, chapterId
-            const isPaid = await getIsPaid(data, item.id);
-
-            if (item.isPublished && isPaid) {
-              setSelectedChapter({
-                chapter_number: item.chapter_number,
-                chapterId: item.id,
-              });
-              setModalOpen(true);
-            } else {
-              // 무료인 경우
-              router.push(`/chapter/${item.id}?novelId=${data}`);
-            }
-          };
-
-          return (
-            <li
-              onClick={() => handleClick(item)}
-              className="novelEpisode-list"
-              key={item.id}
-            >
-              <Episode item={item} />
-            </li>
-          );
-        })}
+        {episode.map((item, i) => (
+          <li
+            onClick={() => handleClick(item)}
+            className="novelEpisode-list"
+            key={item.id}
+          >
+            <Episode item={item} />
+          </li>
+        ))}
       </ul>
       {modalOpen && selectedChapter && (
         <BuyChapterModal
