@@ -226,9 +226,6 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
           try {
             // 출품 요청 API 호출
             await api.patch(`/novels/${novelId}/submit`);
-            message.success("소설이 출품되었습니다.", 1, () => {
-              router.push("/"); // 출품 후 홈으로 리디렉션
-            });
           } catch (err: any) {
             console.error(
               "출품 요청 실패:",

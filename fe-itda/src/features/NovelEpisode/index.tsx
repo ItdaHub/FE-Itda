@@ -124,7 +124,9 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
               setModalOpen(true);
             } else {
               // 무료인 경우
-              router.push(`/chapter/${item.id}?novelId=${data}`);
+              router.push(
+                `/chapter/${item.chapter_number}?novelId=${data}&chapterId=${item.id}`
+              );
             }
           };
 

@@ -1,7 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Navigation } from "swiper/modules";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import clsx from "clsx";
@@ -9,7 +6,7 @@ import { ReadBookStyled } from "./styled";
 import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
 import { useRouter } from "next/router";
-import { LeftOutlined, MenuOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { App as AntdApp } from "antd";
 
 type Content = {
@@ -28,11 +25,12 @@ type ChapterResponse = {
 };
 
 interface ReadBookProps {
+  chapter_number: number;
   novelId: number;
   chapterId: number;
 }
 
-const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
+const ReadBook = ({ chapter_number, novelId, chapterId }: ReadBookProps) => {
   const [contentList, setContentList] = useState<Content[]>([]);
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
@@ -49,7 +47,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
     const fetchData = async () => {
       try {
         const response = await api.get<ChapterResponse>(
-          `/chapters/content/${novelId}/${chapterId}`
+          `/chapters/content/${novelId}/${chapterId}/${chapter_number}`
         );
 
         console.log("잘오고 있나??????", response.data);
@@ -74,22 +72,18 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         setIsLastChapter(isLastChapter);
         // 1화면 버튼 비활성화
         setIsDisabled(chapterNumber === 1);
-
-        const matchedIndex = slides.findIndex(
-          (item) => item.index === chapterId
-        );
       } catch (error) {
         console.error("콘텐츠 불러오기 실패:", error);
       }
     };
 
     fetchData();
-  }, [novelId, chapterId]);
+  }, [novelId, chapterId, chapter_number]);
 
   // 이전화
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
-      chapterId = currentChapterId - 1;
+      chapter_number = currentChapterId - 1;
       router.push({
         pathname: `/chapter/${currentChapterId - 1}`,
         query: {

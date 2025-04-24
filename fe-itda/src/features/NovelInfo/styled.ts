@@ -34,6 +34,7 @@ export const NovelInfoStyled = styled.div`
       }
 
       .novelinfo-img {
+        object-fit: cover;
         border: 1px solid rgba(0, 0, 0, 0.05);
         border-radius: 4px;
         margin-right: 25px;
