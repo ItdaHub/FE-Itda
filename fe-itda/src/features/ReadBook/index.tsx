@@ -79,33 +79,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
     fetchData();
   }, [novelId, chapterId]);
 
-  // 이전화
-  const goToPrevChapter = () => {
-    if (currentChapterId > 1) {
-      chapterId = currentChapterId - 1;
-      router.push({
-        pathname: `/chapter/${currentChapterId - 1}`,
-        query: {
-          novelId,
-        },
-      });
-    }
-  };
-
-  // 다음화
-  const goToNextChapter = () => {
-    if (isLastChapter) {
-      message.info("마지막화입니다");
-    } else {
-      router.push({
-        pathname: `/chapter/${currentChapterId + 1}`,
-        query: {
-          novelId,
-        },
-      });
-    }
-  };
-
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
       <div className="readbook-nav">
@@ -117,22 +90,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         >
           목록보기
         </span>
-        <div>
-          <button
-            onClick={goToPrevChapter}
-            className="arrow prev"
-            disabled={isDisabled}
-          >
-            <LeftOutlined /> 이전화
-          </button>
-          <span className="stick"></span>
-          <button
-            onClick={goToNextChapter}
-            className={`arrow next ${isLastChapter ? "disabled" : ""}`}
-          >
-            다음화 <RightOutlined />
-          </button>
-        </div>
       </div>
       <div className="readbook-page full">
         {contentList.map((content, idx) => (

@@ -70,21 +70,6 @@ export const ReadBookStyled = styled.div`
         font-size: 15px;
         cursor: pointer;
       }
-      .arrow {
-        border: none;
-        background-color: transparent;
-        color: ${({ theme }) => theme.colors.text};
-        cursor: pointer;
-      }
-      .disabled {
-        color: #888;
-        cursor: default;
-      }
-      button.arrow.prev:disabled,
-      button.arrow.next:disabled {
-        color: #888;
-        cursor: default;
-      }
 
       .stick::before {
         content: "";
