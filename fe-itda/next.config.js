@@ -48,6 +48,7 @@ const nextConfig = {
   // 이미지
   images: {
     domains: ["localhost", "localhost:5001"],
+    unoptimized: true,
   },
 };
 
