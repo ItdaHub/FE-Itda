@@ -11,14 +11,12 @@ const AuthHandler = () => {
       if (!user) {
         try {
           const response = await api.get("/auth/login");
-          console.log("로그인된 유저 정보:", response.data);
           dispatch(setUser(response.data.user));
         } catch (error: any) {
           if (error.response?.status === 401) {
-            console.log(":x: 로그인되지 않은 상태입니다.");
             // 로그인 상태 아님 -> 아무 처리 안 해도 OK
           } else {
-            console.error("유저 정보 가져오기 실패:", error);
+            console.log("유저 정보 가져오기 실패:", error);
           }
         }
       }
