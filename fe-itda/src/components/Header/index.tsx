@@ -35,9 +35,9 @@ const Header = () => {
 
   // 검색 키워드 값 관리
   const [keyword, setKeyword] = useState("");
-  const [alertLength, setAlertLength] = useState<number>();
+  const [alertLength, setAlertLength] = useState<number>(0);
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [noticeLength, setNoticeLength] = useState<number>();
+  const [noticeLength, setNoticeLength] = useState<number>(0);
   const router = useRouter();
 
   // 다크모드 상태 가져오기
@@ -47,16 +47,6 @@ const Header = () => {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    fetchCounts(); // 초기 알림 + 공지사항 개수 불러오기
-
-    const interval = setInterval(() => {
-      fetchCounts(); // 30초마다 다시 가져오기
-    }, 30000); // 30,000ms = 30초
-
-    return () => clearInterval(interval); // 메모리 누수 방지
-  }, []);
 
   useEffect(() => {
     const fromLogin = router.query.fromLogin;
@@ -116,8 +106,16 @@ const Header = () => {
   };
 
   useEffect(() => {
-    fetchCounts();
-  }, []);
+    if (user) {
+      fetchCounts();
+
+      const interval = setInterval(() => {
+        fetchCounts();
+      }, 30000);
+
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
   const toggleDarkMode = () => {
     dispatch(toggleTheme());
