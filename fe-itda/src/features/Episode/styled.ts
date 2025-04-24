@@ -2,6 +2,11 @@ import styled from "styled-components";
 
 export const EpisodeStyled = styled.div`
   &.episode-wrap {
+    width: 100%;
+    cursor: pointer;
+    &:hover .episode-num {
+      text-decoration: underline;
+    }
     .episode-num {
       font-size: 16px;
       line-height: 20px;

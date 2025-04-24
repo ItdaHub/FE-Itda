@@ -58,10 +58,6 @@ export const NovelEpisodeStyled = styled.div`
       height: 120px;
       display: flex;
       align-items: center;
-      &:hover {
-        cursor: pointer;
-        background-color: ${({ theme }) => theme.colors.hover};
-      }
     }
     li {
       list-style: none;
