@@ -91,6 +91,12 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
       return;
     }
 
+    // 첫 화는 무료로 보여준다
+    if (item.chapter_number === 1) {
+      router.push(`/chapter/${item.id}?novelId=${data}`);
+      return;
+    }
+
     // 사용자가 결제한 회차 목록을 받아옵니다.
     const purchasedChapters = await getUserPurchasedChapters(data);
 
