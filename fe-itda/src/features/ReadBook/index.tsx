@@ -25,12 +25,11 @@ type ChapterResponse = {
 };
 
 interface ReadBookProps {
-  chapter_number: number;
   novelId: number;
   chapterId: number;
 }
 
-const ReadBook = ({ chapter_number, novelId, chapterId }: ReadBookProps) => {
+const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
   const [contentList, setContentList] = useState<Content[]>([]);
   const [authorNickname, setAuthorNickname] = useState("");
   const [writerId, setWriterId] = useState<number | null>(null);
@@ -47,7 +46,7 @@ const ReadBook = ({ chapter_number, novelId, chapterId }: ReadBookProps) => {
     const fetchData = async () => {
       try {
         const response = await api.get<ChapterResponse>(
-          `/chapters/content/${novelId}/${chapterId}/${chapter_number}`
+          `/chapters/content/${novelId}/${chapterId}`
         );
 
         console.log("잘오고 있나??????", response.data);
@@ -78,12 +77,12 @@ const ReadBook = ({ chapter_number, novelId, chapterId }: ReadBookProps) => {
     };
 
     fetchData();
-  }, [novelId, chapterId, chapter_number]);
+  }, [novelId, chapterId]);
 
   // 이전화
   const goToPrevChapter = () => {
     if (currentChapterId > 1) {
-      chapter_number = currentChapterId - 1;
+      chapterId = currentChapterId - 1;
       router.push({
         pathname: `/chapter/${currentChapterId - 1}`,
         query: {
