@@ -65,8 +65,6 @@ const BuyChapterModal = ({
 
   // 팝콘 사용 요청 함수
   const handleUse = async () => {
-    console.log("사용 처리 로직");
-
     try {
       await api.post("/popcorn/use", {
         userId,
@@ -75,6 +73,7 @@ const BuyChapterModal = ({
         chapterId,
       });
       setModalOpen(false);
+      message.success("보유 팝콘을 사용하였습니다.");
       router.push(`/chapter/${chapterId}?novelId=${novelId}`);
     } catch (e) {
       console.error("팝콘 사용 요청 실패: ", e);

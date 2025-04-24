@@ -49,6 +49,16 @@ const Header = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    fetchCounts(); // 초기 알림 + 공지사항 개수 불러오기
+
+    const interval = setInterval(() => {
+      fetchCounts(); // 30초마다 다시 가져오기
+    }, 30000); // 30,000ms = 30초
+
+    return () => clearInterval(interval); // 메모리 누수 방지
+  }, []);
+
+  useEffect(() => {
     const fromLogin = router.query.fromLogin;
 
     if (fromLogin) {
