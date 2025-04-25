@@ -59,6 +59,18 @@ const Header = () => {
     }
   }, [router.query]);
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setPopoverOpen(false); // URL 변경 시 모달 닫기
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, []);
+
   // 공지사항 개수 불러오기
   const getNoticeCount = async () => {
     try {

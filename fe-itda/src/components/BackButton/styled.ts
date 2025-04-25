@@ -8,7 +8,7 @@ export const BackButtonStyled = styled.div`
     &.back-wrap {
       display: flex;
       font-size: 25px;
-      margin: 18px;
+      margin: 18px 18px 0 18px;
     }
   }
 `;
