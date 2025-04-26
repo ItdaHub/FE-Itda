@@ -17,14 +17,12 @@
 
 ## 🛠 기술 스택
 
-<h3>Frontend & UI</h3>
+<h3>Frontend</h3>
 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
   <img src="https://img.shields.io/badge/Styled--Components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white" />
-  <img src="https://img.shields.io/badge/Ant Design-0170FE?style=for-the-badge&logo=antdesign&logoColor=white" />
-  <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white" />
 </div>
 
 <h3>Backend & Database</h3>
@@ -40,12 +38,6 @@
   <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
 </div>
 
-<h3>Integrations</h3>
-
-SNS 로그인: 네이버 API / 카카오 API / 구글 API
-<br/>
-결제 시스템: 토스 API
-
 <br/>
 
 ## 📚 프로젝트 목적
@@ -56,8 +48,8 @@ SNS 로그인: 네이버 API / 카카오 API / 구글 API
 <br/>
 
 ## 📆 프로젝트 기간
-* **진행 기간**: 2025.04.01-2025.04.25
-* **총 작업 기간**: 약 4주
+* **진행 기간**: 2025.04.03-2025.04.25
+* **총 작업 기간**: 약 3주
   
 <br/>
 
@@ -78,7 +70,7 @@ SNS 로그인: 네이버 API / 카카오 API / 구글 API
 <br/>
 
 ## 📐 DB 설계도
-
+![Image](https://github.com/user-attachments/assets/59575b3b-7150-42b3-90ac-d7ab15b31da4)
 <br/>
 <br/>
 
@@ -190,5 +182,24 @@ SNS 로그인: 네이버 API / 카카오 API / 구글 API
 <br/>
 <br/>
 
-### 배포 주소 (예정)
+### 📑사용된 라이브러리 및 API
+**라이브러리**
+- Ant Design & Material UI: UI 컴포넌트
+- Swiper: 슬라이더
+- Axios: HTTP 요청
+- JS-Cookie: 쿠키 처리
+- Bcrypt: 비밀번호 해싱
+- Multer: 파일 업로드
+- Passport: 인증 미들웨어
+- react-responsive: 반응형 웹
+- Swagger: API 문서화
+- formik: 폼 관리
+
+**API**
+- 토스페이먼츠 API: 결제
+- 소셜로그인 API: 카카오, 구글, 네이버
+- 카카오톡공유 API
+- Unsplash: 이미지 제공
+- Nodemailer: 이메일 발송
+- Gemini: 글 작성 및 요약
 
