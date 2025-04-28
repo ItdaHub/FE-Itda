@@ -79,7 +79,8 @@
 
 ### 메인 페이지
 1. 메인 페이지
-<img width="905" alt="Image" src="https://github.com/user-attachments/assets/684420bf-c621-4ebe-bafd-3f6b76ab9494" />
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/684420bf-c621-4ebe-bafd-3f6b76ab9494" />
+
 - 관리자에 등록된 배너가 5초마다 자동 스와이퍼
 - 카테고리 클릭시 해당 카테고리 게시글만 필터링 (이어쓰기는 미완결 작품)
 - 장르 클릭 시 해당 장르의 게시글만 필터링
@@ -99,10 +100,13 @@
 - 소설을 쓰는 첫 주자는 AI를 통해 첫 화 줄거리 추천 제공
 - 소설을 쓰는 첫 화에선 AI를 이용해 요약한 키워드로 검색 후 작품 이미지를 가져옴
 
-
+<br/>
+<br/>
 
 ### 작품 회차정보 페이지
-- 함께하기 클릭 시 다음화 작성하는 페이지로 이동
+
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/addebd4c-301c-46fb-8b87-7fb7b129d8b3" />
+
 - 찜 버튼으로 관심있는 작품 표시
 - 공유 버튼으로 카카오톡에 해당 사이트 공유 가능 (카카오톡 로그인 필요)
 - 정렬 기능 : 작품의 회차를 최신순 또는 1화부터 정렬
@@ -110,11 +114,29 @@
 - 댓글 신고 가능 (회원자에 한해서 가능, 중복 신고 불가)
 
 
+![Image](https://github.com/user-attachments/assets/6c4a0cf9-fa9d-481d-8c74-7fc8a75a92ba)
+
+- 함께하기 클릭 시 다음화 작성하는 페이지로 이동
+- 한번 이어쓴 작품은 중복해서 참여 불가
+
+![Image](https://github.com/user-attachments/assets/9f9efc20-b93c-461a-bb75-87faa0c8e8f8)
+
+- 마지막 회차 작성시 관리자에게 출품 요청
+
+
+<br/>
+<br/>
 
 ### 회차 내용 보기 페이지
+
+![Image](https://github.com/user-attachments/assets/58377f72-d256-4f4b-8e42-69daf9122962)
+
 - 댓글, 대댓글 입력 가능
 - 해당 회차 신고 가능 (회원자에 한해서 가능, 중복 신고 불가)
 
+
+<br/>
+<br/>
 
 
 ### 댓글 내역 페이지
@@ -122,22 +144,28 @@
 - 댓글 삭제 가능
 
 
-
-### 내 글 페이지
-- 내가 참여한 작품 표시
-
-
+<br/>
+<br/>
 
 ### 팝콘 내역 페이지
+
+![Image](https://github.com/user-attachments/assets/252bf394-8bfa-4b34-baa2-581b417cdd8b)
+
 - 내가 결제, 사용한 내역 표시
 - 팝콘 충전 버튼 : 토스API를 활용하여 선택한 팝콘 (사이트에서 통용되는 단위) 충전 가능
 
+<br/>
+<br/>
 
+###  내 찜 & 내 글 페이지
 
-### 찜 페이지
+![Image](https://github.com/user-attachments/assets/6af5f913-7076-4b70-95ff-0c560de0abeb)
+
 - 내가 관심있는 작품 표시
-
-
+- 내가 참여한 작품 표시
+  
+<br/>
+<br/>
 
 ### 회원가입
 | 이용약관   | 회원가입                  |
@@ -147,56 +175,72 @@
 - 이용약관 필수 항목 동의 후 회원가입 입력 창으로 이동
 - 아이디, 닉네임 중복검사
 
-
+<br/>
+<br/>
 
 ### 로그인
-<img width="1280" alt="Image" src="https://github.com/user-attachments/assets/eb46775e-0dde-4aea-a880-a0bc10241865" />
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/eb46775e-0dde-4aea-a880-a0bc10241865" />
 
 - 로컬 로그인 : 입력한 ID, 비밀번호를 검증하여 로그인 접속 여부 확인
 - SNS 로그인 : 네이버, 카카오, 구글 API활용
 
-
+<br/>
+<br/>
 
 ### ID 찾기
 - 가입 시 입력한 전화번호로 ID찾기 
 
-
+<br/>
+<br/>
 
 ### PW 찾기
 -  ID로 본인 인증 후 등록된 이메일로 비밀번호 재설정 링크를 통해 비밀번호 변경
 
-
+<br/>
+<br/>
 
 ### 내 정보
 - 로그아웃 시에는 sign up block
 - 로그인 시에만 내정보창으로 이동가능한 배너 block
 
+<br/>
+<br/>
+<br/>
 
 ## 💡 헤더
 
 ### 검색
 - 검색 기능 제공 (제목에 키워드가 포함된 게시글 출력)
 
+<br/>
+<br/>
 
 ### 공지사항
 - 관리자에 등록된 공지사항을 우선순위, 최신순으로 표시
 - 공지사항의 갯수 표시
 - antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
 
+<br/>
+<br/>
 
 ### 알림
 - 사용자에 따라 출품한 작품이나 신고처리에 대한 알림을 표시
 - 알림의 갯수 표시
 - antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
 
+<br/>
+<br/>
 
 ### 결제
 - 토스 API를 활용하여 결제 기능을 구현
 
+<br/>
+<br/>
 
 ### 다크모드
 - 화면의 색상 반전
 
+<br/>
 <br/>
 <br/>
 
