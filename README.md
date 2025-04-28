@@ -65,7 +65,7 @@
 <br/>
  
 ## 🗒️기능정의서
-<img width="839" alt="Image" src="https://github.com/user-attachments/assets/8a4e87e7-3d08-4e54-a9d5-146bb9b8b379" />
+<img width="839" alt="Image" src="https://github.com/user-attachments/assets/7f4bf837-063a-4010-bc4c-07a0f2fcb408" />
 
 <br/>
 <br/>
@@ -83,8 +83,14 @@
 - 장르 클릭 시 해당 장르의 게시글만 필터링
 - 모든 작품의 조회수와 찜의 갯수 합산하여 상위 10개만 표시 
 - 연령별 인기작 현재년도와 출생년도를 계산하여 추정한 연령대별 조회수와 찜의 갯수 합산하여 상위 10개만 표시
-- 새로쓰기 기능 : 소설을 쓰는 첫 주자는 장르와 함께 이어쓰기를 할 인원수 선택, 제목과 내용 입력 가능
 - top 버튼 클릭 시 상단 이동
+
+
+<br/>
+
+![Image](https://github.com/user-attachments/assets/d0b7d35f-5b2c-4941-8f22-4f51ddf2b6b0)
+
+- 새로쓰기 기능 : 소설을 쓰는 첫 주자는 장르와 함께 이어쓰기를 할 인원수 선택, 제목과 내용 입력 가능
 
 
 
