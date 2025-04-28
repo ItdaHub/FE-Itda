@@ -209,6 +209,12 @@
 
 ### 내 정보 페이지
 
+<img width="1271" alt="Image" src="https://github.com/user-attachments/assets/be5b89cf-a8af-4104-ac46-ef4889795ed6" />
+
+- 내 정보 확인
+- 비밀번호, 전화번호 변경 가능
+- 회원탈퇴, 로그아웃 가능
+
 ![Image](https://github.com/user-attachments/assets/50727a16-4638-42d3-8f5c-566634fc5193)
 
 - 내 프로필 및 닉네임 수정 가능
@@ -219,7 +225,7 @@
 ### 회원가입
 | 이용약관   | 회원가입                  |
 |------------|-----------------------|
-|   <img width="424" alt="Image" src="https://github.com/user-attachments/assets/9908b064-7601-4518-9bda-b03760bf0e33" />  |     <img width="424" alt="Image" src="https://github.com/user-attachments/assets/2ca38d01-7539-444b-a84d-6cac051e70c7" />     |
+|   <img width="424" alt="Image" src="https://github.com/user-attachments/assets/9908b064-7601-4518-9bda-b03760bf0e33" />  |    <img width="403" alt="Image" src="https://github.com/user-attachments/assets/886ba8a4-ac87-4fe5-acff-c5927a2e4df4" />     |
 
 - 이용약관 필수 항목 동의 후 회원가입 입력 창으로 이동
 - 아이디, 닉네임 중복검사
@@ -257,16 +263,8 @@
 
 <br/>
 <br/>
-
-### 내 정보
-- 로그아웃 시에는 sign up block
-- 로그인 시에만 내정보창으로 이동가능한 배너 block
-
-<br/>
-<br/>
 <br/>
 
-## 💡 헤더
 
 ### 검색
 
@@ -278,8 +276,11 @@
 <br/>
 
 ### 공지사항
+
+![Image](https://github.com/user-attachments/assets/eca5ace5-3e3d-4917-ab5d-5413c543056e)
+
 - 관리자에 등록된 공지사항을 우선순위, 최신순으로 표시
-- 공지사항의 갯수 표시
+- 공지사항이 있다면 빨간점 표시
 - antd 라이브러리의 dropdown을 활용하여 공지 내용 자세히 보기
 
 <br/>
@@ -297,7 +298,25 @@
 <br/>
 
 ### 다크모드
+
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/40fde156-be1f-4e46-9d36-66a67c91ac21" />
+
 - 화면의 색상 반전
+
+<br/>
+<br/>
+<br/>
+
+## 💡 반응형
+
+| 반응형   | 반응형 메뉴                  |
+|------------|-----------------------|
+|  <img width="317" alt="Image" src="https://github.com/user-attachments/assets/84ba6ecb-f7ab-4a35-b37e-079fb68df539" />  | <img width="320" alt="Image" src="https://github.com/user-attachments/assets/d755e79d-8c53-4167-b076-9280e7bc848b" />   |
+
+- 768px(테블릿크기)부터 모바일 반응형
+- TOP버튼 -> 새로쓰기 버튼으로 교체
+- 네비게이션바가 하단에 생성
+- 모바일용 메뉴 생성
 
 <br/>
 <br/>
