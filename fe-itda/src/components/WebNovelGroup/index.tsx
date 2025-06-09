@@ -106,7 +106,9 @@ const WebNovelGroup = ({
   }, [type, genre, ageSelect?.selectedAge]);
 
   return (
-    <WebNovelGroupStyled className={clsx("group-wrap")}>
+    <WebNovelGroupStyled
+      className={clsx(`group-wrap ${type === "home" ? "paddingOff" : ""}`)}
+    >
       <div
         className={`group-titlebox ${
           type === "home" || type === "myfavorite" || type === "mywrite"

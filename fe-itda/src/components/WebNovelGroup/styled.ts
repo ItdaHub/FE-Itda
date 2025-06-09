@@ -70,25 +70,29 @@ export const WebNovelGroupStyled = styled.div`
       font-weight: 600;
     }
 
-    // 1005px 이하일 때 4개
-    @media (max-width: 1005px) {
+    // 4개
+    @media (max-width: 890px) {
       .group-row {
         grid-template-columns: repeat(4, 1fr);
       }
     }
 
-    // 604px 이하일 때 3개
-    @media (max-width: 814px) {
+    // 3개
+    @media (max-width: 700px) {
       .group-row {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    // 383px 이하일 때 2개
-    @media (max-width: 620px) {
+    // 2개
+    @media (max-width: 550px) {
       .group-row {
         grid-template-columns: repeat(2, 1fr);
       }
     }
+  }
+
+  &.paddingOff {
+    padding: 0;
   }
 `;

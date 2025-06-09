@@ -60,8 +60,8 @@ export const WebNovelStyled = styled.div`
     .novel-image {
       img {
         border-radius: 5px;
-        width: 170.33px;
-        height: 260.33px;
+        width: 100%;
+        height: 272.33px;
         object-fit: cover;
         overflow: hidden;
       }
@@ -76,7 +76,7 @@ export const WebNovelStyled = styled.div`
     .myfavorite-image {
       position: relative;
       border-radius: 5px;
-      width: 170.33px;
+      width: 100%;
       height: 260.33px;
       object-fit: cover;
       overflow: hidden;
