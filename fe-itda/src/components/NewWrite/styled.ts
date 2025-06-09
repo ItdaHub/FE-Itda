@@ -2,64 +2,76 @@ import styled from "styled-components";
 
 export const NewWriteStyled = styled.div`
   &.newWrite-wrap {
+    .newWrite-ai-toggle {
+      margin: 3rem 0 1rem 0;
+      text-align: center;
+
+      button {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        border: 1px solid #bbb;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: #f0f0f0;
+          border-color: #888;
+        }
+      }
+    }
+
+    .newWrite-ai {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 0.5rem;
+      margin: 1rem;
+
+      .newWrite-label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .newWrite-content {
+        margin: 1rem;
+      }
+    }
+
     max-width: 1020px;
     margin: 50px auto;
     padding: 0 10px;
 
-    .newWrite-button {
-      margin-top: 5px;
-    }
-
     .newWrite-box {
-      display: flex;
       border: 1px solid #adadad;
-      height: 500px;
       margin-top: 10px;
 
-      .newWrite-AI-Off {
-        display: none;
-      }
-      .newWrite-left {
-        width: 50%;
-        border-right: 1px solid #adadad;
-        .newWrite-content {
-          margin: 10px 30px 0 30px;
-          max-width: 430px;
-        }
-      }
       .newWrite-right {
-        max-width: 500px;
-        width: 50%;
+        width: 100%;
         height: 100%;
+        margin: 0 auto;
 
         .newWrite-category-box {
-          padding-top: 30px;
-        }
-
-        .newWrite-category {
-          margin: 0px 3px 3px 30px;
-          display: flex;
-          align-items: center;
-          .newWrite-people-info {
-            margin-left: 10px;
-            .newWrite-people {
-              color: rgb(134, 134, 134);
-              font-size: 12px;
-              margin-left: 3px;
+          padding: 1rem;
+          .newWrite-new {
+            display: flex;
+            margin-bottom: 10px;
+            .newWrite-title {
+              width: 100%;
             }
           }
         }
-        .newWrite-title {
-          max-width: 430px;
-          margin: 10px 30px 0 30px;
 
-          Button {
-            margin-top: 10px;
+        .newWrite-category {
+          display: flex;
+          align-items: center;
+          .newWrite-people-info {
+            margin-left: 2px;
           }
-        }
-        .newWrite-content {
-          margin: 10px 30px 0 30px;
-          max-width: 430px;
+          .newWrite-genre-cate {
+            margin: 0 5px;
+            @media (max-width: 550px) {
+              margin-left: 0;
+            }
+          }
         }
       }
 
@@ -98,6 +110,10 @@ export const NewWriteStyled = styled.div`
       }
     }
 
+    .newWrite-ai-btn {
+      margin: 1.2rem 0 1.5rem 0;
+    }
+
     Input,
     .ant-select-selection-item,
     .ant-select-selection-placeholder,
@@ -129,37 +145,17 @@ export const NewWriteStyled = styled.div`
     }
 
     .newWrite-chapter {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 700;
+      margin: 0px 3px 5px 30px;
+      font-size: 15px;
       color: #999;
     }
 
-    @media (max-width: 768px) {
-      &.newWrite-wrap {
-        .newWrite-box {
-          display: block;
-          height: fit-content;
-          padding: 15px 0;
-        }
-        .newWrite-left {
-          width: 100%;
-          border-bottom: 1px solid #adadad;
-          padding-bottom: 20px;
-          border-right: none;
-          .newWrite-content {
-            margin: 0 auto;
-            padding: 0 10px;
-          }
-        }
-
-        .newWrite-right {
-          width: 100%;
-          margin: 0 auto;
-        }
+    @media (max-width: 550px) {
+      .newWrite-new {
+        flex-direction: column-reverse;
+      }
+      .newWrite-category {
+        margin-bottom: 5px;
       }
     }
   }

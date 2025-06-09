@@ -50,7 +50,7 @@ export const WebNovelGroupStyled = styled.div`
     .group-row {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: 3px;
       .group-each {
         margin-right: 5px;
         display: flex;

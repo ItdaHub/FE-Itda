@@ -7,7 +7,7 @@ import TextArea from "antd/es/input/TextArea";
 import { InfoCircleFilled } from "@ant-design/icons";
 import api from "@/utill/api";
 import { App as AntdApp } from "antd";
-import { useAppSelector } from "@/store/hooks";
+import { Tooltip } from "antd";
 
 const people = [
   { label: "5명", value: 5 },
@@ -33,6 +33,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
   const [aianswer, setAIanswer] = useState<string>("");
   const [chapterNumber, setChapterNumber] = useState<number | null>(null);
   const [peopleNumber, setPeopleNumber] = useState<number | null>(null);
+  const [showAIBox, setShowAIBox] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -124,14 +125,14 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
     setAIquestion(e.target.value);
   };
 
-  const handleAIanswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAIanswer(e.target.value);
-  };
-
   const useAIanswer = () => {
     // 사용자가 '사용하기' 버튼을 클릭한 후에만 내용에 반영
     if (aianswer.trim()) {
-      setContent(aianswer); // AI 답변을 수동으로 적용
+      const trimmed = aianswer.trim();
+      if (trimmed.length > 1500) {
+        message.info("AI 응답이 1500자를 초과하여 일부만 사용됩니다.");
+      }
+      setContent(trimmed.slice(0, 1500));
     }
   };
 
@@ -252,55 +253,16 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
     }
   };
 
+  // ai한테 물어보는 input보여주기
+  const toggleAIBox = () => {
+    setShowAIBox((prev) => !prev);
+  };
+
   return (
     <NewWriteStyled className={clsx("newWrite-wrap")}>
       {type === "new" ? <h2>새로쓰기</h2> : <h2>이어쓰기</h2>}
 
       <div className="newWrite-box">
-        <div className="newWrite-left">
-          {type === "new" ? (
-            <>
-              <div className="newWrite-content">
-                나
-                <TextArea
-                  showCount
-                  minLength={10}
-                  maxLength={300}
-                  value={aiquestion}
-                  onChange={handleAIquestionChange}
-                  placeholder="AI에게 첫내용을 추천받아보세요(10~300자)"
-                  style={{ height: 60, resize: "none" }}
-                />
-                <div className="newWrite-button">
-                  <Button onClick={handleAskAI} loading={isLoading}>
-                    {isLoading ? "생성 중" : "물어보기"}
-                  </Button>
-                </div>
-              </div>
-              <div className="newWrite-content">
-                AI
-                <TextArea
-                  value={aianswer}
-                  readOnly
-                  placeholder="AI답변이 입력됩니다"
-                  style={{ height: 250, resize: "none" }}
-                />
-                <div className="newWrite-button">
-                  <Button onClick={useAIanswer}>사용하기</Button>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="newWrite-chapter">
-              {chapterNumber !== null ? (
-                <strong>현재 작성 중인 회차: {chapterNumber}회차</strong>
-              ) : (
-                <strong>회차 정보 불러오는 중...</strong>
-              )}
-            </div>
-          )}
-        </div>
-
         <div
           className={`newWrite-right ${
             type === "new" ? "" : "newWrite-rightborder"
@@ -308,35 +270,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
         >
           <div className="newWrite-category-box">
             {type === "new" ? (
-              <>
-                <div className="newWrite-category">
-                  <Select
-                    value={selectedCategory}
-                    style={{ width: 120 }}
-                    onChange={handleCategoryChange}
-                    options={categories}
-                    placeholder="장르"
-                  />
-                </div>
-
-                <div className="newWrite-category">
-                  <Select
-                    value={selectedPeople || undefined}
-                    style={{ width: 120 }}
-                    onChange={handlePeopleChange}
-                    options={people}
-                    placeholder="인원수"
-                  />
-                  <span className="newWrite-people-info">
-                    <InfoCircleFilled
-                      style={{ fontSize: "12px", color: "#acacac" }}
-                    />
-                    <span className="newWrite-people">
-                      같이 소설 이어쓰기할 인원수를 선택해주세요.
-                    </span>
-                  </span>
-                </div>
-
+              <div className="newWrite-new">
                 <div className="newWrite-title">
                   <Input
                     maxLength={10}
@@ -345,11 +279,47 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                     onChange={handleTitleChange}
                   />
                 </div>
-              </>
+                <div className="newWrite-category">
+                  <Select
+                    value={selectedCategory}
+                    style={{ width: 120 }}
+                    onChange={handleCategoryChange}
+                    options={categories}
+                    placeholder="장르"
+                    className="newWrite-genre-cate"
+                  />
+                  <Select
+                    value={selectedPeople || undefined}
+                    style={{ width: 120 }}
+                    onChange={handlePeopleChange}
+                    options={people}
+                    placeholder="인원수"
+                  />
+                  <span className="newWrite-people-info">
+                    <Tooltip title="같이 소설 이어쓰기할 인원수를 선택해주세요.">
+                      <InfoCircleFilled
+                        style={{
+                          fontSize: "12px",
+                          color: "#868686",
+                          marginLeft: "3px",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </Tooltip>
+                  </span>
+                </div>
+              </div>
             ) : (
               <>
                 <div className="newWrite-relay-genre">{genres}</div>
                 <div className="newWrite-relay-title">{titles}</div>
+                <div className="newWrite-chapter">
+                  {chapterNumber !== null ? (
+                    <div>현재 작성 중인 회차: {chapterNumber}회차</div>
+                  ) : (
+                    <div>회차 정보 불러오는 중...</div>
+                  )}
+                </div>
               </>
             )}
 
@@ -357,10 +327,10 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
               <TextArea
                 showCount
                 minLength={10}
-                maxLength={300}
+                maxLength={1500}
                 value={content}
                 onChange={handleContentChange}
-                placeholder="내용을 입력해주세요(10~300자)"
+                placeholder="내용을 입력해주세요(10~1500자)"
                 defaultValue={content}
                 style={{ height: 255, resize: "none" }}
               />
@@ -382,6 +352,70 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
               </div>
             </div>
           </div>
+          {type === "new" && (
+            <div className="newWrite-ai-toggle">
+              <Button onClick={toggleAIBox}>
+                {!showAIBox ? "AI로 작성해보기" : "AI 닫기"}
+              </Button>
+            </div>
+          )}
+
+          {type === "new" && showAIBox && (
+            <div className="newWrite-ai">
+              <div className="newWrite-content">
+                <div className="newWrite-label">질문 (10~300자)</div>
+                <TextArea
+                  showCount
+                  minLength={10}
+                  maxLength={300}
+                  value={aiquestion}
+                  onChange={handleAIquestionChange}
+                  placeholder="AI에게 첫내용을 추천받아보세요"
+                  style={{ height: 80, resize: "none" }}
+                />
+                <Button
+                  onClick={handleAskAI}
+                  loading={isLoading}
+                  className="newWrite-ai-btn"
+                >
+                  {isLoading ? "생성 중..." : "AI에게 물어보기"}
+                </Button>
+                {aianswer && (
+                  <>
+                    <div className="newWrite-label">
+                      AI 답변 (수정 및 삭제 불가)
+                    </div>
+                    <TextArea
+                      value={aianswer}
+                      readOnly
+                      placeholder="AI의 응답이 여기에 표시됩니다"
+                      style={{ height: 200, resize: "none" }}
+                    />
+                    <Button className="newWrite-ai-btn" onClick={useAIanswer}>
+                      이 내용 사용하기
+                    </Button>
+                  </>
+                )}
+              </div>
+
+              {/* <div className="newWrite-content">
+              <div className="newWrite-label">AI 답변 (수정 및 삭제 불가)</div>
+              <TextArea
+                value={aianswer}
+                readOnly
+                placeholder="AI의 응답이 여기에 표시됩니다"
+                style={{ height: 200, resize: "none" }}
+              />
+              <Button
+                onClick={useAIanswer}
+                disabled={!aianswer}
+                className="newWrite-ai-btn"
+              >
+                이 내용으로 작성하기
+              </Button>
+            </div> */}
+            </div>
+          )}
         </div>
       </div>
 
