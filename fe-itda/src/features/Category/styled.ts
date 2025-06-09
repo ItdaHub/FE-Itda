@@ -75,7 +75,13 @@ export const CategoryStyled = styled.div`
       position: relative;
     }
 
-    .write-btn,
+    .write-btn {
+      position: absolute;
+      top: 10px;
+      right: 0px;
+      font-size: 13px;
+    }
+
     .mobile-btn {
       position: absolute;
       top: 15px;

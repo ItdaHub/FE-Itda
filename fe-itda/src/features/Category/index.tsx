@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { CategoryStyled } from "./styled";
-import { ConfigProvider, Tabs } from "antd";
+import { Button, ConfigProvider, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import HomeCategory from "../HomeCategory";
 import WebNovelGroup from "@/components/WebNovelGroup";
@@ -172,7 +172,7 @@ const Category = ({ categories }: CategoryProps) => {
               />
             </div>
             {/* web */}
-            <div
+            <Button
               className="write-btn"
               onClick={handleWriteClick}
               style={{
@@ -181,7 +181,7 @@ const Category = ({ categories }: CategoryProps) => {
               }}
             >
               새로쓰기
-            </div>
+            </Button>
           </div>
         </ConfigProvider>
       </div>

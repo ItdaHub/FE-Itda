@@ -105,6 +105,11 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         ))}
       </div>
 
+      <div className="readbook-page-navigation">
+        <div>이전화</div>
+        <div>다음화</div>
+      </div>
+
       {writerId !== null && (
         <WriterProfile
           nickname={authorNickname}

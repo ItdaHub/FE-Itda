@@ -18,6 +18,13 @@ export const ReadBookStyled = styled.div`
       z-index: 2;
     }
 
+    .readbook-page-navigation {
+      background-color: #ffffff;
+      border-left: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      height: 50px;
+    }
+
     .left {
       border-right: 1px solid transparent;
     }
