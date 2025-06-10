@@ -1,20 +1,67 @@
 import styled from "styled-components";
 
 export const NovelRecommendStyled = styled.div`
-  &.noveldetail-wrap {
+  &.novelrecommend-wrap {
     width: 30%;
     margin-top: 22px;
-    .noveldetail-title-box {
+    .novelrecommend-title-box {
       border-bottom: 1px solid #ebebeb;
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 50px;
-      margin-bottom: 5px;
-      .noveldetail-title {
+      margin-bottom: 15px;
+      .novelrecommend-title {
         font-size: 17px;
         line-height: 21px;
         font-weight: 600;
+      }
+    }
+    .novelrecommend-row {
+      .novelrecommend-one {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 8px;
+        .novelrecommend-img-box {
+          width: 80px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 8px;
+          overflow: hidden;
+          .novelrecommend-img {
+            width: 80px;
+            height: 100px;
+          }
+        }
+        .novelrecommend-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          row-gap: 2px;
+          .novelrecommend-title {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 20px;
+          }
+          .novelrecommend-nick {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 500;
+            color: #000;
+            word-break: break-word;
+          }
+        }
       }
     }
   }

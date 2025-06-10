@@ -84,12 +84,14 @@ export const NewWriteStyled = styled.div`
       margin-top: 5px;
     }
     .newWrite-relay-genre {
-      margin: 0px 3px 5px 30px;
+      margin-left: 5px;
+      margin-bottom: 5px;
       font-size: 13px;
       color: #999;
     }
     .newWrite-relay-title {
-      margin: 0px 3px 5px 30px;
+      margin-left: 5px;
+      margin-bottom: 5px;
       font-size: 15px;
       color: #999;
     }
@@ -150,7 +152,8 @@ export const NewWriteStyled = styled.div`
     }
 
     .newWrite-chapter {
-      margin: 0px 3px 5px 30px;
+      margin-left: 5px;
+      margin-bottom: 5px;
       font-size: 15px;
       color: #999;
     }
