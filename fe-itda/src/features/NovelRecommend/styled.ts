@@ -19,6 +19,7 @@ export const NovelRecommendStyled = styled.div`
     }
     .novelrecommend-row {
       .novelrecommend-one {
+        cursor: pointer;
         display: flex;
         gap: 12px;
         margin-bottom: 8px;

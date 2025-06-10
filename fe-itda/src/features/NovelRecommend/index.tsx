@@ -3,9 +3,11 @@ import { NovelRecommendStyled } from "./styled";
 import { useEffect, useState } from "react";
 import defaultimg from "@/assets/images/testImage.png";
 import api from "@/utill/api";
+import { useRouter } from "next/router";
 
 const NovelRecommend = () => {
   const [novels, setNovels] = useState<any[]>([]);
+  const router = useRouter();
 
   const getNovel = async () => {
     try {
@@ -47,7 +49,13 @@ const NovelRecommend = () => {
         {novels.length !== 0 ? (
           <div className="novelrecommend-row">
             {novels.map((novel, i) => (
-              <div key={i} className="novelrecommend-one">
+              <div
+                key={i}
+                className="novelrecommend-one"
+                onClick={() => {
+                  router.push(`/noveldetail/novelcheck/${novel.id}`);
+                }}
+              >
                 <div className="novelrecommend-img-box">
                   <img
                     src={getImageSrc(novel.imageUrl)}
