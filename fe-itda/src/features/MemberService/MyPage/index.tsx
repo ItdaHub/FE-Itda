@@ -12,6 +12,7 @@ import MypageSidebar from "@/components/MypageSidebar";
 import MypageView from "@/features/MypageView";
 import MypageEdit from "@/features/MypageEdit";
 import MypageSubmission from "@/features/MypageSubmission";
+import MyPageRead from "@/features/MyPageRead";
 
 const Mypage = () => {
   // 유저 정보 가져오기
@@ -58,8 +59,8 @@ const Mypage = () => {
       setClickButton("edit");
     } else if (tab === "submission") {
       setClickButton("submission");
-    } else {
-      setClickButton("profile");
+    } else if (tab === "readnovels") {
+      setClickButton("readnovels");
     }
   }, [tab]);
 
@@ -67,6 +68,7 @@ const Mypage = () => {
     { key: "profile", label: "내 프로필" },
     { key: "edit", label: "내 정보 수정" },
     { key: "submission", label: "출품작" },
+    { key: "readnovels", label: "최근 본 소설" },
   ];
 
   const handleButtonClick = (buttonName: string) => {
@@ -109,7 +111,7 @@ const Mypage = () => {
           <MypageEdit currentNickname={nickName} />
         ) : tab === "submission" ? (
           <MypageSubmission />
-        ) : (
+        ) : tab === "profile" ? (
           <MypageView
             profileStatic={profileStatic}
             nickName={nickName}
@@ -120,6 +122,8 @@ const Mypage = () => {
             phoneNumber={phoneNumber}
             image={null}
           />
+        ) : (
+          <MyPageRead />
         )}
       </div>
     </MyPageStyled>

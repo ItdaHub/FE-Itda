@@ -57,6 +57,7 @@ export const MyPageStyled = styled.div`
     padding: 1rem;
     border-left: 1px solid #ddd;
     box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, 0.06);
+    height: 91vh;
 
     h3 {
       font-size: 1.2rem;

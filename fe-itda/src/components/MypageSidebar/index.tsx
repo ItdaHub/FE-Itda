@@ -30,8 +30,8 @@ const MypageSidebar = ({
       setClickButton("edit");
     } else if (tab === "submission") {
       setClickButton("submission");
-    } else {
-      setClickButton("profile");
+    } else if (tab === "readnovels") {
+      setClickButton("readnovels");
     }
   }, [tab]);
 
@@ -39,6 +39,7 @@ const MypageSidebar = ({
     { key: "profile", label: "개인정보" },
     { key: "edit", label: "프로필 수정" },
     { key: "submission", label: "내 출품작" },
+    { key: "readnovels", label: "최근 본 소설" },
   ];
 
   const handleButtonClick = (buttonName: string) => {

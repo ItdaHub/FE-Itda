@@ -373,13 +373,15 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                   placeholder="AI에게 첫내용을 추천받아보세요"
                   style={{ height: 80, resize: "none" }}
                 />
-                <Button
-                  onClick={handleAskAI}
-                  loading={isLoading}
-                  className="newWrite-ai-btn"
-                >
-                  {isLoading ? "생성 중..." : "AI에게 물어보기"}
-                </Button>
+                <div className="newWrite-btn-box">
+                  <Button
+                    onClick={handleAskAI}
+                    loading={isLoading}
+                    className="newWrite-ai-btn"
+                  >
+                    {isLoading ? "생성 중..." : "AI에게 물어보기"}
+                  </Button>
+                </div>
                 {aianswer && (
                   <>
                     <div className="newWrite-label">
@@ -391,9 +393,11 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                       placeholder="AI의 응답이 여기에 표시됩니다"
                       style={{ height: 200, resize: "none" }}
                     />
-                    <Button className="newWrite-ai-btn" onClick={useAIanswer}>
-                      이 내용 사용하기
-                    </Button>
+                    <div className="newWrite-btn-box">
+                      <Button className="newWrite-ai-btn" onClick={useAIanswer}>
+                        이 내용 사용하기
+                      </Button>
+                    </div>
                   </>
                 )}
               </div>

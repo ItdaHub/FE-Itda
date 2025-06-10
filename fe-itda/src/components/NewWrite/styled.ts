@@ -111,7 +111,12 @@ export const NewWriteStyled = styled.div`
     }
 
     .newWrite-ai-btn {
-      margin: 1.2rem 0 1.5rem 0;
+      margin: 1.5rem 0;
+    }
+
+    .newWrite-btn-box {
+      display: flex;
+      justify-content: flex-end;
     }
 
     Input,
