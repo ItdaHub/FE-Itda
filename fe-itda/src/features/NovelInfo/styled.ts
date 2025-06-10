@@ -83,7 +83,7 @@ export const NovelInfoStyled = styled.div`
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 570px) {
       .novelinfo-wrap-box {
         display: block;
         .novelinfo-img {

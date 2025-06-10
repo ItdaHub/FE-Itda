@@ -63,6 +63,23 @@ export const NovelRecommendStyled = styled.div`
           }
         }
       }
+      @media (max-width: 825px) {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 710px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 493px) {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    @media (max-width: 825px) {
+      width: 100%;
+      padding: 0 10px;
+      margin-top: 50px;
     }
   }
 `;

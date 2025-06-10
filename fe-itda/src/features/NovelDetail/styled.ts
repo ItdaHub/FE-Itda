@@ -9,6 +9,12 @@ export const NovelDetailStyled = styled.div`
       gap: 50px;
       .noveldetail-epi {
         width: 70%;
+        @media (max-width: 825px) {
+          width: 100%;
+        }
+      }
+      @media (max-width: 825px) {
+        display: block;
       }
     }
   }
