@@ -9,8 +9,8 @@ import Image from "next/image";
 import profileStatic from "@/assets/images/img_profile_static.svg";
 
 interface WriterProfileProps {
-  nickname: string;
-  writerId: number;
+  nickname?: string;
+  writerId?: number;
   novelId: number;
   chapterId: number;
 }

@@ -6,20 +6,20 @@ import { LayoutWrapper } from "./styled";
 import clsx from "clsx";
 import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/router";
-
+import { useNav } from "@/context/NavContext";
 interface childrenProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: childrenProps) => {
   const router = useRouter();
+  const { toggleNav } = useNav();
 
   // 나머지 레이아웃 렌더
-  const isMypage = router.pathname.startsWith("/mypage");
   const isChapterPage = router.pathname.startsWith("/chapter");
 
   return (
-    <LayoutWrapper className={clsx("layout-wrap")}>
+    <LayoutWrapper className={clsx("layout-wrap")} onClick={toggleNav}>
       <div className={isChapterPage ? "no-padding-top" : ""}>
         {/* 로그인 확인 */}
         <AuthHandler />
@@ -27,7 +27,8 @@ const Layout = ({ children }: childrenProps) => {
           {/* 헤더 */}
           <Header />
           <main className="content">{children}</main>
-          {!isMypage && <Footer />}
+          {/* 푸터 */}
+          <Footer />
         </div>
       </div>
     </LayoutWrapper>

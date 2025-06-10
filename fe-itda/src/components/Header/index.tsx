@@ -75,7 +75,6 @@ const Header = () => {
   const getNoticeCount = async () => {
     try {
       const res = await api.get(`/announcement`);
-      console.log(res.data);
       const unReadCount = res.data.filter(
         (item: { isRead: boolean }) => !item.isRead
       ).length;

@@ -16,6 +16,8 @@ import {
 import { App as AntdApp } from "antd";
 import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
+import { useNav } from "@/context/NavContext";
+import list from "@/assets/images/list.svg";
 
 type Content = {
   text: string;
@@ -30,6 +32,8 @@ type ChapterResponse = {
   chapterNumber: number;
   isLastChapter: boolean;
   isPublished: boolean;
+  novelTitle: string;
+  likesCount: number;
 };
 
 interface ReadBookProps {
@@ -38,15 +42,10 @@ interface ReadBookProps {
 }
 
 const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
-  const [contentList, setContentList] = useState<Content[]>([]);
-  const [authorNickname, setAuthorNickname] = useState("");
-  const [writerId, setWriterId] = useState<number | null>(null);
-  const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
-  const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
-  const [isDisabled, setIsDisabled] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [showHeader, setShowHeader] = useState(true);
+  const [episode, setEpisode] = useState<ChapterResponse>();
   const { message } = AntdApp.useApp();
+  const { isNavVisible } = useNav();
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
@@ -57,7 +56,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
     ? `http://localhost:5001/uploads/profiles/${user.profile_img}`
     : profileStatic;
 
-  // 읽을 소설 불러오기 요청
+  // 읽을 소설 불러오기 요청 & liked 초기값 설정
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,28 +64,8 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
           `/chapters/content/${novelId}/${chapterId}`
         );
 
-        console.log("잘오고 있나??????", response.data);
-
-        const {
-          slides,
-          authorNickname,
-          writerId,
-          chapterNumber,
-          isLastChapter,
-          isPublished,
-        } = response.data;
-
-        // 내용
-        setContentList(slides);
-        // 작가
-        setAuthorNickname(authorNickname);
-        setWriterId(writerId);
-        // 현재 회차
-        setChapterNumber(chapterNumber);
-        // 마지막 화 여부 상태
-        setIsLastChapter(isLastChapter);
-        // 1화면 버튼 비활성화
-        setIsDisabled(chapterNumber === 1);
+        setEpisode(response.data);
+        setLiked(response.data.likesCount !== 0);
       } catch (error) {
         console.error("콘텐츠 불러오기 실패:", error);
       }
@@ -106,8 +85,14 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
     try {
       const res = await api.patch(`/likes/novel/${novelId}/toggle`);
       const isNowLiked = res.data.liked;
+      const newLikesCount = res.data.likeCount;
 
       setLiked(isNowLiked);
+
+      // 좋아요 개수도 업데이트
+      setEpisode((prev) =>
+        prev ? { ...prev, likesCount: newLikesCount } : prev
+      );
     } catch (error) {
       console.error("좋아요 상태 변경 실패", error);
       message.error("좋아요 처리 중 문제가 발생했어요. 다시 시도해주세요.");
@@ -116,64 +101,127 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
 
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
-      <div className="readbook-nav">
-        {/* 목록보기 */}
-        <span
-          className="readbook-home"
-          onClick={async () => {
-            await router.push(`/noveldetail/novelcheck/${novelId}`);
+      {/* 화면 클릭 확인 후 헤더 보이기 */}
+      <div
+        className="readbook-nav-box"
+        onClick={(e) => {
+          e.stopPropagation(); //이벤트 버블링 막기
+        }}
+      >
+        {isNavVisible && (
+          <div className="readbook-nav">
+            <div className="readbook-list">
+              {/* 목록보기 */}
+              <span
+                className="readbook-home"
+                onClick={async () => {
+                  await router.push(`/noveldetail/novelcheck/${novelId}`);
+                }}
+              >
+                <Image src={list} alt="목록보기" />
+                {/* 목록보기 */}
+              </span>
+
+              {/* 소설 제목 */}
+              <span className="readbook-noveltitle">{episode?.novelTitle}</span>
+
+              {/* 회차 */}
+              <span>{episode?.chapterNumber}화</span>
+
+              {/* 소설 좋아요 */}
+              <div className="novelinfo-like-box" onClick={toggleLike}>
+                {liked ? (
+                  <HeartFilled style={{ fontSize: "20px", color: "red" }} />
+                ) : (
+                  <HeartOutlined style={{ fontSize: "20px" }} />
+                )}
+              </div>
+            </div>
+
+            {/* 내정보 이미지 */}
+            <div className="novelinfo-profile" style={{ cursor: "pointer" }}>
+              <Image
+                onClick={() => {
+                  router.push("/mypage");
+                }}
+                src={profileImageSrc}
+                alt="유저 이미지"
+                width={25}
+                height={25}
+                className="novelinfo-image-wrap"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="readbook-page-box">
+        <div className="readbook-page full">
+          {episode?.slides.map((content, idx) => (
+            <div key={idx} className="readbook-chapnum">
+              {/* 회차 번호 */}
+              {episode?.chapterNumber !== null && idx === 0 && (
+                <div className="chapter-number">{episode?.chapterNumber}화</div>
+              )}
+              <div className="chapter-text">{content.text}</div>
+              <br />
+              <br />
+            </div>
+          ))}
+        </div>
+
+        {episode?.writerId !== null && (
+          <WriterProfile
+            nickname={episode?.authorNickname}
+            writerId={episode?.writerId}
+            novelId={novelId}
+            chapterId={chapterId}
+          />
+        )}
+      </div>
+
+      {isNavVisible && episode && (
+        <div
+          className="footer-nav"
+          onClick={(e) => {
+            e.stopPropagation(); //이벤트 버블링 막기
           }}
         >
-          목록보기
-        </span>
-
-        {/* 회차 */}
-        <span>{chapterNumber}화</span>
-
-        {/* 소설 좋아요 */}
-        <div className="novelinfo-like-box" onClick={toggleLike}>
-          {liked ? (
-            <HeartFilled style={{ fontSize: "30px", color: "red" }} />
-          ) : (
-            <HeartOutlined style={{ fontSize: "30px" }} />
-          )}
-        </div>
-
-        {/* 내정보 이미지 */}
-        <div className="novelinfo-profile" style={{ cursor: "pointer" }}>
-          <Image
-            onClick={() => {
-              router.push("/mypage");
-            }}
-            src={profileImageSrc}
-            alt="유저 이미지"
-            width={25}
-            height={25}
-            className="novelinfo-image-wrap"
-          />
-        </div>
-      </div>
-      <div className="readbook-page full">
-        {contentList.map((content, idx) => (
-          <div key={idx} className="readbook-chapnum">
-            {/* 회차 번호 */}
-            {chapterNumber !== null && idx === 0 && (
-              <div className="chapter-number">{chapterNumber}화</div>
+          {/* 하트 */}
+          <div onClick={toggleLike} className="heart">
+            {liked ? (
+              <HeartFilled style={{ color: "red" }} />
+            ) : (
+              <HeartOutlined />
             )}
-            <div className="chapter-text">{content.text}</div>
-            <br />
-            <br />
           </div>
-        ))}
-      </div>
 
-      {writerId !== null && (
-        <WriterProfile
-          nickname={authorNickname}
-          writerId={writerId}
-          novelId={novelId}
-          chapterId={chapterId}
-        />
+          <div>
+            {/* 이전화 */}
+            <LeftOutlined
+              className="arrow"
+              onClick={() => {
+                if (chapterId > 1) {
+                  router.push(`/readbook/${novelId}/${chapterId - 1}`);
+                } else {
+                  message.info("첫 번째 회차입니다.");
+                }
+              }}
+            />
+
+            {/* 다음화 */}
+            <RightOutlined
+              className="arrow"
+              onClick={() => {
+                if (!episode.isLastChapter) {
+                  router.push(`/readbook/${novelId}/${chapterId + 1}`);
+                } else {
+                  message.info("마지막 회차입니다.");
+                }
+              }}
+            />
+          </div>
+        </div>
       )}
     </ReadBookStyled>
   );

@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const ReadBookStyled = styled.div`
   &.readbook-wrap {
-    width: 100%;
-    max-width: 1020px;
-    box-sizing: border-box;
-    margin: 0 auto;
+    .readbook-page-box {
+      max-width: 1020px;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
 
     .readbook-page {
       width: 50%;
@@ -39,6 +40,8 @@ export const ReadBookStyled = styled.div`
     }
     .readbook-page.full {
       width: 100%;
+      max-width: 1020px;
+      margin: 0 auto;
       padding: 32px 24px;
       font-size: 16px;
       line-height: 1.7;
@@ -60,12 +63,26 @@ export const ReadBookStyled = styled.div`
       margin-bottom: 30px;
     }
 
+    .readbook-nav-box {
+      height: 60px;
+    }
+
     .readbook-nav {
       padding: 0 10px;
       height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-bottom: 1px solid #e0e0e0;
+
+      .readbook-list {
+        display: flex;
+        align-items: center;
+        .readbook-noveltitle {
+          margin: 0 2px 0 7px;
+        }
+      }
+
       .readbook-home {
         font-size: 15px;
         cursor: pointer;
@@ -85,7 +102,8 @@ export const ReadBookStyled = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-right: 20px;
+      margin-left: 5px;
+
       &:hover {
         cursor: pointer;
       }
@@ -93,13 +111,48 @@ export const ReadBookStyled = styled.div`
 
     .novelinfo-profile {
       .novelinfo-image-wrap {
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
+      }
+    }
+
+    .footer-nav {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      border-top: 1px solid #eee;
+      z-index: 100;
+
+      .heart {
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .arrow {
+        font-size: 20px;
+        cursor: pointer;
+        margin-left: 10px;
       }
     }
 
     @media (max-width: 768px) {
       .readbook-page {
         width: 100%;
+      }
+
+      .readbook-nav .novelinfo-like-box {
+        display: none; // 헤더의 하트 숨김
+      }
+
+      .footer-nav {
+        display: flex;
       }
     }
   }

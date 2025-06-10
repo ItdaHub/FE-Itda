@@ -2,13 +2,10 @@ import clsx from "clsx";
 import { FooterStyled } from "./styled";
 import { useRouter } from "next/router";
 
-import advice from "@/assets/images/advice.png";
-import notice from "@/assets/images/notice.png";
-
 const Footer = () => {
   const router = useRouter();
 
-  // 헤더 제외할 페이지
+  // 푸터 제외할 페이지
   const notPage = [
     "/findpw",
     "/login",
@@ -17,6 +14,7 @@ const Footer = () => {
     "/agree",
     "/mypage",
     "/newwrite",
+    "/chapter/[id]",
   ];
 
   return (

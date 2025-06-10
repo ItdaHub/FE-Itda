@@ -8,13 +8,17 @@ import {
 import Link from "next/link";
 import { MoblieNav } from "./styled";
 import clsx from "clsx";
-import alarm from "@/assets/images/alram.svg";
-import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
+import { useRouter } from "next/router";
 
 // 모바일 네비게이션바
 const MobileNav = () => {
+  const router = useRouter();
+
+  if (router.pathname === "/chapter/[id]") return;
+
   const user = useAppSelector((state) => state.auth.user);
+
   return (
     <MoblieNav className={clsx("moblie-wrap")}>
       {/* 홈 */}

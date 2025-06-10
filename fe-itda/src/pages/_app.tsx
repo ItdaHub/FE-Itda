@@ -17,6 +17,7 @@ import MobileNav from "@/components/MoblieNavi";
 import { setTheme } from "@/features/theme/themeSlice";
 import { useDispatch } from "react-redux";
 import BackButton from "@/components/BackButton";
+import { NavProvider } from "@/context/NavContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -70,22 +71,25 @@ function AppWithProviders({ Component, pageProps }: Omit<AppProps, "router">) {
           {loading ? (
             <LoadingPage />
           ) : (
-            <Layout>
-              {router.pathname === "/" ||
-              router.pathname.startsWith("/chapter") ? (
-                <></>
-              ) : (
-                <BackButton />
-              )}
-              {router.pathname === "/payment/fail" ? (
-                <BackButton type="fail" />
-              ) : (
-                <></>
-              )}
+            <NavProvider>
+              <Layout>
+                {router.pathname === "/" ||
+                router.pathname.startsWith("/chapter") ? (
+                  <></>
+                ) : (
+                  <BackButton />
+                )}
+                {router.pathname === "/payment/fail" ? (
+                  <BackButton type="fail" />
+                ) : (
+                  <></>
+                )}
 
-              <Component {...pageProps} />
-              <MobileNav />
-            </Layout>
+                <Component {...pageProps} />
+
+                <MobileNav />
+              </Layout>
+            </NavProvider>
           )}
         </AntdApp>
       </ConfigProvider>
