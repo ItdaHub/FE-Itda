@@ -182,8 +182,8 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       return;
     }
 
-    if (content.length > 300) {
-      message.warning("내용을 300자 넘지않게 입력해주세요.");
+    if (content.length > 1500) {
+      message.warning("내용을 1500자 넘지않게 입력해주세요.");
       return;
     }
 

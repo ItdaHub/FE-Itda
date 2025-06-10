@@ -7,8 +7,8 @@ export const NewWriteStyled = styled.div`
       text-align: center;
 
       button {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
         border-radius: 8px;
         border: 1px solid #bbb;
         transition: 0.3s;

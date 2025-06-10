@@ -18,6 +18,11 @@ export const NovelInfoStyled = styled.div`
         flex-direction: column;
         justify-content: space-between;
         width: 100%;
+        max-width: 849.68px;
+        .novelinfo-content {
+          margin-top: 20px;
+          word-break: break-word;
+        }
         .novelinfo-btn {
           width: 240px;
           line-height: 50px;

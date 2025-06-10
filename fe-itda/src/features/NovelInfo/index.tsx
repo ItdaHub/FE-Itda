@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import KakaoShare from "@/components/KaKaoShare";
 import api from "@/utill/api";
 import { useAppSelector } from "../../store/hooks";
-import { App as AntdApp } from "antd";
+import { Modal, App as AntdApp } from "antd";
 
 interface NovelInfoProps {
   data?: number;
@@ -25,12 +25,20 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
     genre: "",
     author: "",
     isLiked: false,
+    content: "",
     status: "",
   });
 
+  const [showModal, setShowModal] = useState(false);
   const [liked, setLiked] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState<string>();
   const [likeCount, setLikeCount] = useState(0);
+
+  // 300자 이상 여부 판단
+  const isLong = novel.content.length > 300;
+  const previewContent = isLong
+    ? novel.content.slice(0, 300) + "..."
+    : novel.content;
 
   const getNovelDetail = async () => {
     if (!data) return;
@@ -56,6 +64,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
             ].join(", ")
           : "작가 미상",
         isLiked: novelData.isLiked ?? false,
+        content: novelData.chapters[0].content,
         status: novelData.status || "ongoing",
       });
 
@@ -125,27 +134,55 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
       <div className="novelinfo-wrap-box">
         <img className="novelinfo-img" src={novel.img} alt={novel.title} />
         <div className="novelinfo-infobox">
-          <div className="novelinfo-box">
-            <div className="novelinfo-text-box">
-              <div>
-                <h2>{novel.title}</h2>
-                <p className="novelinfo-text">{novel.genre}</p>
-                <p className="novelinfo-text">{novel.author}</p>
+          <div>
+            <div className="novelinfo-box">
+              <div className="novelinfo-text-box">
+                <div>
+                  <h2>{novel.title}</h2>
+                  <p className="novelinfo-text">{novel.genre}</p>
+                  <p className="novelinfo-text">{novel.author}</p>
+                </div>
+              </div>
+              <div className="novelinfo-like-wrap">
+                <div className="novelinfo-like-box" onClick={toggleLike}>
+                  {liked ? (
+                    <HeartFilled style={{ fontSize: "30px", color: "red" }} />
+                  ) : (
+                    <HeartOutlined style={{ fontSize: "30px" }} />
+                  )}
+                  <p>{likeCount}</p>
+                </div>
+                <div>
+                  <KakaoShare />
+                </div>
               </div>
             </div>
-            <div className="novelinfo-like-wrap">
-              <div className="novelinfo-like-box" onClick={toggleLike}>
-                {liked ? (
-                  <HeartFilled style={{ fontSize: "30px", color: "red" }} />
-                ) : (
-                  <HeartOutlined style={{ fontSize: "30px" }} />
-                )}
-                <p>{likeCount}</p>
-              </div>
-              <div>
-                <KakaoShare />
-              </div>
+
+            {/* 줄거리 */}
+            <div className="novelinfo-content">
+              {previewContent}
+              {isLong && (
+                <span
+                  onClick={() => setShowModal(true)}
+                  style={{
+                    color: "#a0a0a0",
+                    cursor: "pointer",
+                    marginLeft: "5px",
+                  }}
+                >
+                  더보기
+                </span>
+              )}
             </div>
+
+            <Modal
+              open={showModal}
+              onCancel={() => setShowModal(false)}
+              footer={null}
+              title="소설 줄거리"
+            >
+              <p style={{ whiteSpace: "pre-line" }}>{novel.content}</p>
+            </Modal>
           </div>
 
           {/* 상태에 따라 버튼/메시지 표시 */}
