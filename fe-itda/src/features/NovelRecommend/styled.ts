@@ -27,7 +27,7 @@ export const NovelRecommendStyled = styled.div`
           width: 80px;
           height: 100px;
           object-fit: cover;
-          border-radius: 8px;
+          border-radius: 3px;
           overflow: hidden;
           .novelrecommend-img {
             width: 80px;

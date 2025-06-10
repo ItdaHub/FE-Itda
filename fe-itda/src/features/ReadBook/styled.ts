@@ -18,13 +18,6 @@ export const ReadBookStyled = styled.div`
       z-index: 2;
     }
 
-    .readbook-page-navigation {
-      background-color: #ffffff;
-      border-left: 1px solid #e0e0e0;
-      border-right: 1px solid #e0e0e0;
-      height: 50px;
-    }
-
     .left {
       border-right: 1px solid transparent;
     }
@@ -85,6 +78,22 @@ export const ReadBookStyled = styled.div`
         height: 12px;
         background-color: ${({ theme }) => theme.colors.solid};
         margin: 0 8px;
+      }
+    }
+
+    .novelinfo-like-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .novelinfo-profile {
+      .novelinfo-image-wrap {
+        border-radius: 50%;
       }
     }
 

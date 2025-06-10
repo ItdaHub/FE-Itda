@@ -5,9 +5,17 @@ import clsx from "clsx";
 import { ReadBookStyled } from "./styled";
 import api from "@/utill/api";
 import WriterProfile from "@/features/WriterProfile";
+import profileStatic from "@/assets/images/img_profile_static.svg";
 import { useRouter } from "next/router";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  HeartFilled,
+  HeartOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import { App as AntdApp } from "antd";
+import { useAppSelector } from "@/store/hooks";
+import Image from "next/image";
 
 type Content = {
   text: string;
@@ -36,10 +44,18 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
   const [chapterNumber, setChapterNumber] = useState<number | null>(null); // 회차 정보 상태
   const [isLastChapter, setIsLastChapter] = useState(false); // 마지막 화 여부
   const [isDisabled, setIsDisabled] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
   const { message } = AntdApp.useApp();
 
   const router = useRouter();
   const currentChapterId = Number(router.query.id);
+  const user = useAppSelector((state) => state.auth.user);
+
+  // 프로필 이미지
+  const profileImageSrc = user?.profile_img
+    ? `http://localhost:5001/uploads/profiles/${user.profile_img}`
+    : profileStatic;
 
   // 읽을 소설 불러오기 요청
   useEffect(() => {
@@ -79,9 +95,29 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
     fetchData();
   }, [novelId, chapterId]);
 
+  // 하트 클릭
+  const toggleLike = async () => {
+    if (!user) {
+      message.warning("로그인이 필요합니다.");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const res = await api.patch(`/likes/novel/${novelId}/toggle`);
+      const isNowLiked = res.data.liked;
+
+      setLiked(isNowLiked);
+    } catch (error) {
+      console.error("좋아요 상태 변경 실패", error);
+      message.error("좋아요 처리 중 문제가 발생했어요. 다시 시도해주세요.");
+    }
+  };
+
   return (
     <ReadBookStyled className={clsx("readbook-wrap")}>
       <div className="readbook-nav">
+        {/* 목록보기 */}
         <span
           className="readbook-home"
           onClick={async () => {
@@ -90,6 +126,32 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         >
           목록보기
         </span>
+
+        {/* 회차 */}
+        <span>{chapterNumber}화</span>
+
+        {/* 소설 좋아요 */}
+        <div className="novelinfo-like-box" onClick={toggleLike}>
+          {liked ? (
+            <HeartFilled style={{ fontSize: "30px", color: "red" }} />
+          ) : (
+            <HeartOutlined style={{ fontSize: "30px" }} />
+          )}
+        </div>
+
+        {/* 내정보 이미지 */}
+        <div className="novelinfo-profile" style={{ cursor: "pointer" }}>
+          <Image
+            onClick={() => {
+              router.push("/mypage");
+            }}
+            src={profileImageSrc}
+            alt="유저 이미지"
+            width={25}
+            height={25}
+            className="novelinfo-image-wrap"
+          />
+        </div>
       </div>
       <div className="readbook-page full">
         {contentList.map((content, idx) => (
@@ -103,11 +165,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
             <br />
           </div>
         ))}
-      </div>
-
-      <div className="readbook-page-navigation">
-        <div>이전화</div>
-        <div>다음화</div>
       </div>
 
       {writerId !== null && (
