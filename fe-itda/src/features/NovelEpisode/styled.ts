@@ -17,14 +17,11 @@ export const NovelEpisodeStyled = styled.div`
       justify-content: space-between;
       align-items: center;
       .novelEpisode-title {
-        font-size: 17px;
+        font-size: 15px;
+        font-weight: 500;
         line-height: 20px;
-        font-weight: bolder;
-        .novelEpisode-num {
-          margin-left: 4px;
-          letter-spacing: -0.3px;
-          color: #999;
-        }
+        letter-spacing: -0.5px;
+        color: #666;
       }
 
       .novelEpisode-sort {

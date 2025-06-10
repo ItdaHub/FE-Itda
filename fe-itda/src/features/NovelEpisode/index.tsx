@@ -121,9 +121,7 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
   return (
     <NovelEpisodeStyled className={clsx("novelEpisode-wrap")}>
       <div className="novelEpisode-info-box">
-        <div className="novelEpisode-title">
-          작품 회차 <span className="novelEpisode-num">({episode.length})</span>
-        </div>
+        <div className="novelEpisode-title">총 {episode.length}화</div>
         <ul className="novelEpisode-sort">
           <li>
             <button
