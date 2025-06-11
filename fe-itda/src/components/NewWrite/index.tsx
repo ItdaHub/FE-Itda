@@ -8,6 +8,7 @@ import { InfoCircleFilled } from "@ant-design/icons";
 import api from "@/utill/api";
 import { App as AntdApp } from "antd";
 import { Tooltip } from "antd";
+import TagInput from "@/features/TagInput";
 
 const people = [
   { label: "5명", value: 5 },
@@ -35,6 +36,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
   const [peopleNumber, setPeopleNumber] = useState<number | null>(null);
   const [showAIBox, setShowAIBox] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -149,7 +151,6 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
         prompt: aiquestion,
       });
 
-      console.log("AI 응답:", response.data);
       // AI 응답 받기
       setAIanswer(response.data.content || "AI의 응답이 없습니다.");
     } catch (error) {
@@ -187,9 +188,6 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       return;
     }
 
-    console.log("현재 이어쓰는 챕터 번호:", chapterNumber);
-    console.log("인워ㄴ수터 번호:", peopleNumber);
-
     console.log("제출 데이터:", {
       type,
       categoryId: selectedCategory,
@@ -197,6 +195,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       title,
       content,
       chapterNumber,
+      tags, // 태그 문자배열
     });
 
     try {
@@ -208,6 +207,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
           title,
           content,
           type: "new",
+          tags, // 태그 문자배열
         });
       } else if (type === "relay" && novelId && chapterNumber !== null) {
         // 첫화가 아닐 경우
@@ -335,6 +335,7 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                 style={{ height: 255, resize: "none" }}
               />
 
+              {/* 수정, 삭제 불가 메시지 */}
               <div className="newWrite-info-box">
                 <div className="newWrite-info">
                   <div className="newWrite-info-icon">
@@ -350,6 +351,9 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
                   </div>
                 </div>
               </div>
+
+              {/* 태그 작성 */}
+              {type === "new" && <TagInput value={tags} onChange={setTags} />}
             </div>
           </div>
           {type === "new" && (

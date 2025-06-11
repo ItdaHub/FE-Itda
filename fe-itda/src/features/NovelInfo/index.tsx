@@ -197,6 +197,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
           ) : (
             <></>
           )}
+          <div>#안녕 #그냘</div>
         </div>
       </div>
     </NovelInfoStyled>

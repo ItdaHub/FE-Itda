@@ -129,7 +129,9 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               <span className="readbook-noveltitle">{episode?.novelTitle}</span>
 
               {/* 회차 */}
-              <span>{episode?.chapterNumber}화</span>
+              <span className="readbook-novelnumber">
+                {episode?.chapterNumber}화
+              </span>
 
               {/* 소설 좋아요 */}
               <div className="novelinfo-like-box" onClick={toggleLike}>

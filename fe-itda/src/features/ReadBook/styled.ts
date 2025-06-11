@@ -73,7 +73,7 @@ export const ReadBookStyled = styled.div`
       top: 0;
       left: 0;
       width: 100%;
-      padding: 0 10px;
+      padding: 0 20px;
       height: 60px;
       display: flex;
       align-items: center;
@@ -86,7 +86,11 @@ export const ReadBookStyled = styled.div`
         display: flex;
         align-items: center;
         .readbook-noveltitle {
-          margin: 0 2px 0 7px;
+          margin: 0 4px 0 12px;
+        }
+        .readbook-novelnumber {
+          padding-right: 5px;
+          font-weight: bolder;
         }
       }
 
