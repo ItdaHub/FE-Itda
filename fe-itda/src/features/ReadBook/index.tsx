@@ -156,6 +156,38 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
       </div>
 
       <div className="readbook-page-box">
+        {/* 이전화 다음화 */}
+        {isNavVisible && (
+          <>
+            {/* 이전화 */}
+            <LeftOutlined
+              className="chapter-button prev"
+              onClick={(e) => {
+                e.stopPropagation(); // 부모 클릭 방지
+                if (chapterId > 1) {
+                  router.push(`/chapter/${novelId}/${chapterId - 1}`);
+                } else {
+                  message.info("첫 번째 회차입니다.");
+                }
+              }}
+            />
+
+            {/* 다음화 */}
+            <RightOutlined
+              className="chapter-button next"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!episode?.isLastChapter) {
+                  router.push(`/chapter/${novelId}/${chapterId + 1}`);
+                } else {
+                  message.info("마지막 회차입니다.");
+                }
+              }}
+            />
+          </>
+        )}
+
+        {/* 소설 내용 */}
         <div className="readbook-page full">
           {episode?.slides.map((content, idx) => (
             <div key={idx} className="readbook-chapnum">
@@ -170,6 +202,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
           ))}
         </div>
 
+        {/* 작가 */}
         {episode?.writerId !== null && (
           <WriterProfile
             nickname={episode?.authorNickname}
@@ -180,6 +213,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
         )}
       </div>
 
+      {/* 반응형일때 푸터 */}
       {isNavVisible && episode && (
         <div
           className="footer-nav"
@@ -202,7 +236,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="arrow"
               onClick={() => {
                 if (chapterId > 1) {
-                  router.push(`/readbook/${novelId}/${chapterId - 1}`);
+                  router.push(`/chapter/${novelId}/${chapterId - 1}`);
                 } else {
                   message.info("첫 번째 회차입니다.");
                 }
@@ -214,7 +248,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="arrow"
               onClick={() => {
                 if (!episode.isLastChapter) {
-                  router.push(`/readbook/${novelId}/${chapterId + 1}`);
+                  router.push(`/chapter/${novelId}/${chapterId + 1}`);
                 } else {
                   message.info("마지막 회차입니다.");
                 }

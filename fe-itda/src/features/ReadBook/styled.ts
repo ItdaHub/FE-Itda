@@ -6,6 +6,7 @@ export const ReadBookStyled = styled.div`
       max-width: 1020px;
       box-sizing: border-box;
       margin: 0 auto;
+      position: relative;
     }
 
     .readbook-page {
@@ -42,7 +43,7 @@ export const ReadBookStyled = styled.div`
       width: 100%;
       max-width: 1020px;
       margin: 0 auto;
-      padding: 32px 24px;
+      padding: 32px 57px 32px 63px;
       font-size: 16px;
       line-height: 1.7;
       white-space: pre-line;
@@ -68,12 +69,18 @@ export const ReadBookStyled = styled.div`
     }
 
     .readbook-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       padding: 0 10px;
       height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #e0e0e0;
+      background-color: white;
+      z-index: 1000;
 
       .readbook-list {
         display: flex;
@@ -153,6 +160,40 @@ export const ReadBookStyled = styled.div`
 
       .footer-nav {
         display: flex;
+      }
+    }
+
+    /* 챕터 이전,다음화 버튼 */
+    .chapter-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 12px 13px;
+      font-size: 14px;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      cursor: pointer;
+      z-index: 10;
+      transition: background-color 0.3s;
+      border-radius: 6px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    .chapter-button.prev {
+      left: 10px;
+    }
+
+    .chapter-button.next {
+      right: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .chapter-button {
+        display: none;
       }
     }
   }
