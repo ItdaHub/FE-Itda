@@ -77,6 +77,11 @@ export const NovelInfoStyled = styled.div`
       }
     }
 
+    .novelinfo-tag {
+      margin-top: 5px;
+      color: #999;
+    }
+
     @media (max-width: 767px) {
       .novelinfo-wrap-box .novelinfo-infobox .novelinfo-btn {
         width: 100%;

@@ -27,6 +27,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
     isLiked: false,
     content: "",
     status: "",
+    tags: "", //해당 소설의 태그
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -50,6 +51,8 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
 
       const novelData = res.data;
 
+      console.log("소설~~~~~~", novelData);
+
       setNovel({
         img: novelData.image || test.src,
         title: novelData.title || "제목 없음",
@@ -66,6 +69,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
         isLiked: novelData.isLiked ?? false,
         content: novelData.chapters[0].content,
         status: novelData.status || "ongoing",
+        tags: novelData.tags, //해당 소설의 태그
       });
 
       setNovelTitle(novelData.title);
@@ -197,7 +201,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
           ) : (
             <></>
           )}
-          <div>#안녕 #그냘</div>
+          <div className="novelinfo-tag">#안녕 #그냘</div>
         </div>
       </div>
     </NovelInfoStyled>
