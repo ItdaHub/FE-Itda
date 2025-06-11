@@ -34,6 +34,9 @@ type ChapterResponse = {
   isPublished: boolean;
   novelTitle: string;
   likesCount: number;
+
+  prevChapterId?: number | null; // 이전화 chapterId
+  nextChapterId?: number | null; // 다음화 chapterId
 };
 
 interface ReadBookProps {
@@ -165,7 +168,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               onClick={(e) => {
                 e.stopPropagation(); // 부모 클릭 방지
                 if (chapterId > 1) {
-                  router.push(`/chapter/${novelId}/${chapterId - 1}`);
+                  router.push(`/chapter/${novelId}/${episode?.prevChapterId}`);
                 } else {
                   message.info("첫 번째 회차입니다.");
                 }
@@ -178,7 +181,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               onClick={(e) => {
                 e.stopPropagation();
                 if (!episode?.isLastChapter) {
-                  router.push(`/chapter/${novelId}/${chapterId + 1}`);
+                  router.push(`/chapter/${novelId}/${episode?.nextChapterId}`);
                 } else {
                   message.info("마지막 회차입니다.");
                 }
@@ -236,7 +239,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="arrow"
               onClick={() => {
                 if (chapterId > 1) {
-                  router.push(`/chapter/${novelId}/${chapterId - 1}`);
+                  router.push(`/chapter/${novelId}/${episode?.prevChapterId}`);
                 } else {
                   message.info("첫 번째 회차입니다.");
                 }
@@ -248,7 +251,7 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="arrow"
               onClick={() => {
                 if (!episode.isLastChapter) {
-                  router.push(`/chapter/${novelId}/${chapterId + 1}`);
+                  router.push(`/chapter/${novelId}/${episode?.nextChapterId}`);
                 } else {
                   message.info("마지막 회차입니다.");
                 }
