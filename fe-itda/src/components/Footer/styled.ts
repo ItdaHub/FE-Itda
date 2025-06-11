@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const FooterStyled = styled.div`
   &.footer-wrap {
-    padding-top: 150px;
+    .footer-box {
+      padding-top: 150px;
+    }
+
     .footer {
       max-width: 1020px;
       margin: 0 auto;

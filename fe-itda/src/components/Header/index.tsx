@@ -29,6 +29,7 @@ import NowPrice from "../NowPrice";
 import MyProfile from "../MyProfile";
 import profileStatic from "@/assets/images/img_profile_static.svg";
 import { useMediaQuery } from "react-responsive";
+import AlertPage from "@/features/AlertPage";
 
 const Header = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -37,6 +38,7 @@ const Header = () => {
   const [keyword, setKeyword] = useState("");
   const [alertLength, setAlertLength] = useState<number>(0);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [alertPopoverOpen, setAlertPopoverOpen] = useState(false);
   const [noticeLength, setNoticeLength] = useState<number>(0);
   const router = useRouter();
 
@@ -62,6 +64,7 @@ const Header = () => {
   useEffect(() => {
     const handleRouteChange = () => {
       setPopoverOpen(false); // URL 변경 시 모달 닫기
+      setAlertPopoverOpen(false);
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
@@ -177,7 +180,7 @@ const Header = () => {
     ? `http://localhost:5001/uploads/profiles/${user.profile_img}`
     : profileStatic;
 
-  // 모달 내용
+  // 프로필 모달 내용
   const content = (
     <WrapContent className={clsx("content-wrap")}>
       {/* 내정보 */}
@@ -260,6 +263,13 @@ const Header = () => {
     </WrapContent>
   );
 
+  // 알림 모달
+  const alertContent = (
+    <div style={{ width: 350, maxHeight: 500, overflowY: "auto" }}>
+      <AlertPage />
+    </div>
+  );
+
   return (
     <HeaderStyled className={clsx("header-wrap")}>
       <div className={isHiddenStyle ? "headerOff" : "header"}>
@@ -331,7 +341,22 @@ const Header = () => {
 
           {/* 알림 */}
           <div className="header-count-box">
-            <Badge
+            <Popover
+              content={alertContent}
+              trigger="click"
+              placement="bottomRight"
+              open={alertPopoverOpen}
+              onOpenChange={(open) => setAlertPopoverOpen(open)}
+            >
+              <Badge
+                className="header-count"
+                count={alertLength}
+                overflowCount={999}
+              >
+                <BellOutlined className="header-alram" />
+              </Badge>
+            </Popover>
+            {/* <Badge
               className="header-count"
               count={alertLength}
               overflowCount={999}
@@ -342,7 +367,7 @@ const Header = () => {
                   router.push("/alert");
                 }}
               />
-            </Badge>
+            </Badge> */}
           </div>
 
           {/* 로그인 or 프로필 */}
