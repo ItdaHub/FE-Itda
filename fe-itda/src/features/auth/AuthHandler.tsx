@@ -25,4 +25,5 @@ const AuthHandler = () => {
   }, [dispatch, user]);
   return null;
 };
+
 export default AuthHandler;

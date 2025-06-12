@@ -17,15 +17,14 @@ const MyPageRead = () => {
     if (!user) return;
 
     try {
-      // 내가 최근 본 소설 가져오기
-      const res = await api.get("/novels/myread");
+      const res = await api.get("/novels/recent");
 
       const mapped = res.data.map((x: any) => ({
-        key: x.id,
-        id: x.id,
-        title: x.title, // 작품명
-        episodeNum: x.episodeNum, // 회차
-        readDate: x.readDate, // 감상 날짜
+        key: `${x.novelId}-${x.id}`, // 최근 본 기록 ID 등으로 유니크 key 생성
+        novelId: x.novelId,
+        chapterNumber: x.chapterNumber, // 백엔드에 실제 존재하는 필드명
+        title: x.novelTitle,
+        date: new Date(x.viewedAt).toLocaleDateString(),
       }));
 
       setReads(mapped);
@@ -35,7 +34,10 @@ const MyPageRead = () => {
   };
 
   useEffect(() => {
-    getReadList();
+    console.log("user 상태:", user);
+    if (user) {
+      getReadList();
+    }
   }, [user]);
 
   const columns = [
@@ -63,11 +65,11 @@ const MyPageRead = () => {
       <Table
         columns={columns}
         dataSource={reads}
-        rowKey="id"
+        rowKey="key"
         onRow={(record) => {
           return {
             onClick: () => {
-              router.push(`/noveldetail/novelcheck/${record.id}`);
+              router.push(`/noveldetail/novelcheck/${record.novelId}`);
             },
           };
         }}

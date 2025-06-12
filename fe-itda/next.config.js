@@ -2,9 +2,7 @@
 const nextConfig = {
   /* config options here */
   reactStrictMode: true,
-  // 모듈 없는 에러
   transpilePackages: [
-    // antd & deps
     "@ant-design",
     "@rc-component",
     "antd",
@@ -41,15 +39,13 @@ const nextConfig = {
     "rc-upload",
     "rc-util",
   ],
-  // 클래스명이 안 맞는 오류
   compiler: {
     styledComponents: true,
   },
-  // 이미지
   images: {
     domains: ["localhost", "localhost:5001"],
     unoptimized: true,
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

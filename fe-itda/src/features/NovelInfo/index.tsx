@@ -27,7 +27,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
     isLiked: false,
     content: "",
     status: "",
-    tags: "", //해당 소설의 태그
+    tags: [] as string[],
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -201,7 +201,13 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
           ) : (
             <></>
           )}
-          <div className="novelinfo-tag">#안녕 #그냘</div>
+          {novel.tags && novel.tags.length > 0 && (
+            <div className="novelinfo-tag">
+              {novel.tags.map((tag: string, index: number) => (
+                <span key={index}>#{tag} </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </NovelInfoStyled>
