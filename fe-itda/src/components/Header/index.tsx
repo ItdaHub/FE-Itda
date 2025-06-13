@@ -98,7 +98,6 @@ const Header = () => {
         const unReadCount = res.data.filter(
           (item: { is_read: boolean }) => !item.is_read
         ).length;
-        console.log("알림개수", unReadCount);
         return unReadCount;
       } catch (e) {
         console.error("알림 개수 불러오기 실패:", e);
@@ -341,21 +340,35 @@ const Header = () => {
 
           {/* 알림 */}
           <div className="header-count-box">
-            <Popover
-              content={alertContent}
-              trigger="click"
-              placement="bottomRight"
-              open={alertPopoverOpen}
-              onOpenChange={(open) => setAlertPopoverOpen(open)}
-            >
+            {userId ? (
+              <Popover
+                content={alertContent}
+                trigger="click"
+                placement="bottomRight"
+                open={alertPopoverOpen}
+                onOpenChange={(open) => setAlertPopoverOpen(open)}
+              >
+                <Badge
+                  className="header-count"
+                  count={userId ? alertLength : 0}
+                  overflowCount={999}
+                >
+                  <BellOutlined className="header-alram" />
+                </Badge>
+              </Popover>
+            ) : (
               <Badge
                 className="header-count"
                 count={userId ? alertLength : 0}
                 overflowCount={999}
+                onClick={() => {
+                  router.push("/login");
+                  message.info("로그인이 필요합니다.");
+                }}
               >
                 <BellOutlined className="header-alram" />
               </Badge>
-            </Popover>
+            )}
           </div>
 
           {/* 로그인 or 프로필 */}

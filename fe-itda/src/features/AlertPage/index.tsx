@@ -53,8 +53,6 @@ const AlertPage = () => {
           withCredentials: true,
         });
 
-        console.log(res.data, "알리리리리ㅣㅁfdgjnk");
-
         const items = res.data.map((item: any) => {
           let alertType: AlertType =
             item.type === "REPORT" ? "REPORT" : "NOVEL_SUBMIT";

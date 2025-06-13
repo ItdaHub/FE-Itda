@@ -52,7 +52,6 @@ const NoticePage = () => {
               item.key === key ? { ...item, isRead: true } : item
             )
           );
-          console.log(`읽음 처리됨: ${key}`);
         }
       }
     } catch (err) {
