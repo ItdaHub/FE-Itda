@@ -171,8 +171,10 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="chapter-button prev"
               onClick={(e) => {
                 e.stopPropagation(); // 부모 클릭 방지
-                if (chapterId > 1) {
-                  router.push(`/chapter/${novelId}/${episode?.prevChapterId}`);
+                if (chapterId > 1 && episode?.prevChapterId) {
+                  router.push(
+                    `/chapter/${episode.prevChapterId}?novelId=${novelId}`
+                  );
                 } else {
                   message.info("첫 번째 회차입니다.");
                 }
@@ -184,8 +186,10 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
               className="chapter-button next"
               onClick={(e) => {
                 e.stopPropagation();
-                if (!episode?.isLastChapter) {
-                  router.push(`/chapter/${novelId}/${episode?.nextChapterId}`);
+                if (!episode?.isLastChapter && episode?.nextChapterId) {
+                  router.push(
+                    `/chapter/${episode.nextChapterId}?novelId=${novelId}`
+                  );
                 } else {
                   message.info("마지막 회차입니다.");
                 }
@@ -242,8 +246,10 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
             <LeftOutlined
               className="arrow"
               onClick={() => {
-                if (chapterId > 1) {
-                  router.push(`/chapter/${novelId}/${episode?.prevChapterId}`);
+                if (chapterId > 1 && episode?.prevChapterId) {
+                  router.push(
+                    `/chapter/${episode.prevChapterId}?novelId=${novelId}`
+                  );
                 } else {
                   message.info("첫 번째 회차입니다.");
                 }
@@ -254,8 +260,10 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
             <RightOutlined
               className="arrow"
               onClick={() => {
-                if (!episode.isLastChapter) {
-                  router.push(`/chapter/${novelId}/${episode?.nextChapterId}`);
+                if (!episode.isLastChapter && episode?.nextChapterId) {
+                  router.push(
+                    `/chapter/${episode.nextChapterId}?novelId=${novelId}`
+                  );
                 } else {
                   message.info("마지막 회차입니다.");
                 }
