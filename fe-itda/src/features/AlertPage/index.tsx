@@ -53,7 +53,7 @@ const AlertPage = () => {
           withCredentials: true,
         });
 
-        console.log(res.data, "알리리리리ㅣㅁfdg");
+        console.log(res.data, "알리리리리ㅣㅁfdgjnk");
 
         const items = res.data.map((item: any) => {
           let alertType: AlertType =
@@ -66,7 +66,7 @@ const AlertPage = () => {
             content: item.content,
             date: new Date(item.created_at).toLocaleDateString("ko-KR"),
             isRead: item.is_read,
-            NovelId: item.novel.id || "undefined", // 소설 ID
+            NovelId: item.novel?.id, // 소설 ID
           };
         });
 
