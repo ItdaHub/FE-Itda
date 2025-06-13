@@ -67,8 +67,6 @@ const ReadBook = ({ novelId, chapterId }: ReadBookProps) => {
           `/chapters/content/${novelId}/${chapterId}`
         );
 
-        console.log("이전화다음화 포함", response.data);
-
         setEpisode(response.data);
         setLiked(response.data.likesCount !== 0);
       } catch (error) {

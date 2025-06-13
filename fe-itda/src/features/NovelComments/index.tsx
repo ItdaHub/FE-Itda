@@ -63,7 +63,6 @@ const NovelComments = ({ chapterId, novelId, type }: NovelComment) => {
       } else {
         // 소설부분인 경우
         if (novelId === undefined || novelId === null) {
-          console.log(novelId);
           console.warn("novel 타입인데 novelId가 없습니다.");
           return;
         }

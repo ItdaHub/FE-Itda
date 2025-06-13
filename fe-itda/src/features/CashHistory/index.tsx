@@ -30,7 +30,6 @@ const CashHistory = () => {
     const getCharge = async () => {
       try {
         const res = await api.get(`/popcorn/${userId}`);
-        console.log("포인트 응답:", res.data);
         setNowCash(res.data.total);
       } catch (error) {
         console.error("팝콘개수 불러오기 실패:", error);

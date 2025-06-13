@@ -51,8 +51,6 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
 
       const novelData = res.data;
 
-      console.log("소설~~~~~~", novelData);
-
       setNovel({
         img: novelData.image || test.src,
         title: novelData.title || "제목 없음",

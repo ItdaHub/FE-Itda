@@ -37,7 +37,6 @@ const SearchResult = ({ keyword }: KeyProps) => {
           likes: novel.likeCount || 0,
           imageUrl: novel.imageUrl || "/defaultCover.png", // 기본 커버 이미지 경로
         }));
-        console.log(novels);
         setResults(novels);
       } catch (error) {
         console.error("검색 실패:", error);

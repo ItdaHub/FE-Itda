@@ -34,7 +34,6 @@ const MyPageRead = () => {
   };
 
   useEffect(() => {
-    console.log("user 상태:", user);
     if (user) {
       getReadList();
     }

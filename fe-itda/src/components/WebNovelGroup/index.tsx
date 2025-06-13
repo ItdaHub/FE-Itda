@@ -50,7 +50,6 @@ const WebNovelGroup = ({
             response = await api.get("/novels/rankings", {
               params: { age: Number(ageNum) },
             });
-            console.log("연령별 인기작", response.data);
           } else {
             // 통합 랭킹
             response = await api.get("/novels/rankings");

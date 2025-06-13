@@ -51,7 +51,6 @@ const LoginPage = () => {
 
       // 쿠키에 토큰 저장 -> 유저 정보 가져오기
       const userResponse = await api.get("/auth/login");
-      console.log("userResponse 전체:", userResponse);
 
       dispatch(setUser(userResponse.data.user));
       setErrorMessage("");

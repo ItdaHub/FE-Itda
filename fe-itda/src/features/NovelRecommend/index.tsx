@@ -14,7 +14,6 @@ const NovelRecommend = () => {
       // 통합 랭킹
       const res = await api.get("/novels/rankings");
       setNovels(res.data);
-      console.log("sasf", res.data);
     } catch (e) {
       console.error("통합 랭킹 소설 가져오기 실패: ", e);
     }

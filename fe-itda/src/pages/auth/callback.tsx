@@ -10,7 +10,6 @@ const AuthCallbackPage = () => {
     axios
       .get("http://localhost:5001/auth/login", { withCredentials: true })
       .then((res) => {
-        console.log("유저 정보 받아옴:", res.data.user);
         dispatch(setUser(res.data.user));
         router.push("/");
       })

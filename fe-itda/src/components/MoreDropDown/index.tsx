@@ -72,13 +72,6 @@ const MoreDropDown = ({
               ? `/reports/comments/${item.id}` // 댓글 신고
               : `/reports/chapters/${chapterId}`; // 소설 신고
 
-          // 로그 출력
-          console.log("신고 데이터:", {
-            reason: reportReason,
-            target_id: item.id,
-            target_type,
-          });
-
           // axios 신고 요청
           const response = await api.post(target, {
             reason: reportReason,

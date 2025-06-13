@@ -188,16 +188,6 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
       return;
     }
 
-    console.log("제출 데이터:", {
-      type,
-      categoryId: selectedCategory,
-      peopleNum: type === "new" ? selectedPeople : peopleNumber,
-      title,
-      content,
-      chapterNumber,
-      tags, // 태그 문자배열
-    });
-
     try {
       // 첫화일 경우
       if (type === "new") {
@@ -222,8 +212,6 @@ const NewWrite = ({ type, titles, genres, novelId }: NewWriteProps) => {
 
         // 현재 작성한 소설이 마지막화일 경우 관리자에게 출품 요청
         if (peopleNumber === chapterNumber) {
-          console.log("관리자로 이동하자");
-
           try {
             // 출품 요청 API 호출
             await api.patch(`/novels/${novelId}/submit`);

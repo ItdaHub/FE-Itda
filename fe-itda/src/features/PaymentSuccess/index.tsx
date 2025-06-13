@@ -20,8 +20,6 @@ const PaymentSuccess = () => {
 
     let { paymentKey, orderId, amount } = router.query;
 
-    console.log("[Query Params]", router.query);
-
     // 배열이면 첫 번째 값만 사용
     if (Array.isArray(orderId)) {
       orderId = orderId[0];
@@ -41,19 +39,11 @@ const PaymentSuccess = () => {
       try {
         const numericAmount = Number(amount);
 
-        console.log("📦 [Sending to /payments/confirm]", {
-          paymentKey,
-          orderId,
-          amount: numericAmount,
-        });
-
         const response = await api.post("/payments/confirm", {
           paymentKey,
           orderId,
           amount: numericAmount,
         });
-
-        console.log("[Payment Confirm Success]", response.data);
         setAmountDisplay(numericAmount.toLocaleString());
         setMessage("결제가 정상적으로 처리되었어요.");
       } catch (error: any) {

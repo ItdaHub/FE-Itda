@@ -350,24 +350,12 @@ const Header = () => {
             >
               <Badge
                 className="header-count"
-                count={alertLength}
+                count={userId ? alertLength : 0}
                 overflowCount={999}
               >
                 <BellOutlined className="header-alram" />
               </Badge>
             </Popover>
-            {/* <Badge
-              className="header-count"
-              count={alertLength}
-              overflowCount={999}
-            >
-              <BellOutlined
-                className="header-alram"
-                onClick={() => {
-                  router.push("/alert");
-                }}
-              />
-            </Badge> */}
           </div>
 
           {/* 로그인 or 프로필 */}

@@ -25,7 +25,6 @@ export default function ProfileSelectModal() {
     email: string;
     profile_img: string;
   }) => {
-    console.log("선택된 프로필:", profile);
     setIsModalOpen(false);
     // 이후 페이지 이동 처리 등
   };

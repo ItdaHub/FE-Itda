@@ -53,7 +53,6 @@ const WriteComment = ({
           chapterId,
           parentId, // 대댓글일 경우 포함
         });
-        console.log("댓글 작성 성공:", response.data);
 
         setComment("");
         setWriteNum(0);

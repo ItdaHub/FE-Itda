@@ -16,7 +16,7 @@ const AuthHandler = () => {
           if (error.response?.status === 401) {
             // 로그인 상태 아님 -> 아무 처리 안 해도 OK
           } else {
-            console.log("유저 정보 가져오기 실패:", error);
+            console.error("유저 정보 가져오기 실패:", error);
           }
         }
       }

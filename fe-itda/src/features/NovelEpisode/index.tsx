@@ -58,8 +58,6 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
     try {
       const res = await api.get(`/chapters/${data}`);
       setEpisode([...res.data].sort((a, b) => b.id - a.id));
-
-      console.log("에피소드", res.data);
     } catch (e) {
       console.error("에피소드 가져오기 실패: ", e);
     }

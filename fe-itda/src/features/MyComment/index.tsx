@@ -47,7 +47,6 @@ const MyComment: React.FC = () => {
       const response = await api.get("/comments/my-comments");
       const mappedData: CommentData[] = response.data.map(
         (comment: any, index: number) => {
-          console.log(":날짜: comment.created_at:", comment.created_at);
           return {
             key: comment.id,
             index: index + 1,
