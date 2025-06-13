@@ -91,6 +91,12 @@ const NovelEpisode = ({ data, novelTitle }: DataProps) => {
       return;
     }
 
+    // isPublished가 false면 무료로 바로 접근 가능
+    if (!item.isPublished) {
+      router.push(`/chapter/${item.id}?novelId=${data}`);
+      return;
+    }
+
     // 첫 화는 무료로 보여준다
     if (item.chapter_number === 1) {
       router.push(`/chapter/${item.id}?novelId=${data}`);
