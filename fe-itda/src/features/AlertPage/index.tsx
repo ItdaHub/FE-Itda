@@ -66,7 +66,7 @@ const AlertPage = () => {
             content: item.content,
             date: new Date(item.created_at).toLocaleDateString("ko-KR"),
             isRead: item.is_read,
-            NovelId: item.NovelId || "undefined", // 소설 ID
+            NovelId: item.novel.id || "undefined", // 소설 ID
           };
         });
 
@@ -120,7 +120,10 @@ const AlertPage = () => {
                 item.isRead ? "alert-white" : "alert-gray"
               }`}
               onClick={async () => {
-                if (item.type === "NOVEL_SUBMIT" && item.NovelId) {
+                if (
+                  item.type === "NOVEL_SUBMIT" &&
+                  item.NovelId !== undefined
+                ) {
                   // 읽음처리 후 해당 출품 소설로 이동
                   await markAsRead(item.key);
                   router.push(`/noveldetail/novelcheck/${item.NovelId}`);

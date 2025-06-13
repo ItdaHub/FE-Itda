@@ -26,6 +26,10 @@ export const AlertPageStyled = styled.div`
       padding: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
+      &:hover {
+        cursor: pointer;
+      }
+
       .alert-bold {
         font-weight: 500;
         white-space: nowrap;
