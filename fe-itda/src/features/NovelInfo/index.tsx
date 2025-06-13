@@ -204,7 +204,7 @@ const NovelInfo = ({ data, setNovelTitle }: NovelInfoProps) => {
           {novel.tags && novel.tags.length > 0 && (
             <div className="novelinfo-tag">
               {novel.tags.map((tag: string, index: number) => (
-                <span key={index}>#{tag} </span>
+                <span key={index}>{tag} </span>
               ))}
             </div>
           )}
